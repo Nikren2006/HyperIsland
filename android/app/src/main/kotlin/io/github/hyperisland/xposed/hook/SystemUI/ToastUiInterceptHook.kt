@@ -360,7 +360,7 @@ object ToastUiInterceptHook : BaseHook() {
                     sourceChannelId = "toast",
                 ),
             )
-            log(module, "toast forwarded in SystemUI: pkg=$pkg")
+            //log(module, "toast forwarded in SystemUI: pkg=$pkg")
         } catch (e: Throwable) {
             logError(module, "forward in SystemUI failed: ${e.message}")
         }
