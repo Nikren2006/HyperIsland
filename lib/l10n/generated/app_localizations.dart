@@ -108,6 +108,12 @@ abstract class AppLocalizations {
   /// **'主页'**
   String get navHome;
 
+  /// No description provided for @navIsland.
+  ///
+  /// In zh, this message translates to:
+  /// **'岛'**
+  String get navIsland;
+
   /// No description provided for @navApps.
   ///
   /// In zh, this message translates to:
@@ -393,13 +399,13 @@ abstract class AppLocalizations {
   /// No description provided for @note1.
   ///
   /// In zh, this message translates to:
-  /// **'1.此页面仅用于测试是否支持超级岛，并不代表实际效果'**
+  /// **'1.使用前务必查看软件右上角的使用教程'**
   String get note1;
 
   /// No description provided for @note2.
   ///
   /// In zh, this message translates to:
-  /// **'2.请在 HyperCeiler 中关闭系统界面和小米服务框架的焦点通知白名单'**
+  /// **'2.大部分配置支持热重载，如遇异常请重启作用域'**
   String get note2;
 
   /// No description provided for @note3.
@@ -411,8 +417,14 @@ abstract class AppLocalizations {
   /// No description provided for @note4.
   ///
   /// In zh, this message translates to:
-  /// **'4.支持通用适配，自行勾选合适的模板尝试'**
+  /// **'4.此页面仅用于测试是否支持超级岛及光效，并不代表实际效果'**
   String get note4;
+
+  /// No description provided for @note5.
+  ///
+  /// In zh, this message translates to:
+  /// **'5.下载上岛请手动启用“下载管理程序”，推荐《下载》模板'**
+  String get note5;
 
   /// No description provided for @behaviorSection.
   ///
@@ -423,7 +435,7 @@ abstract class AppLocalizations {
   /// No description provided for @defaultConfigSection.
   ///
   /// In zh, this message translates to:
-  /// **'渠道默认配置'**
+  /// **'默认配置'**
   String get defaultConfigSection;
 
   /// No description provided for @appearanceSection.
@@ -2435,6 +2447,42 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'显示一条空白通知使岛始终可见'**
   String get keepIslandSubtitle;
+
+  /// No description provided for @keepIslandAutoHideTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'自动隐藏'**
+  String get keepIslandAutoHideTitle;
+
+  /// No description provided for @keepIslandAutoHideSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'真实通知到来时自动隐藏空白岛，通知消失后自动恢复'**
+  String get keepIslandAutoHideSubtitle;
+
+  /// No description provided for @islandOtherSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'其他'**
+  String get islandOtherSection;
+
+  /// No description provided for @miscSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'杂项'**
+  String get miscSection;
+
+  /// No description provided for @backupRestoreSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'备份与恢复'**
+  String get backupRestoreSection;
+
+  /// No description provided for @downloadManagerSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'下载管理器'**
+  String get downloadManagerSection;
 }
 
 class _AppLocalizationsDelegate

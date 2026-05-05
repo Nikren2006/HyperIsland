@@ -2,6 +2,7 @@
   "@@locale": "en",
 
   "navHome": "Home",
+  "navIsland": "Island",
   "navApps": "Apps",
   "navSettings": "Settings",
 
@@ -76,10 +77,11 @@
   },
   "restartFailed": "Restart failed: {message}",
   "restartRootRequired": "Please check if ROOT permission has been granted to this app",
-  "note1": "1. This page is only for testing Dynamic Island support, not actual effects",
-  "note2": "2. Disable focus notification whitelist for System UI and MIUI Framework in HyperCeiler",
-  "note3": "3. After activating in LSPosed Manager, you must restart the related scope app",
-  "note4": "4. General adaptation is supported, try checking an appropriate template",
+  "note1": "1. Be sure to read the usage tutorial in the top-right corner before using",
+  "note2": "2. Most settings support hot reload; restart the scope if issues occur",
+  "note3": "3. After activating in LSPosed Manager, you must restart the related scope apps",
+  "note4": "4. This page is only for testing Dynamic Island and glow effect support, not actual effects",
+  "note5": "5. For download island, please manually enable \"Download Manager\" scope; the \"Download\" template is recommended",
 
   "behaviorSection": "Behavior",
   "defaultConfigSection": "Default Channel Settings",
@@ -478,5 +480,12 @@
   "islandBgOff": "Off",
   "islandBgDefault": "Default",
   "keepIslandTitle": "Keep Island Visible",
-  "keepIslandSubtitle": "Post a blank notification to keep the island always visible"
+  "keepIslandSubtitle": "Post a blank notification to keep the island always visible",
+  "keepIslandAutoHideTitle": "Auto Hide",
+  "keepIslandAutoHideSubtitle": "Automatically hide the blank island when a real notification arrives, and restore it when dismissed",
+
+  "islandOtherSection": "Other",
+  "miscSection": "Misc",
+  "backupRestoreSection": "Backup & Restore",
+  "downloadManagerSection": "Download Manager"
 }

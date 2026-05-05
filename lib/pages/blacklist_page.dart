@@ -131,6 +131,18 @@ class _BlacklistPageState extends State<BlacklistPage> {
               ),
 
               SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: Text(
+                    l10n.navBlacklistSubtitle,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: cs.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+              ),
+
+              SliverToBoxAdapter(
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                   child: AppListSearchHeader(

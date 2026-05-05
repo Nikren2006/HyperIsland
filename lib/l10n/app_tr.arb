@@ -2,6 +2,7 @@
   "@@locale": "tr",
 
   "navHome": "Ana Sayfa",
+  "navIsland": "Ada",
   "navApps": "Uygulamalar",
   "navSettings": "Ayarlar",
 
@@ -81,10 +82,11 @@
     }
   },
   "restartRootRequired": "Lütfen bu uygulamaya root izni verildiğini doğrulayın",
-  "note1": "1. Bu sayfa yalnızca Dynamic Island desteğini test etmek içindir; gerçek görünümü yansıtmaz.",
-  "note2": "2. HyperCeiler'da Sistem Arayüzü ve XMSF için odak bildirimi beyaz listesini kapatın.",
-  "note3": "3. LSPosed Manager'da etkinleştirdikten sonra ilgili etki alanındaki uygulamaları yeniden başlatmanız gerekir.",
-  "note4": "4. Genel uyarlama desteklenir; uygun şablonu seçip deneyin.",
+  "note1": "1. Kullanmadan önce sağ üst köşedeki kullanım kılavuzunu mutlaka okuyun",
+  "note2": "2. Çoğu ayar sıcak yeniden yüklemeyi destekler; sorun yaşarsanız etki alanını yeniden başlatın",
+  "note3": "3. LSPosed Manager'da etkinleştirdikten sonra ilgili etki alanındaki uygulamaları yeniden başlatmanız gerekir",
+  "note4": "4. Bu sayfa yalnızca Dynamic Island ve dış parlama desteğini test etmek içindir; gerçek görünümü yansıtmaz",
+  "note5": "5. İndirme adası için lütfen \"İndirme Yöneticisi\" kapsamını manuel olarak etkinleştirin; \"İndirme\" şablonu önerilir",
 
   "behaviorSection": "Davranış",
   "defaultConfigSection": "Uygulama Kanal Ayarları Varsayılanları",
@@ -493,5 +495,12 @@
 "islandBgOff": "Kapalı",
 "islandBgDefault": "Varsayılan",
 "keepIslandTitle": "Adayı Sürekli Göster",
-"keepIslandSubtitle": "Adayı sürekli görünür tutmak için boş bir bildirim gönder"
+"keepIslandSubtitle": "Adayı sürekli görünür tutmak için boş bir bildirim gönder",
+  "keepIslandAutoHideTitle": "Otomatik Gizle",
+  "keepIslandAutoHideSubtitle": "Gerçek bildirim geldiğinde boş adayı otomatik gizle, bildirim kalktığında geri yükle",
+
+"islandOtherSection": "Diğer",
+"miscSection": "Çeşitli",
+"backupRestoreSection": "Yedekleme ve Geri Yükleme",
+"downloadManagerSection": "İndirme Yöneticisi"
 }

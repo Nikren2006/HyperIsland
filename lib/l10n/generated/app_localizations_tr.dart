@@ -12,6 +12,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get navHome => 'Ana Sayfa';
 
   @override
+  String get navIsland => 'Ada';
+
+  @override
   String get navApps => 'Uygulamalar';
 
   @override
@@ -172,19 +175,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get note1 =>
-      '1. Bu sayfa yalnızca Dynamic Island desteğini test etmek içindir; gerçek görünümü yansıtmaz.';
+      '1. Kullanmadan önce sağ üst köşedeki kullanım kılavuzunu mutlaka okuyun';
 
   @override
   String get note2 =>
-      '2. HyperCeiler\'da Sistem Arayüzü ve XMSF için odak bildirimi beyaz listesini kapatın.';
+      '2. Çoğu ayar sıcak yeniden yüklemeyi destekler; sorun yaşarsanız etki alanını yeniden başlatın';
 
   @override
   String get note3 =>
-      '3. LSPosed Manager\'da etkinleştirdikten sonra ilgili etki alanındaki uygulamaları yeniden başlatmanız gerekir.';
+      '3. LSPosed Manager\'da etkinleştirdikten sonra ilgili etki alanındaki uygulamaları yeniden başlatmanız gerekir';
 
   @override
   String get note4 =>
-      '4. Genel uyarlama desteklenir; uygun şablonu seçip deneyin.';
+      '4. Bu sayfa yalnızca Dynamic Island ve dış parlama desteğini test etmek içindir; gerçek görünümü yansıtmaz';
+
+  @override
+  String get note5 =>
+      '5. İndirme adası için lütfen \"İndirme Yöneticisi\" kapsamını manuel olarak etkinleştirin; \"İndirme\" şablonu önerilir';
 
   @override
   String get behaviorSection => 'Davranış';
@@ -1302,4 +1309,23 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get keepIslandSubtitle =>
       'Adayı sürekli görünür tutmak için boş bir bildirim gönder';
+
+  @override
+  String get keepIslandAutoHideTitle => 'Otomatik Gizle';
+
+  @override
+  String get keepIslandAutoHideSubtitle =>
+      'Gerçek bildirim geldiğinde boş adayı otomatik gizle, bildirim kalktığında geri yükle';
+
+  @override
+  String get islandOtherSection => 'Diğer';
+
+  @override
+  String get miscSection => 'Çeşitli';
+
+  @override
+  String get backupRestoreSection => 'Yedekleme ve Geri Yükleme';
+
+  @override
+  String get downloadManagerSection => 'İndirme Yöneticisi';
 }

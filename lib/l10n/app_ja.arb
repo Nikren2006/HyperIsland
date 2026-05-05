@@ -1,6 +1,7 @@
 {
   "@@locale": "ja",
   "navHome": "ホーム",
+  "navIsland": "島",
   "navApps": "アプリ",
   "navSettings": "設定",
   "cancel": "キャンセル",
@@ -75,10 +76,11 @@
   },
   "restartFailed": "再起動に失敗しました: {message}",
   "restartRootRequired": "このアプリに root 権限が付与されているか確認してください",
-  "note1": "1. このページは Dynamic Island の対応をテストするためのものであり、実際の効果を示すものではありません。",
-  "note2": "2. HyperCeiler でシステム UI と MIUI フレームワークのフォーカス通知のホワイトリストを無効化してください。",
-  "note3": "3. LSPosed Manager で有効化後に関連するスコープアプリを再起動する必要があります。",
-  "note4": "4. 一般的なアダプティブ表示に対応しています。適切なテンプレートを確認してみてください。",
+  "note1": "1. 使用前に右上隅の使用チュートリアルを必ずご確認ください",
+  "note2": "2. ほとんどの設定はホットリロードに対応しています。異常が発生した場合はスコープを再起動してください",
+  "note3": "3. LSPosed Manager で有効化後、関連するスコープアプリを再起動する必要があります",
+  "note4": "4. このページはダイナミックアイランドとグロー効果の対応テスト用であり、実際の効果を示すものではありません",
+  "note5": "5. ダウンロード上島には「ダウンロードマネージャー」を手動で有効にしてください。「ダウンロード」テンプレートをおすすめします",
   "behaviorSection": "動作",
   "defaultConfigSection": "デフォルトのチャンネル設定",
   "appearanceSection": "外観",
@@ -385,5 +387,12 @@
 "islandBgOff": "オフ",
 "islandBgDefault": "デフォルト",
 "keepIslandTitle": "常時ダイナミックアイランド",
-"keepIslandSubtitle": "空白通知を投稿してアイランドを常に表示"
+"keepIslandSubtitle": "空白通知を投稿してアイランドを常に表示",
+  "keepIslandAutoHideTitle": "自動非表示",
+  "keepIslandAutoHideSubtitle": "リアル通知が来た時に空白アイランドを自動的に隠し、通知が消えた後に自動的に復元",
+
+"islandOtherSection": "その他",
+"miscSection": "その他の設定",
+"backupRestoreSection": "バックアップと復元",
+"downloadManagerSection": "ダウンロードマネージャー"
 }

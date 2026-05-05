@@ -147,7 +147,7 @@ class WhitelistController extends ChangeNotifier {
           ? {}
           : csv.split(',').where((s) => s.isNotEmpty).toSet();
 
-      _allApps = await AppCacheService.instance.getApps();
+      _allApps = await AppCacheService.instance.getApps(forceRefresh: true);
       _toastForwardEnabled
         ..clear()
         ..addEntries(

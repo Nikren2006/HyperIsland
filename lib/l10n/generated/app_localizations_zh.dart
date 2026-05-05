@@ -12,6 +12,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get navHome => '主页';
 
   @override
+  String get navIsland => '岛';
+
+  @override
   String get navApps => '应用';
 
   @override
@@ -165,22 +168,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get restartRootRequired => '请检查是否已给予本应用 ROOT 权限';
 
   @override
-  String get note1 => '1.此页面仅用于测试是否支持超级岛，并不代表实际效果';
+  String get note1 => '1.使用前务必查看软件右上角的使用教程';
 
   @override
-  String get note2 => '2.请在 HyperCeiler 中关闭系统界面和小米服务框架的焦点通知白名单';
+  String get note2 => '2.大部分配置支持热重载，如遇异常请重启作用域';
 
   @override
   String get note3 => '3.LSPosed 管理器中激活后，必须重启相关作用域软件';
 
   @override
-  String get note4 => '4.支持通用适配，自行勾选合适的模板尝试';
+  String get note4 => '4.此页面仅用于测试是否支持超级岛及光效，并不代表实际效果';
+
+  @override
+  String get note5 => '5.下载上岛请手动启用“下载管理程序”，推荐《下载》模板';
 
   @override
   String get behaviorSection => '行为';
 
   @override
-  String get defaultConfigSection => '渠道默认配置';
+  String get defaultConfigSection => '默认配置';
 
   @override
   String get appearanceSection => '外观';
@@ -1246,4 +1252,22 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get keepIslandSubtitle => '显示一条空白通知使岛始终可见';
+
+  @override
+  String get keepIslandAutoHideTitle => '自动隐藏';
+
+  @override
+  String get keepIslandAutoHideSubtitle => '真实通知到来时自动隐藏空白岛，通知消失后自动恢复';
+
+  @override
+  String get islandOtherSection => '其他';
+
+  @override
+  String get miscSection => '杂项';
+
+  @override
+  String get backupRestoreSection => '备份与恢复';
+
+  @override
+  String get downloadManagerSection => '下载管理器';
 }

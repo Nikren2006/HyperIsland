@@ -51,6 +51,7 @@ const kPrefIslandBgBigPath = 'pref_island_bg_big_path';
 const kPrefIslandBgExpandPath = 'pref_island_bg_expand_path';
 const kPrefIslandHeight = 'pref_island_height';
 const kPrefKeepIsland = 'pref_keep_island';
+const kPrefKeepIslandAutoHide = 'pref_keep_island_auto_hide';
 
 
 
@@ -160,6 +161,7 @@ class SettingsController extends ChangeNotifier {
   String islandBgExpandPath = '';
   double islandHeight = 0;
   bool keepIsland = false;
+  bool keepIslandAutoHide = true;
   Locale? locale;
   bool loading = true;
 
@@ -236,6 +238,7 @@ class SettingsController extends ChangeNotifier {
     islandBgExpandPath = prefs.getString(kPrefIslandBgExpandPath) ?? '';
     islandHeight = prefs.getDouble(kPrefIslandHeight) ?? 0;
     keepIsland = prefs.getBool(kPrefKeepIsland) ?? false;
+    keepIslandAutoHide = prefs.getBool(kPrefKeepIslandAutoHide) ?? true;
     loading = false;
     notifyListeners();
   }
@@ -676,6 +679,14 @@ class SettingsController extends ChangeNotifier {
     final prefs = await _getPrefs();
     await prefs.setBool(kPrefKeepIsland, value);
     keepIsland = value;
+    notifyListeners();
+  }
+
+  Future<void> setKeepIslandAutoHide(bool value) async {
+    if (keepIslandAutoHide == value) return;
+    final prefs = await _getPrefs();
+    await prefs.setBool(kPrefKeepIslandAutoHide, value);
+    keepIslandAutoHide = value;
     notifyListeners();
   }
 

@@ -582,7 +582,7 @@ class _NotesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-    final items = [l10n.note1, l10n.note2, l10n.note3, l10n.note4];
+    final items = [l10n.note1, l10n.note2, l10n.note3, l10n.note4, l10n.note5];
 
     return Card(
       elevation: 0,

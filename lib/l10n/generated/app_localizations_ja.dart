@@ -12,6 +12,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get navHome => 'ホーム';
 
   @override
+  String get navIsland => '島';
+
+  @override
   String get navApps => 'アプリ';
 
   @override
@@ -165,18 +168,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get restartRootRequired => 'このアプリに root 権限が付与されているか確認してください';
 
   @override
-  String get note1 =>
-      '1. このページは Dynamic Island の対応をテストするためのものであり、実際の効果を示すものではありません。';
+  String get note1 => '1. 使用前に右上隅の使用チュートリアルを必ずご確認ください';
 
   @override
-  String get note2 =>
-      '2. HyperCeiler でシステム UI と MIUI フレームワークのフォーカス通知のホワイトリストを無効化してください。';
+  String get note2 => '2. ほとんどの設定はホットリロードに対応しています。異常が発生した場合はスコープを再起動してください';
 
   @override
-  String get note3 => '3. LSPosed Manager で有効化後に関連するスコープアプリを再起動する必要があります。';
+  String get note3 => '3. LSPosed Manager で有効化後、関連するスコープアプリを再起動する必要があります';
 
   @override
-  String get note4 => '4. 一般的なアダプティブ表示に対応しています。適切なテンプレートを確認してみてください。';
+  String get note4 => '4. このページはダイナミックアイランドとグロー効果の対応テスト用であり、実際の効果を示すものではありません';
+
+  @override
+  String get note5 =>
+      '5. ダウンロード上島には「ダウンロードマネージャー」を手動で有効にしてください。「ダウンロード」テンプレートをおすすめします';
 
   @override
   String get behaviorSection => '動作';
@@ -1260,4 +1265,23 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get keepIslandSubtitle => '空白通知を投稿してアイランドを常に表示';
+
+  @override
+  String get keepIslandAutoHideTitle => '自動非表示';
+
+  @override
+  String get keepIslandAutoHideSubtitle =>
+      'リアル通知が来た時に空白アイランドを自動的に隠し、通知が消えた後に自動的に復元';
+
+  @override
+  String get islandOtherSection => 'その他';
+
+  @override
+  String get miscSection => 'その他の設定';
+
+  @override
+  String get backupRestoreSection => 'バックアップと復元';
+
+  @override
+  String get downloadManagerSection => 'ダウンロードマネージャー';
 }

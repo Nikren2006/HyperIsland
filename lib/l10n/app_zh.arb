@@ -2,6 +2,7 @@
   "@@locale": "zh",
 
   "navHome": "主页",
+  "navIsland": "岛",
   "navApps": "应用",
   "navSettings": "设置",
 
@@ -93,13 +94,14 @@
     }
   },
   "restartRootRequired": "请检查是否已给予本应用 ROOT 权限",
-  "note1": "1.此页面仅用于测试是否支持超级岛，并不代表实际效果",
-  "note2": "2.请在 HyperCeiler 中关闭系统界面和小米服务框架的焦点通知白名单",
+  "note1": "1.使用前务必查看软件右上角的使用教程",
+  "note2": "2.大部分配置支持热重载，如遇异常请重启作用域",
   "note3": "3.LSPosed 管理器中激活后，必须重启相关作用域软件",
-  "note4": "4.支持通用适配，自行勾选合适的模板尝试",
+  "note4": "4.此页面仅用于测试是否支持超级岛及光效，并不代表实际效果",
+  "note5": "5.下载上岛请手动启用\u201c下载管理程序\u201d，推荐《下载》模板",
 
   "behaviorSection": "行为",
-  "defaultConfigSection": "渠道默认配置",
+  "defaultConfigSection": "默认配置",
   "appearanceSection": "外观",
   "configSection": "配置",
   "aboutSection": "关于",
@@ -643,5 +645,12 @@
   "islandBgOff": "关",
   "islandBgDefault": "默认",
   "keepIslandTitle": "常驻超级岛",
-  "keepIslandSubtitle": "显示一条空白通知使岛始终可见"
+  "keepIslandSubtitle": "显示一条空白通知使岛始终可见",
+  "keepIslandAutoHideTitle": "自动隐藏",
+  "keepIslandAutoHideSubtitle": "真实通知到来时自动隐藏空白岛，通知消失后自动恢复",
+
+  "islandOtherSection": "其他",
+  "miscSection": "杂项",
+  "backupRestoreSection": "备份与恢复",
+  "downloadManagerSection": "下载管理器"
 }

@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navHome => 'Home';
 
   @override
+  String get navIsland => 'Island';
+
+  @override
   String get navApps => 'Apps';
 
   @override
@@ -171,19 +174,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get note1 =>
-      '1. This page is only for testing Dynamic Island support, not actual effects';
+      '1. Be sure to read the usage tutorial in the top-right corner before using';
 
   @override
   String get note2 =>
-      '2. Disable focus notification whitelist for System UI and MIUI Framework in HyperCeiler';
+      '2. Most settings support hot reload; restart the scope if issues occur';
 
   @override
   String get note3 =>
-      '3. After activating in LSPosed Manager, you must restart the related scope app';
+      '3. After activating in LSPosed Manager, you must restart the related scope apps';
 
   @override
   String get note4 =>
-      '4. General adaptation is supported, try checking an appropriate template';
+      '4. This page is only for testing Dynamic Island and glow effect support, not actual effects';
+
+  @override
+  String get note5 =>
+      '5. For download island, please manually enable \"Download Manager\" scope; the \"Download\" template is recommended';
 
   @override
   String get behaviorSection => 'Behavior';
@@ -1303,4 +1310,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get keepIslandSubtitle =>
       'Post a blank notification to keep the island always visible';
+
+  @override
+  String get keepIslandAutoHideTitle => 'Auto Hide';
+
+  @override
+  String get keepIslandAutoHideSubtitle =>
+      'Automatically hide the blank island when a real notification arrives, and restore it when dismissed';
+
+  @override
+  String get islandOtherSection => 'Other';
+
+  @override
+  String get miscSection => 'Misc';
+
+  @override
+  String get backupRestoreSection => 'Backup & Restore';
+
+  @override
+  String get downloadManagerSection => 'Download Manager';
 }
