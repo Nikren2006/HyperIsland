@@ -2,7 +2,9 @@
   "ja": [
     "bigIslandMaxWidthTitle",
     "bigIslandMaxWidthLabel",
-    "bigIslandMaxWidthSubtitle",
+    "bigIslandMinWidthTitle",
+    "bigIslandMinWidthLabel",
+    "testNotifTooltip",
     "rendererImageTextWithProgressName",
     "focusExpressionCustomizationSection",
     "islandExpressionCustomizationSection",
@@ -65,7 +67,9 @@
   "tr": [
     "bigIslandMaxWidthTitle",
     "bigIslandMaxWidthLabel",
-    "bigIslandMaxWidthSubtitle",
+    "bigIslandMinWidthTitle",
+    "bigIslandMinWidthLabel",
+    "testNotifTooltip",
     "toastAdaptation",
     "adaptationModeNotification",
     "adaptationModeToast",
