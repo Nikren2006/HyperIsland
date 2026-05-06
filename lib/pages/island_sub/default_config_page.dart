@@ -51,14 +51,10 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
     BuildContext context, {
     String? hintText,
   }) {
-    final cs = Theme.of(context).colorScheme;
     return InputDecoration(
       hintText: hintText,
       isDense: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      filled: true,
-      fillColor: cs.surfaceContainerHighest,
     );
   }
 
@@ -243,9 +239,6 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         SwitchListTile(

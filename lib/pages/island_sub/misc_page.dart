@@ -67,9 +67,6 @@ class _MiscPageState extends State<MiscPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         SwitchListTile(

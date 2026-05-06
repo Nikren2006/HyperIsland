@@ -76,9 +76,6 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: SwitchListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 4,
@@ -89,9 +86,6 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                       onChanged: InteractionHaptics.interceptToggle(
                         (v) => _ctrl.setUnlockAllFocus(v),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -100,9 +94,6 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: SwitchListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 4,
@@ -113,9 +104,6 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                       onChanged: InteractionHaptics.interceptToggle(
                         (v) => _ctrl.setUnlockFocusAuth(v),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -124,9 +112,6 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: SwitchListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 4,
@@ -136,9 +121,6 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                       value: _ctrl.resumeNotification,
                       onChanged: InteractionHaptics.interceptToggle(
                         _onResumeNotificationChanged,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                   ),

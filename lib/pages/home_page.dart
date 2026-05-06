@@ -395,9 +395,6 @@ class _HomePageState extends State<HomePage> {
                   label: Text(l10n.sendTestNotification),
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -431,7 +428,6 @@ class _ModuleStatusCard extends StatelessWidget {
       return Card(
         elevation: 0,
         color: cs.surfaceContainerHighest,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
@@ -459,7 +455,6 @@ class _ModuleStatusCard extends StatelessWidget {
     return Card(
       elevation: 0,
       color: bgColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
@@ -539,7 +534,6 @@ class _SystemNotSupportedCard extends StatelessWidget {
     return Card(
       elevation: 0,
       color: cs.errorContainer,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
@@ -594,7 +588,6 @@ class _NotesCard extends StatelessWidget {
     return Card(
       elevation: 0,
       color: cs.surfaceContainerHighest,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

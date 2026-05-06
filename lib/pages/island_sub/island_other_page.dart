@@ -87,9 +87,6 @@ class _IslandOtherPageState extends State<IslandOtherPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         ListTile(
@@ -134,9 +131,6 @@ class _IslandOtherPageState extends State<IslandOtherPage> {
                               ],
                             ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
                         ),
                       ],
                     ),
@@ -148,9 +142,6 @@ class _IslandOtherPageState extends State<IslandOtherPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -219,9 +210,6 @@ class _IslandOtherPageState extends State<IslandOtherPage> {
                           ),
                         ],
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -231,9 +219,6 @@ class _IslandOtherPageState extends State<IslandOtherPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         SwitchListTile(

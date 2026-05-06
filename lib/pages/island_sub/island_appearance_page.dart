@@ -160,9 +160,6 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         _DimenTile(
@@ -322,9 +319,6 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         _IslandBgTile(
@@ -371,9 +365,6 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: SwitchListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 4,
@@ -383,9 +374,6 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                       value: _ctrl.roundIcon,
                       onChanged: InteractionHaptics.interceptToggle(
                         _onRoundIconChanged,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                   ),

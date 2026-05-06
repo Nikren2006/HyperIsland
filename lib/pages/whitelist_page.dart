@@ -1115,15 +1115,11 @@ InputDecoration _batchFieldDecoration(
   String? hintText,
   String? suffixText,
 }) {
-  final cs = Theme.of(context).colorScheme;
   return InputDecoration(
     hintText: hintText,
     suffixText: suffixText,
     isDense: true,
     contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-    filled: true,
-    fillColor: cs.surfaceContainerHighest,
   );
 }
 

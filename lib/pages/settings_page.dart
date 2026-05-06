@@ -145,9 +145,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         _MenuTile(
@@ -226,9 +223,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: _MenuTile(
                       icon: Icons.miscellaneous_services_outlined,
                       title: l10n.miscSection,
@@ -251,9 +245,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: _MenuTile(
                       icon: Icons.extension_outlined,
                       title: l10n.hookExtensionSection,
@@ -276,9 +267,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: _MenuTile(
                       icon: Icons.restore_outlined,
                       title: l10n.backupRestoreSection,
@@ -301,9 +289,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         _MenuTile(
@@ -351,9 +336,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       children: [
                         ListTile(

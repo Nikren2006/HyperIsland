@@ -139,9 +139,6 @@ class _ThemePageState extends State<ThemePage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -226,9 +223,6 @@ class _ThemePageState extends State<ThemePage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: SwitchListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -242,9 +236,6 @@ class _ThemePageState extends State<ThemePage> {
                         (value) => _ctrl.setBlurBars(value),
                         force: true,
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                     ),
                   ),
 
@@ -254,9 +245,6 @@ class _ThemePageState extends State<ThemePage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: ListTile(
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -266,9 +254,6 @@ class _ThemePageState extends State<ThemePage> {
                       title: Text(l10n.themeModeTitle, style: titleStyle),
                       subtitle: Text(_themeModeLabel(l10n)),
                       trailing: const Icon(Icons.chevron_right),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
                       onTap: InteractionHaptics.interceptButton(
                         () => _showThemeModeDialog(l10n),
                       ),

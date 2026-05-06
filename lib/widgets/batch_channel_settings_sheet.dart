@@ -149,9 +149,6 @@ class BatchChannelSettingsSheet extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
       builder: (_) => BatchChannelSettingsSheet(
         mode: mode,
         templateLabels: templateLabels,
@@ -1670,9 +1667,6 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                     onPressed: () => Navigator.pop(context),
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
                     ),
                     child: Text(l10n.cancel),
                   ),
@@ -1683,9 +1677,6 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                     onPressed: _hasAnyChange ? _submit : null,
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
                     ),
                     child: Text(l10n.apply),
                   ),
@@ -2014,15 +2005,11 @@ InputDecoration _fieldDecoration(
   String? hintText,
   String? suffixText,
 }) {
-  final cs = Theme.of(context).colorScheme;
   return InputDecoration(
     hintText: hintText,
     suffixText: suffixText,
     isDense: true,
     contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-    filled: true,
-    fillColor: cs.surfaceContainerHighest,
   );
 }
 

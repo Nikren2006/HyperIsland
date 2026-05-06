@@ -101,7 +101,6 @@ class _AiConfigPageState extends State<AiConfigPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.aiConfigSaved),
-          behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -300,9 +299,6 @@ class _AiConfigPageState extends State<AiConfigPage> {
                 Card(
                   elevation: 0,
                   color: cs.surfaceContainerHighest,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
                   child: SwitchListTile(
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -326,9 +322,6 @@ class _AiConfigPageState extends State<AiConfigPage> {
                 Card(
                   elevation: 0,
                   color: cs.surfaceContainerHighest,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -544,9 +537,6 @@ class _AiConfigPageState extends State<AiConfigPage> {
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
                                 ),
                               ),
                             ),
@@ -564,9 +554,6 @@ class _AiConfigPageState extends State<AiConfigPage> {
                                 style: FilledButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
                               ),
@@ -586,9 +573,6 @@ class _AiConfigPageState extends State<AiConfigPage> {
                 Card(
                   elevation: 0,
                   color: cs.secondaryContainer.withValues(alpha: 0.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Row(
