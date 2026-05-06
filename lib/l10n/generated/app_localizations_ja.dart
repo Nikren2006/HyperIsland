@@ -1276,6 +1276,12 @@ class AppLocalizationsJa extends AppLocalizations {
       'リアル通知が来た時に空白アイランドを自動的に隠し、通知が消えた後に自動的に復元';
 
   @override
+  String get keepIslandHighlightColorTitle => 'ハイライトカラー';
+
+  @override
+  String get keepIslandHighlightColorSubtitle => '常時アイランドのハイライトテキストカラーをカスタマイズ';
+
+  @override
   String get islandOtherSection => 'その他';
 
   @override

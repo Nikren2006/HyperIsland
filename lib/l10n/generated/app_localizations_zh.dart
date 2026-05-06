@@ -1261,6 +1261,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get keepIslandAutoHideSubtitle => '真实通知到来时自动隐藏空白岛，通知消失后自动恢复';
 
   @override
+  String get keepIslandHighlightColorTitle => '高亮颜色';
+
+  @override
+  String get keepIslandHighlightColorSubtitle => '自定义常驻岛的高亮文字颜色';
+
+  @override
   String get islandOtherSection => '其他';
 
   @override

@@ -1319,6 +1319,13 @@ class AppLocalizationsTr extends AppLocalizations {
       'Gerçek bildirim geldiğinde boş adayı otomatik gizle, bildirim kalktığında geri yükle';
 
   @override
+  String get keepIslandHighlightColorTitle => 'Vurgu Rengi';
+
+  @override
+  String get keepIslandHighlightColorSubtitle =>
+      'Sürekli adanın vurgu metin rengini özelleştir';
+
+  @override
   String get islandOtherSection => 'Diğer';
 
   @override

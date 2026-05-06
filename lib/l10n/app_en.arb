@@ -489,6 +489,8 @@
   "keepIslandSubtitle": "Post a blank notification to keep the island always visible",
   "keepIslandAutoHideTitle": "Auto Hide",
   "keepIslandAutoHideSubtitle": "Automatically hide the blank island when a real notification arrives, and restore it when dismissed",
+  "keepIslandHighlightColorTitle": "Highlight Color",
+  "keepIslandHighlightColorSubtitle": "Customize the highlight text color for the keep island",
 
   "islandOtherSection": "Other",
   "miscSection": "Misc",

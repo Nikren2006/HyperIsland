@@ -52,6 +52,7 @@ const kPrefIslandBgExpandPath = 'pref_island_bg_expand_path';
 const kPrefIslandHeight = 'pref_island_height';
 const kPrefKeepIsland = 'pref_keep_island';
 const kPrefKeepIslandAutoHide = 'pref_keep_island_auto_hide';
+const kPrefKeepIslandHighlightColor = 'pref_keep_island_highlight_color';
 const kPrefThemeSeedColor = 'pref_theme_seed_color';
 const kPrefBlurBars = 'pref_blur_bars';
 
@@ -163,6 +164,7 @@ class SettingsController extends ChangeNotifier {
   double islandHeight = 0;
   bool keepIsland = false;
   bool keepIslandAutoHide = true;
+  String keepIslandHighlightColor = '';
   int themeSeedColor = 0xFF6750A4;
   bool blurBars = true;
   Locale? locale;
@@ -240,6 +242,7 @@ class SettingsController extends ChangeNotifier {
     islandHeight = prefs.getDouble(kPrefIslandHeight) ?? 0;
     keepIsland = prefs.getBool(kPrefKeepIsland) ?? false;
     keepIslandAutoHide = prefs.getBool(kPrefKeepIslandAutoHide) ?? true;
+    keepIslandHighlightColor = prefs.getString(kPrefKeepIslandHighlightColor) ?? '';
     themeSeedColor = prefs.getInt(kPrefThemeSeedColor) ?? 0xFF6750A4;
     blurBars = prefs.getBool(kPrefBlurBars) ?? true;
     loading = false;
@@ -687,6 +690,19 @@ class SettingsController extends ChangeNotifier {
     final prefs = await _getPrefs();
     await prefs.setBool(kPrefKeepIslandAutoHide, value);
     keepIslandAutoHide = value;
+    notifyListeners();
+  }
+
+  Future<void> setKeepIslandHighlightColor(String value) async {
+    final normalized = value.trim();
+    if (keepIslandHighlightColor == normalized) return;
+    final prefs = await _getPrefs();
+    if (normalized.isEmpty) {
+      await prefs.remove(kPrefKeepIslandHighlightColor);
+    } else {
+      await prefs.setString(kPrefKeepIslandHighlightColor, normalized);
+    }
+    keepIslandHighlightColor = normalized;
     notifyListeners();
   }
 

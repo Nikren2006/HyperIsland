@@ -19,6 +19,8 @@ object KeepIslandHook : BaseHook() {
 
     private const val PREF_KEY_AUTO_HIDE = "pref_keep_island_auto_hide"
 
+    private const val PREF_KEY_HIGHLIGHT_COLOR = "pref_keep_island_highlight_color"
+
     private const val KEEP_ISLAND_NOTIF_ID = 0x4B494B49
 
     private const val ANIMATION_CONTROLLER_CLASS =
@@ -169,6 +171,8 @@ object KeepIslandHook : BaseHook() {
 
     private fun postKeepIsland(context: android.content.Context, restore: Boolean) {
         try {
+            val highlightColor = ConfigManager.getString(PREF_KEY_HIGHLIGHT_COLOR, "")
+                .takeIf { it.isNotBlank() }
             val request = IslandRequest(
                 title = " ",
                 content = "",
@@ -184,6 +188,9 @@ object KeepIslandHook : BaseHook() {
                 clearBeforePost = true,
                 sourcePackage = "io.github.hyperisland",
                 sourceChannelId = KEEP_ISLAND_CHANNEL,
+                highlightColor = highlightColor,
+                showLeftHighlightColor = highlightColor != null,
+                showRightHighlightColor = highlightColor != null,
             )
             IslandDispatcher.post(context, request)
             posted = true

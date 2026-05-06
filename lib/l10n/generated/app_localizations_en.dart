@@ -1319,6 +1319,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Automatically hide the blank island when a real notification arrives, and restore it when dismissed';
 
   @override
+  String get keepIslandHighlightColorTitle => 'Highlight Color';
+
+  @override
+  String get keepIslandHighlightColorSubtitle =>
+      'Customize the highlight text color for the keep island';
+
+  @override
   String get islandOtherSection => 'Other';
 
   @override
