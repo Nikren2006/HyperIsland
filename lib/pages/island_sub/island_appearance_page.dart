@@ -6,6 +6,7 @@ import '../../controllers/settings_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../services/interaction_haptics.dart';
 import '../../services/island_background_service.dart';
+import '../../widgets/blur_app_bar.dart';
 import '../../widgets/island_bg_edit_dialog.dart';
 import '../../widgets/modern_slider.dart';
 
@@ -136,20 +137,17 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
+      body: BlurAppBarHost(
+        title: l10n.appearanceSection,
         physics: const ClampingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            backgroundColor: cs.surface,
-            title: Text(l10n.appearanceSection),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.notifications_outlined),
-                tooltip: l10n.testNotifTooltip,
-                onPressed: InteractionHaptics.interceptButton(_sendTestNotification),
-              ),
-            ],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_outlined),
+            tooltip: l10n.testNotifTooltip,
+            onPressed: InteractionHaptics.interceptButton(_sendTestNotification),
           ),
+        ],
+        slivers: [
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(

@@ -1295,4 +1295,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get downloadManagerSection => 'ダウンロードマネージャー';
+
+  @override
+  String get themePageTitle => 'テーマ';
+
+  @override
+  String get themeSeedColorTitle => 'テーマカラー';
+
+  @override
+  String get themeSeedColorSubtitle => 'アプリのアクセントカラーをカスタマイズ';
+
+  @override
+  String get presetColors => 'プリセットカラー';
+
+  @override
+  String get themeResetColor => 'デフォルトに戻す';
+
+  @override
+  String get blurBarsTitle => 'すりガラス効果';
+
+  @override
+  String get blurBarsSubtitle => 'トップバーとボトムバーにぼかし透明効果を追加';
 }

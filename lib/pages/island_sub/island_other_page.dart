@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../controllers/settings_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../services/interaction_haptics.dart';
+import '../../widgets/blur_app_bar.dart';
 import '../../widgets/modern_slider.dart';
 
 class IslandOtherPage extends StatefulWidget {
@@ -68,13 +69,10 @@ class _IslandOtherPageState extends State<IslandOtherPage> {
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
+      body: BlurAppBarHost(
+        title: l10n.islandOtherSection,
         physics: const ClampingScrollPhysics(),
         slivers: [
-          SliverAppBar(
-            backgroundColor: cs.surface,
-            title: Text(l10n.islandOtherSection),
-          ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(

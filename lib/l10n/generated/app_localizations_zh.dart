@@ -1280,4 +1280,25 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get downloadManagerSection => '下载管理程序';
+
+  @override
+  String get themePageTitle => '主题';
+
+  @override
+  String get themeSeedColorTitle => '主题色';
+
+  @override
+  String get themeSeedColorSubtitle => '自定义应用强调色';
+
+  @override
+  String get presetColors => '预设色板';
+
+  @override
+  String get themeResetColor => '恢复默认';
+
+  @override
+  String get blurBarsTitle => '毛玻璃效果';
+
+  @override
+  String get blurBarsSubtitle => '为顶栏和底栏添加模糊透明效果';
 }

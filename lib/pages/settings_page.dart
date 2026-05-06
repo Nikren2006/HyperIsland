@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controllers/settings_controller.dart';
 import '../controllers/update_controller.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../widgets/blur_app_bar.dart';
 import '../services/interaction_haptics.dart';
 import 'island_sub/island_appearance_page.dart';
 import 'island_sub/island_other_page.dart';
@@ -12,6 +13,7 @@ import 'island_sub/misc_page.dart';
 import 'island_sub/backup_restore_page.dart';
 import 'island_sub/hook_extension_page.dart';
 import 'island_sub/default_config_page.dart';
+import 'island_sub/theme_page.dart';
 import 'ai_config_page.dart';
 import 'blacklist_page.dart';
 
@@ -41,49 +43,6 @@ class _SettingsPageState extends State<SettingsPage> {
   void _onChanged() {
     if (!mounted) return;
     setState(() {});
-  }
-
-  // --- 颜色模式 ---
-  String _themeModeLabel(AppLocalizations l10n) => switch (_ctrl.themeMode) {
-        ThemeMode.light => l10n.themeModeLight,
-        ThemeMode.dark => l10n.themeModeDark,
-        ThemeMode.system => l10n.themeModeSystem,
-      };
-
-  Future<void> _showThemeModeDialog(AppLocalizations l10n) async {
-    if (!mounted) return;
-    final result = await showDialog<ThemeMode>(
-      context: context,
-      builder: (ctx) => SimpleDialog(
-        title: Text(l10n.themeModeTitle),
-        children: [
-          RadioGroup<ThemeMode>(
-            groupValue: _ctrl.themeMode,
-            onChanged: (v) => Navigator.of(ctx).pop(v),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.themeModeSystem),
-                  value: ThemeMode.system,
-                ),
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.themeModeLight),
-                  value: ThemeMode.light,
-                ),
-                RadioListTile<ThemeMode>(
-                  title: Text(l10n.themeModeDark),
-                  value: ThemeMode.dark,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-    if (result != null && mounted) {
-      _ctrl.setThemeMode(result);
-    }
   }
 
   // --- 语言 ---
@@ -164,15 +123,16 @@ class _SettingsPageState extends State<SettingsPage> {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
 
+    final bottomPad = _ctrl.blurBars ? 80.0 : 0.0;
+
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
+      body: BlurAppBarHost(
+        title: l10n.navSettings,
+        largeTitle: true,
         physics: const ClampingScrollPhysics(),
+        bottomPadding: bottomPad,
         slivers: [
-          SliverAppBar.large(
-            backgroundColor: cs.surface,
-            title: Text(l10n.navSettings),
-          ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(
@@ -346,25 +306,17 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     child: Column(
                       children: [
-                        ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 4,
-                          ),
-                          leading: const Icon(Icons.dark_mode_outlined),
-                          title: Text(
-                            l10n.themeModeTitle,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          subtitle: Text(_themeModeLabel(l10n)),
-                          trailing: const Icon(Icons.chevron_right),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(16),
-                            ),
-                          ),
+                        _MenuTile(
+                          icon: Icons.color_lens_outlined,
+                          title: l10n.themePageTitle,
+                          isFirst: true,
                           onTap: InteractionHaptics.interceptButton(
-                                () => _showThemeModeDialog(l10n),
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const ThemePage(),
+                              ),
+                            ),
                           ),
                         ),
                         const Divider(height: 1, indent: 16, endIndent: 16),

@@ -496,5 +496,13 @@
   "hookExtensionSection": "Hook Extension",
   "hookScopeSystemUI": "System UI",
   "hookScopeXMSF": "Xiaomi Service Framework (XMSF)",
-  "downloadManagerSection": "Download Manager"
+  "downloadManagerSection": "Download Manager",
+
+  "themePageTitle": "Theme",
+  "themeSeedColorTitle": "Theme Color",
+  "themeSeedColorSubtitle": "Customize the app accent color",
+  "presetColors": "Preset Colors",
+  "themeResetColor": "Reset to Default",
+  "blurBarsTitle": "Frosted Glass",
+  "blurBarsSubtitle": "Add blur transparency effect to top and bottom bars"
 }

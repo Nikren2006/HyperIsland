@@ -2501,6 +2501,48 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'下载管理程序'**
   String get downloadManagerSection;
+
+  /// No description provided for @themePageTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'主题'**
+  String get themePageTitle;
+
+  /// No description provided for @themeSeedColorTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'主题色'**
+  String get themeSeedColorTitle;
+
+  /// No description provided for @themeSeedColorSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'自定义应用强调色'**
+  String get themeSeedColorSubtitle;
+
+  /// No description provided for @presetColors.
+  ///
+  /// In zh, this message translates to:
+  /// **'预设色板'**
+  String get presetColors;
+
+  /// No description provided for @themeResetColor.
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复默认'**
+  String get themeResetColor;
+
+  /// No description provided for @blurBarsTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'毛玻璃效果'**
+  String get blurBarsTitle;
+
+  /// No description provided for @blurBarsSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'为顶栏和底栏添加模糊透明效果'**
+  String get blurBarsSubtitle;
 }
 
 class _AppLocalizationsDelegate

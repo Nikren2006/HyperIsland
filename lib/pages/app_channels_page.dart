@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../controllers/whitelist_controller.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../widgets/blur_app_bar.dart';
 import '../widgets/batch_channel_settings_sheet.dart';
 import '../widgets/app_list_widgets.dart';
 import '../services/app_cache_service.dart';
@@ -30,6 +31,51 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
   static const String _enableAllChannelsAction = 'enable_all';
   static const String _exportChannelsAction = 'export_channels';
   static const String _importChannelsAction = 'import_channels';
+
+  List<Widget> get _channelActions => [
+        if (!_loading && _channels != null && _channels!.isNotEmpty)
+          AppBarOverflowMenuButton(
+            onSelected: (value) {
+              switch (value) {
+                case _batchAction:
+                  _batchApply();
+                case _enableAllChannelsAction:
+                  _enableAllChannels();
+                case _exportChannelsAction:
+                  _exportChannelsToClipboard();
+                case _importChannelsAction:
+                  _importChannelsFromClipboard();
+              }
+            },
+            itemBuilder: (ctx) {
+              final ml = AppLocalizations.of(ctx)!;
+              return [
+                buildAppPopupMenuItem(
+                  value: _batchAction,
+                  icon: Icons.tune_rounded,
+                  label: ml.batchChannelSettings,
+                ),
+                const PopupMenuDivider(height: 8),
+                buildAppPopupMenuItem(
+                  value: _exportChannelsAction,
+                  icon: Icons.copy_rounded,
+                  label: ml.exportChannelsToClipboard,
+                ),
+                buildAppPopupMenuItem(
+                  value: _importChannelsAction,
+                  icon: Icons.paste_rounded,
+                  label: ml.importChannelsFromClipboard,
+                ),
+                const PopupMenuDivider(height: 8),
+                buildAppPopupMenuItem(
+                  value: _enableAllChannelsAction,
+                  icon: Icons.done_all_rounded,
+                  label: ml.enableAllChannels,
+                ),
+              ];
+            },
+          ),
+      ];
 
   List<ChannelInfo>? _channels;
   Set<String> _enabledChannels = {};
@@ -483,84 +529,41 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            backgroundColor: cs.surface,
-            centerTitle: false,
-            title: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _AppHeaderIcon(app: widget.app),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(widget.app.appName, overflow: TextOverflow.ellipsis),
-                      Text(
-                        widget.app.packageName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: cs.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+      body: BlurAppBarHost(
+        title: widget.app.appName,
+        titleWidget: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _AppHeaderIcon(app: widget.app),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(widget.app.appName, overflow: TextOverflow.ellipsis),
+                  Text(
+                    widget.app.packageName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
-                ),
-                Transform.scale(
-                  scale: 0.9,
-                  child: Switch(value: _appEnabled, onChanged: _setAppEnabled),
-                ),
-              ],
+                ],
+              ),
             ),
-            actions: [
-              if (!_loading && channels.isNotEmpty)
-                AppBarOverflowMenuButton(
-                  onSelected: (value) {
-                    switch (value) {
-                      case _batchAction:
-                        _batchApply();
-                      case _enableAllChannelsAction:
-                        _enableAllChannels();
-                      case _exportChannelsAction:
-                        _exportChannelsToClipboard();
-                      case _importChannelsAction:
-                        _importChannelsFromClipboard();
-                    }
-                  },
-                  itemBuilder: (ctx) {
-                    final ml = AppLocalizations.of(ctx)!;
-                    return [
-                      buildAppPopupMenuItem(
-                        value: _batchAction,
-                        icon: Icons.tune_rounded,
-                        label: ml.batchChannelSettings,
-                      ),
-                      const PopupMenuDivider(height: 8),
-                      buildAppPopupMenuItem(
-                        value: _exportChannelsAction,
-                        icon: Icons.copy_rounded,
-                        label: ml.exportChannelsToClipboard,
-                      ),
-                      buildAppPopupMenuItem(
-                        value: _importChannelsAction,
-                        icon: Icons.paste_rounded,
-                        label: ml.importChannelsFromClipboard,
-                      ),
-                      const PopupMenuDivider(height: 8),
-                      buildAppPopupMenuItem(
-                        value: _enableAllChannelsAction,
-                        icon: Icons.done_all_rounded,
-                        label: ml.enableAllChannels,
-                      ),
-                    ];
-                  },
-                ),
-            ],
+          ],
+        ),
+        largeTitle: true,
+        actions: [
+          ...?_channelActions,
+          Transform.scale(
+            scale: 0.9,
+            child: Switch(value: _appEnabled, onChanged: _setAppEnabled),
           ),
+        ],
+        slivers: [
 
           if (!_appEnabled)
             SliverPadding(

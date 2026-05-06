@@ -1338,4 +1338,26 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get downloadManagerSection => 'İndirme Yöneticisi';
+
+  @override
+  String get themePageTitle => 'Tema';
+
+  @override
+  String get themeSeedColorTitle => 'Tema Rengi';
+
+  @override
+  String get themeSeedColorSubtitle => 'Uygulama vurgu rengini özelleştir';
+
+  @override
+  String get presetColors => 'Hazır Renkler';
+
+  @override
+  String get themeResetColor => 'Varsayılana Sıfırla';
+
+  @override
+  String get blurBarsTitle => 'Buzlu Cam Efekti';
+
+  @override
+  String get blurBarsSubtitle =>
+      'Üst ve alt çubuklara bulanıklık şeffaflık efekti ekle';
 }

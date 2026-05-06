@@ -1338,4 +1338,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadManagerSection => 'Download Manager';
+
+  @override
+  String get themePageTitle => 'Theme';
+
+  @override
+  String get themeSeedColorTitle => 'Theme Color';
+
+  @override
+  String get themeSeedColorSubtitle => 'Customize the app accent color';
+
+  @override
+  String get presetColors => 'Preset Colors';
+
+  @override
+  String get themeResetColor => 'Reset to Default';
+
+  @override
+  String get blurBarsTitle => 'Frosted Glass';
+
+  @override
+  String get blurBarsSubtitle =>
+      'Add blur transparency effect to top and bottom bars';
 }

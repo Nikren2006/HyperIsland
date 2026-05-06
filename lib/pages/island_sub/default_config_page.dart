@@ -3,6 +3,7 @@ import '../../controllers/settings_controller.dart';
 import '../../controllers/whitelist_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../services/interaction_haptics.dart';
+import '../../widgets/blur_app_bar.dart';
 import '../../widgets/color_picker_dialog.dart';
 import '../../widgets/color_value_field.dart';
 
@@ -229,13 +230,10 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
+      body: BlurAppBarHost(
+        title: l10n.defaultConfigSection,
         physics: const ClampingScrollPhysics(),
         slivers: [
-          SliverAppBar(
-            backgroundColor: cs.surface,
-            title: Text(l10n.defaultConfigSection),
-          ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(

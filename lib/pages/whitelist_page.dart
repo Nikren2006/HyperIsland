@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../controllers/whitelist_controller.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../widgets/blur_app_bar.dart';
 import '../widgets/batch_channel_settings_sheet.dart';
 import '../widgets/app_list_widgets.dart';
 import '../widgets/color_picker_dialog.dart';
@@ -92,6 +93,107 @@ class WhitelistPageState extends State<WhitelistPage> {
     _scrollController.dispose();
     super.dispose();
   }
+
+  List<Widget> _actionsForWhitelist(bool allSelected, AppLocalizations l10n) =>
+      _selectionMode
+          ? [
+              // 全选 / 全不选
+              IconButton(
+                icon: Icon(
+                  allSelected ? Icons.deselect : Icons.select_all,
+                ),
+                tooltip: allSelected ? l10n.deselectAll : l10n.selectAll,
+                onPressed: InteractionHaptics.interceptButton(
+                  allSelected ? _deselectAll : _selectAll,
+                ),
+              ),
+              // 批量设置渠道配置
+              IconButton(
+                icon: const Icon(Icons.tune),
+                tooltip: l10n.batchChannelSettings,
+                onPressed: _selectedPackages.isNotEmpty
+                    ? InteractionHaptics.interceptButton(
+                        _isToastMode
+                            ? _batchApplySelectedToast
+                            : _batchApplySelected,
+                      )
+                    : null,
+              ),
+              // 批量操作菜单
+              AppBarOverflowMenuButton(
+                onSelected: (value) async {
+                  switch (value) {
+                    case _selectEnabledAction:
+                      _selectEnabled();
+                    case _enableAction:
+                      await _setSelectedEnabled(true);
+                    case _disableAction:
+                      await _setSelectedEnabled(false);
+                  }
+                },
+                itemBuilder: (ctx) {
+                  final ml = AppLocalizations.of(ctx)!;
+                  return [
+                    buildAppPopupMenuItem(
+                      value: _selectEnabledAction,
+                      icon: Icons.playlist_add_check_circle_rounded,
+                      label: ml.selectEnabledApps,
+                    ),
+                    const PopupMenuDivider(height: 8),
+                    buildAppPopupMenuItem(
+                      value: _enableAction,
+                      icon: Icons.done_all_rounded,
+                      label: ml.batchEnable,
+                      enabled: _selectedPackages.isNotEmpty,
+                    ),
+                    buildAppPopupMenuItem(
+                      value: _disableAction,
+                      icon: Icons.block_rounded,
+                      label: ml.batchDisable,
+                      enabled: _selectedPackages.isNotEmpty,
+                    ),
+                  ];
+                },
+              ),
+            ]
+          : [
+              // 进入多选模式
+              IconButton(
+                icon: const Icon(Icons.checklist_outlined),
+                tooltip: l10n.multiSelect,
+                onPressed: _ctrl.loading
+                    ? null
+                    : InteractionHaptics.interceptButton(
+                        _enterSelectionMode,
+                      ),
+              ),
+              AppBarOverflowMenuButton(
+                onSelected: (value) => handleAppListOverflowMenuSelection(
+                  value: value,
+                  onToggleSystemApps: () {
+                    _ctrl.setShowSystemApps(!_ctrl.showSystemApps);
+                  },
+                  onRefresh: _ctrl.refresh,
+                  onEnableAll: _isToastMode
+                      ? _ctrl.enableAllToast
+                      : _ctrl.enableAll,
+                  onDisableAll: _isToastMode
+                      ? _ctrl.disableAllToast
+                      : _ctrl.disableAll,
+                ),
+                itemBuilder: (ctx) {
+                  final ml = AppLocalizations.of(ctx)!;
+                  return buildAppListOverflowMenuItems(
+                    context: ctx,
+                    showSystemApps: _ctrl.showSystemApps,
+                    showSystemAppsLabel: ml.showSystemApps,
+                    refreshLabel: ml.refreshList,
+                    enableAllLabel: ml.enableAll,
+                    disableAllLabel: ml.disableAll,
+                  );
+                },
+              ),
+            ];
 
   bool get _selectionMode => _inSelectionMode;
 
@@ -339,132 +441,22 @@ class WhitelistPageState extends State<WhitelistPage> {
       body: RefreshIndicator(
         onRefresh: _ctrl.refresh,
         edgeOffset: 300.0,
-        child: CustomScrollView(
-          controller: _scrollController,
+        child: BlurAppBarHost(
+          title: _isToastMode ? l10n.toastAdaptation : l10n.appAdaptation,
+          largeTitle: true,
           physics: const AlwaysScrollableScrollPhysics(),
+          scrollController: _scrollController,
+          leading: _selectionMode
+              ? IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: InteractionHaptics.interceptButton(
+                    _clearSelection,
+                  ),
+                  tooltip: l10n.cancelSelection,
+                )
+              : null,
+          actions: _actionsForWhitelist(allSelected, l10n),
           slivers: [
-            SliverAppBar.large(
-              backgroundColor: cs.surface,
-              centerTitle: false,
-              automaticallyImplyLeading: !_selectionMode,
-              leading: _selectionMode
-                  ? IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: InteractionHaptics.interceptButton(
-                        _clearSelection,
-                      ),
-                      tooltip: l10n.cancelSelection,
-                    )
-                  : null,
-              title: _selectionMode
-                  ? Text(l10n.selectedAppsCount(_selectedPackages.length))
-                  : Text(
-                      _isToastMode ? l10n.toastAdaptation : l10n.appAdaptation,
-                    ),
-              actions: _selectionMode
-                  ? [
-                      // 全选 / 全不选
-                      IconButton(
-                        icon: Icon(
-                          allSelected ? Icons.deselect : Icons.select_all,
-                        ),
-                        tooltip: allSelected
-                            ? l10n.deselectAll
-                            : l10n.selectAll,
-                        onPressed: InteractionHaptics.interceptButton(
-                          allSelected ? _deselectAll : _selectAll,
-                        ),
-                      ),
-                      // 批量设置渠道配置
-                      IconButton(
-                        icon: const Icon(Icons.tune),
-                        tooltip: l10n.batchChannelSettings,
-                        onPressed: _selectedPackages.isNotEmpty
-                            ? InteractionHaptics.interceptButton(
-                                _isToastMode
-                                    ? _batchApplySelectedToast
-                                    : _batchApplySelected,
-                              )
-                            : null,
-                      ),
-                      // 批量操作菜单
-                      AppBarOverflowMenuButton(
-                        onSelected: (value) async {
-                          switch (value) {
-                            case _selectEnabledAction:
-                              _selectEnabled();
-                            case _enableAction:
-                              await _setSelectedEnabled(true);
-                            case _disableAction:
-                              await _setSelectedEnabled(false);
-                          }
-                        },
-                        itemBuilder: (ctx) {
-                          final ml = AppLocalizations.of(ctx)!;
-                          return [
-                            buildAppPopupMenuItem(
-                              value: _selectEnabledAction,
-                              icon: Icons.playlist_add_check_circle_rounded,
-                              label: ml.selectEnabledApps,
-                            ),
-                            const PopupMenuDivider(height: 8),
-                            buildAppPopupMenuItem(
-                              value: _enableAction,
-                              icon: Icons.done_all_rounded,
-                              label: ml.batchEnable,
-                              enabled: _selectedPackages.isNotEmpty,
-                            ),
-                            buildAppPopupMenuItem(
-                              value: _disableAction,
-                              icon: Icons.block_rounded,
-                              label: ml.batchDisable,
-                              enabled: _selectedPackages.isNotEmpty,
-                            ),
-                          ];
-                        },
-                      ),
-                    ]
-                  : [
-                      // 进入多选模式
-                      IconButton(
-                        icon: const Icon(Icons.checklist_outlined),
-                        tooltip: l10n.multiSelect,
-                        onPressed: _ctrl.loading
-                            ? null
-                            : InteractionHaptics.interceptButton(
-                                _enterSelectionMode,
-                              ),
-                      ),
-                      AppBarOverflowMenuButton(
-                        onSelected: (value) =>
-                            handleAppListOverflowMenuSelection(
-                              value: value,
-                              onToggleSystemApps: () {
-                                _ctrl.setShowSystemApps(!_ctrl.showSystemApps);
-                              },
-                              onRefresh: _ctrl.refresh,
-                              onEnableAll: _isToastMode
-                                  ? _ctrl.enableAllToast
-                                  : _ctrl.enableAll,
-                              onDisableAll: _isToastMode
-                                  ? _ctrl.disableAllToast
-                                  : _ctrl.disableAll,
-                            ),
-                        itemBuilder: (ctx) {
-                          final ml = AppLocalizations.of(ctx)!;
-                          return buildAppListOverflowMenuItems(
-                            context: ctx,
-                            showSystemApps: _ctrl.showSystemApps,
-                            showSystemAppsLabel: ml.showSystemApps,
-                            refreshLabel: ml.refreshList,
-                            enableAllLabel: ml.enableAll,
-                            disableAllLabel: ml.disableAll,
-                          );
-                        },
-                      ),
-                    ],
-            ),
-
             // 说明 + 搜索栏
             SliverToBoxAdapter(
               child: Container(

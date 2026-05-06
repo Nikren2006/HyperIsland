@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../controllers/settings_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../widgets/blur_app_bar.dart';
 import '../../services/interaction_haptics.dart';
 
 class MiscPage extends StatefulWidget {
@@ -53,13 +54,10 @@ class _MiscPageState extends State<MiscPage> {
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
+      body: BlurAppBarHost(
+        title: l10n.miscSection,
         physics: const ClampingScrollPhysics(),
         slivers: [
-          SliverAppBar(
-            backgroundColor: cs.surface,
-            title: Text(l10n.miscSection),
-          ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(

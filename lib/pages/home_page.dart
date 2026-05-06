@@ -6,6 +6,7 @@ import '../controllers/home_controller.dart';
 import '../controllers/settings_controller.dart';
 import '../controllers/update_controller.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../widgets/blur_app_bar.dart';
 import '../widgets/section_label.dart';
 
 const _channel = MethodChannel('io.github.hyperisland/test');
@@ -47,6 +48,34 @@ class _HomePageState extends State<HomePage> {
     _ctrl.dispose();
     super.dispose();
   }
+
+  List<Widget> _actions(AppLocalizations l10n) => [
+        IconButton(
+          tooltip: l10n.documentation,
+          icon: const Icon(Icons.menu_book_outlined),
+          onPressed: () =>
+              launchUrl(Uri.parse('https://hyperisland.1812z.top/')),
+        ),
+        IconButton(
+          tooltip: l10n.sponsorAuthor,
+          icon: const Icon(Icons.favorite_border),
+          onPressed: _showSponsorDialog,
+        ),
+        _restarting
+            ? const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              )
+            : IconButton(
+                tooltip: l10n.restartScope,
+                icon: const Icon(Icons.restart_alt),
+                onPressed: _showRestartDialog,
+              ),
+      ];
 
   void _showSponsorDialog() {
     final l10n = AppLocalizations.of(context)!;
@@ -317,53 +346,31 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('HyperIsland'),
-                if (_version.isNotEmpty)
-                  Text(
-                    _version,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
+      body: BlurAppBarHost(
+        title: 'HyperIsland',
+        titleWidget: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'HyperIsland',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: cs.onSurface,
                   ),
-              ],
             ),
-            backgroundColor: cs.surface,
-            centerTitle: false,
-            actions: [
-              IconButton(
-                tooltip: l10n.documentation,
-                icon: const Icon(Icons.menu_book_outlined),
-                onPressed: () =>
-                    launchUrl(Uri.parse('https://hyperisland.1812z.top/')),
+            if (_version.isNotEmpty)
+              Text(
+                _version,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: cs.onSurfaceVariant),
               ),
-              IconButton(
-                tooltip: l10n.sponsorAuthor,
-                icon: const Icon(Icons.favorite_border),
-                onPressed: _showSponsorDialog,
-              ),
-              _restarting
-                  ? const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    )
-                  : IconButton(
-                      tooltip: l10n.restartScope,
-                      icon: const Icon(Icons.restart_alt),
-                      onPressed: _showRestartDialog,
-                    ),
-            ],
-          ),
+          ],
+        ),
+        largeTitle: true,
+        actions: _actions(l10n),
+        slivers: [
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(

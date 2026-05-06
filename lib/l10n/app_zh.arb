@@ -663,5 +663,13 @@
   "hookExtensionSection": "Hook拓展",
   "hookScopeSystemUI": "系统界面",
   "hookScopeXMSF": "小米服务框架",
-  "downloadManagerSection": "下载管理程序"
+  "downloadManagerSection": "下载管理程序",
+
+  "themePageTitle": "主题",
+  "themeSeedColorTitle": "主题色",
+  "themeSeedColorSubtitle": "自定义应用强调色",
+  "presetColors": "预设色板",
+  "themeResetColor": "恢复默认",
+  "blurBarsTitle": "毛玻璃效果",
+  "blurBarsSubtitle": "为顶栏和底栏添加模糊透明效果"
 }

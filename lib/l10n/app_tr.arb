@@ -504,5 +504,13 @@
 "hookExtensionSection": "Hook Uzantısı",
   "hookScopeSystemUI": "Sistem UI",
   "hookScopeXMSF": "Xiaomi Servis Çerçevesi (XMSF)",
-  "downloadManagerSection": "İndirme Yöneticisi"
+  "downloadManagerSection": "İndirme Yöneticisi",
+
+  "themePageTitle": "Tema",
+  "themeSeedColorTitle": "Tema Rengi",
+  "themeSeedColorSubtitle": "Uygulama vurgu rengini özelleştir",
+  "presetColors": "Hazır Renkler",
+  "themeResetColor": "Varsayılana Sıfırla",
+  "blurBarsTitle": "Buzlu Cam Efekti",
+  "blurBarsSubtitle": "Üst ve alt çubuklara bulanıklık şeffaflık efekti ekle"
 }

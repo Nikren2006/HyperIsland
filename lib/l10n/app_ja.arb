@@ -396,5 +396,13 @@
 "hookExtensionSection": "Hook拡張",
   "hookScopeSystemUI": "システムUI",
   "hookScopeXMSF": "Xiaomiサービスフレームワーク (XMSF)",
-  "downloadManagerSection": "ダウンロードマネージャー"
+  "downloadManagerSection": "ダウンロードマネージャー",
+
+  "themePageTitle": "テーマ",
+  "themeSeedColorTitle": "テーマカラー",
+  "themeSeedColorSubtitle": "アプリのアクセントカラーをカスタマイズ",
+  "presetColors": "プリセットカラー",
+  "themeResetColor": "デフォルトに戻す",
+  "blurBarsTitle": "すりガラス効果",
+  "blurBarsSubtitle": "トップバーとボトムバーにぼかし透明効果を追加"
 }

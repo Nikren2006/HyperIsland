@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../controllers/config_io_controller.dart';
 import '../../controllers/settings_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../widgets/blur_app_bar.dart';
 import '../../services/interaction_haptics.dart';
 
 class BackupRestorePage extends StatefulWidget {
@@ -104,13 +105,10 @@ class _BackupRestorePageState extends State<BackupRestorePage> {
 
     return Scaffold(
       backgroundColor: cs.surface,
-      body: CustomScrollView(
+      body: BlurAppBarHost(
+        title: l10n.backupRestoreSection,
         physics: const ClampingScrollPhysics(),
         slivers: [
-          SliverAppBar(
-            backgroundColor: cs.surface,
-            title: Text(l10n.backupRestoreSection),
-          ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(
