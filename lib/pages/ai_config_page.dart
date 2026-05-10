@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../controllers/settings_controller.dart';
@@ -18,15 +19,20 @@ class AiConfigPage extends StatefulWidget {
 
 class _AiConfigPageState extends State<AiConfigPage> {
   final _ctrl = SettingsController.instance;
+  static const _platform = MethodChannel('io.github.hyperisland/test');
   static const _defaultAiPrompt = '根据通知信息，提取关键信息，左右分别不超过6汉字12字符';
+  static const _defaultNotificationText = '[外卖]，您的外卖到了，送至门口外卖柜';
 
   late final TextEditingController _urlCtrl;
   late final TextEditingController _keyCtrl;
   late final TextEditingController _modelCtrl;
   late final TextEditingController _promptCtrl;
+  late final TextEditingController _notificationCtrl;
 
   bool _keyObscured = true;
   bool _testing = false;
+  bool _sendingNotification = false;
+  bool _sendingAiNotification = false;
   _TestResult? _testResult;
   late int _aiTimeoutDraft;
   late double _aiTemperatureDraft;
@@ -67,6 +73,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
     _promptCtrl = TextEditingController(
       text: _ctrl.aiPrompt.isEmpty ? _defaultAiPrompt : _ctrl.aiPrompt,
     );
+    _notificationCtrl = TextEditingController(text: _defaultNotificationText);
     _aiTimeoutDraft = _ctrl.aiTimeout;
     _aiTemperatureDraft = _ctrl.aiTemperature;
     _aiMaxTokensDraft = _ctrl.aiMaxTokens;
@@ -81,6 +88,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
     _keyCtrl.dispose();
     _modelCtrl.dispose();
     _promptCtrl.dispose();
+    _notificationCtrl.dispose();
     super.dispose();
   }
 
@@ -175,6 +183,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
       'max_tokens': _ctrl.aiMaxTokens,
       'temperature': _ctrl.aiTemperature,
       'enable_thinking': false,
+      'thinking': {'type': 'disabled'},
     };
   }
 
@@ -201,13 +210,11 @@ class _AiConfigPageState extends State<AiConfigPage> {
     });
 
     try {
-      final promptText = _promptCtrl.text.trim();
-      const sampleUserContent =
-          '应用包名：com.example.app\n标题：测试通知\n正文：这是一条用于测试 AI 提取效果的示例消息';
+      const sampleUserContent = '请直接回复：测试成功';
       requestBody = jsonEncode(
         _buildRequestPayload(
           model: model,
-          promptText: promptText,
+          promptText: '',
           userContent: sampleUserContent,
         ),
       );
@@ -294,6 +301,145 @@ class _AiConfigPageState extends State<AiConfigPage> {
       setState(() => _testResult = _TestResult.fail(e.toString()));
     } finally {
       if (mounted) setState(() => _testing = false);
+    }
+  }
+
+  Future<String> _requestAiNotificationText(String content) async {
+    final url = _urlCtrl.text.trim();
+    final key = _keyCtrl.text.trim();
+    final model = _modelCtrl.text.trim();
+    if (url.isEmpty) {
+      throw Exception(AppLocalizations.of(context)!.aiTestUrlEmpty);
+    }
+
+    final promptText = _promptCtrl.text.trim().isEmpty
+        ? _defaultAiPrompt
+        : _promptCtrl.text.trim();
+    final userContent = '应用包名：com.example.app\n标题：测试通知\n正文：$content';
+    final messages = _ctrl.aiPromptInUser
+        ? [
+            {
+              'role': 'user',
+              'content': [
+                promptText,
+                '',
+                '仅返回如下 JSON，不得包含任何其他文字或代码块：',
+                '{"left":"左侧文本（谁发的）","right":"右侧文本（总结）"}',
+                '',
+                userContent,
+              ].join('\n'),
+            },
+          ]
+        : [
+            {
+              'role': 'system',
+              'content': [
+                promptText,
+                '仅返回如下 JSON，不得包含任何其他文字或代码块：',
+                '{"left":"左侧文本(谁发的)","right":"右侧文本（总结）"}',
+              ].join('\n'),
+            },
+            {'role': 'user', 'content': userContent},
+          ];
+    final requestBody = jsonEncode(<String, dynamic>{
+      'model': _effectiveModel(model),
+      'messages': messages,
+      'max_tokens': _ctrl.aiMaxTokens,
+      'temperature': _ctrl.aiTemperature,
+      'enable_thinking': false,
+      'thinking': {'type': 'disabled'},
+    });
+    final response = await http
+        .post(
+          Uri.parse(url),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            if (key.isNotEmpty) 'Authorization': 'Bearer $key',
+          },
+          body: requestBody,
+        )
+        .timeout(Duration(seconds: _ctrl.aiTimeout));
+
+    if (response.statusCode != 200) {
+      throw Exception('HTTP ${response.statusCode}\n${response.body}');
+    }
+    final json = jsonDecode(response.body) as Map<String, dynamic>;
+    return ((json['choices'] as List?)?.firstOrNull?['message']?['content']
+                as String? ??
+            '')
+        .trim();
+  }
+
+  (String, String) _splitAiNotificationText(String aiText) {
+    final cleanText = aiText
+        .replaceFirst(RegExp(r'^```json\s*'), '')
+        .replaceFirst(RegExp(r'^```\s*'), '')
+        .replaceFirst(RegExp(r'\s*```$'), '')
+        .trim();
+    try {
+      final json = jsonDecode(cleanText) as Map<String, dynamic>;
+      final left = (json['left'] as String? ?? '').trim();
+      final right = (json['right'] as String? ?? '').trim();
+      if (left.isNotEmpty && right.isNotEmpty) {
+        return (left, right);
+      }
+    } on Exception {
+      throw Exception('AI 返回格式错误，需要 JSON：{"left":"...","right":"..."}');
+    }
+    throw Exception('AI 返回为空，需要 JSON：{"left":"...","right":"..."}');
+  }
+
+  Future<void> _sendNotification({required bool useAi}) async {
+    final rawContent = _notificationCtrl.text.trim();
+    final content = rawContent.isEmpty ? _defaultNotificationText : rawContent;
+    setState(() {
+      if (useAi) {
+        _sendingAiNotification = true;
+      } else {
+        _sendingNotification = true;
+      }
+    });
+
+    try {
+      final (title, body) = useAi
+          ? _splitAiNotificationText(await _requestAiNotificationText(content))
+          : ('测试通知', content);
+      await _platform.invokeMethod('showCustomTest', {
+        'title': title,
+        'content': body,
+        'clearPrevious': true,
+        'enableFloat': true,
+      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(useAi ? 'AI 通知已发送' : '通知已发送'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    } on Exception catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          if (useAi) {
+            _sendingAiNotification = false;
+          } else {
+            _sendingNotification = false;
+          }
+        });
+      }
     }
   }
 
@@ -583,6 +729,94 @@ class _AiConfigPageState extends State<AiConfigPage> {
                           const SizedBox(height: 12),
                           _TestResultCard(result: _testResult!),
                         ],
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                SectionLabel('通知测试'),
+                const SizedBox(height: 8),
+                Card(
+                  elevation: 0,
+                  color: cs.surfaceContainerHighest,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTextField(
+                          controller: _notificationCtrl,
+                          label: '通知内容',
+                          hint: _defaultNotificationText,
+                          icon: FontAwesomeIcons.bell,
+                          minLines: 2,
+                          maxLines: 4,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed:
+                                    _sendingNotification ||
+                                        _sendingAiNotification
+                                    ? null
+                                    : InteractionHaptics.interceptButton(
+                                        () => _sendNotification(useAi: false),
+                                      ),
+                                icon: _sendingNotification
+                                    ? const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const FaIcon(
+                                        FontAwesomeIcons.paperPlane,
+                                        size: 16,
+                                      ),
+                                label: const Text('发送通知'),
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: FilledButton.icon(
+                                onPressed:
+                                    _sendingNotification ||
+                                        _sendingAiNotification
+                                    ? null
+                                    : InteractionHaptics.interceptButton(
+                                        () => _sendNotification(useAi: true),
+                                      ),
+                                icon: _sendingAiNotification
+                                    ? const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const FaIcon(
+                                        FontAwesomeIcons.robot,
+                                        size: 16,
+                                      ),
+                                label: const Text('发送AI通知'),
+                                style: FilledButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
