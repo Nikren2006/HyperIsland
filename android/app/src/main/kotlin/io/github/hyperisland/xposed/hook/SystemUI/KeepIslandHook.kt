@@ -181,13 +181,14 @@ object KeepIslandHook : BaseHook() {
 
         val isBigIsland = stateText.contains("BigIsland")
         val isExpanded = stateText.contains("Expand")
+        val isSmallIsland = stateText.contains("SmallIsland")
         val isDeleted = stateText.contains("Deleted")
 
         if (isOwnedByUs) return
-        if ((isBigIsland || isExpanded) && !isDeleted && sourcePackage == foregroundPackage(ctx)) return
+        if ((isBigIsland || isExpanded || isSmallIsland) && !isDeleted && sourcePackage == foregroundPackage(ctx)) return
 
         when {
-            (isBigIsland || isExpanded) && !isDeleted -> {
+            (isBigIsland || isExpanded || isSmallIsland) && !isDeleted -> {
                 if (contentControllerHooked) return
                 cancelPendingRestore()
                 if (key != null) activeRealKeys.add(key)
@@ -196,7 +197,7 @@ object KeepIslandHook : BaseHook() {
                 }
             }
 
-            isDeleted || (!isBigIsland && !isExpanded) -> {
+            isDeleted || (!isBigIsland && !isExpanded && !isSmallIsland) -> {
                 if (key != null) activeRealKeys.remove(key)
                 if (suppressed && activeRealKeys.isEmpty()) {
                     scheduleRestore(ctx)
@@ -217,6 +218,7 @@ object KeepIslandHook : BaseHook() {
         val stateText = invokeNoArg(view, "getState")?.toString().orEmpty()
         val isBigIsland = stateText.contains("BigIsland")
         val isExpanded = stateText.contains("Expand")
+        val isSmallIsland = stateText.contains("SmallIsland")
         val isDeleted = stateText.contains("Deleted")
         val sbn = extractSbnFromController(controllerObj)
         val key = (invokeNoArg(controllerObj, "getIslandKey") as? String)
@@ -224,7 +226,7 @@ object KeepIslandHook : BaseHook() {
             ?: sbn?.key
             ?: return
 
-        if (isDeleted || (!isBigIsland && !isExpanded)) {
+        if (isDeleted || (!isBigIsland && !isExpanded && !isSmallIsland)) {
             removeActiveRealKey(ctx, key)
             return
         }
