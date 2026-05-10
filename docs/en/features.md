@@ -72,6 +72,31 @@ Choose the appropriate Super Island template for each app/channel:
 - **Text Highlight**: Choose left or right text to display with highlight color
 - **Narrow Font**: When enabled, switch the Dynamic Island to the narrow font (this will cause “.” to be converted to “:”)
 
+### Filter Rules Page
+
+In **Settings > Filter Rules**, you can control notification behavior for special states **per foreground app**.
+
+In **Settings > Other > Filter Rules**, you can control notification behavior for special states **globally by system scenario**.
+
+The `1 Do Not Disturb`, `2 Fullscreen`, and `3 Landscape` tabs at the top indicate the rule matching order. The system checks rules from left to right, and once it hits the first available rule, that rule is applied directly without continuing to match later rules.
+
+Each rule can choose a handling mode on the right:
+
+- **Default**: No extra handling when matched; continue using the default behavior
+- **Fallback to Normal Notification**: Do not use Super Island when matched; restore the notification to a normal notification
+- **Disable Expansion**: Only show the small island when matched; do not auto-expand to Focus Notification
+- **Auto Expand Notification**: Auto-expand to Focus Notification when matched
+
+Recommended usage:
+
+- Avoid large-island interruptions during fullscreen games or videos: set **When Fullscreen** to **Disable Expansion** or **Fallback to Normal Notification**
+- Keep only small-island prompts in landscape apps: set **When Landscape** to **Disable Expansion**
+- Keep notifications as quiet as possible after enabling system Do Not Disturb: set **When Do Not Disturb** to **Fallback to Normal Notification** or **Disable Expansion**
+
+::: tip Notes
+The fullscreen rule has priority over the landscape rule. If an app is both fullscreen and landscape, the fullscreen rule is used first.
+:::
+
 ## Focus Notification Customization
 
 - **Focus Icon**: Choose icon in the Focus Notification panel
