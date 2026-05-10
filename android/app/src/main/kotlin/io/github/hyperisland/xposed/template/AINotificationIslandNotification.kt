@@ -130,7 +130,17 @@ object AINotificationIslandNotification : IslandTemplate {
     }
 
     private fun callAiApi(config: AiConfig, data: NotifData): AiIslandText? {
-        val requestBody = buildRequestBody(config, data)
+        val response = postAiRequest(config, buildRequestBody(config, data))
+        val code = response.first
+        val responseBody = response.second
+        if (code != HttpURLConnection.HTTP_OK) {
+            logError("$TAG: HTTP $code — $responseBody")
+            return null
+        }
+        return parseAiResponse(responseBody)
+    }
+
+    private fun postAiRequest(config: AiConfig, requestBody: String): Pair<Int, String> {
         val conn = (URL(config.url).openConnection() as HttpURLConnection).apply {
             requestMethod = "POST"
             setRequestProperty("Content-Type", "application/json")
@@ -144,12 +154,9 @@ object AINotificationIslandNotification : IslandTemplate {
         return try {
             conn.outputStream.use { it.write(requestBody.toByteArray(Charsets.UTF_8)) }
             val code = conn.responseCode
-            if (code != HttpURLConnection.HTTP_OK) {
-                val errorBody = try { conn.errorStream?.bufferedReader(Charsets.UTF_8)?.use { it.readText() } ?: "" } catch (_: Exception) { "" }
-                logError("$TAG: HTTP $code — $errorBody")
-                return null
-            }
-            parseAiResponse(conn.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() })
+            val stream = if (code == HttpURLConnection.HTTP_OK) conn.inputStream else conn.errorStream
+            val body = try { stream?.bufferedReader(Charsets.UTF_8)?.use { it.readText() } ?: "" } catch (_: Exception) { "" }
+            code to body
         } finally {
             conn.disconnect()
         }
@@ -187,12 +194,15 @@ $userPrompt
             messages.put(JSONObject().put("role", "user").put("content", userContent))
         }
 
-        return JSONObject()
-            .put("model", config.model.ifEmpty { "gpt-4o-mini" })
+        val model = config.model.ifEmpty { "gpt-4o-mini" }
+        val body = JSONObject()
+            .put("model", model)
             .put("messages", messages)
             .put("max_tokens", config.maxTokens)
             .put("temperature", config.temperature)
-            .toString()
+            .put("enable_thinking", false)
+
+        return body.toString()
     }
 
     private fun parseAiResponse(responseText: String): AiIslandText? {

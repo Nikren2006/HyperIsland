@@ -155,10 +155,34 @@ class _AiConfigPageState extends State<AiConfigPage> {
     await _ctrl.setAiPromptInUser(value);
   }
 
+  String _effectiveModel(String model) => model.isEmpty ? 'gpt-4o-mini' : model;
+
+  Map<String, dynamic> _buildRequestPayload({
+    required String model,
+    required String promptText,
+    required String userContent,
+  }) {
+    final effectiveModel = _effectiveModel(model);
+    return <String, dynamic>{
+      'model': effectiveModel,
+      'messages': [
+        if (!_ctrl.aiPromptInUser && promptText.isNotEmpty)
+          {'role': 'system', 'content': promptText},
+        if (_ctrl.aiPromptInUser && promptText.isNotEmpty)
+          {'role': 'user', 'content': promptText},
+        {'role': 'user', 'content': userContent},
+      ],
+      'max_tokens': _ctrl.aiMaxTokens,
+      'temperature': _ctrl.aiTemperature,
+      'enable_thinking': false,
+    };
+  }
+
   Future<void> _test() async {
     final url = _urlCtrl.text.trim();
     final key = _keyCtrl.text.trim();
     final model = _modelCtrl.text.trim();
+    final effectiveModel = _effectiveModel(model);
     final requestTime = DateTime.now();
     String requestBody = '';
 
@@ -180,24 +204,19 @@ class _AiConfigPageState extends State<AiConfigPage> {
       final promptText = _promptCtrl.text.trim();
       const sampleUserContent =
           '应用包名：com.example.app\n标题：测试通知\n正文：这是一条用于测试 AI 提取效果的示例消息';
-      requestBody = jsonEncode({
-        'model': model.isEmpty ? 'gpt-4o-mini' : model,
-        'messages': [
-          if (!_ctrl.aiPromptInUser && promptText.isNotEmpty)
-            {'role': 'system', 'content': promptText},
-          if (_ctrl.aiPromptInUser && promptText.isNotEmpty)
-            {'role': 'user', 'content': promptText},
-          {'role': 'user', 'content': sampleUserContent},
-        ],
-        'max_tokens': _ctrl.aiMaxTokens,
-        'temperature': _ctrl.aiTemperature,
-      });
+      requestBody = jsonEncode(
+        _buildRequestPayload(
+          model: model,
+          promptText: promptText,
+          userContent: sampleUserContent,
+        ),
+      );
       await _ctrl.saveAiLastLog(
         AiLogEntry(
           timestamp: requestTime,
           source: 'settings_test',
           url: url,
-          model: model.isEmpty ? 'gpt-4o-mini' : model,
+          model: effectiveModel,
           requestBody: requestBody,
           responseBody: '',
           error: '',
@@ -229,7 +248,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
             timestamp: requestTime,
             source: 'settings_test',
             url: url,
-            model: model.isEmpty ? 'gpt-4o-mini' : model,
+            model: effectiveModel,
             requestBody: requestBody,
             responseBody: response.body,
             error: '',
@@ -244,7 +263,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
             timestamp: requestTime,
             source: 'settings_test',
             url: url,
-            model: model.isEmpty ? 'gpt-4o-mini' : model,
+            model: effectiveModel,
             requestBody: requestBody,
             responseBody: response.body,
             error: 'HTTP ${response.statusCode}',
@@ -264,7 +283,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
           timestamp: requestTime,
           source: 'settings_test',
           url: url,
-          model: model.isEmpty ? 'gpt-4o-mini' : model,
+          model: effectiveModel,
           requestBody: requestBody,
           responseBody: '',
           error: e.toString(),
