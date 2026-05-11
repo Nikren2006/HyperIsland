@@ -421,7 +421,6 @@ class _DimenTile extends StatelessWidget {
     required this.onChanged,
     required this.onPersist,
     this.isFirst = false,
-    this.isLast = false,
   });
 
   final String title;
@@ -434,7 +433,6 @@ class _DimenTile extends StatelessWidget {
   final ValueChanged<double> onChanged;
   final ValueChanged<double> onPersist;
   final bool isFirst;
-  final bool isLast;
 
   @override
   Widget build(BuildContext context) {
@@ -443,12 +441,8 @@ class _DimenTile extends StatelessWidget {
     final divisions = (max - min).toInt();
 
     BorderRadius? borderRadius;
-    if (isFirst && isLast) {
-      borderRadius = BorderRadius.circular(16);
-    } else if (isFirst) {
+    if (isFirst) {
       borderRadius = const BorderRadius.vertical(top: Radius.circular(16));
-    } else if (isLast) {
-      borderRadius = BorderRadius.vertical(bottom: Radius.circular(16));
     }
 
     return ListTile(

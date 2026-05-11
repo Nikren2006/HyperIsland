@@ -487,7 +487,7 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
 
       if (!mounted) return;
       final suffix = appliedCount < totalInData
-          ? '（共 ${totalInData} 个，已匹配 $appliedCount 个）'
+          ? '（共 $totalInData 个，已匹配 $appliedCount 个）'
           : '';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -557,7 +557,7 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
         ),
         largeTitle: true,
         actions: [
-          ...?_channelActions,
+          ..._channelActions,
           Transform.scale(
             scale: 0.9,
             child: Switch(value: _appEnabled, onChanged: _setAppEnabled),
