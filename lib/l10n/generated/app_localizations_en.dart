@@ -1451,6 +1451,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingRootStatus => 'Root Access';
 
   @override
+  String get onboardingAppListStatus => 'App list permission';
+
+  @override
   String get onboardingProtocolStatus => 'System Protocol Version';
 
   @override

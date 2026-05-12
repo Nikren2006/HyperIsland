@@ -1383,6 +1383,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingRootStatus => 'Root 权限';
 
   @override
+  String get onboardingAppListStatus => '应用列表权限';
+
+  @override
   String get onboardingProtocolStatus => '系统协议版本';
 
   @override

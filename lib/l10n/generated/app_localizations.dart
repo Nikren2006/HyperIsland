@@ -2700,6 +2700,12 @@ abstract class AppLocalizations {
   /// **'Root 权限'**
   String get onboardingRootStatus;
 
+  /// No description provided for @onboardingAppListStatus.
+  ///
+  /// In zh, this message translates to:
+  /// **'应用列表权限'**
+  String get onboardingAppListStatus;
+
   /// No description provided for @onboardingProtocolStatus.
   ///
   /// In zh, this message translates to:

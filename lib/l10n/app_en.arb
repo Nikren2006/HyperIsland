@@ -540,6 +540,7 @@
   "onboardingRetry": "Retry",
   "onboardingLsposedStatus": "LSPosed Activation",
   "onboardingRootStatus": "Root Access",
+  "onboardingAppListStatus": "App list permission",
   "onboardingProtocolStatus": "System Protocol Version",
   "onboardingAndroidStatus": "Android Version",
   "onboardingUnsupportedSystem": "Current system is not supported",

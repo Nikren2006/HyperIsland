@@ -105,7 +105,8 @@ class _MiscPageState extends State<MiscPage> {
                           () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const OnboardingPage(),
+                              builder: (_) =>
+                                  const OnboardingPage(showCloseButton: true),
                             ),
                           ),
                         ),

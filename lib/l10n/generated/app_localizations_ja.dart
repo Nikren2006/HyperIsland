@@ -1399,6 +1399,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onboardingRootStatus => 'Root 権限';
 
   @override
+  String get onboardingAppListStatus => 'アプリ一覧権限';
+
+  @override
   String get onboardingProtocolStatus => 'システムプロトコルバージョン';
 
   @override

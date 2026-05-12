@@ -707,6 +707,7 @@
   "onboardingRetry": "重试",
   "onboardingLsposedStatus": "LSPosed 激活状态",
   "onboardingRootStatus": "Root 权限",
+  "onboardingAppListStatus": "应用列表权限",
   "onboardingProtocolStatus": "系统协议版本",
   "onboardingAndroidStatus": "安卓版本",
   "onboardingUnsupportedSystem": "不支持当前系统",

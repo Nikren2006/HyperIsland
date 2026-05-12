@@ -9,7 +9,6 @@ import 'services/app_cache_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  AppCacheService.instance.initialize();
   runApp(const MyApp());
 }
 
@@ -28,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   bool _blurBars = false;
   bool _settingsLoading = true;
   bool _onboardingCompleted = false;
+  bool _appCacheInitialized = false;
 
   @override
   void initState() {
@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     _settingsLoading = _ctrl.loading;
     _onboardingCompleted = _ctrl.onboardingCompleted;
     _ctrl.addListener(_onSettingsChanged);
+    _initializeAppCacheIfReady();
   }
 
   @override
@@ -71,6 +72,15 @@ class _MyAppState extends State<MyApp> {
       _settingsLoading = nextSettingsLoading;
       _onboardingCompleted = nextOnboardingCompleted;
     });
+    _initializeAppCacheIfReady();
+  }
+
+  void _initializeAppCacheIfReady() {
+    if (_appCacheInitialized || _settingsLoading || !_onboardingCompleted) {
+      return;
+    }
+    _appCacheInitialized = true;
+    AppCacheService.instance.initialize();
   }
 
   ThemeData _buildTheme({

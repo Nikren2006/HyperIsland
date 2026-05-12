@@ -440,6 +440,7 @@
 "onboardingRetry": "再試行",
 "onboardingLsposedStatus": "LSPosed 有効化状態",
 "onboardingRootStatus": "Root 権限",
+"onboardingAppListStatus": "アプリ一覧権限",
 "onboardingProtocolStatus": "システムプロトコルバージョン",
 "onboardingAndroidStatus": "Android バージョン",
 "onboardingUnsupportedSystem": "現在のシステムはサポートされていません",

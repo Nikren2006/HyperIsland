@@ -548,6 +548,7 @@
 "onboardingRetry": "Yeniden dene",
 "onboardingLsposedStatus": "LSPosed Etkinleştirme Durumu",
 "onboardingRootStatus": "Root İzni",
+"onboardingAppListStatus": "Uygulama listesi izni",
 "onboardingProtocolStatus": "Sistem Protokol Sürümü",
 "onboardingAndroidStatus": "Android Sürümü",
 "onboardingUnsupportedSystem": "Mevcut sistem desteklenmiyor",

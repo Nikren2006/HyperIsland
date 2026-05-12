@@ -1451,6 +1451,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onboardingRootStatus => 'Root İzni';
 
   @override
+  String get onboardingAppListStatus => 'Uygulama listesi izni';
+
+  @override
   String get onboardingProtocolStatus => 'Sistem Protokol Sürümü';
 
   @override

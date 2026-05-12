@@ -90,6 +90,10 @@ class MainActivity : FlutterActivity() {
                     }
                 }
 
+                "checkAppListPermission" -> {
+                    result.success(!isMiuiAppListPermissionSupported() || checkAppListPermission())
+                }
+
                 "getNotificationChannels" -> {
                     val pkg = call.argument<String>("packageName") ?: ""
                     Thread {

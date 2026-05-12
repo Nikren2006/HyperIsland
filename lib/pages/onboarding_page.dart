@@ -5,9 +5,12 @@ import 'package:flutter/services.dart';
 
 import '../controllers/settings_controller.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../services/app_cache_service.dart';
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+  final bool showCloseButton;
+
+  const OnboardingPage({super.key, this.showCloseButton = false});
 
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();
@@ -23,16 +26,18 @@ class _OnboardingPageState extends State<OnboardingPage>
   bool _checkingStatus = false;
   bool? _lsposedActive;
   bool? _rootGranted;
+  bool? _appListGranted;
   int? _protocolVersion;
   int? _androidSdkVersion;
   bool _defaultFocusNotif = SettingsController.instance.defaultFocusNotif;
+  bool _appListInitialized = false;
 
   @override
   void initState() {
     super.initState();
     _backgroundController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 18),
+      duration: const Duration(seconds: 12),
     )..repeat();
     _refreshStatus();
   }
@@ -56,6 +61,9 @@ class _OnboardingPageState extends State<OnboardingPage>
             .invokeMethod<bool>('checkRootAccess')
             .then((value) => value ?? false),
         _channel
+            .invokeMethod<bool>('checkAppListPermission')
+            .then((value) => value ?? false),
+        _channel
             .invokeMethod<int>('getFocusProtocolVersion')
             .then((value) => value ?? 0),
         _channel
@@ -66,20 +74,37 @@ class _OnboardingPageState extends State<OnboardingPage>
       setState(() {
         _lsposedActive = results[0] as bool;
         _rootGranted = results[1] as bool;
-        _protocolVersion = results[2] as int;
-        _androidSdkVersion = results[3] as int;
+        _appListGranted = results[2] as bool;
+        _protocolVersion = results[3] as int;
+        _androidSdkVersion = results[4] as int;
       });
     } catch (_) {
       if (!mounted) return;
       setState(() {
         _lsposedActive = false;
         _rootGranted = false;
+        _appListGranted = false;
         _protocolVersion = 0;
         _androidSdkVersion = 0;
       });
     } finally {
       if (mounted) setState(() => _checkingStatus = false);
     }
+  }
+
+  Future<void> _initializeAppListIfFirstLaunch() async {
+    if (widget.showCloseButton || _appListInitialized || _currentStep != 1) {
+      return;
+    }
+    _appListInitialized = true;
+    await AppCacheService.instance.initialize();
+    if (!mounted) return;
+    final granted = await _channel
+        .invokeMethod<bool>('checkAppListPermission')
+        .then((value) => value ?? false)
+        .catchError((_) => false);
+    if (!mounted) return;
+    setState(() => _appListGranted = granted);
   }
 
   Future<void> _goToStep(int step) async {
@@ -100,6 +125,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     if (_currentStep == 1 &&
         (_lsposedActive != true ||
             _rootGranted != true ||
+            _appListGranted != true ||
             (_protocolVersion ?? 0) < 3 ||
             (_androidSdkVersion ?? 0) < 35)) {
       final shouldContinue = await _confirmMissingPermission();
@@ -195,13 +221,14 @@ class _OnboardingPageState extends State<OnboardingPage>
                         ),
                       ),
                       const Spacer(),
-                      IconButton(
-                        tooltip: MaterialLocalizations.of(
-                          context,
-                        ).closeButtonTooltip,
-                        onPressed: _finishOnboarding,
-                        icon: const Icon(Icons.close, color: Colors.white),
-                      ),
+                      if (widget.showCloseButton)
+                        IconButton(
+                          tooltip: MaterialLocalizations.of(
+                            context,
+                          ).closeButtonTooltip,
+                          onPressed: _finishOnboarding,
+                          icon: const Icon(Icons.close, color: Colors.white),
+                        ),
                     ],
                   ),
                 ),
@@ -209,8 +236,10 @@ class _OnboardingPageState extends State<OnboardingPage>
                   child: PageView.builder(
                     controller: _pageController,
                     itemCount: steps.length,
-                    onPageChanged: (index) =>
-                        setState(() => _currentStep = index),
+                    onPageChanged: (index) {
+                      setState(() => _currentStep = index);
+                      _initializeAppListIfFirstLaunch();
+                    },
                     itemBuilder: (context, index) => _OnboardingStepView(
                       step: steps[index],
                       stepIndex: index,
@@ -220,6 +249,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                               checking: _checkingStatus,
                               lsposedActive: _lsposedActive,
                               rootGranted: _rootGranted,
+                              appListGranted: _appListGranted,
                               protocolVersion: _protocolVersion,
                               androidSdkVersion: _androidSdkVersion,
                               l10n: l10n,
@@ -237,79 +267,121 @@ class _OnboardingPageState extends State<OnboardingPage>
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          steps.length,
-                          (index) => AnimatedContainer(
-                            duration: const Duration(milliseconds: 240),
-                            margin: const EdgeInsets.symmetric(horizontal: 4),
-                            width: index == _currentStep ? 24 : 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(
-                                alpha: index == _currentStep ? 0.95 : 0.32,
-                              ),
-                              borderRadius: BorderRadius.circular(99),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton(
-                              onPressed: isFirst
-                                  ? null
-                                  : () => _goToStep(_currentStep - 1),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                disabledForegroundColor: Colors.white38,
-                                side: BorderSide(
-                                  color: Colors.white.withValues(alpha: 0.38),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                              ),
-                              child: Text(l10n.onboardingPrevious),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            flex: 2,
-                            child: FilledButton(
-                              onPressed: () => _handleNextStep(isLast),
-                              style: FilledButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: const Color(0xFF161031),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                              ),
-                              child: Text(
-                                isLast
-                                    ? l10n.onboardingDone
-                                    : l10n.onboardingNext,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
               ],
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                child: _OnboardingFloatingControls(
+                  stepCount: steps.length,
+                  currentStep: _currentStep,
+                  isFirst: isFirst,
+                  isLast: isLast,
+                  previousLabel: l10n.onboardingPrevious,
+                  nextLabel: l10n.onboardingNext,
+                  doneLabel: l10n.onboardingDone,
+                  onPrevious: () => _goToStep(_currentStep - 1),
+                  onNext: () => _handleNextStep(isLast),
+                ),
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _OnboardingFloatingControls extends StatelessWidget {
+  final int stepCount;
+  final int currentStep;
+  final bool isFirst;
+  final bool isLast;
+  final String previousLabel;
+  final String nextLabel;
+  final String doneLabel;
+  final VoidCallback onPrevious;
+  final VoidCallback onNext;
+
+  const _OnboardingFloatingControls({
+    required this.stepCount,
+    required this.currentStep,
+    required this.isFirst,
+    required this.isLast,
+    required this.previousLabel,
+    required this.nextLabel,
+    required this.doneLabel,
+    required this.onPrevious,
+    required this.onNext,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            stepCount,
+            (index) => AnimatedContainer(
+              duration: const Duration(milliseconds: 240),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: index == currentStep ? 24 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(
+                  alpha: index == currentStep ? 0.95 : 0.32,
+                ),
+                borderRadius: BorderRadius.circular(99),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 22),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: isFirst ? null : onPrevious,
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: const Color(
+                    0xFF0C1C33,
+                  ).withValues(alpha: isFirst ? 0.46 : 1),
+                  foregroundColor: Colors.white,
+                  disabledForegroundColor: Colors.white38,
+                  side: BorderSide(
+                    color: Colors.white.withValues(
+                      alpha: isFirst ? 0.14 : 0.32,
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: Text(previousLabel),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 2,
+              child: FilledButton(
+                onPressed: onNext,
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: const Color(0xFF161031),
+                  side: BorderSide(
+                    color: const Color(0xFF161031).withValues(alpha: 0.14),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: Text(isLast ? doneLabel : nextLabel),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -344,10 +416,10 @@ class _OnboardingStepView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 150),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: MediaQuery.sizeOf(context).height - 220,
+          minHeight: MediaQuery.sizeOf(context).height - 196,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -424,6 +496,7 @@ class _EnvironmentStatusPanel extends StatelessWidget {
   final bool checking;
   final bool? lsposedActive;
   final bool? rootGranted;
+  final bool? appListGranted;
   final int? protocolVersion;
   final int? androidSdkVersion;
   final AppLocalizations l10n;
@@ -433,6 +506,7 @@ class _EnvironmentStatusPanel extends StatelessWidget {
     required this.checking,
     required this.lsposedActive,
     required this.rootGranted,
+    required this.appListGranted,
     required this.protocolVersion,
     required this.androidSdkVersion,
     required this.l10n,
@@ -487,6 +561,11 @@ class _EnvironmentStatusPanel extends StatelessWidget {
                 _StatusRow(
                   title: l10n.onboardingRootStatus,
                   passed: rootGranted,
+                ),
+                const SizedBox(height: 10),
+                _StatusRow(
+                  title: l10n.onboardingAppListStatus,
+                  passed: appListGranted,
                 ),
                 const SizedBox(height: 10),
                 _StatusRow(
@@ -787,8 +866,8 @@ class _OnboardingBackdrop extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment(-0.95 + math.sin(phase * 0.42) * 0.18, -1),
-          end: Alignment(0.95 + math.cos(phase * 0.36) * 0.18, 1),
+          begin: Alignment(-0.95 + math.sin(phase) * 0.18, -1),
+          end: Alignment(0.95 + math.cos(phase) * 0.18, 1),
           colors: [
             Color.lerp(
               const Color(0xFF060716),
@@ -828,33 +907,38 @@ class _GlowPainter extends CustomPainter {
     final spots = [
       (
         Offset(
-          size.width * (0.18 + math.sin(phase * 0.72) * 0.18),
-          size.height * (0.2 + math.cos(phase * 0.58) * 0.12),
+          size.width * (0.2 + math.sin(phase) * 0.3),
+          size.height * (0.2 + math.cos(phase) * 0.2),
         ),
-        size.width * 0.56,
+        size.width * 0.64,
         const Color(0xFF7A5CFF),
       ),
       (
         Offset(
-          size.width * (0.84 + math.cos(phase * 0.64) * 0.14),
-          size.height * (0.18 + math.sin(phase * 0.76) * 0.16),
+          size.width * (0.82 + math.cos(phase + math.pi * 0.35) * 0.26),
+          size.height * (0.2 + math.sin(phase + math.pi * 0.35) * 0.24),
         ),
-        size.width * 0.46,
+        size.width * 0.56,
         const Color(0xFF12D6FF),
       ),
       (
         Offset(
-          size.width * (0.76 + math.sin(phase * 0.52) * 0.2),
-          size.height * (0.78 + math.cos(phase * 0.66) * 0.11),
+          size.width * (0.76 + math.sin(phase + math.pi * 0.9) * 0.28),
+          size.height * (0.78 + math.cos(phase + math.pi * 0.9) * 0.18),
         ),
-        size.width * 0.58,
+        size.width * 0.68,
         const Color(0xFF18FFB2),
       ),
     ];
 
     for (final spot in spots) {
       paint.shader = RadialGradient(
-        colors: [spot.$3.withValues(alpha: 0.28), spot.$3.withValues(alpha: 0)],
+        colors: [
+          spot.$3.withValues(alpha: 0.46),
+          spot.$3.withValues(alpha: 0.18),
+          spot.$3.withValues(alpha: 0),
+        ],
+        stops: const [0, 0.42, 1],
       ).createShader(Rect.fromCircle(center: spot.$1, radius: spot.$2));
       canvas.drawCircle(spot.$1, spot.$2, paint);
     }
@@ -863,7 +947,7 @@ class _GlowPainter extends CustomPainter {
       ..shader = null
       ..style = PaintingStyle.fill
       ..blendMode = BlendMode.srcOver
-      ..color = const Color(0xFF050611).withValues(alpha: 0.34);
+      ..color = const Color(0xFF050611).withValues(alpha: 0.26);
     canvas.drawRect(Offset.zero & size, paint);
   }
 
