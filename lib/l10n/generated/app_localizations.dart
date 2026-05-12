@@ -1428,6 +1428,18 @@ abstract class AppLocalizations {
   /// **'焦点通知'**
   String get focusNotificationLabel;
 
+  /// No description provided for @hideNotificationLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'隐藏通知'**
+  String get hideNotificationLabel;
+
+  /// No description provided for @hideNotificationLabelSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开启后仅显示超级岛，不显示通知栏焦点通知'**
+  String get hideNotificationLabelSubtitle;
+
   /// No description provided for @preserveStatusBarSmallIconLabel.
   ///
   /// In zh, this message translates to:
@@ -2609,6 +2621,24 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'确认模块权限状态'**
   String get onboardingEnvironmentSubtitle;
+
+  /// No description provided for @onboardingNotificationStyleTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择通知样式'**
+  String get onboardingNotificationStyleTitle;
+
+  /// No description provided for @onboardingNotificationStyleSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'选择你更喜欢的默认通知展示方式'**
+  String get onboardingNotificationStyleSubtitle;
+
+  /// No description provided for @onboardingOriginalNotificationLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'普通通知'**
+  String get onboardingOriginalNotificationLabel;
 
   /// No description provided for @onboardingFinishTitle.
   ///

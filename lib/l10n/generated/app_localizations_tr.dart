@@ -765,6 +765,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get focusNotificationLabel => 'Odak Bildirimini Kullan';
 
   @override
+  String get hideNotificationLabel => 'Bildirimi gizle';
+
+  @override
+  String get hideNotificationLabelSubtitle =>
+      'Açıldığında yalnızca ada gösterilir, bildirim gölgesindeki odak bildirimi gizlenir';
+
+  @override
   String get preserveStatusBarSmallIconLabel =>
       'Durum Çubuğu Küçük Simgesini Koru';
 
@@ -1399,6 +1406,16 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get onboardingEnvironmentSubtitle =>
       'Modül izin durumunu kontrol edin';
+
+  @override
+  String get onboardingNotificationStyleTitle => 'Bildirim Stilini Seç';
+
+  @override
+  String get onboardingNotificationStyleSubtitle =>
+      'Varsayılan bildirim görünümünü seçin';
+
+  @override
+  String get onboardingOriginalNotificationLabel => 'Orijinal bildirim';
 
   @override
   String get onboardingFinishTitle => 'Her Şey Hazır';

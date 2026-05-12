@@ -727,6 +727,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get focusNotificationLabel => '焦点通知';
 
   @override
+  String get hideNotificationLabel => '隐藏通知';
+
+  @override
+  String get hideNotificationLabelSubtitle => '开启后仅显示超级岛，不显示通知栏焦点通知';
+
+  @override
   String get preserveStatusBarSmallIconLabel => '状态栏图标';
 
   @override
@@ -1334,6 +1340,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get onboardingEnvironmentSubtitle => '确认模块权限状态';
+
+  @override
+  String get onboardingNotificationStyleTitle => '选择通知样式';
+
+  @override
+  String get onboardingNotificationStyleSubtitle => '选择你更喜欢的默认通知展示方式';
+
+  @override
+  String get onboardingOriginalNotificationLabel => '普通通知';
 
   @override
   String get onboardingFinishTitle => '一切就绪';

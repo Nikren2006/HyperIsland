@@ -761,6 +761,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get focusNotificationLabel => 'Focus notification';
 
   @override
+  String get hideNotificationLabel => 'Hide notification';
+
+  @override
+  String get hideNotificationLabelSubtitle =>
+      'Only show the island and hide the focus notification from the notification shade';
+
+  @override
   String get preserveStatusBarSmallIconLabel => 'Status bar icon';
 
   @override
@@ -1399,6 +1406,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingEnvironmentSubtitle => 'Check module permission status';
+
+  @override
+  String get onboardingNotificationStyleTitle => 'Choose Notification Style';
+
+  @override
+  String get onboardingNotificationStyleSubtitle =>
+      'Pick your preferred default notification display';
+
+  @override
+  String get onboardingOriginalNotificationLabel => 'Original notification';
 
   @override
   String get onboardingFinishTitle => 'All Set';

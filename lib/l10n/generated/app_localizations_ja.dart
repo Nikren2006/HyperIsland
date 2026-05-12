@@ -734,6 +734,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get focusNotificationLabel => 'フォーカス通知';
 
   @override
+  String get hideNotificationLabel => '通知を非表示';
+
+  @override
+  String get hideNotificationLabelSubtitle =>
+      'オンにするとアイランドのみ表示し、通知シェードのフォーカス通知を非表示にします';
+
+  @override
   String get preserveStatusBarSmallIconLabel => 'ステータスバーアイコン';
 
   @override
@@ -1349,6 +1356,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboardingEnvironmentSubtitle => 'モジュールの権限状態を確認します';
+
+  @override
+  String get onboardingNotificationStyleTitle => '通知スタイルを選択';
+
+  @override
+  String get onboardingNotificationStyleSubtitle => '既定の通知表示方法を選択します';
+
+  @override
+  String get onboardingOriginalNotificationLabel => '通常の通知';
 
   @override
   String get onboardingFinishTitle => '準備完了';
