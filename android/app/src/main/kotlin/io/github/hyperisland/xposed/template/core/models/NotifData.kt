@@ -24,6 +24,8 @@ data class NotifData(
     val iconMode: String = "auto",
     /** 焦点通知（island 块）: "default" / "off" */
     val focusNotif: String = "default",
+    /** 是否显示焦点通知通知栏字段: "on" / "off" */
+    val showNotification: String = "on",
     /** 是否保留状态栏左上角小图标: "default" / "on" / "off" */
     val preserveStatusBarSmallIcon: String = "default",
     /** 初次自动展开 islandFirstFloat: "default" / "on" / "off" */

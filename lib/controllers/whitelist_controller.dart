@@ -710,6 +710,11 @@ class WhitelistController extends ChangeNotifier {
           'focus':
               prefs.getString('pref_channel_focus_${packageName}_$id') ??
               kTriOptDefault,
+          'show_notification':
+              prefs.getString(
+                'pref_channel_show_notification_${packageName}_$id',
+              ) ??
+              kTriOptOn,
           'preserve_small_icon':
               prefs.getString(
                 'pref_channel_preserve_small_icon_${packageName}_$id',
@@ -782,27 +787,27 @@ class WhitelistController extends ChangeNotifier {
                 'pref_channel_out_effect_color_${packageName}_$id',
               ) ??
               '',
-'focus_custom':
-               prefs.getString('pref_channel_focus_custom_${packageName}_$id') ??
-               '',
-           'island_custom':
-               prefs.getString(
-                 'pref_channel_island_custom_${packageName}_$id',
-               ) ??
-               '',
-           'filter_mode':
-               prefs.getString('pref_channel_filter_mode_${packageName}_$id') ??
-               'blacklist',
-           'whitelist_keywords':
-               prefs.getString(
-                 'pref_channel_filter_whitelist_keywords_${packageName}_$id',
-               ) ??
-               '',
-           'blacklist_keywords':
-               prefs.getString(
-                 'pref_channel_filter_blacklist_keywords_${packageName}_$id',
-               ) ??
-               '',
+          'focus_custom':
+              prefs.getString('pref_channel_focus_custom_${packageName}_$id') ??
+              '',
+          'island_custom':
+              prefs.getString(
+                'pref_channel_island_custom_${packageName}_$id',
+              ) ??
+              '',
+          'filter_mode':
+              prefs.getString('pref_channel_filter_mode_${packageName}_$id') ??
+              'blacklist',
+          'whitelist_keywords':
+              prefs.getString(
+                'pref_channel_filter_whitelist_keywords_${packageName}_$id',
+              ) ??
+              '',
+          'blacklist_keywords':
+              prefs.getString(
+                'pref_channel_filter_blacklist_keywords_${packageName}_$id',
+              ) ??
+              '',
         }),
       ),
     );
@@ -905,6 +910,18 @@ class WhitelistController extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
       'pref_channel_preserve_small_icon_${packageName}_$channelId',
+      value,
+    );
+  }
+
+  Future<void> setChannelShowNotification(
+    String packageName,
+    String channelId,
+    String value,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      'pref_channel_show_notification_${packageName}_$channelId',
       value,
     );
   }
@@ -1166,7 +1183,8 @@ class WhitelistController extends ChangeNotifier {
     String value,
   ) async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_filter_whitelist_keywords_${packageName}_$channelId';
+    final key =
+        'pref_channel_filter_whitelist_keywords_${packageName}_$channelId';
     if (value.isEmpty) {
       await prefs.remove(key);
     } else {
@@ -1180,7 +1198,8 @@ class WhitelistController extends ChangeNotifier {
     String value,
   ) async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_filter_blacklist_keywords_${packageName}_$channelId';
+    final key =
+        'pref_channel_filter_blacklist_keywords_${packageName}_$channelId';
     if (value.isEmpty) {
       await prefs.remove(key);
     } else {
@@ -1202,6 +1221,7 @@ class WhitelistController extends ChangeNotifier {
       'renderer': 'pref_channel_renderer',
       'icon': 'pref_channel_icon',
       'focus': 'pref_channel_focus',
+      'show_notification': 'pref_channel_show_notification',
       'preserve_small_icon': 'pref_channel_preserve_small_icon',
       'show_island_icon': 'pref_channel_show_island_icon',
       'first_float': 'pref_channel_first_float',

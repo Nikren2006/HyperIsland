@@ -109,7 +109,7 @@ object NotificationIslandNotification : IslandTemplate {
 
         val focusIcon = (data.largeIcon ?: data.appIconRaw ?: data.notifIcon ?: fallbackIcon).toRounded(context)
 
-        val showNotification   = data.focusNotif != "off"
+        val showNotification   = data.focusNotif != "off" && data.showNotification != "off"
         val shouldPreserveIcon = showNotification && data.preserveStatusBarSmallIcon != "off"
 
         val baseVm = IslandViewModel(

@@ -282,7 +282,7 @@ $userPrompt
         val fallbackIcon     = Icon.createWithResource(context, android.R.drawable.ic_dialog_info)
         val islandIcon       = resolveIcon(data, data.iconMode,      fallbackIcon).toRounded(context)
         val focusIcon        = (data.largeIcon ?: data.appIconRaw ?: data.notifIcon ?: fallbackIcon).toRounded(context)
-        val showNotification = data.focusNotif != "off"
+        val showNotification = data.focusNotif != "off" && data.showNotification != "off"
 
         val baseVm = IslandViewModel(
             templateId        = TEMPLATE_ID,

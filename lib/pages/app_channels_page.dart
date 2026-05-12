@@ -33,49 +33,49 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
   static const String _importChannelsAction = 'import_channels';
 
   List<Widget> get _channelActions => [
-        if (!_loading && _channels != null && _channels!.isNotEmpty)
-          AppBarOverflowMenuButton(
-            onSelected: (value) {
-              switch (value) {
-                case _batchAction:
-                  _batchApply();
-                case _enableAllChannelsAction:
-                  _enableAllChannels();
-                case _exportChannelsAction:
-                  _exportChannelsToClipboard();
-                case _importChannelsAction:
-                  _importChannelsFromClipboard();
-              }
-            },
-            itemBuilder: (ctx) {
-              final ml = AppLocalizations.of(ctx)!;
-              return [
-                buildAppPopupMenuItem(
-                  value: _batchAction,
-                  icon: Icons.tune_rounded,
-                  label: ml.batchChannelSettings,
-                ),
-                const PopupMenuDivider(height: 8),
-                buildAppPopupMenuItem(
-                  value: _exportChannelsAction,
-                  icon: Icons.copy_rounded,
-                  label: ml.exportChannelsToClipboard,
-                ),
-                buildAppPopupMenuItem(
-                  value: _importChannelsAction,
-                  icon: Icons.paste_rounded,
-                  label: ml.importChannelsFromClipboard,
-                ),
-                const PopupMenuDivider(height: 8),
-                buildAppPopupMenuItem(
-                  value: _enableAllChannelsAction,
-                  icon: Icons.done_all_rounded,
-                  label: ml.enableAllChannels,
-                ),
-              ];
-            },
-          ),
-      ];
+    if (!_loading && _channels != null && _channels!.isNotEmpty)
+      AppBarOverflowMenuButton(
+        onSelected: (value) {
+          switch (value) {
+            case _batchAction:
+              _batchApply();
+            case _enableAllChannelsAction:
+              _enableAllChannels();
+            case _exportChannelsAction:
+              _exportChannelsToClipboard();
+            case _importChannelsAction:
+              _importChannelsFromClipboard();
+          }
+        },
+        itemBuilder: (ctx) {
+          final ml = AppLocalizations.of(ctx)!;
+          return [
+            buildAppPopupMenuItem(
+              value: _batchAction,
+              icon: Icons.tune_rounded,
+              label: ml.batchChannelSettings,
+            ),
+            const PopupMenuDivider(height: 8),
+            buildAppPopupMenuItem(
+              value: _exportChannelsAction,
+              icon: Icons.copy_rounded,
+              label: ml.exportChannelsToClipboard,
+            ),
+            buildAppPopupMenuItem(
+              value: _importChannelsAction,
+              icon: Icons.paste_rounded,
+              label: ml.importChannelsFromClipboard,
+            ),
+            const PopupMenuDivider(height: 8),
+            buildAppPopupMenuItem(
+              value: _enableAllChannelsAction,
+              icon: Icons.done_all_rounded,
+              label: ml.enableAllChannels,
+            ),
+          ];
+        },
+      ),
+  ];
 
   List<ChannelInfo>? _channels;
   Set<String> _enabledChannels = {};
@@ -244,6 +244,10 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
     queueExtra('icon', widget.controller.setChannelIconMode);
     queueExtra('focus', widget.controller.setChannelFocusNotif);
     queueExtra(
+      'show_notification',
+      widget.controller.setChannelShowNotification,
+    );
+    queueExtra(
       'preserve_small_icon',
       widget.controller.setChannelPreserveSmallIcon,
     );
@@ -403,9 +407,9 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
     );
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.exportChannelsSuccess)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.exportChannelsSuccess)));
   }
 
   Future<void> _importChannelsFromClipboard() async {
@@ -413,9 +417,9 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
     final data = await Clipboard.getData(Clipboard.kTextPlain);
     if (data?.text == null || data!.text!.isEmpty) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.importErrorEmptyClipboard)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.importErrorEmptyClipboard)));
       return;
     }
 
@@ -457,20 +461,18 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
           final settingsMap = settings.map(
             (k, v) => MapEntry(k, v?.toString()),
           );
-          await widget.controller.batchApplyChannelSettings(
-            pkg,
-            [id],
-            settingsMap,
-          );
+          await widget.controller.batchApplyChannelSettings(pkg, [
+            id,
+          ], settingsMap);
         }
         appliedCount++;
       }
 
       if (appliedCount == 0) {
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.importErrorNoMatch)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.importErrorNoMatch)));
         return;
       }
 
@@ -499,14 +501,12 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
       final msg = e.message == 'not_json'
           ? l10n.importErrorNotJson
           : l10n.importErrorMissingChannels;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(msg)),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.importErrorUnknown)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.importErrorUnknown)));
     }
   }
 
@@ -564,7 +564,6 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
           ),
         ],
         slivers: [
-
           if (!_appEnabled)
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
@@ -672,6 +671,8 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                       isLast: isLast,
                       iconMode: extras['icon'] ?? kIconModeAuto,
                       focusNotif: extras['focus'] ?? kTriOptDefault,
+                      showNotification:
+                          extras['show_notification'] ?? kTriOptOn,
                       preserveSmallIcon:
                           extras['preserve_small_icon'] ?? kTriOptDefault,
                       showIslandIcon:
@@ -702,8 +703,14 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                       focusCustom: extras['focus_custom'] ?? '',
                       islandCustom: extras['island_custom'] ?? '',
                       filterMode: extras['filter_mode'] ?? 'blacklist',
-                      whitelistKeywords: (extras['whitelist_keywords'] ?? '').isEmpty ? [] : (extras['whitelist_keywords'] ?? '').split(','),
-                      blacklistKeywords: (extras['blacklist_keywords'] ?? '').isEmpty ? [] : (extras['blacklist_keywords'] ?? '').split(','),
+                      whitelistKeywords:
+                          (extras['whitelist_keywords'] ?? '').isEmpty
+                          ? []
+                          : (extras['whitelist_keywords'] ?? '').split(','),
+                      blacklistKeywords:
+                          (extras['blacklist_keywords'] ?? '').isEmpty
+                          ? []
+                          : (extras['blacklist_keywords'] ?? '').split(','),
                       controller: widget.controller,
                       onToggle: (v) => _toggle(ch.id, v),
                       onSettingsApplied: (s) => _applyChannelSettings(ch.id, s),
@@ -805,6 +812,7 @@ class _ChannelTile extends StatelessWidget {
     required this.isLast,
     required this.iconMode,
     required this.focusNotif,
+    required this.showNotification,
     required this.preserveSmallIcon,
     required this.showIslandIcon,
     required this.firstFloat,
@@ -844,6 +852,7 @@ class _ChannelTile extends StatelessWidget {
   final bool isLast;
   final String iconMode;
   final String focusNotif;
+  final String showNotification;
   final String preserveSmallIcon;
   final String showIslandIcon;
   final String firstFloat;
@@ -879,6 +888,7 @@ class _ChannelTile extends StatelessWidget {
         renderer: renderer,
         iconMode: iconMode,
         focusNotif: focusNotif,
+        showNotification: showNotification,
         preserveSmallIcon: preserveSmallIcon,
         showIslandIcon: showIslandIcon,
         firstFloat: firstFloat,

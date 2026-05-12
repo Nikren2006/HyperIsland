@@ -22,6 +22,7 @@ class SingleChannelMode extends ChannelSettingsMode {
     required this.renderer,
     required this.iconMode,
     required this.focusNotif,
+    required this.showNotification,
     required this.preserveSmallIcon,
     required this.showIslandIcon,
     required this.firstFloat,
@@ -51,6 +52,7 @@ class SingleChannelMode extends ChannelSettingsMode {
   final String renderer;
   final String iconMode;
   final String focusNotif;
+  final String showNotification;
   final String preserveSmallIcon;
   final String showIslandIcon;
   final String firstFloat;
@@ -184,6 +186,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
   String? _renderer;
   String? _iconMode;
   String? _focusNotif;
+  String? _showNotification;
   String? _preserveSmallIcon;
   String? _showIslandIcon;
   String? _firstFloat;
@@ -208,7 +211,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
   List<String> _whitelistKeywords = [];
   List<String> _blacklistKeywords = [];
 
-  String get effectiveFilterMode => _filterMode ?? (_isSingle ? 'blacklist' : 'blacklist');
+  String get effectiveFilterMode =>
+      _filterMode ?? (_isSingle ? 'blacklist' : 'blacklist');
 
   Map<String, dynamic>? _focusSchema;
   Map<String, dynamic>? _islandSchema;
@@ -269,6 +273,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
       _renderer = m.renderer;
       _iconMode = m.iconMode;
       _focusNotif = m.focusNotif;
+      _showNotification = m.showNotification;
       _preserveSmallIcon = m.preserveSmallIcon;
       _showIslandIcon = m.showIslandIcon;
       _firstFloat = m.firstFloat;
@@ -821,6 +826,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
       _renderer != null ||
       _iconMode != null ||
       _focusNotif != null ||
+      _showNotification != null ||
       _preserveSmallIcon != null ||
       _showIslandIcon != null ||
       _firstFloat != null ||
@@ -869,6 +875,9 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
           'renderer': _renderer,
           'icon': _iconMode,
           'focus': _focusNotif,
+          'show_notification': _focusNotif == kTriOptOff
+              ? kTriOptOn
+              : _showNotification,
           'preserve_small_icon': _focusNotif == kTriOptOff
               ? kTriOptOff
               : _preserveSmallIcon,
@@ -909,8 +918,16 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
           'focus_custom': _focusCustom,
           'island_custom': _islandCustom,
           'filter_mode': _isSingle ? (_filterMode ?? 'blacklist') : _filterMode,
-          'whitelist_keywords': _isSingle ? _whitelistKeywords.join(',') : (_whitelistKeywords.isNotEmpty ? _whitelistKeywords.join(',') : null),
-          'blacklist_keywords': _isSingle ? _blacklistKeywords.join(',') : (_blacklistKeywords.isNotEmpty ? _blacklistKeywords.join(',') : null),
+          'whitelist_keywords': _isSingle
+              ? _whitelistKeywords.join(',')
+              : (_whitelistKeywords.isNotEmpty
+                    ? _whitelistKeywords.join(',')
+                    : null),
+          'blacklist_keywords': _isSingle
+              ? _blacklistKeywords.join(',')
+              : (_blacklistKeywords.isNotEmpty
+                    ? _blacklistKeywords.join(',')
+                    : null),
         },
         onlyEnabled: switch (widget.mode) {
           BatchChannelMode(scope: SingleAppScope()) => _onlyEnabled,
@@ -936,6 +953,9 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
     final hasHighlightColor =
         _dynamicHighlightEnabled ||
         (_highlightColor?.trim().isNotEmpty ?? false);
+    final focusNotificationEnabled =
+        _focusNotif == kTriOptOn ||
+        (_focusNotif == kTriOptDefault && _ctrl.defaultFocusNotif);
 
     return _KeyboardInsetPadding(
       child: Column(
@@ -1054,7 +1074,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                     title: l10n.islandSection,
                     icon: Icons.smart_display_rounded,
                     expanded: _islandExpanded,
-                    onToggle: () => setState(() => _islandExpanded = !_islandExpanded),
+                    onToggle: () =>
+                        setState(() => _islandExpanded = !_islandExpanded),
                     children: [
                       SizedBox(height: sectionTitleGap),
                       _BatchSettingRow(
@@ -1090,7 +1111,10 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                           DropdownMenuItem(
                             value: kTriOptDefault,
                             child: Text(
-                              _defaultLabel(context, _ctrl.defaultShowIslandIcon),
+                              _defaultLabel(
+                                context,
+                                _ctrl.defaultShowIslandIcon,
+                              ),
                             ),
                           ),
                           DropdownMenuItem(
@@ -1184,7 +1208,9 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                           onTapOutside: (_) {
                             FocusManager.instance.primaryFocus?.unfocus();
                           },
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           decoration: _fieldDecoration(
                             context,
                             hintText: _isSingle ? null : l10n.noChange,
@@ -1195,7 +1221,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                           onChanged: (v) {
                             final trimmed = v.trim();
                             final n = int.tryParse(trimmed);
-                            final valid = trimmed.isNotEmpty && n != null && n >= 1;
+                            final valid =
+                                trimmed.isNotEmpty && n != null && n >= 1;
                             setState(() {
                               if (valid) {
                                 _islandTimeout = trimmed;
@@ -1356,7 +1383,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                                 value: _showLeftHighlight,
                                 showNotChange: !_isSingle,
                                 onChanged: hasHighlightColor
-                                    ? (v) => setState(() => _showLeftHighlight = v)
+                                    ? (v) =>
+                                          setState(() => _showLeftHighlight = v)
                                     : null,
                               ),
                             ),
@@ -1367,7 +1395,9 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                                 value: _showRightHighlight,
                                 showNotChange: !_isSingle,
                                 onChanged: hasHighlightColor
-                                    ? (v) => setState(() => _showRightHighlight = v)
+                                    ? (v) => setState(
+                                        () => _showRightHighlight = v,
+                                      )
                                     : null,
                               ),
                             ),
@@ -1410,7 +1440,9 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                       title: l10n.islandExpressionCustomizationSection,
                       icon: Icons.code_rounded,
                       expanded: _islandCustomExpanded,
-                      onToggle: () => setState(() => _islandCustomExpanded = !_islandCustomExpanded),
+                      onToggle: () => setState(
+                        () => _islandCustomExpanded = !_islandCustomExpanded,
+                      ),
                       children: [
                         SizedBox(height: sectionTitleGap),
                         if (_loadingIslandSchema)
@@ -1428,7 +1460,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                     title: l10n.focusNotificationLabel,
                     icon: Icons.notifications_rounded,
                     expanded: _focusExpanded,
-                    onToggle: () => setState(() => _focusExpanded = !_focusExpanded),
+                    onToggle: () =>
+                        setState(() => _focusExpanded = !_focusExpanded),
                     children: [
                       SizedBox(height: sectionTitleGap),
                       _BatchSettingRow(
@@ -1453,10 +1486,38 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                         ],
                         onChanged: (v) => setState(() {
                           _focusNotif = v;
-                          if (v == kTriOptOff) _preserveSmallIcon = kTriOptOff;
+                          if (v == kTriOptOff) {
+                            _showNotification = kTriOptOn;
+                            _preserveSmallIcon = kTriOptOff;
+                          }
                         }),
                       ),
                       SizedBox(height: rowGap),
+                      if (focusNotificationEnabled) ...[
+                        _BatchSettingRow(
+                          label: l10n.hideNotificationLabel,
+                          value: _showNotification == kTriOptOff
+                              ? kTriOptOn
+                              : kTriOptOff,
+                          showNotChange: false,
+                          items: [
+                            DropdownMenuItem(
+                              value: kTriOptOn,
+                              child: Text(l10n.optOn),
+                            ),
+                            DropdownMenuItem(
+                              value: kTriOptOff,
+                              child: Text(l10n.optOff),
+                            ),
+                          ],
+                          onChanged: (v) => setState(() {
+                            _showNotification = v == kTriOptOn
+                                ? kTriOptOff
+                                : kTriOptOn;
+                          }),
+                        ),
+                        SizedBox(height: rowGap),
+                      ],
                       _BatchSettingRow(
                         label: l10n.preserveStatusBarSmallIconLabel,
                         value: _focusNotif == kTriOptOff
@@ -1510,7 +1571,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                             child: Text(l10n.optOff),
                           ),
                         ],
-                        onChanged: (v) => setState(() => _restoreLockscreen = v),
+                        onChanged: (v) =>
+                            setState(() => _restoreLockscreen = v),
                       ),
                       SizedBox(height: rowGap),
                       _BatchSettingRow(
@@ -1547,7 +1609,9 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                           onChanged: (v) {
                             final trimmed = v.trim();
                             setState(() {
-                              _outEffectColor = trimmed.isNotEmpty ? trimmed : null;
+                              _outEffectColor = trimmed.isNotEmpty
+                                  ? trimmed
+                                  : null;
                             });
                           },
                           onClear: () {
@@ -1578,7 +1642,9 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                       title: l10n.focusExpressionCustomizationSection,
                       icon: Icons.data_object_rounded,
                       expanded: _focusCustomExpanded,
-                      onToggle: () => setState(() => _focusCustomExpanded = !_focusCustomExpanded),
+                      onToggle: () => setState(
+                        () => _focusCustomExpanded = !_focusCustomExpanded,
+                      ),
                       children: [
                         SizedBox(height: sectionTitleGap),
                         if (_loadingFocusSchema)
@@ -1596,7 +1662,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                     title: l10n.filterRulesSection,
                     icon: Icons.filter_list_rounded,
                     expanded: _filterExpanded,
-                    onToggle: () => setState(() => _filterExpanded = !_filterExpanded),
+                    onToggle: () =>
+                        setState(() => _filterExpanded = !_filterExpanded),
                     children: [
                       SizedBox(height: sectionTitleGap),
                       _BatchSettingRow(
@@ -1620,8 +1687,15 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                         label: l10n.whitelistKeywordsLabel,
                         keywords: _whitelistKeywords,
                         enabled: effectiveFilterMode == 'whitelist',
-                        onAdd: (kw) => setState(() => _whitelistKeywords = [..._whitelistKeywords, kw]),
-                        onRemove: (kw) => setState(() => _whitelistKeywords = _whitelistKeywords.where((k) => k != kw).toList()),
+                        onAdd: (kw) => setState(
+                          () =>
+                              _whitelistKeywords = [..._whitelistKeywords, kw],
+                        ),
+                        onRemove: (kw) => setState(
+                          () => _whitelistKeywords = _whitelistKeywords
+                              .where((k) => k != kw)
+                              .toList(),
+                        ),
                         hintText: l10n.addKeyword,
                       ),
                       SizedBox(height: rowGap),
@@ -1629,8 +1703,15 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                         label: l10n.blacklistKeywordsLabel,
                         keywords: _blacklistKeywords,
                         enabled: true,
-                        onAdd: (kw) => setState(() => _blacklistKeywords = [..._blacklistKeywords, kw]),
-                        onRemove: (kw) => setState(() => _blacklistKeywords = _blacklistKeywords.where((k) => k != kw).toList()),
+                        onAdd: (kw) => setState(
+                          () =>
+                              _blacklistKeywords = [..._blacklistKeywords, kw],
+                        ),
+                        onRemove: (kw) => setState(
+                          () => _blacklistKeywords = _blacklistKeywords
+                              .where((k) => k != kw)
+                              .toList(),
+                        ),
                         hintText: l10n.addKeyword,
                       ),
                       SizedBox(height: rowGap),
@@ -1639,9 +1720,12 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                           padding: const EdgeInsets.only(top: 4),
                           child: Text(
                             l10n.keywordFilterPriority,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
                           ),
                         ),
                     ],
@@ -1810,7 +1894,9 @@ class _ExpandableSectionState extends State<_ExpandableSection>
             child: InkWell(
               borderRadius: BorderRadius.vertical(
                 top: const Radius.circular(16),
-                bottom: widget.expanded ? Radius.zero : const Radius.circular(16),
+                bottom: widget.expanded
+                    ? Radius.zero
+                    : const Radius.circular(16),
               ),
               onTap: widget.onToggle,
               child: Padding(
@@ -2049,7 +2135,7 @@ class _KeywordListEditorState extends State<_KeywordListEditor> {
     super.dispose();
   }
 
-void _addKeyword() {
+  void _addKeyword() {
     if (!widget.enabled) return;
     final kw = _addController.text.trim();
     if (kw.isEmpty) return;
@@ -2086,7 +2172,7 @@ void _addKeyword() {
                   ),
                 ),
                 const SizedBox(width: 8),
-IconButton(
+                IconButton(
                   onPressed: enabled ? _addKeyword : null,
                   icon: const Icon(Icons.add_rounded),
                   style: IconButton.styleFrom(

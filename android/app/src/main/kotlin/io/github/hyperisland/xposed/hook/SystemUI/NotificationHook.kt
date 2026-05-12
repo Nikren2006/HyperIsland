@@ -311,6 +311,11 @@ object GenericProgressHook : BaseHook() {
                 loadChannelStringSetting("focus:$pkg/$channelId", "pref_channel_focus_${pkg}_$channelId", "default"),
                 defaultFocusNotif
             )
+            val showNotification = loadChannelStringSetting(
+                "show_notification:$pkg/$channelId",
+                "pref_channel_show_notification_${pkg}_$channelId",
+                "on",
+            )
             val preserveStatusBarSmallIcon = resolveTriOpt(
                 loadChannelStringSetting("preserve_small_icon:$pkg/$channelId", "pref_channel_preserve_small_icon_${pkg}_$channelId", "default"),
                 defaultPreserveSmallIcon
@@ -437,6 +442,7 @@ object GenericProgressHook : BaseHook() {
                     appIconRaw      = appIconRaw,
                     iconMode        = iconMode,
                     focusNotif      = focusNotif,
+                    showNotification = showNotification,
                     preserveStatusBarSmallIcon = preserveStatusBarSmallIcon,
                     showIslandIcon  = showIslandIcon,
                     firstFloat      = effectiveFirstFloat,
