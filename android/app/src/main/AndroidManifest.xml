@@ -23,7 +23,7 @@
         android:name=".XposedPrefsSyncApp"
         android:description="@string/module_description"
         android:extractNativeLibs="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -52,7 +52,7 @@
             android:enabled="true"
             android:exported="true"
             android:label="HyperIsland"
-            android:icon="@mipmap/ic_launcher">
+            android:icon="@drawable/ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
