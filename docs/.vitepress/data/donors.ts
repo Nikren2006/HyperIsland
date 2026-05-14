@@ -100,7 +100,7 @@ export const donors: DonorItem[] = [
     name: '匿名',
     amount: '5',
     date: '2026-05-14',
-    message: '好用'
+    message: '支持创作~'
   },
   {
     name: '火车站',
