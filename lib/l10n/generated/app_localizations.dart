@@ -1524,6 +1524,24 @@ abstract class AppLocalizations {
   /// **'外圈光效'**
   String get outerGlowLabel;
 
+  /// No description provided for @forceOuterGlowLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'全局启用'**
+  String get forceOuterGlowLabel;
+
+  /// No description provided for @forceFocusOuterGlowSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开启后未匹配到的焦点通知强制启用光效'**
+  String get forceFocusOuterGlowSubtitle;
+
+  /// No description provided for @forceIslandOuterGlowSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开启后未匹配到的岛强制启用光效'**
+  String get forceIslandOuterGlowSubtitle;
+
   /// No description provided for @outEffectColorLabel.
   ///
   /// In zh, this message translates to:
@@ -2352,6 +2370,12 @@ abstract class AppLocalizations {
   /// **'导入成功，共 {count} 个渠道设置已恢复'**
   String importChannelsSuccess(int count);
 
+  /// No description provided for @importChannelsPartialSuffix.
+  ///
+  /// In zh, this message translates to:
+  /// **'（共 {total} 个，已匹配 {matched} 个）'**
+  String importChannelsPartialSuffix(int total, int matched);
+
   /// No description provided for @importChannelsFailed.
   ///
   /// In zh, this message translates to:
@@ -2387,6 +2411,42 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'导入失败，请检查剪贴板数据是否正确'**
   String get importErrorUnknown;
+
+  /// No description provided for @mediaNotificationTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'媒体通知'**
+  String get mediaNotificationTitle;
+
+  /// No description provided for @mediaNotificationDisabledSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'关闭后直接删除整条媒体通知'**
+  String get mediaNotificationDisabledSubtitle;
+
+  /// No description provided for @normalNotificationTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'普通通知'**
+  String get normalNotificationTitle;
+
+  /// No description provided for @normalNotificationSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开启后移除媒体字段，按普通通知处理'**
+  String get normalNotificationSubtitle;
+
+  /// No description provided for @channelSettingsUnmodified.
+  ///
+  /// In zh, this message translates to:
+  /// **'未修改'**
+  String get channelSettingsUnmodified;
+
+  /// No description provided for @restoreDefault.
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复默认'**
+  String get restoreDefault;
 
   /// No description provided for @islandDimenSection.
   ///

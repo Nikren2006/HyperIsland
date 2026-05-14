@@ -812,6 +812,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get outerGlowLabel => 'Outer glow';
 
   @override
+  String get forceOuterGlowLabel => 'Force globally';
+
+  @override
+  String get forceFocusOuterGlowSubtitle =>
+      'Force glow for unmatched focus notifications when enabled';
+
+  @override
+  String get forceIslandOuterGlowSubtitle =>
+      'Force glow for unmatched islands when enabled';
+
+  @override
   String get outEffectColorLabel => 'Outer glow color';
 
   @override
@@ -1261,6 +1272,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String importChannelsPartialSuffix(int total, int matched) {
+    return ' ($matched of $total matched)';
+  }
+
+  @override
   String importChannelsFailed(String error) {
     return 'Import failed: $error';
   }
@@ -1282,6 +1298,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importErrorUnknown => 'Import failed. Please check clipboard data';
+
+  @override
+  String get mediaNotificationTitle => 'Media notification';
+
+  @override
+  String get mediaNotificationDisabledSubtitle =>
+      'Delete the entire media notification when disabled';
+
+  @override
+  String get normalNotificationTitle => 'Normal notification';
+
+  @override
+  String get normalNotificationSubtitle =>
+      'Remove media fields and handle it as a normal notification when enabled';
+
+  @override
+  String get channelSettingsUnmodified => 'Not modified';
+
+  @override
+  String get restoreDefault => 'Restore default';
 
   @override
   String get islandDimenSection => 'Island Dimensions';

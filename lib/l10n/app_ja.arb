@@ -231,6 +231,9 @@
   "dynamicHighlightModeDark": "暗め",
   "dynamicHighlightModeDarker": "さらに暗め",
   "outerGlowLabel": "外側グロー",
+  "forceOuterGlowLabel": "グローバルで強制",
+  "forceFocusOuterGlowSubtitle": "有効にすると未一致のフォーカス通知でグローを強制的に有効にします",
+  "forceIslandOuterGlowSubtitle": "有効にすると未一致の島でグローを強制的に有効にします",
   "outEffectColorLabel": "外側グロー色",
   "highlightColorHint": "#RRGGBB 形式、空白でデフォルト",
   "actionBgColorLabel": "ボタン背景色",
@@ -465,5 +468,22 @@
   "presetColors": "プリセットカラー",
   "themeResetColor": "デフォルトに戻す",
   "blurBarsTitle": "すりガラス効果",
-  "blurBarsSubtitle": "トップバーとボトムバーにぼかし透明効果を追加"
+  "blurBarsSubtitle": "トップバーとボトムバーにぼかし透明効果を追加",
+  "importChannelsPartialSuffix": "（全 {total} 件中、{matched} 件一致）",
+  "@importChannelsPartialSuffix": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "matched": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaNotificationTitle": "メディア通知",
+  "mediaNotificationDisabledSubtitle": "オフにするとメディア通知全体を直接削除します",
+  "normalNotificationTitle": "通常通知",
+  "normalNotificationSubtitle": "オンにするとメディア項目を削除し、通常通知として処理します",
+  "channelSettingsUnmodified": "未変更",
+  "restoreDefault": "デフォルトに戻す"
 }

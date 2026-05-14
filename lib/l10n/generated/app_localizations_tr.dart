@@ -817,6 +817,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get outerGlowLabel => 'Dış parlama';
 
   @override
+  String get forceOuterGlowLabel => 'Genel olarak zorla';
+
+  @override
+  String get forceFocusOuterGlowSubtitle =>
+      'Etkinleştirildiğinde eşleşmeyen odak bildirimlerinde parlamayı zorla etkinleştir';
+
+  @override
+  String get forceIslandOuterGlowSubtitle =>
+      'Etkinleştirildiğinde eşleşmeyen adalarda parlamayı zorla etkinleştir';
+
+  @override
   String get outEffectColorLabel => 'Dış parlama rengi';
 
   @override
@@ -1263,6 +1274,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String importChannelsPartialSuffix(int total, int matched) {
+    return ' (toplam $total, eşleşen $matched)';
+  }
+
+  @override
   String importChannelsFailed(String error) {
     return '导入失败：$error';
   }
@@ -1281,6 +1297,26 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get importErrorUnknown => '导入失败，请检查剪贴板数据是否正确';
+
+  @override
+  String get mediaNotificationTitle => 'Medya bildirimi';
+
+  @override
+  String get mediaNotificationDisabledSubtitle =>
+      'Devre dışı bırakıldığında medya bildiriminin tamamını doğrudan sil';
+
+  @override
+  String get normalNotificationTitle => 'Normal bildirim';
+
+  @override
+  String get normalNotificationSubtitle =>
+      'Etkinleştirildiğinde medya alanlarını kaldırıp normal bildirim olarak işle';
+
+  @override
+  String get channelSettingsUnmodified => 'Değiştirilmedi';
+
+  @override
+  String get restoreDefault => 'Varsayılanı geri yükle';
 
   @override
   String get islandDimenSection => 'Ada Boyutları';

@@ -775,6 +775,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get outerGlowLabel => '外圈光效';
 
   @override
+  String get forceOuterGlowLabel => '全局启用';
+
+  @override
+  String get forceFocusOuterGlowSubtitle => '开启后未匹配到的焦点通知强制启用光效';
+
+  @override
+  String get forceIslandOuterGlowSubtitle => '开启后未匹配到的岛强制启用光效';
+
+  @override
   String get outEffectColorLabel => '外圈光效颜色';
 
   @override
@@ -1203,6 +1212,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String importChannelsPartialSuffix(int total, int matched) {
+    return '（共 $total 个，已匹配 $matched 个）';
+  }
+
+  @override
   String importChannelsFailed(String error) {
     return '导入失败：$error';
   }
@@ -1221,6 +1235,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get importErrorUnknown => '导入失败，请检查剪贴板数据是否正确';
+
+  @override
+  String get mediaNotificationTitle => '媒体通知';
+
+  @override
+  String get mediaNotificationDisabledSubtitle => '关闭后直接删除整条媒体通知';
+
+  @override
+  String get normalNotificationTitle => '普通通知';
+
+  @override
+  String get normalNotificationSubtitle => '开启后移除媒体字段，按普通通知处理';
+
+  @override
+  String get channelSettingsUnmodified => '未修改';
+
+  @override
+  String get restoreDefault => '恢复默认';
 
   @override
   String get islandDimenSection => '岛尺寸设置';

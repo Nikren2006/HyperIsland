@@ -317,6 +317,9 @@
   "dynamicHighlightModeDark": "Koyu",
   "dynamicHighlightModeDarker": "Daha koyu",
   "outerGlowLabel": "Dış parlama",
+  "forceOuterGlowLabel": "Genel olarak zorla",
+  "forceFocusOuterGlowSubtitle": "Etkinleştirildiğinde eşleşmeyen odak bildirimlerinde parlamayı zorla etkinleştir",
+  "forceIslandOuterGlowSubtitle": "Etkinleştirildiğinde eşleşmeyen adalarda parlamayı zorla etkinleştir",
   "outEffectColorLabel": "Dış parlama rengi",
   "highlightColorHint": "#RRGGBB formatı, varsayılan için boş bırakın",
   "actionBgColorLabel": "Düğme arka plan rengi",
@@ -573,5 +576,22 @@
   "presetColors": "Hazır Renkler",
   "themeResetColor": "Varsayılana Sıfırla",
   "blurBarsTitle": "Buzlu Cam Efekti",
-  "blurBarsSubtitle": "Üst ve alt çubuklara bulanıklık şeffaflık efekti ekle"
+  "blurBarsSubtitle": "Üst ve alt çubuklara bulanıklık şeffaflık efekti ekle",
+  "importChannelsPartialSuffix": " (toplam {total}, eşleşen {matched})",
+  "@importChannelsPartialSuffix": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "matched": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaNotificationTitle": "Medya bildirimi",
+  "mediaNotificationDisabledSubtitle": "Devre dışı bırakıldığında medya bildiriminin tamamını doğrudan sil",
+  "normalNotificationTitle": "Normal bildirim",
+  "normalNotificationSubtitle": "Etkinleştirildiğinde medya alanlarını kaldırıp normal bildirim olarak işle",
+  "channelSettingsUnmodified": "Değiştirilmedi",
+  "restoreDefault": "Varsayılanı geri yükle"
 }

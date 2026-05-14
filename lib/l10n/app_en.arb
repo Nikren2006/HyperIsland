@@ -285,6 +285,9 @@
   "dynamicHighlightModeDark": "Dark",
   "dynamicHighlightModeDarker": "Darker",
   "outerGlowLabel": "Outer glow",
+  "forceOuterGlowLabel": "Force globally",
+  "forceFocusOuterGlowSubtitle": "Force glow for unmatched focus notifications when enabled",
+  "forceIslandOuterGlowSubtitle": "Force glow for unmatched islands when enabled",
   "outEffectColorLabel": "Outer glow color",
   "highlightColorHint": "#RRGGBB format, leave empty for default",
   "actionBgColorLabel": "Action background color",
@@ -453,6 +456,17 @@
       }
     }
   },
+  "importChannelsPartialSuffix": " ({matched} of {total} matched)",
+  "@importChannelsPartialSuffix": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "matched": {
+        "type": "int"
+      }
+    }
+  },
   "importChannelsFailed": "Import failed: {error}",
   "@importChannelsFailed": {
     "placeholders": {
@@ -467,6 +481,13 @@
   "importErrorMissingChannels": "Invalid data format: missing channel list",
   "importErrorNoMatch": "No channels matched the current app. Please verify the data source",
   "importErrorUnknown": "Import failed. Please check clipboard data",
+
+  "mediaNotificationTitle": "Media notification",
+  "mediaNotificationDisabledSubtitle": "Delete the entire media notification when disabled",
+  "normalNotificationTitle": "Normal notification",
+  "normalNotificationSubtitle": "Remove media fields and handle it as a normal notification when enabled",
+  "channelSettingsUnmodified": "Not modified",
+  "restoreDefault": "Restore default",
 
   "islandDimenSection": "Island Dimensions",
   "islandDimenHeight": "Island Height",

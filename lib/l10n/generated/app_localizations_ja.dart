@@ -784,6 +784,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get outerGlowLabel => '外側グロー';
 
   @override
+  String get forceOuterGlowLabel => 'グローバルで強制';
+
+  @override
+  String get forceFocusOuterGlowSubtitle => '有効にすると未一致のフォーカス通知でグローを強制的に有効にします';
+
+  @override
+  String get forceIslandOuterGlowSubtitle => '有効にすると未一致の島でグローを強制的に有効にします';
+
+  @override
   String get outEffectColorLabel => '外側グロー色';
 
   @override
@@ -1218,6 +1227,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String importChannelsPartialSuffix(int total, int matched) {
+    return '（全 $total 件中、$matched 件一致）';
+  }
+
+  @override
   String importChannelsFailed(String error) {
     return '导入失败：$error';
   }
@@ -1236,6 +1250,24 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get importErrorUnknown => '导入失败，请检查剪贴板数据是否正确';
+
+  @override
+  String get mediaNotificationTitle => 'メディア通知';
+
+  @override
+  String get mediaNotificationDisabledSubtitle => 'オフにするとメディア通知全体を直接削除します';
+
+  @override
+  String get normalNotificationTitle => '通常通知';
+
+  @override
+  String get normalNotificationSubtitle => 'オンにするとメディア項目を削除し、通常通知として処理します';
+
+  @override
+  String get channelSettingsUnmodified => '未変更';
+
+  @override
+  String get restoreDefault => 'デフォルトに戻す';
 
   @override
   String get islandDimenSection => 'アイランドサイズ設定';

@@ -30,6 +30,8 @@ const kPrefDefaultDynamicHighlightColor =
     'pref_default_dynamic_highlight_color';
 const kPrefDefaultOuterGlow = 'pref_default_outer_glow';
 const kPrefDefaultIslandOuterGlow = 'pref_default_island_outer_glow';
+const kPrefDefaultForceOuterGlow = 'pref_default_force_outer_glow';
+const kPrefDefaultForceIslandOuterGlow = 'pref_default_force_island_outer_glow';
 const kPrefDefaultOutEffectColor = 'pref_default_out_effect_color';
 const kPrefDefaultIslandOuterGlowColor = 'pref_default_island_outer_glow_color';
 const kPrefDefaultRestoreLockscreen = 'pref_default_restore_lockscreen';
@@ -141,6 +143,8 @@ class SettingsController extends ChangeNotifier {
   bool defaultDynamicHighlightColor = false;
   String defaultOuterGlow = kTriOptOff;
   String defaultIslandOuterGlow = kTriOptOff;
+  bool defaultForceOuterGlow = false;
+  bool defaultForceIslandOuterGlow = false;
   bool hideDesktopIcon = false;
   bool defaultRestoreLockscreen = false;
   bool defaultPreserveSmallIcon = false;
@@ -214,6 +218,9 @@ class SettingsController extends ChangeNotifier {
       modeKey: kPrefDefaultIslandOuterGlow,
       legacyBoolKey: kPrefDefaultIslandOuterGlow,
     );
+    defaultForceOuterGlow = prefs.getBool(kPrefDefaultForceOuterGlow) ?? false;
+    defaultForceIslandOuterGlow =
+        prefs.getBool(kPrefDefaultForceIslandOuterGlow) ?? false;
     hideDesktopIcon = prefs.getBool(kPrefHideDesktopIcon) ?? false;
     defaultShowIslandIcon = prefs.getBool(kPrefDefaultShowIslandIcon) ?? true;
     defaultRestoreLockscreen =
@@ -458,6 +465,22 @@ class SettingsController extends ChangeNotifier {
     final prefs = await _getPrefs();
     await prefs.setString(kPrefDefaultIslandOuterGlow, value);
     defaultIslandOuterGlow = value;
+    notifyListeners();
+  }
+
+  Future<void> setDefaultForceOuterGlow(bool value) async {
+    if (defaultForceOuterGlow == value) return;
+    final prefs = await _getPrefs();
+    await prefs.setBool(kPrefDefaultForceOuterGlow, value);
+    defaultForceOuterGlow = value;
+    notifyListeners();
+  }
+
+  Future<void> setDefaultForceIslandOuterGlow(bool value) async {
+    if (defaultForceIslandOuterGlow == value) return;
+    final prefs = await _getPrefs();
+    await prefs.setBool(kPrefDefaultForceIslandOuterGlow, value);
+    defaultForceIslandOuterGlow = value;
     notifyListeners();
   }
 

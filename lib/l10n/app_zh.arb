@@ -430,6 +430,9 @@
   "dynamicHighlightModeDark": "暗",
   "dynamicHighlightModeDarker": "更暗",
   "outerGlowLabel": "外圈光效",
+  "forceOuterGlowLabel": "全局启用",
+  "forceFocusOuterGlowSubtitle": "开启后未匹配到的焦点通知强制启用光效",
+  "forceIslandOuterGlowSubtitle": "开启后未匹配到的岛强制启用光效",
   "outEffectColorLabel": "外圈光效颜色",
   "highlightColorHint": "#RRGGBB 格式，留空使用默认",
   "actionBgColorLabel": "按钮背景色",
@@ -620,6 +623,17 @@
       }
     }
   },
+  "importChannelsPartialSuffix": "（共 {total} 个，已匹配 {matched} 个）",
+  "@importChannelsPartialSuffix": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "matched": {
+        "type": "int"
+      }
+    }
+  },
   "importChannelsFailed": "导入失败：{error}",
   "@importChannelsFailed": {
     "placeholders": {
@@ -634,6 +648,13 @@
   "importErrorMissingChannels": "数据格式不正确，缺少渠道列表",
   "importErrorNoMatch": "没有与当前应用匹配的渠道，请确认数据来源正确",
   "importErrorUnknown": "导入失败，请检查剪贴板数据是否正确",
+
+  "mediaNotificationTitle": "媒体通知",
+  "mediaNotificationDisabledSubtitle": "关闭后直接删除整条媒体通知",
+  "normalNotificationTitle": "普通通知",
+  "normalNotificationSubtitle": "开启后移除媒体字段，按普通通知处理",
+  "channelSettingsUnmodified": "未修改",
+  "restoreDefault": "恢复默认",
 
   "islandDimenSection": "岛尺寸设置",
   "islandDimenHeight": "岛高度",

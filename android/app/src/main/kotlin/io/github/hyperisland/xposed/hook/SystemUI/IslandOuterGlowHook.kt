@@ -47,6 +47,7 @@ object IslandOuterGlowHook : BaseHook() {
         val islandGlowEnabled: Boolean,
         val focusOutEffectColor: String?,
         val islandOuterGlowColor: String?,
+        val forcedGlobal: Boolean = false,
         val createdAt: Long,
     )
 
@@ -165,6 +166,12 @@ object IslandOuterGlowHook : BaseHook() {
                             }
                         }
                     }
+                    val forcedTarget = if (mode != GLOW_MODE_AUTO && !hasOwnedGlowRequest(extras, mode)) {
+                        resolveForcedGlobalGlowTarget(extras, mode)
+                    } else {
+                        null
+                    }
+                    if (forcedTarget != null) recentOwnedTarget = forcedTarget
 
                     val result = chain.proceed()
 
@@ -190,6 +197,9 @@ object IslandOuterGlowHook : BaseHook() {
                                 createdAt = System.currentTimeMillis(),
                             )
                             log(module, "media glow forced start: pkg=${mediaRequest.pkg} enabled=${mediaRequest.enabled} color=${mediaRequest.color}")
+                            invokeGlowEffectMethod(bigView, "startGlowEffect")
+                        }
+                        forcedTarget != null -> {
                             invokeGlowEffectMethod(bigView, "startGlowEffect")
                         }
                         isStateTag(stateObj, "Deleted") -> {
@@ -292,7 +302,9 @@ object IslandOuterGlowHook : BaseHook() {
         val channelId = target.channelId
         return when (mode) {
             GLOW_MODE_STATUS -> GlowConfig(
-                effectEnabled = when (channelId) {
+                effectEnabled = if (target.forcedGlobal) {
+                    target.islandGlowEnabled
+                } else when (channelId) {
                     "toast", "media" -> target.islandGlowEnabled
                     else -> resolveGlowEnabled(
                         ConfigManager.getString("pref_channel_island_outer_glow_${pkg}_$channelId", "default"),
@@ -321,7 +333,9 @@ object IslandOuterGlowHook : BaseHook() {
                 ),
             )
             GLOW_MODE_EXPAND -> GlowConfig(
-                effectEnabled = if (channelId == "toast") {
+                effectEnabled = if (target.forcedGlobal) {
+                    target.focusGlowEnabled
+                } else if (channelId == "toast") {
                     target.focusGlowEnabled
                 } else {
                     resolveGlowEnabled(
@@ -346,6 +360,62 @@ object IslandOuterGlowHook : BaseHook() {
             )
             else -> GlowConfig(false, null)
         }
+    }
+
+    private fun resolveForcedGlobalGlowTarget(extras: Bundle?, mode: Int): OwnedGlowTarget? {
+        val pkg = resolveSourcePkg(extras) ?: ""
+        val channelId = resolveSourceChannelId(extras) ?: ""
+        val enabled = when (mode) {
+            GLOW_MODE_STATUS -> resolveForcedGlowEnabled(
+                channelMode = channelSettingOrDefault(
+                    pkg,
+                    channelId,
+                    "pref_channel_island_outer_glow",
+                ),
+                defaultMode = ConfigManager.getString("pref_default_island_outer_glow", "off"),
+                globalKey = "pref_default_force_island_outer_glow",
+            )
+            GLOW_MODE_EXPAND -> resolveForcedGlowEnabled(
+                channelMode = channelSettingOrDefault(
+                    pkg,
+                    channelId,
+                    "pref_channel_outer_glow",
+                ),
+                defaultMode = ConfigManager.getString("pref_default_outer_glow", "off"),
+                globalKey = "pref_default_force_outer_glow",
+            )
+            else -> false
+        }
+        if (!enabled) return null
+        return OwnedGlowTarget(
+            pkg = pkg,
+            channelId = channelId,
+            mode = mode,
+            focusGlowEnabled = mode == GLOW_MODE_EXPAND,
+            islandGlowEnabled = mode == GLOW_MODE_STATUS,
+            focusOutEffectColor = null,
+            islandOuterGlowColor = null,
+            forcedGlobal = true,
+            createdAt = System.currentTimeMillis(),
+        )
+    }
+
+    private fun resolveForcedGlowEnabled(
+        channelMode: String,
+        defaultMode: String,
+        globalKey: String,
+    ): Boolean {
+        return when (channelMode.trim().lowercase()) {
+            "on", "follow_dynamic" -> true
+            "off" -> false
+            else -> defaultMode.trim().lowercase() != "off" &&
+                ConfigManager.getBoolean(globalKey, false)
+        }
+    }
+
+    private fun channelSettingOrDefault(pkg: String, channelId: String, keyPrefix: String): String {
+        if (pkg.isBlank() || channelId.isBlank()) return "default"
+        return ConfigManager.getString("${keyPrefix}_${pkg}_$channelId", "default")
     }
 
     private fun applyOwnedGlowColor(glowView: Any?, mode: Int) {
@@ -393,6 +463,14 @@ object IslandOuterGlowHook : BaseHook() {
         if (extras == null) return null
         return extras.getString("hyperisland_source_pkg")
             ?: extras.getString("miui.pkg.name")
+    }
+
+    private fun resolveSourceChannelId(extras: Bundle?): String? {
+        if (extras == null) return null
+        return extras.getString("hyperisland_channel_id")
+            ?: extras.getString("hyperisland_source_channel")
+            ?: extras.getString("miui.channel.id")
+            ?: extras.getString("android.channelId")
     }
 
     private fun formatBundleKeys(bundle: Bundle?): String {

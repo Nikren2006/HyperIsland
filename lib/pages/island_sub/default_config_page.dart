@@ -78,6 +78,10 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
     );
     var focusOuterGlow = _ctrl.defaultOuterGlow;
     var islandOuterGlow = _ctrl.defaultIslandOuterGlow;
+    var focusForceOuterGlow =
+        focusOuterGlow != kTriOptOff && _ctrl.defaultForceOuterGlow;
+    var islandForceOuterGlow =
+        islandOuterGlow != kTriOptOff && _ctrl.defaultForceIslandOuterGlow;
     var focusColor = _ctrl.defaultOutEffectColor;
     var islandColor = _ctrl.defaultIslandOuterGlowColor;
 
@@ -129,9 +133,22 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                   items: _outerGlowModeItems(l10n),
                   onChanged: (value) {
                     if (value != null) {
-                      setDialogState(() => focusOuterGlow = value);
+                      setDialogState(() {
+                        focusOuterGlow = value;
+                        if (value == kTriOptOff) focusForceOuterGlow = false;
+                      });
                     }
                   },
+                ),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.forceOuterGlowLabel),
+                  subtitle: Text(l10n.forceFocusOuterGlowSubtitle),
+                  value: focusOuterGlow != kTriOptOff && focusForceOuterGlow,
+                  onChanged: focusOuterGlow == kTriOptOff
+                      ? null
+                      : (value) =>
+                            setDialogState(() => focusForceOuterGlow = value),
                 ),
                 const SizedBox(height: 8),
                 ColorValueField(
@@ -167,9 +184,22 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                   items: _outerGlowModeItems(l10n),
                   onChanged: (value) {
                     if (value != null) {
-                      setDialogState(() => islandOuterGlow = value);
+                      setDialogState(() {
+                        islandOuterGlow = value;
+                        if (value == kTriOptOff) islandForceOuterGlow = false;
+                      });
                     }
                   },
+                ),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.forceOuterGlowLabel),
+                  subtitle: Text(l10n.forceIslandOuterGlowSubtitle),
+                  value: islandOuterGlow != kTriOptOff && islandForceOuterGlow,
+                  onChanged: islandOuterGlow == kTriOptOff
+                      ? null
+                      : (value) =>
+                            setDialogState(() => islandForceOuterGlow = value),
                 ),
                 const SizedBox(height: 8),
                 ColorValueField(
@@ -214,6 +244,8 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
     if (shouldSave != true) return;
     await _ctrl.setDefaultOuterGlow(focusOuterGlow);
     await _ctrl.setDefaultIslandOuterGlow(islandOuterGlow);
+    await _ctrl.setDefaultForceOuterGlow(focusForceOuterGlow);
+    await _ctrl.setDefaultForceIslandOuterGlow(islandForceOuterGlow);
     await _ctrl.setDefaultOutEffectColor(focusColor);
     await _ctrl.setDefaultIslandOuterGlowColor(islandColor);
   }
@@ -233,138 +265,161 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const SizedBox(height: 8),
-                  Card(
-                    elevation: 0,
-                    color: cs.surfaceContainerHighest,
-                    child: Column(
-                      children: [
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.firstFloatLabel, style: titleStyle),
-                          subtitle: Text(l10n.firstFloatLabelSubtitle),
-                          value: _ctrl.defaultFirstFloat,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultFirstFloat(v),
-                          ),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(16),
-                            ),
+              delegate: SliverChildListDelegate([
+                const SizedBox(height: 8),
+                Card(
+                  elevation: 0,
+                  color: cs.surfaceContainerHighest,
+                  child: Column(
+                    children: [
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(l10n.firstFloatLabel, style: titleStyle),
+                        subtitle: Text(l10n.firstFloatLabelSubtitle),
+                        value: _ctrl.defaultFirstFloat,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultFirstFloat(v),
+                        ),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(16),
                           ),
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.updateFloatLabel, style: titleStyle),
-                          subtitle: Text(l10n.updateFloatLabelSubtitle),
-                          value: _ctrl.defaultEnableFloat,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultEnableFloat(v),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(l10n.updateFloatLabel, style: titleStyle),
+                        subtitle: Text(l10n.updateFloatLabelSubtitle),
+                        value: _ctrl.defaultEnableFloat,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultEnableFloat(v),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(
+                          l10n.marqueeChannelTitle,
+                          style: titleStyle,
+                        ),
+                        subtitle: Text(l10n.marqueeChannelTitleSubtitle),
+                        value: _ctrl.defaultMarquee,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultMarquee(v),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(
+                          l10n.dynamicHighlightColorLabel,
+                          style: titleStyle,
+                        ),
+                        subtitle: Text(l10n.dynamicHighlightColorLabelSubtitle),
+                        value: _ctrl.defaultDynamicHighlightColor,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultDynamicHighlightColor(v),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(l10n.outerGlowLabel, style: titleStyle),
+                        subtitle: Text(_outerGlowDefaultsSubtitle(l10n)),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: InteractionHaptics.interceptButton(
+                          () => _showOuterGlowDefaultsDialog(l10n),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(
+                          l10n.focusNotificationLabel,
+                          style: titleStyle,
+                        ),
+                        subtitle: Text(l10n.focusNotificationLabelSubtitle),
+                        value: _ctrl.defaultFocusNotif,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultFocusNotif(v),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(
+                          l10n.restoreLockscreenTitle,
+                          style: titleStyle,
+                        ),
+                        subtitle: Text(l10n.restoreLockscreenSubtitle),
+                        value: _ctrl.defaultRestoreLockscreen,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultRestoreLockscreen(v),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(l10n.islandIconLabel, style: titleStyle),
+                        subtitle: Text(l10n.islandIconLabelSubtitle),
+                        value: _ctrl.defaultShowIslandIcon,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultShowIslandIcon(v),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(
+                          l10n.preserveStatusBarSmallIconLabel,
+                          style: titleStyle,
+                        ),
+                        subtitle: Text(
+                          l10n.preserveStatusBarSmallIconLabelSubtitle,
+                        ),
+                        value: _ctrl.defaultPreserveSmallIcon,
+                        onChanged: InteractionHaptics.interceptToggle(
+                          (v) => _ctrl.setDefaultPreserveSmallIcon(v),
+                        ),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(16),
                           ),
                         ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.marqueeChannelTitle, style: titleStyle),
-                          subtitle: Text(l10n.marqueeChannelTitleSubtitle),
-                          value: _ctrl.defaultMarquee,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultMarquee(v),
-                          ),
-                        ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.dynamicHighlightColorLabel, style: titleStyle),
-                          subtitle: Text(l10n.dynamicHighlightColorLabelSubtitle),
-                          value: _ctrl.defaultDynamicHighlightColor,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultDynamicHighlightColor(v),
-                          ),
-                        ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.outerGlowLabel, style: titleStyle),
-                          subtitle: Text(_outerGlowDefaultsSubtitle(l10n)),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: InteractionHaptics.interceptButton(
-                            () => _showOuterGlowDefaultsDialog(l10n),
-                          ),
-                        ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.focusNotificationLabel, style: titleStyle),
-                          subtitle: Text(l10n.focusNotificationLabelSubtitle),
-                          value: _ctrl.defaultFocusNotif,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultFocusNotif(v),
-                          ),
-                        ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.restoreLockscreenTitle, style: titleStyle),
-                          subtitle: Text(l10n.restoreLockscreenSubtitle),
-                          value: _ctrl.defaultRestoreLockscreen,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultRestoreLockscreen(v),
-                          ),
-                        ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.islandIconLabel, style: titleStyle),
-                          subtitle: Text(l10n.islandIconLabelSubtitle),
-                          value: _ctrl.defaultShowIslandIcon,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultShowIslandIcon(v),
-                          ),
-                        ),
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 4,
-                          ),
-                          title: Text(l10n.preserveStatusBarSmallIconLabel, style: titleStyle),
-                          subtitle: Text(l10n.preserveStatusBarSmallIconLabelSubtitle),
-                          value: _ctrl.defaultPreserveSmallIcon,
-                          onChanged: InteractionHaptics.interceptToggle(
-                            (v) => _ctrl.setDefaultPreserveSmallIcon(v),
-                          ),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(16),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 32),
-                ],
-                addAutomaticKeepAlives: false,
-              ),
+                ),
+                const SizedBox(height: 32),
+              ], addAutomaticKeepAlives: false),
             ),
           ),
         ],

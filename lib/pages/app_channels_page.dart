@@ -422,9 +422,9 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
           return AlertDialog(
             title: Row(
               children: [
-                const Expanded(child: Text('媒体通知')),
+                Expanded(child: Text(l10n.mediaNotificationTitle)),
                 IconButton(
-                  tooltip: '恢复默认',
+                  tooltip: l10n.restoreDefault,
                   icon: const Icon(Icons.restore_rounded),
                   onPressed: () => setDialogState(() {
                     enabled = true;
@@ -443,15 +443,15 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                 children: [
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('媒体通知'),
-                    subtitle: const Text('关闭后直接删除整条媒体通知'),
+                    title: Text(l10n.mediaNotificationTitle),
+                    subtitle: Text(l10n.mediaNotificationDisabledSubtitle),
                     value: enabled,
                     onChanged: (value) => setDialogState(() => enabled = value),
                   ),
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('普通通知'),
-                    subtitle: const Text('开启后移除媒体字段，按普通通知处理'),
+                    title: Text(l10n.normalNotificationTitle),
+                    subtitle: Text(l10n.normalNotificationSubtitle),
                     value: normalNotification,
                     onChanged: enabled
                         ? (value) =>
@@ -737,7 +737,7 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
 
       if (!mounted) return;
       final suffix = appliedCount < totalInData
-          ? '（共 $totalInData 个，已匹配 $appliedCount 个）'
+          ? l10n.importChannelsPartialSuffix(totalInData, appliedCount)
           : '';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -805,11 +805,11 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
         ),
         largeTitle: true,
         actions: [
-          ..._channelActions,
           Transform.scale(
             scale: 0.9,
             child: Switch(value: _appEnabled, onChanged: _setAppEnabled),
           ),
+          ..._channelActions,
         ],
         slivers: [
           if (!_appEnabled)
@@ -1133,7 +1133,7 @@ class _MediaIslandTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '媒体通知',
+                      l10n.mediaNotificationTitle,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: appEnabled
                             ? null
@@ -1143,8 +1143,8 @@ class _MediaIslandTile extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       modified
-                          ? '${enabled ? l10n.optOn : l10n.optOff} · 普通通知: ${normalNotification ? l10n.optOn : l10n.optOff} · ${l10n.outerGlowLabel}: ${_outerGlowText(l10n)}'
-                          : '未修改',
+                          ? '${enabled ? l10n.optOn : l10n.optOff} · ${l10n.normalNotificationTitle}: ${normalNotification ? l10n.optOn : l10n.optOff} · ${l10n.outerGlowLabel}: ${_outerGlowText(l10n)}'
+                          : l10n.channelSettingsUnmodified,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
