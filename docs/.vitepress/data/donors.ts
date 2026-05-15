@@ -107,5 +107,11 @@ export const donors: DonorItem[] = [
     amount: '10',
     date: '2026-05-14',
     message: '点赞强兼全局焦点通知的光效'
+  },
+  {
+    name: "陆明官 Minggo",
+    amount: '6.66',
+    date: '2026-05-15',
+    message: '辛苦了,好用'
   }
 ]
