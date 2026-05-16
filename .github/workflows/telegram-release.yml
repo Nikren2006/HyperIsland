@@ -23,7 +23,7 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "tag_name=$TAG" >> $GITHUB_OUTPUT
             echo "html_url=$(gh release view "$TAG" --json url -q .url)" >> $GITHUB_OUTPUT
-            echo "assets=$(gh release view "$TAG" --json assets -q '.assets')" >> $GITHUB_OUTPUT
+            echo "assets=$(gh release view "$TAG" --json assets -q '.assets | map({name, browser_download_url: .url})')" >> $GITHUB_OUTPUT
           else
             echo "tag_name=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
             echo "html_url=${{ github.event.release.html_url }}" >> $GITHUB_OUTPUT
