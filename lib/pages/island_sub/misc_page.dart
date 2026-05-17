@@ -98,8 +98,8 @@ class _MiscPageState extends State<MiscPage> {
                           vertical: 4,
                         ),
                         leading: const Icon(Icons.auto_awesome_outlined),
-                        title: Text('打开初始引导', style: titleStyle),
-                        subtitle: const Text('重新查看欢迎与快速上手流程'),
+                        title: Text(l10n.openOnboardingTitle, style: titleStyle),
+                        subtitle: Text(l10n.openOnboardingSubtitle),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: InteractionHaptics.interceptButton(
                           () => Navigator.push(
