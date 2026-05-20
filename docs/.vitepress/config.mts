@@ -17,6 +17,7 @@ export default defineConfig({
   // /en/ 路径重写到 en/ 目录下的英文文件
   rewrites: {
     'en/getting-started.md': 'en/getting-started.md',
+    'en/faq.md': 'en/faq.md',
     'en/features.md': 'en/features.md',
     'en/build.md': 'en/build.md',
     'en/contribute.md': 'en/contribute.md',
@@ -100,6 +101,7 @@ function sidebar(lang: string) {
         text: '开始使用',
         items: [
           { text: '快速上手', link: '/getting-started' },
+          { text: '常见问题', link: '/faq' },
           { text: '功能介绍', link: '/features' }
         ]
       },
@@ -118,6 +120,7 @@ function sidebar(lang: string) {
       text: 'Getting Started',
       items: [
         { text: 'Quick Start', link: '/en/getting-started' },
+        { text: 'FAQ', link: '/en/faq' },
         { text: 'Features', link: '/en/features' }
       ]
     },

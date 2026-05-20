@@ -9,6 +9,7 @@
 
 ::: tip Resources & Discussion
 - QQ Group: **1045114341**
+- Telegram: <https://t.me/HyperIsland_Module>
 :::
 
 ## Step 1: Install the Module
@@ -63,30 +64,6 @@ Download Island is disabled by default. Go to the app and enable **"Show System 
 
 ## FAQ
 
-::: details No effect after installation?
-Please confirm:
-1. Module is enabled in LSPosed with correct scope settings
-2. Scope has been restarted
-3. Focus Notification whitelist bypass is enabled in HyperCeiler
-4. System is HyperOS 3 with LSPosed API 101
-5. Tap the test button on the app's main page — if no notification appears, LSPosed module is not working; if a standard Android notification appears, Focus Notification bypass is not working
-:::
+For installation, display, and configuration questions, see the standalone page.
 
-::: details Notifications not showing in Super Island style?
-- Make sure the app sends **standard Android notifications** — custom notification styles are not supported
-- Check if the app has Focus Notification permission in system notification settings
-- Confirm HyperCeiler Focus Notification bypass is correctly configured
-:::
-
-::: details Configuration changes not taking effect?
-- Scope needs to be restarted after app updates
-- Try restarting System UI
-:::
-
-::: details What if both floating notifications and focus notifications appear simultaneously?
-- Please try disabling floating notifications in the system's native notification settings.
-:::
-
-::: danger Found a BUG?
-Please upload LSPosed logs along with reproduction steps or a complete video. Though realistically, there's a good chance it won't get fixed ):
-:::
+[View FAQ](/en/faq){.VPButton .medium .brand}
