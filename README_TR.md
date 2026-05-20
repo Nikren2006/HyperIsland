@@ -47,8 +47,8 @@ Kara listedeki uygulamalar bildirim açılır pencereleri üretmez, yalnızca bi
 </td>
 <td width="50%">
 
-### 🔥 Hot Reload Desteği
-Yapılandırma değişiklikleri **yeniden başlatmaya gerek kalmadan** anında geçerli olur. Yeni bir yazılım yükledikten veya güncelledikten sonra yalnızca uygulamanın etki alanını (scope) yeniden başlatın.
+### 🏝️ Kalıcı Ada Desteği
+Apple'ın Dynamic Island'ına benzer kalıcı bir ada gösterir; otomatik gizleme ve kaçınma davranışını destekler.
 
 </td>
 </tr>

@@ -45,8 +45,8 @@ Apps on the blacklist will not trigger pop-up notifications — only the Dynamic
 </td>
 <td width="50%">
 
-### 🔥 Hot Reload Support
-Configuration changes take effect **without restarting**. Only scope restarts are required after installing or updating apps.
+### 🏝️ Persistent Island Support
+Displays a persistent island similar to Apple's Dynamic Island, with automatic hiding and avoidance support.
 
 </td>
 </tr>
