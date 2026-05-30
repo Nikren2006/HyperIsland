@@ -769,6 +769,23 @@
   "settingsHomeEntrySubtitle": "在系统设置首页显示 HyperIsland 入口",
   "xposedScopeRequestFailed": "作用域申请失败，请确认模块已在 LSPosed 中启用",
   "hookScopeSystemUI": "系统界面",
+  "bluetoothIslandStatusEnabled": "已开启",
+  "bluetoothIslandStatusDisabled": "已关闭",
+  "bluetoothIslandTitle": "蓝牙超级岛",
+  "bluetoothIslandSubtitle": "{status} · 监听蓝牙设备连接和断开，由 SystemUI 代发超级岛",
+  "@bluetoothIslandSubtitle": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "bluetoothIslandSettingsTitle": "蓝牙超级岛设置",
+  "bluetoothIslandEnableTitle": "启用蓝牙超级岛",
+  "bluetoothIslandEnableSubtitle": "关闭后重启 SystemUI 生效，且不会注册蓝牙 Hook",
+  "outerGlowTitle": "外圈光效",
+  "bluetoothIslandOuterGlowSubtitle": "控制蓝牙超级岛的外圈光效",
+  "outerGlowColorTitle": "外圈光效颜色",
   "hookScopeXMSF": "小米服务框架",
   "downloadManagerSection": "下载管理程序",
 

@@ -1598,6 +1598,40 @@ class AppLocalizationsTr extends AppLocalizations {
   String get hookScopeSystemUI => 'Sistem UI';
 
   @override
+  String get bluetoothIslandStatusEnabled => 'Etkin';
+
+  @override
+  String get bluetoothIslandStatusDisabled => 'Devre dışı';
+
+  @override
+  String get bluetoothIslandTitle => 'Bluetooth Adası';
+
+  @override
+  String bluetoothIslandSubtitle(String status) {
+    return '$status · Bluetooth cihaz bağlantılarını ve kopmalarını dinler, ardından adayı Sistem UI üzerinden iletir';
+  }
+
+  @override
+  String get bluetoothIslandSettingsTitle => 'Bluetooth Adası Ayarları';
+
+  @override
+  String get bluetoothIslandEnableTitle => 'Bluetooth Adasını Etkinleştir';
+
+  @override
+  String get bluetoothIslandEnableSubtitle =>
+      'Devre dışı bıraktıktan sonra geçerli olması için Sistem UI\'ı yeniden başlatın. Bluetooth Hook kaydedilmez';
+
+  @override
+  String get outerGlowTitle => 'Dış Parlama';
+
+  @override
+  String get bluetoothIslandOuterGlowSubtitle =>
+      'Bluetooth Adasının dış parlama efektini kontrol eder';
+
+  @override
+  String get outerGlowColorTitle => 'Dış Parlama Rengi';
+
+  @override
   String get hookScopeXMSF => 'Xiaomi Servis Çerçevesi (XMSF)';
 
   @override

@@ -589,6 +589,21 @@
   "settingsHomeEntrySubtitle": "Sistem Ayarları ana sayfasında HyperIsland girişini göster",
   "xposedScopeRequestFailed": "Kapsam isteği başarısız oldu. Modülün LSPosed'de etkin olduğundan emin olun",
   "hookScopeSystemUI": "Sistem UI",
+  "bluetoothIslandStatusEnabled": "Etkin",
+  "bluetoothIslandStatusDisabled": "Devre dışı",
+  "bluetoothIslandTitle": "Bluetooth Adası",
+  "bluetoothIslandSubtitle": "{status} · Bluetooth cihaz bağlantılarını ve kopmalarını dinler, ardından adayı Sistem UI üzerinden iletir",
+  "@bluetoothIslandSubtitle": {
+    "placeholders": {
+      "status": { "type": "String" }
+    }
+  },
+  "bluetoothIslandSettingsTitle": "Bluetooth Adası Ayarları",
+  "bluetoothIslandEnableTitle": "Bluetooth Adasını Etkinleştir",
+  "bluetoothIslandEnableSubtitle": "Devre dışı bıraktıktan sonra geçerli olması için Sistem UI'ı yeniden başlatın. Bluetooth Hook kaydedilmez",
+  "outerGlowTitle": "Dış Parlama",
+  "bluetoothIslandOuterGlowSubtitle": "Bluetooth Adasının dış parlama efektini kontrol eder",
+  "outerGlowColorTitle": "Dış Parlama Rengi",
   "hookScopeXMSF": "Xiaomi Servis Çerçevesi (XMSF)",
   "downloadManagerSection": "İndirme Yöneticisi",
 

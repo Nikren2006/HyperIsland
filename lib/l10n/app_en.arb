@@ -602,6 +602,21 @@
   "settingsHomeEntrySubtitle": "Show the HyperIsland entry on the System Settings home page",
   "xposedScopeRequestFailed": "Scope request failed. Make sure the module is enabled in LSPosed",
   "hookScopeSystemUI": "System UI",
+  "bluetoothIslandStatusEnabled": "Enabled",
+  "bluetoothIslandStatusDisabled": "Disabled",
+  "bluetoothIslandTitle": "Bluetooth Island",
+  "bluetoothIslandSubtitle": "{status} · Listen for Bluetooth device connections and disconnections, then forward the island through System UI",
+  "@bluetoothIslandSubtitle": {
+    "placeholders": {
+      "status": { "type": "String" }
+    }
+  },
+  "bluetoothIslandSettingsTitle": "Bluetooth Island Settings",
+  "bluetoothIslandEnableTitle": "Enable Bluetooth Island",
+  "bluetoothIslandEnableSubtitle": "After disabling, restart System UI to take effect. The Bluetooth Hook will not be registered",
+  "outerGlowTitle": "Outer Glow",
+  "bluetoothIslandOuterGlowSubtitle": "Control the outer glow effect of Bluetooth Island",
+  "outerGlowColorTitle": "Outer Glow Color",
   "hookScopeXMSF": "Xiaomi Service Framework (XMSF)",
   "downloadManagerSection": "Download Manager",
 

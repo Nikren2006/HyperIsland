@@ -1598,6 +1598,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hookScopeSystemUI => 'System UI';
 
   @override
+  String get bluetoothIslandStatusEnabled => 'Enabled';
+
+  @override
+  String get bluetoothIslandStatusDisabled => 'Disabled';
+
+  @override
+  String get bluetoothIslandTitle => 'Bluetooth Island';
+
+  @override
+  String bluetoothIslandSubtitle(String status) {
+    return '$status · Listen for Bluetooth device connections and disconnections, then forward the island through System UI';
+  }
+
+  @override
+  String get bluetoothIslandSettingsTitle => 'Bluetooth Island Settings';
+
+  @override
+  String get bluetoothIslandEnableTitle => 'Enable Bluetooth Island';
+
+  @override
+  String get bluetoothIslandEnableSubtitle =>
+      'After disabling, restart System UI to take effect. The Bluetooth Hook will not be registered';
+
+  @override
+  String get outerGlowTitle => 'Outer Glow';
+
+  @override
+  String get bluetoothIslandOuterGlowSubtitle =>
+      'Control the outer glow effect of Bluetooth Island';
+
+  @override
+  String get outerGlowColorTitle => 'Outer Glow Color';
+
+  @override
   String get hookScopeXMSF => 'Xiaomi Service Framework (XMSF)';
 
   @override

@@ -1519,6 +1519,38 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hookScopeSystemUI => '系统界面';
 
   @override
+  String get bluetoothIslandStatusEnabled => '已开启';
+
+  @override
+  String get bluetoothIslandStatusDisabled => '已关闭';
+
+  @override
+  String get bluetoothIslandTitle => '蓝牙超级岛';
+
+  @override
+  String bluetoothIslandSubtitle(String status) {
+    return '$status · 监听蓝牙设备连接和断开，由 SystemUI 代发超级岛';
+  }
+
+  @override
+  String get bluetoothIslandSettingsTitle => '蓝牙超级岛设置';
+
+  @override
+  String get bluetoothIslandEnableTitle => '启用蓝牙超级岛';
+
+  @override
+  String get bluetoothIslandEnableSubtitle => '关闭后重启 SystemUI 生效，且不会注册蓝牙 Hook';
+
+  @override
+  String get outerGlowTitle => '外圈光效';
+
+  @override
+  String get bluetoothIslandOuterGlowSubtitle => '控制蓝牙超级岛的外圈光效';
+
+  @override
+  String get outerGlowColorTitle => '外圈光效颜色';
+
+  @override
   String get hookScopeXMSF => '小米服务框架';
 
   @override

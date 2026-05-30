@@ -2964,6 +2964,66 @@ abstract class AppLocalizations {
   /// **'系统界面'**
   String get hookScopeSystemUI;
 
+  /// No description provided for @bluetoothIslandStatusEnabled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已开启'**
+  String get bluetoothIslandStatusEnabled;
+
+  /// No description provided for @bluetoothIslandStatusDisabled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已关闭'**
+  String get bluetoothIslandStatusDisabled;
+
+  /// No description provided for @bluetoothIslandTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'蓝牙超级岛'**
+  String get bluetoothIslandTitle;
+
+  /// No description provided for @bluetoothIslandSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'{status} · 监听蓝牙设备连接和断开，由 SystemUI 代发超级岛'**
+  String bluetoothIslandSubtitle(String status);
+
+  /// No description provided for @bluetoothIslandSettingsTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'蓝牙超级岛设置'**
+  String get bluetoothIslandSettingsTitle;
+
+  /// No description provided for @bluetoothIslandEnableTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'启用蓝牙超级岛'**
+  String get bluetoothIslandEnableTitle;
+
+  /// No description provided for @bluetoothIslandEnableSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'关闭后重启 SystemUI 生效，且不会注册蓝牙 Hook'**
+  String get bluetoothIslandEnableSubtitle;
+
+  /// No description provided for @outerGlowTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'外圈光效'**
+  String get outerGlowTitle;
+
+  /// No description provided for @bluetoothIslandOuterGlowSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'控制蓝牙超级岛的外圈光效'**
+  String get bluetoothIslandOuterGlowSubtitle;
+
+  /// No description provided for @outerGlowColorTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'外圈光效颜色'**
+  String get outerGlowColorTitle;
+
   /// No description provided for @hookScopeXMSF.
   ///
   /// In zh, this message translates to:

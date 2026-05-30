@@ -89,21 +89,6 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
     await _ctrl.setUnlockAllFocus(value);
   }
 
-  Future<void> _onBluetoothIslandChanged(bool value) async {
-    if (!await _requestScopesIfEnabled(value, const ['com.android.systemui'])) {
-      return;
-    }
-    await _ctrl.setBluetoothIsland(value);
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.restartScopeApp),
-          duration: const Duration(seconds: 4),
-        ),
-      );
-    }
-  }
-
   Future<void> _showBluetoothIslandSettings() async {
     await showDialog<void>(
       context: context,
@@ -235,9 +220,13 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                       horizontal: 16,
                       vertical: 4,
                     ),
-                    title: Text('蓝牙超级岛', style: titleStyle),
+                    title: Text(l10n.bluetoothIslandTitle, style: titleStyle),
                     subtitle: Text(
-                      '${_ctrl.bluetoothIsland ? '已开启' : '已关闭'} · 监听蓝牙设备连接和断开，由 SystemUI 代发超级岛',
+                      l10n.bluetoothIslandSubtitle(
+                        _ctrl.bluetoothIsland
+                            ? l10n.bluetoothIslandStatusEnabled
+                            : l10n.bluetoothIslandStatusDisabled,
+                      ),
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: InteractionHaptics.interceptButton(
@@ -344,8 +333,9 @@ class _BluetoothIslandSettingsDialogState
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
-      title: const Text('蓝牙超级岛设置'),
+      title: Text(l10n.bluetoothIslandSettingsTitle),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -353,22 +343,22 @@ class _BluetoothIslandSettingsDialogState
           children: [
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('启用蓝牙超级岛'),
-              subtitle: const Text('关闭后重启 SystemUI 生效，且不会注册蓝牙 Hook'),
+              title: Text(l10n.bluetoothIslandEnableTitle),
+              subtitle: Text(l10n.bluetoothIslandEnableSubtitle),
               value: _enabled,
               onChanged: (value) => setState(() => _enabled = value),
             ),
             const SizedBox(height: 12),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('外圈光效'),
-              subtitle: const Text('控制蓝牙超级岛的外圈光效'),
+              title: Text(l10n.outerGlowTitle),
+              subtitle: Text(l10n.bluetoothIslandOuterGlowSubtitle),
               value: _outerGlow,
               onChanged: (value) => setState(() => _outerGlow = value),
             ),
             const SizedBox(height: 12),
             Text(
-              '外圈光效颜色',
+              l10n.outerGlowColorTitle,
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
@@ -395,7 +385,7 @@ class _BluetoothIslandSettingsDialogState
                 final color = await showColorPickerDialog(
                   context,
                   initialHex: _outerGlowColor,
-                  title: '外圈光效颜色',
+                  title: l10n.outerGlowColorTitle,
                   enableAlpha: true,
                 );
                 if (color == null) return;
