@@ -32,7 +32,9 @@ object BluetoothIslandHook : BaseHook() {
     private const val NOTIF_ID = 0x48494254
     private const val ACTION_BATTERY_LEVEL_CHANGED = "android.bluetooth.device.action.BATTERY_LEVEL_CHANGED"
     private const val EXTRA_BATTERY_LEVEL = "android.bluetooth.device.extra.BATTERY_LEVEL"
-    private const val DEVICE_NAME_UPDATE_DELAY_MS = 2000L
+    private const val DEVICE_NAME_UPDATE_DELAY_MS = 1500L
+    private const val DEVICE_NAME_TIMEOUT_SECS = 1
+    private const val BATTERY_TIMEOUT_SECS = 2
 
     @Volatile private var registered = false
     @Volatile private var moduleRef: XposedModule? = null
@@ -132,6 +134,7 @@ object BluetoothIslandHook : BaseHook() {
                         deviceName = deviceName,
                         rightTextOverride = null,
                         clearBeforePost = false,
+                        timeoutSecs = BATTERY_TIMEOUT_SECS,
                     )
                 } else {
                     moduleRef?.let {
@@ -186,6 +189,7 @@ object BluetoothIslandHook : BaseHook() {
                     deviceName = deviceName,
                     rightTextOverride = deviceName,
                     clearBeforePost = true,
+                    timeoutSecs = DEVICE_NAME_TIMEOUT_SECS,
                 )
                 scheduleStatusRefresh(context, key, connected, battery, deviceName)
             } else {
@@ -203,6 +207,7 @@ object BluetoothIslandHook : BaseHook() {
                     deviceName = deviceName,
                     rightTextOverride = if (connected) null else deviceName,
                     clearBeforePost = true,
+                    timeoutSecs = BATTERY_TIMEOUT_SECS,
                 )
             }
         }
@@ -286,6 +291,7 @@ object BluetoothIslandHook : BaseHook() {
                 deviceName = deviceName,
                 rightTextOverride = null,
                 clearBeforePost = false,
+                timeoutSecs = BATTERY_TIMEOUT_SECS,
             )
         }
         pendingNameRefreshes[key] = runnable
@@ -326,6 +332,7 @@ object BluetoothIslandHook : BaseHook() {
         deviceName: String,
         rightTextOverride: String?,
         clearBeforePost: Boolean,
+        timeoutSecs: Int,
     ) {
         val title = if (connected) "已连接" else "已断开"
         val content = rightTextOverride
@@ -335,7 +342,7 @@ object BluetoothIslandHook : BaseHook() {
                 it,
                     "posting bluetooth island: title=$title right=$content connected=$connected " +
                     "battery=$battery deviceName=$deviceName override=${rightTextOverride != null} " +
-                    "clearBeforePost=$clearBeforePost",
+                    "clearBeforePost=$clearBeforePost timeoutSecs=$timeoutSecs",
             )
         }
         val outerGlow = ConfigManager.getBoolean(PREF_OUTER_GLOW, false)
@@ -347,7 +354,7 @@ object BluetoothIslandHook : BaseHook() {
                 content = content,
                 icon = createBluetoothIcon(),
                 notifId = NOTIF_ID,
-                timeoutSecs = 5,
+                timeoutSecs = timeoutSecs,
                 firstFloat = false,
                 enableFloat = false,
                 isOngoing = true,
