@@ -72,6 +72,13 @@ const kPrefIslandTopOffset = 'pref_island_top_offset';
 const kPrefKeepIsland = 'pref_keep_island';
 const kPrefKeepIslandAutoHide = 'pref_keep_island_auto_hide';
 const kPrefKeepIslandHighlightColor = 'pref_keep_island_highlight_color';
+const kPrefTempHideScreenPinning = 'pref_temp_hide_screen_pinning';
+const kPrefTempHideBouncerShowing = 'pref_temp_hide_bouncer_showing';
+const kPrefTempHideDesktopAnimating = 'pref_temp_hide_desktop_animating';
+const kPrefTempHideFullscreen = 'pref_temp_hide_fullscreen';
+const kPrefTempHideScreenLocked = 'pref_temp_hide_screen_locked';
+const kPrefTempHideNotificationCenter = 'pref_temp_hide_notification_center';
+const kPrefTempHideControlCenter = 'pref_temp_hide_control_center';
 const kPrefThemeSeedColor = 'pref_theme_seed_color';
 const kPrefBlurBars = 'pref_blur_bars';
 const kPrefDebugLog = 'pref_debug_log';
@@ -196,6 +203,13 @@ class SettingsController extends ChangeNotifier {
   bool keepIsland = false;
   bool keepIslandAutoHide = true;
   String keepIslandHighlightColor = '';
+  bool tempHideScreenPinning = true;
+  bool tempHideBouncerShowing = true;
+  bool tempHideDesktopAnimating = true;
+  bool tempHideFullscreen = true;
+  bool tempHideScreenLocked = true;
+  bool tempHideNotificationCenter = true;
+  bool tempHideControlCenter = true;
   int themeSeedColor = 0xFF6750A4;
   bool blurBars = true;
   bool debugLog = false;
@@ -303,6 +317,15 @@ class SettingsController extends ChangeNotifier {
     keepIslandAutoHide = prefs.getBool(kPrefKeepIslandAutoHide) ?? true;
     keepIslandHighlightColor =
         prefs.getString(kPrefKeepIslandHighlightColor) ?? '';
+    tempHideScreenPinning = prefs.getBool(kPrefTempHideScreenPinning) ?? true;
+    tempHideBouncerShowing = prefs.getBool(kPrefTempHideBouncerShowing) ?? true;
+    tempHideDesktopAnimating =
+        prefs.getBool(kPrefTempHideDesktopAnimating) ?? true;
+    tempHideFullscreen = prefs.getBool(kPrefTempHideFullscreen) ?? true;
+    tempHideScreenLocked = prefs.getBool(kPrefTempHideScreenLocked) ?? true;
+    tempHideNotificationCenter =
+        prefs.getBool(kPrefTempHideNotificationCenter) ?? true;
+    tempHideControlCenter = prefs.getBool(kPrefTempHideControlCenter) ?? true;
     themeSeedColor = prefs.getInt(kPrefThemeSeedColor) ?? 0xFF6750A4;
     blurBars = prefs.getBool(kPrefBlurBars) ?? true;
     debugLog = prefs.getBool(kPrefDebugLog) ?? false;
@@ -947,6 +970,59 @@ class SettingsController extends ChangeNotifier {
       await prefs.setString(kPrefKeepIslandHighlightColor, normalized);
     }
     keepIslandHighlightColor = normalized;
+    notifyListeners();
+  }
+
+  Future<void> setTempHideScreenPinning(bool value) => _setBoolPref(
+    kPrefTempHideScreenPinning,
+    value,
+    (v) => tempHideScreenPinning = v,
+  );
+
+  Future<void> setTempHideBouncerShowing(bool value) => _setBoolPref(
+    kPrefTempHideBouncerShowing,
+    value,
+    (v) => tempHideBouncerShowing = v,
+  );
+
+  Future<void> setTempHideDesktopAnimating(bool value) => _setBoolPref(
+    kPrefTempHideDesktopAnimating,
+    value,
+    (v) => tempHideDesktopAnimating = v,
+  );
+
+  Future<void> setTempHideFullscreen(bool value) => _setBoolPref(
+    kPrefTempHideFullscreen,
+    value,
+    (v) => tempHideFullscreen = v,
+  );
+
+  Future<void> setTempHideScreenLocked(bool value) => _setBoolPref(
+    kPrefTempHideScreenLocked,
+    value,
+    (v) => tempHideScreenLocked = v,
+  );
+
+  Future<void> setTempHideNotificationCenter(bool value) => _setBoolPref(
+    kPrefTempHideNotificationCenter,
+    value,
+    (v) => tempHideNotificationCenter = v,
+  );
+
+  Future<void> setTempHideControlCenter(bool value) => _setBoolPref(
+    kPrefTempHideControlCenter,
+    value,
+    (v) => tempHideControlCenter = v,
+  );
+
+  Future<void> _setBoolPref(
+    String key,
+    bool value,
+    void Function(bool value) update,
+  ) async {
+    final prefs = await _getPrefs();
+    await prefs.setBool(key, value);
+    update(value);
     notifyListeners();
   }
 

@@ -1712,4 +1712,60 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bluetoothIslandNeedBtPermission =>
       'Bluetooth permission is required to load devices';
+
+  @override
+  String get hideBehaviorTitle => 'Hide Behavior';
+
+  @override
+  String get hideBehaviorDescription =>
+      'Control whether system scenes are allowed to temporarily hide the island. Turning an item off blocks the matching system hide logic.';
+
+  @override
+  String get hideBehaviorScreenPinning => 'Screen pinning';
+
+  @override
+  String get hideBehaviorScreenPinningSubtitle =>
+      'Hide the island while screen pinning is active';
+
+  @override
+  String get hideBehaviorBouncerShowing => 'Unlock screen';
+
+  @override
+  String get hideBehaviorBouncerShowingSubtitle =>
+      'Hide the island while the unlock challenge is showing';
+
+  @override
+  String get hideBehaviorDesktopAnimating => 'Desktop animation';
+
+  @override
+  String get hideBehaviorDesktopAnimatingSubtitle =>
+      'Hide the island during app open or close animations';
+
+  @override
+  String get hideBehaviorFullscreen => 'Fullscreen mode';
+
+  @override
+  String get hideBehaviorFullscreenSubtitle =>
+      'Hide the island when the status bar disappears or immersive fullscreen is active';
+
+  @override
+  String get hideBehaviorScreenLocked => 'Lock screen';
+
+  @override
+  String get hideBehaviorScreenLockedSubtitle =>
+      'Hide the island during lock screen or screen-off flows';
+
+  @override
+  String get hideBehaviorNotificationCenter => 'Notification center';
+
+  @override
+  String get hideBehaviorNotificationCenterSubtitle =>
+      'Hide the island while the notification shade expands or transitions';
+
+  @override
+  String get hideBehaviorControlCenter => 'Control center';
+
+  @override
+  String get hideBehaviorControlCenterSubtitle =>
+      'Hide the island while Control Center expands or transitions';
 }

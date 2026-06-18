@@ -3167,6 +3167,102 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'需要蓝牙权限才能获取设备列表'**
   String get bluetoothIslandNeedBtPermission;
+
+  /// No description provided for @hideBehaviorTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'隐藏行为'**
+  String get hideBehaviorTitle;
+
+  /// No description provided for @hideBehaviorDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'控制系统场景是否允许临时隐藏超级岛。关闭某项后，会拦截对应场景的系统隐藏逻辑。'**
+  String get hideBehaviorDescription;
+
+  /// No description provided for @hideBehaviorScreenPinning.
+  ///
+  /// In zh, this message translates to:
+  /// **'屏幕固定'**
+  String get hideBehaviorScreenPinning;
+
+  /// No description provided for @hideBehaviorScreenPinningSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'屏幕固定激活时隐藏超级岛'**
+  String get hideBehaviorScreenPinningSubtitle;
+
+  /// No description provided for @hideBehaviorBouncerShowing.
+  ///
+  /// In zh, this message translates to:
+  /// **'解锁界面'**
+  String get hideBehaviorBouncerShowing;
+
+  /// No description provided for @hideBehaviorBouncerShowingSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'密码、指纹等解锁界面显示时隐藏超级岛'**
+  String get hideBehaviorBouncerShowingSubtitle;
+
+  /// No description provided for @hideBehaviorDesktopAnimating.
+  ///
+  /// In zh, this message translates to:
+  /// **'桌面动画'**
+  String get hideBehaviorDesktopAnimating;
+
+  /// No description provided for @hideBehaviorDesktopAnimatingSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'打开或关闭应用动画期间隐藏超级岛'**
+  String get hideBehaviorDesktopAnimatingSubtitle;
+
+  /// No description provided for @hideBehaviorFullscreen.
+  ///
+  /// In zh, this message translates to:
+  /// **'全屏模式'**
+  String get hideBehaviorFullscreen;
+
+  /// No description provided for @hideBehaviorFullscreenSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'状态栏消失或沉浸式全屏时隐藏超级岛'**
+  String get hideBehaviorFullscreenSubtitle;
+
+  /// No description provided for @hideBehaviorScreenLocked.
+  ///
+  /// In zh, this message translates to:
+  /// **'锁屏'**
+  String get hideBehaviorScreenLocked;
+
+  /// No description provided for @hideBehaviorScreenLockedSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'锁屏或息屏流程中隐藏超级岛'**
+  String get hideBehaviorScreenLockedSubtitle;
+
+  /// No description provided for @hideBehaviorNotificationCenter.
+  ///
+  /// In zh, this message translates to:
+  /// **'通知中心'**
+  String get hideBehaviorNotificationCenter;
+
+  /// No description provided for @hideBehaviorNotificationCenterSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'通知栏展开或下滑过渡时隐藏超级岛'**
+  String get hideBehaviorNotificationCenterSubtitle;
+
+  /// No description provided for @hideBehaviorControlCenter.
+  ///
+  /// In zh, this message translates to:
+  /// **'控制中心'**
+  String get hideBehaviorControlCenter;
+
+  /// No description provided for @hideBehaviorControlCenterSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'控制中心展开或下滑过渡时隐藏超级岛'**
+  String get hideBehaviorControlCenterSubtitle;
 }
 
 class _AppLocalizationsDelegate

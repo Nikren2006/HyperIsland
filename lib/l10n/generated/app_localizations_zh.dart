@@ -1624,4 +1624,53 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get bluetoothIslandNeedBtPermission => '需要蓝牙权限才能获取设备列表';
+
+  @override
+  String get hideBehaviorTitle => '隐藏行为';
+
+  @override
+  String get hideBehaviorDescription =>
+      '控制系统场景是否允许临时隐藏超级岛。关闭某项后，会拦截对应场景的系统隐藏逻辑。';
+
+  @override
+  String get hideBehaviorScreenPinning => '屏幕固定';
+
+  @override
+  String get hideBehaviorScreenPinningSubtitle => '屏幕固定激活时隐藏超级岛';
+
+  @override
+  String get hideBehaviorBouncerShowing => '解锁界面';
+
+  @override
+  String get hideBehaviorBouncerShowingSubtitle => '密码、指纹等解锁界面显示时隐藏超级岛';
+
+  @override
+  String get hideBehaviorDesktopAnimating => '桌面动画';
+
+  @override
+  String get hideBehaviorDesktopAnimatingSubtitle => '打开或关闭应用动画期间隐藏超级岛';
+
+  @override
+  String get hideBehaviorFullscreen => '全屏模式';
+
+  @override
+  String get hideBehaviorFullscreenSubtitle => '状态栏消失或沉浸式全屏时隐藏超级岛';
+
+  @override
+  String get hideBehaviorScreenLocked => '锁屏';
+
+  @override
+  String get hideBehaviorScreenLockedSubtitle => '锁屏或息屏流程中隐藏超级岛';
+
+  @override
+  String get hideBehaviorNotificationCenter => '通知中心';
+
+  @override
+  String get hideBehaviorNotificationCenterSubtitle => '通知栏展开或下滑过渡时隐藏超级岛';
+
+  @override
+  String get hideBehaviorControlCenter => '控制中心';
+
+  @override
+  String get hideBehaviorControlCenterSubtitle => '控制中心展开或下滑过渡时隐藏超级岛';
 }

@@ -647,5 +647,21 @@
   "bluetoothIslandWhitelistEmpty": "No paired devices. Please pair a device in system Bluetooth settings first",
   "bluetoothIslandWhitelistAllHint": "When disabled, the island shows for all Bluetooth devices",
   "bluetoothIslandLoadDevicesFailed": "Failed to load Bluetooth devices",
-  "bluetoothIslandNeedBtPermission": "Bluetooth permission is required to load devices"
+  "bluetoothIslandNeedBtPermission": "Bluetooth permission is required to load devices",
+  "hideBehaviorTitle": "Hide Behavior",
+  "hideBehaviorDescription": "Control whether system scenes are allowed to temporarily hide the island. Turning an item off blocks the matching system hide logic.",
+  "hideBehaviorScreenPinning": "Screen pinning",
+  "hideBehaviorScreenPinningSubtitle": "Hide the island while screen pinning is active",
+  "hideBehaviorBouncerShowing": "Unlock screen",
+  "hideBehaviorBouncerShowingSubtitle": "Hide the island while the unlock challenge is showing",
+  "hideBehaviorDesktopAnimating": "Desktop animation",
+  "hideBehaviorDesktopAnimatingSubtitle": "Hide the island during app open or close animations",
+  "hideBehaviorFullscreen": "Fullscreen mode",
+  "hideBehaviorFullscreenSubtitle": "Hide the island when the status bar disappears or immersive fullscreen is active",
+  "hideBehaviorScreenLocked": "Lock screen",
+  "hideBehaviorScreenLockedSubtitle": "Hide the island during lock screen or screen-off flows",
+  "hideBehaviorNotificationCenter": "Notification center",
+  "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
+  "hideBehaviorControlCenter": "Control center",
+  "hideBehaviorControlCenterSubtitle": "Hide the island while Control Center expands or transitions"
 }

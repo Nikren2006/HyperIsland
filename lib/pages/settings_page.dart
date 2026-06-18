@@ -13,6 +13,7 @@ import 'island_sub/misc_page.dart';
 import 'island_sub/backup_restore_page.dart';
 import 'island_sub/hook_extension_page.dart';
 import 'island_sub/default_config_page.dart';
+import 'island_sub/hide_behavior_page.dart';
 import 'island_sub/theme_page.dart';
 import 'ai_config_page.dart';
 import 'blacklist_page.dart';
@@ -201,9 +202,22 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         const Divider(height: 1, indent: 16, endIndent: 16),
                         _MenuTile(
+                          icon: Icons.visibility_off_outlined,
+                          title: l10n.hideBehaviorTitle,
+                          isLast: true,
+                          onTap: InteractionHaptics.interceptButton(
+                                () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const HideBehaviorPage(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(height: 1, indent: 16, endIndent: 16),
+                        _MenuTile(
                           icon: Icons.more_horiz,
                           title: l10n.islandOtherSection,
-                          isLast: true,
                           onTap: InteractionHaptics.interceptButton(
                                 () => Navigator.push(
                               context,
