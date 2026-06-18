@@ -14,6 +14,7 @@ import io.github.hyperisland.xposed.utils.HookUtils
 import io.github.libxposed.api.XposedModule
 import io.github.libxposed.api.XposedModuleInterface.PackageLoadedParam
 import java.util.WeakHashMap
+import java.lang.ref.WeakReference
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -44,6 +45,7 @@ object MarqueeHook : BaseHook() {
 
     private data class TextViewListeners(
         val layoutListeners: ArrayList<View.OnLayoutChangeListener>,
+        val attachStateListener: View.OnAttachStateChangeListener,
         val textWatcher: android.text.TextWatcher
     )
 
@@ -191,23 +193,39 @@ object MarqueeHook : BaseHook() {
         view.addOnLayoutChangeListener(layoutListener)
 
         val textWatcher = object : android.text.TextWatcher {
+            private val viewRef = WeakReference(view)
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: android.text.Editable?) {
-                if (isInExpandedView(view)) return
-                view.post {
-                    if (isMarqueeEnabledFor(view)) startMarquee(view)
-                    else stopMarquee(view)
+                val textView = viewRef.get() ?: return
+                if (isInExpandedView(textView)) return
+                textView.post {
+                    val attachedView = viewRef.get() ?: return@post
+                    if (isMarqueeEnabledFor(attachedView)) startMarquee(attachedView)
+                    else stopMarquee(attachedView)
                 }
             }
         }
         view.addTextChangedListener(textWatcher)
-        observedViews[view] = TextViewListeners(listeners, textWatcher)
+        val attachStateListener = object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {}
+
+            override fun onViewDetachedFromWindow(v: View) {
+                (v as? TextView)?.let {
+                    unobserveTextView(it)
+                    stopMarquee(it)
+                }
+            }
+        }
+        view.addOnAttachStateChangeListener(attachStateListener)
+        observedViews[view] = TextViewListeners(listeners, attachStateListener, textWatcher)
     }
 
     private fun unobserveTextView(view: TextView) {
         val listeners = observedViews.remove(view) ?: return
         listeners.layoutListeners.forEach { view.removeOnLayoutChangeListener(it) }
+        view.removeOnAttachStateChangeListener(listeners.attachStateListener)
         view.removeTextChangedListener(listeners.textWatcher)
     }
 
@@ -393,7 +411,7 @@ object MarqueeHook : BaseHook() {
     }
 
     class MarqueeController(
-        private val view: TextView,
+        view: TextView,
         var speedPxPerSec: Int = 100,
         private val delayMs: Int = 1500
     ) : Choreographer.FrameCallback {
@@ -407,10 +425,12 @@ object MarqueeHook : BaseHook() {
         private var startTimeNanos = 0L
         private var lastFrameTimeNanos = 0L
         private val choreographer = Choreographer.getInstance()
+        private val viewRef = WeakReference(view)
         private var state = 0
         private var currentText = ""
 
         fun start() {
+            val view = viewRef.get() ?: return
             val textNow = normalizeText(view.text.toString())
             if (isRunning && currentText == textNow) return
             currentText = textNow
@@ -425,10 +445,11 @@ object MarqueeHook : BaseHook() {
         fun stop() {
             isRunning = false
             choreographer.removeFrameCallback(this)
-            view.scrollTo(0, 0)
+            viewRef.get()?.scrollTo(0, 0)
         }
 
         private fun getRealMaxScroll(): Float {
+            val view = viewRef.get() ?: return 0f
             val textWidth = view.paint.measureText(currentText)
             var visibleW = if (view.width > 0) view.width else Int.MAX_VALUE
             var p = view.parent
@@ -443,6 +464,11 @@ object MarqueeHook : BaseHook() {
 
         override fun doFrame(frameTimeNanos: Long) {
             if (!isRunning) return
+            val view = viewRef.get()
+            if (view == null) {
+                stop()
+                return
+            }
             // View 已离开窗口（岛消失/被回收），立即停止
             if (!view.isAttachedToWindow) {
                 stop()
