@@ -78,6 +78,7 @@ internal object IslandDispatcherNotifier {
                     picInfo = PicInfo(type = 1, pic = "key_island_icon"),
                     textInfo = TextInfo(
                         title = request.title,
+                        narrowFont = request.showLeftNarrowFont,
                         showHighlightColor = request.showLeftHighlightColor,
                     ),
                 )
@@ -86,6 +87,7 @@ internal object IslandDispatcherNotifier {
                     type = 1,
                     textInfo = TextInfo(
                         title = request.title,
+                        narrowFont = request.showLeftNarrowFont,
                         showHighlightColor = request.showLeftHighlightColor,
                     ),
                 )
@@ -96,7 +98,7 @@ internal object IslandDispatcherNotifier {
                     type = 2,
                     textInfo = TextInfo(
                         title = request.content,
-                        narrowFont = true,
+                        narrowFont = request.showRightNarrowFont,
                         showHighlightColor = request.showRightHighlightColor,
                     ),
                 ),

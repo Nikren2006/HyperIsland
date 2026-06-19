@@ -19,6 +19,8 @@ data class IslandRequest(
     val highlightColor: String? = null,
     val showLeftHighlightColor: Boolean = false,
     val showRightHighlightColor: Boolean = false,
+    val showLeftNarrowFont: Boolean = false,
+    val showRightNarrowFont: Boolean = false,
     val outerGlow: Boolean = false,
     val islandOuterGlow: Boolean = false,
     val islandOuterGlowColor: String? = null,
@@ -48,6 +50,8 @@ data class IslandRequest(
         putString(KEY_HIGHLIGHT, highlightColor)
         putBoolean(KEY_LEFT_HIGHLIGHT, showLeftHighlightColor)
         putBoolean(KEY_RIGHT_HIGHLIGHT, showRightHighlightColor)
+        putBoolean(KEY_LEFT_NARROW_FONT, showLeftNarrowFont)
+        putBoolean(KEY_RIGHT_NARROW_FONT, showRightNarrowFont)
         putBoolean(KEY_OUTER_GLOW, outerGlow)
         putBoolean(KEY_ISLAND_OUTER_GLOW, islandOuterGlow)
         putString(KEY_ISLAND_OUTER_GLOW_COLOR, islandOuterGlowColor)
@@ -78,6 +82,8 @@ data class IslandRequest(
         private const val KEY_HIGHLIGHT = "highlightColor"
         private const val KEY_LEFT_HIGHLIGHT = "showLeftHighlightColor"
         private const val KEY_RIGHT_HIGHLIGHT = "showRightHighlightColor"
+        private const val KEY_LEFT_NARROW_FONT = "showLeftNarrowFont"
+        private const val KEY_RIGHT_NARROW_FONT = "showRightNarrowFont"
         private const val KEY_OUTER_GLOW = "outerGlow"
         private const val KEY_ISLAND_OUTER_GLOW = "islandOuterGlow"
         private const val KEY_ISLAND_OUTER_GLOW_COLOR = "islandOuterGlowColor"
@@ -107,6 +113,8 @@ data class IslandRequest(
             highlightColor = b.getString(KEY_HIGHLIGHT),
             showLeftHighlightColor = b.getBoolean(KEY_LEFT_HIGHLIGHT, false),
             showRightHighlightColor = b.getBoolean(KEY_RIGHT_HIGHLIGHT, false),
+            showLeftNarrowFont = b.getBoolean(KEY_LEFT_NARROW_FONT, false),
+            showRightNarrowFont = b.getBoolean(KEY_RIGHT_NARROW_FONT, false),
             outerGlow = b.getBoolean(KEY_OUTER_GLOW, false),
             islandOuterGlow = b.getBoolean(KEY_ISLAND_OUTER_GLOW, false),
             islandOuterGlowColor = b.getString(KEY_ISLAND_OUTER_GLOW_COLOR),
