@@ -25,7 +25,7 @@ class ConfigIOException implements Exception {
 }
 
 class ConfigIOController {
-  static const _appPrefPrefixes = [
+  static const _toastPrefPrefixes = [
     'pref_toast_forward_',
     'pref_toast_block_',
     'pref_toast_show_notification_',
@@ -43,6 +43,9 @@ class ConfigIOController {
     'pref_toast_out_effect_color_',
     'pref_toast_island_outer_glow_',
     'pref_toast_island_outer_glow_color_',
+  ];
+
+  static const _notificationAppPrefPrefixes = [
     'pref_media_island_enabled_',
     'pref_media_island_normal_notification_',
     'pref_media_island_outer_glow_',
@@ -95,8 +98,10 @@ class ConfigIOController {
     String key,
     List<String> packageNamesToKeep,
   ) {
-    final appPrefPrefixes = _appPrefPrefixes.toList()
-      ..sort((a, b) => b.length.compareTo(a.length));
+    final appPrefPrefixes = [
+      ..._toastPrefPrefixes,
+      ..._notificationAppPrefPrefixes,
+    ]..sort((a, b) => b.length.compareTo(a.length));
     final channelPrefPrefixes = _channelPrefPrefixes.toList()
       ..sort((a, b) => b.length.compareTo(a.length));
 
@@ -108,6 +113,34 @@ class ConfigIOController {
       if (!key.startsWith(prefix)) continue;
       final rest = key.substring(prefix.length);
       return _matchesPackage(rest, packageNamesToKeep);
+    }
+    return true;
+  }
+
+  static bool _shouldKeepEnabledAppConfig(
+    String key,
+    List<String> enabledPackages,
+    List<String> toastEnabledPackages,
+  ) {
+    final toastPrefPrefixes = _toastPrefPrefixes.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+    final notificationAppPrefPrefixes = _notificationAppPrefPrefixes.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+    final channelPrefPrefixes = _channelPrefPrefixes.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+
+    for (final prefix in toastPrefPrefixes) {
+      if (!key.startsWith(prefix)) continue;
+      return toastEnabledPackages.contains(key.substring(prefix.length));
+    }
+    for (final prefix in notificationAppPrefPrefixes) {
+      if (!key.startsWith(prefix)) continue;
+      return enabledPackages.contains(key.substring(prefix.length));
+    }
+    for (final prefix in channelPrefPrefixes) {
+      if (!key.startsWith(prefix)) continue;
+      final rest = key.substring(prefix.length);
+      return _matchesPackage(rest, enabledPackages);
     }
     return true;
   }
@@ -160,7 +193,34 @@ class ConfigIOController {
         .split(',')
         .where((pkg) => pkg.isNotEmpty)
         .toSet();
-    return _removeAppConfigExcept(enabledPackages);
+    final sortedEnabledPackages = enabledPackages.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+    final toastEnabledPackages = <String>{};
+    for (final key in prefs.getKeys()) {
+      if (!key.startsWith('pref_toast_forward_')) continue;
+      if (prefs.getBool(key) == true) {
+        toastEnabledPackages.add(key.substring('pref_toast_forward_'.length));
+      }
+    }
+    final sortedToastEnabledPackages = toastEnabledPackages.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+    final keysToRemove = <String>[];
+    for (final key in prefs.getKeys()) {
+      if (key == kPrefGenericWhitelist) continue;
+      if (!_shouldKeepEnabledAppConfig(
+        key,
+        sortedEnabledPackages,
+        sortedToastEnabledPackages,
+      )) {
+        keysToRemove.add(key);
+      }
+    }
+
+    var count = 0;
+    for (final key in keysToRemove) {
+      if (await prefs.remove(key)) count++;
+    }
+    return count;
   }
 
   /// 将所有 pref_ 开头的设置序列化为 JSON 字符串。
