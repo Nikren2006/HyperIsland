@@ -57,13 +57,14 @@ internal object IslandDispatcherNotifier {
             )
 
             islandBuilder.addPicture(HyperPicture("key_island_icon", appIcon))
-            islandBuilder.addPicture(HyperPicture("key_focus_icon", appIcon))
-
-            islandBuilder.setIconTextInfo(
-                picKey = "key_focus_icon",
-                title = request.title,
-                content = request.content,
-            )
+            if (!request.islandOnly) {
+                islandBuilder.addPicture(HyperPicture("key_focus_icon", appIcon))
+                islandBuilder.setIconTextInfo(
+                    picKey = "key_focus_icon",
+                    title = request.title,
+                    content = request.content,
+                )
+            }
             val effectiveFirstFloat = sceneDecision.applyToBoolean(request.firstFloat)
             val effectiveEnableFloat = sceneDecision.applyToBoolean(request.enableFloat)
 

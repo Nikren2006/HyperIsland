@@ -36,6 +36,7 @@ data class IslandRequest(
     val aodTitle: String? = null,
     val aodCustomizationJson: String? = null,
     val clearBeforePost: Boolean = false,
+    val islandOnly: Boolean = false,
 ) {
     fun toBundle(): Bundle = Bundle().apply {
         putString(KEY_TITLE, title)
@@ -67,6 +68,7 @@ data class IslandRequest(
         putString(KEY_AOD_CUSTOM, aodCustomizationJson)
         if (actions.isNotEmpty()) putParcelableArray(KEY_ACTIONS, actions.toTypedArray())
         putBoolean(KEY_CLEAR_BEFORE_POST, clearBeforePost)
+        putBoolean(KEY_ISLAND_ONLY, islandOnly)
     }
 
     companion object {
@@ -99,6 +101,7 @@ data class IslandRequest(
         private const val KEY_AOD_TITLE = "aodTitle"
         private const val KEY_AOD_CUSTOM = "aodCustomizationJson"
         private const val KEY_CLEAR_BEFORE_POST = "clearBeforePost"
+        private const val KEY_ISLAND_ONLY = "islandOnly"
 
         fun fromBundle(b: Bundle) = IslandRequest(
             title = b.getString(KEY_TITLE, ""),
@@ -130,6 +133,7 @@ data class IslandRequest(
             aodTitle = b.getString(KEY_AOD_TITLE),
             aodCustomizationJson = b.getString(KEY_AOD_CUSTOM),
             clearBeforePost = b.getBoolean(KEY_CLEAR_BEFORE_POST, false),
+            islandOnly = b.getBoolean(KEY_ISLAND_ONLY, false),
         )
 
         private fun iconFromBundle(b: Bundle): Icon? =

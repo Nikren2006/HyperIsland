@@ -299,6 +299,7 @@ object KeepIslandHook : BaseHook() {
                 highlightColor = highlightColor,
                 showLeftHighlightColor = highlightColor != null,
                 showRightHighlightColor = highlightColor != null,
+                islandOnly = true,
             )
             IslandDispatcher.post(context, request)
             posted = true
