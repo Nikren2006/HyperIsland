@@ -69,6 +69,7 @@ const kPrefIslandBgBigPath = 'pref_island_bg_big_path';
 const kPrefIslandBgExpandPath = 'pref_island_bg_expand_path';
 const kPrefIslandHeight = 'pref_island_height';
 const kPrefIslandTopOffset = 'pref_island_top_offset';
+const kPrefIslandTextColorMode = 'pref_island_text_color_mode';
 const kPrefKeepIsland = 'pref_keep_island';
 const kPrefKeepIslandAutoHide = 'pref_keep_island_auto_hide';
 const kPrefKeepIslandHighlightColor = 'pref_keep_island_highlight_color';
@@ -81,6 +82,11 @@ const kPrefThemeSeedColor = 'pref_theme_seed_color';
 const kPrefBlurBars = 'pref_blur_bars';
 const kPrefDebugLog = 'pref_debug_log';
 const kPrefOnboardingCompleted = 'pref_onboarding_completed';
+
+const kIslandTextColorDefault = 'default';
+const kIslandTextColorBlack = 'black';
+const kIslandTextColorFollowBackground = 'follow_background';
+const kIslandTextColorInvertBackground = 'invert_background';
 
 class AiLogEntry {
   const AiLogEntry({
@@ -198,6 +204,7 @@ class SettingsController extends ChangeNotifier {
   String islandBgExpandPath = '';
   double islandHeight = 0;
   double islandTopOffset = 0;
+  String islandTextColorMode = kIslandTextColorDefault;
   bool keepIsland = false;
   bool keepIslandAutoHide = true;
   String keepIslandHighlightColor = '';
@@ -309,6 +316,9 @@ class SettingsController extends ChangeNotifier {
     islandBgExpandPath = prefs.getString(kPrefIslandBgExpandPath) ?? '';
     islandHeight = prefs.getDouble(kPrefIslandHeight) ?? 0;
     islandTopOffset = prefs.getDouble(kPrefIslandTopOffset) ?? 0;
+    islandTextColorMode = _normalizeIslandTextColorMode(
+      prefs.getString(kPrefIslandTextColorMode),
+    );
     keepIsland = prefs.getBool(kPrefKeepIsland) ?? false;
     keepIslandAutoHide = prefs.getBool(kPrefKeepIslandAutoHide) ?? true;
     keepIslandHighlightColor =
@@ -937,6 +947,19 @@ class SettingsController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> setIslandTextColorMode(String value) async {
+    final normalized = _normalizeIslandTextColorMode(value);
+    if (islandTextColorMode == normalized) return;
+    final prefs = await _getPrefs();
+    if (normalized == kIslandTextColorDefault) {
+      await prefs.remove(kPrefIslandTextColorMode);
+    } else {
+      await prefs.setString(kPrefIslandTextColorMode, normalized);
+    }
+    islandTextColorMode = normalized;
+    notifyListeners();
+  }
+
   Future<void> setKeepIsland(bool value) async {
     if (keepIsland == value) return;
     final prefs = await _getPrefs();
@@ -1066,6 +1089,15 @@ class SettingsController extends ChangeNotifier {
     final matches = RegExp(r'\d+').allMatches(core);
     if (matches.isEmpty) return const [0];
     return matches.map((m) => int.tryParse(m.group(0) ?? '0') ?? 0).toList();
+  }
+
+  String _normalizeIslandTextColorMode(String? value) {
+    return switch (value) {
+      kIslandTextColorBlack => kIslandTextColorBlack,
+      kIslandTextColorFollowBackground => kIslandTextColorFollowBackground,
+      kIslandTextColorInvertBackground => kIslandTextColorInvertBackground,
+      _ => kIslandTextColorDefault,
+    };
   }
 
   AiLogEntry? _parseAiLog(String? raw) {

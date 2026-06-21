@@ -245,6 +245,7 @@ class XposedPrefsSyncApp : Application(), XposedServiceHelper.OnServiceListener 
             "pref_ai_max_tokens",
             "pref_island_height",
             "pref_island_top_offset",
+            "pref_island_text_color_mode",
             "pref_keep_island",
             "pref_keep_island_auto_hide",
             "pref_temp_hide_screen_pinning",
