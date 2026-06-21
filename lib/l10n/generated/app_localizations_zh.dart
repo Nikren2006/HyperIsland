@@ -1633,6 +1633,13 @@ class AppLocalizationsZh extends AppLocalizations {
       '控制系统场景是否允许临时隐藏超级岛。关闭某项后，会拦截对应场景的系统隐藏逻辑。';
 
   @override
+  String get hideBehaviorMasterSwitch => '启用隐藏行为 Hook';
+
+  @override
+  String get hideBehaviorMasterSwitchSubtitle =>
+      '开启后才注册隐藏行为 Hook；关闭后完全不 Hook，默认关闭';
+
+  @override
   String get hideBehaviorScreenPinning => '屏幕固定';
 
   @override

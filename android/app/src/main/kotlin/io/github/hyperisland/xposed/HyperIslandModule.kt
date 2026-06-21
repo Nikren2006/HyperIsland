@@ -49,7 +49,9 @@ class HyperIslandModule : XposedModule() {
                 TextShadeHook.init(this, param)
                 IslandDimenHook.init(this, param)
                 IslandTopOffsetHook.init(this, param)
-                TempHiddenBehaviorHook.init(this, param)
+                if (ConfigManager.getBoolean("pref_temp_hide_behavior_enabled", false)) {
+                    TempHiddenBehaviorHook.init(this, param)
+                }
                 if (ConfigManager.getBoolean("pref_smooth_island", false)) {
                     SmoothIslandHook.init(this, param)
                 }

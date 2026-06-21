@@ -73,6 +73,7 @@ const kPrefIslandTextColorMode = 'pref_island_text_color_mode';
 const kPrefKeepIsland = 'pref_keep_island';
 const kPrefKeepIslandAutoHide = 'pref_keep_island_auto_hide';
 const kPrefKeepIslandHighlightColor = 'pref_keep_island_highlight_color';
+const kPrefTempHideBehaviorEnabled = 'pref_temp_hide_behavior_enabled';
 const kPrefTempHideScreenPinning = 'pref_temp_hide_screen_pinning';
 const kPrefTempHideBouncerShowing = 'pref_temp_hide_bouncer_showing';
 const kPrefTempHideFullscreen = 'pref_temp_hide_fullscreen';
@@ -210,6 +211,7 @@ class SettingsController extends ChangeNotifier {
   bool keepIsland = false;
   bool keepIslandAutoHide = true;
   String keepIslandHighlightColor = '';
+  bool tempHideBehaviorEnabled = false;
   bool tempHideScreenPinning = true;
   bool tempHideBouncerShowing = true;
   bool tempHideFullscreen = true;
@@ -325,6 +327,8 @@ class SettingsController extends ChangeNotifier {
     keepIslandAutoHide = prefs.getBool(kPrefKeepIslandAutoHide) ?? true;
     keepIslandHighlightColor =
         prefs.getString(kPrefKeepIslandHighlightColor) ?? '';
+    tempHideBehaviorEnabled =
+        prefs.getBool(kPrefTempHideBehaviorEnabled) ?? false;
     tempHideScreenPinning = prefs.getBool(kPrefTempHideScreenPinning) ?? true;
     tempHideBouncerShowing = prefs.getBool(kPrefTempHideBouncerShowing) ?? true;
     tempHideFullscreen = prefs.getBool(kPrefTempHideFullscreen) ?? true;
@@ -990,6 +994,12 @@ class SettingsController extends ChangeNotifier {
     keepIslandHighlightColor = normalized;
     notifyListeners();
   }
+
+  Future<void> setTempHideBehaviorEnabled(bool value) => _setBoolPref(
+    kPrefTempHideBehaviorEnabled,
+    value,
+    (v) => tempHideBehaviorEnabled = v,
+  );
 
   Future<void> setTempHideScreenPinning(bool value) => _setBoolPref(
     kPrefTempHideScreenPinning,

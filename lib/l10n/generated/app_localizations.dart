@@ -3180,6 +3180,18 @@ abstract class AppLocalizations {
   /// **'控制系统场景是否允许临时隐藏超级岛。关闭某项后，会拦截对应场景的系统隐藏逻辑。'**
   String get hideBehaviorDescription;
 
+  /// No description provided for @hideBehaviorMasterSwitch.
+  ///
+  /// In zh, this message translates to:
+  /// **'启用隐藏行为 Hook'**
+  String get hideBehaviorMasterSwitch;
+
+  /// No description provided for @hideBehaviorMasterSwitchSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开启后才注册隐藏行为 Hook；关闭后完全不 Hook，默认关闭'**
+  String get hideBehaviorMasterSwitchSubtitle;
+
   /// No description provided for @hideBehaviorScreenPinning.
   ///
   /// In zh, this message translates to:

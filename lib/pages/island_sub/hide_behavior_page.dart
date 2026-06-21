@@ -32,6 +32,17 @@ class _HideBehaviorPageState extends State<HideBehaviorPage> {
     setState(() {});
   }
 
+  Future<void> _onTempHideBehaviorEnabledChanged(bool value) async {
+    await _ctrl.setTempHideBehaviorEnabled(value);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.restartScopeApp),
+        duration: const Duration(seconds: 4),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -59,6 +70,18 @@ class _HideBehaviorPageState extends State<HideBehaviorPage> {
                 Card(
                   elevation: 0,
                   color: cs.surfaceContainerHighest,
+                  child: _SwitchTile(
+                    title: l10n.hideBehaviorMasterSwitch,
+                    subtitle: l10n.hideBehaviorMasterSwitchSubtitle,
+                    value: _ctrl.tempHideBehaviorEnabled,
+                    onChanged: _onTempHideBehaviorEnabledChanged,
+                    titleStyle: titleStyle,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Card(
+                  elevation: 0,
+                  color: cs.surfaceContainerHighest,
                   clipBehavior: Clip.antiAlias,
                   child: Column(
                     children: [
@@ -66,7 +89,9 @@ class _HideBehaviorPageState extends State<HideBehaviorPage> {
                         title: l10n.hideBehaviorScreenPinning,
                         subtitle: l10n.hideBehaviorScreenPinningSubtitle,
                         value: _ctrl.tempHideScreenPinning,
-                        onChanged: _ctrl.setTempHideScreenPinning,
+                        onChanged: _ctrl.tempHideBehaviorEnabled
+                            ? _ctrl.setTempHideScreenPinning
+                            : null,
                         titleStyle: titleStyle,
                       ),
                       const Divider(height: 1, indent: 16, endIndent: 16),
@@ -74,7 +99,9 @@ class _HideBehaviorPageState extends State<HideBehaviorPage> {
                         title: l10n.hideBehaviorBouncerShowing,
                         subtitle: l10n.hideBehaviorBouncerShowingSubtitle,
                         value: _ctrl.tempHideBouncerShowing,
-                        onChanged: _ctrl.setTempHideBouncerShowing,
+                        onChanged: _ctrl.tempHideBehaviorEnabled
+                            ? _ctrl.setTempHideBouncerShowing
+                            : null,
                         titleStyle: titleStyle,
                       ),
                       const Divider(height: 1, indent: 16, endIndent: 16),
@@ -82,7 +109,9 @@ class _HideBehaviorPageState extends State<HideBehaviorPage> {
                         title: l10n.hideBehaviorFullscreen,
                         subtitle: l10n.hideBehaviorFullscreenSubtitle,
                         value: _ctrl.tempHideFullscreen,
-                        onChanged: _ctrl.setTempHideFullscreen,
+                        onChanged: _ctrl.tempHideBehaviorEnabled
+                            ? _ctrl.setTempHideFullscreen
+                            : null,
                         titleStyle: titleStyle,
                       ),
                       const Divider(height: 1, indent: 16, endIndent: 16),
@@ -90,7 +119,9 @@ class _HideBehaviorPageState extends State<HideBehaviorPage> {
                         title: l10n.hideBehaviorScreenLocked,
                         subtitle: l10n.hideBehaviorScreenLockedSubtitle,
                         value: _ctrl.tempHideScreenLocked,
-                        onChanged: _ctrl.setTempHideScreenLocked,
+                        onChanged: _ctrl.tempHideBehaviorEnabled
+                            ? _ctrl.setTempHideScreenLocked
+                            : null,
                         titleStyle: titleStyle,
                       ),
                       const Divider(height: 1, indent: 16, endIndent: 16),
@@ -98,7 +129,9 @@ class _HideBehaviorPageState extends State<HideBehaviorPage> {
                         title: l10n.hideBehaviorNotificationCenter,
                         subtitle: l10n.hideBehaviorNotificationCenterSubtitle,
                         value: _ctrl.tempHideNotificationCenter,
-                        onChanged: _ctrl.setTempHideNotificationCenter,
+                        onChanged: _ctrl.tempHideBehaviorEnabled
+                            ? _ctrl.setTempHideNotificationCenter
+                            : null,
                         titleStyle: titleStyle,
                       ),
                     ],
@@ -126,7 +159,7 @@ class _SwitchTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final bool value;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged;
   final TextStyle? titleStyle;
 
   @override
@@ -136,7 +169,9 @@ class _SwitchTile extends StatelessWidget {
       title: Text(title, style: titleStyle),
       subtitle: Text(subtitle),
       value: value,
-      onChanged: InteractionHaptics.interceptToggle(onChanged),
+      onChanged: onChanged == null
+          ? null
+          : InteractionHaptics.interceptToggle(onChanged!),
     );
   }
 }

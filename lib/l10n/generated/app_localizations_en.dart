@@ -1721,6 +1721,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Control whether system scenes are allowed to temporarily hide the island. Turning an item off blocks the matching system hide logic.';
 
   @override
+  String get hideBehaviorMasterSwitch => 'Enable hide behavior hook';
+
+  @override
+  String get hideBehaviorMasterSwitchSubtitle =>
+      'Registers the hide behavior hook only when enabled. Disabled means no hook and is the default.';
+
+  @override
   String get hideBehaviorScreenPinning => 'Screen pinning';
 
   @override
