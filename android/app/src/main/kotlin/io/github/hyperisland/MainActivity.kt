@@ -81,6 +81,15 @@ class MainActivity : FlutterActivity() {
                     handleShowCustomTest(result, title, content, clearPrevious, enableFloat)
                 }
 
+                "getAppVersion" -> {
+                    val info = packageManager.getPackageInfo(packageName, 0)
+                    result.success(info.versionName ?: "")
+                }
+
+                "getBuildTime" -> {
+                    result.success(BuildConfig.BUILD_TIME)
+                }
+
                 "getInstalledApps" -> {
                     val includeSystem = call.argument<Boolean>("includeSystem") ?: false
                     if (isMiuiAppListPermissionSupported() && !checkAppListPermission()) {

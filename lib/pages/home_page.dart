@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/settings_controller.dart';
 import '../controllers/update_controller.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../services/app_info_service.dart';
 import '../widgets/blur_app_bar.dart';
 import '../widgets/section_label.dart';
 
@@ -30,15 +30,16 @@ class _HomePageState extends State<HomePage> {
     _ctrl.addListener(() {
       if (mounted) setState(() {});
     });
-    PackageInfo.fromPlatform().then((info) async {
-      if (mounted) setState(() => _version = 'v${info.version}');
+    AppInfoService.getVersion().then((version) async {
+      final buildTime = await AppInfoService.getBuildTime();
+      if (mounted) setState(() => _version = 'v$version-$buildTime');
       final shouldShowUpdateDialog = await SettingsController.instance
-          .syncConfigAppVersion(info.version);
+          .syncConfigAppVersion(version);
       if (mounted && shouldShowUpdateDialog) {
-        await _showVersionUpdatedDialog(info.version);
+        await _showVersionUpdatedDialog(version);
       }
       if (SettingsController.instance.checkUpdateOnLaunch && mounted) {
-        UpdateController.checkAndShow(context, info.version);
+        UpdateController.checkAndShow(context, version);
       }
     });
   }

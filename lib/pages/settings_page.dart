@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controllers/settings_controller.dart';
 import '../controllers/update_controller.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../widgets/blur_app_bar.dart';
 import '../services/interaction_haptics.dart';
+import '../services/app_info_service.dart';
 import 'island_sub/island_appearance_page.dart';
 import 'island_sub/island_other_page.dart';
 import 'island_sub/misc_page.dart';
@@ -106,11 +106,11 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> _doCheckUpdate() async {
     setState(() => _checkingUpdate = true);
     try {
-      final info = await PackageInfo.fromPlatform();
+      final version = await AppInfoService.getVersion();
       if (mounted) {
         await UpdateController.checkAndShow(
           context,
-          info.version,
+          version,
           showUpToDate: true,
         );
       }

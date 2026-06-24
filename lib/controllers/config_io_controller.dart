@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/app_cache_service.dart';
+import '../services/app_info_service.dart';
 import 'settings_controller.dart';
 import 'whitelist_controller.dart';
 
@@ -226,16 +226,16 @@ class ConfigIOController {
   /// 将所有 pref_ 开头的设置序列化为 JSON 字符串。
   static Future<String> exportToJson() async {
     final prefs = await SharedPreferences.getInstance();
-    final packageInfo = await PackageInfo.fromPlatform();
+    final appVersion = await AppInfoService.getVersion();
     final keys = prefs.getKeys().where((k) => k.startsWith('pref_'));
     final Map<String, dynamic> settings = {};
     for (final key in keys) {
       settings[key] = prefs.get(key);
     }
-    settings[kPrefConfigAppVersion] = packageInfo.version;
+    settings[kPrefConfigAppVersion] = appVersion;
     return const JsonEncoder.withIndent('  ').convert({
       'version': 1,
-      'appVersion': packageInfo.version,
+      'appVersion': appVersion,
       'settings': settings,
     });
   }
@@ -293,16 +293,14 @@ class ConfigIOController {
 
   /// 从用户选择的 JSON 文件导入，返回写入的条目数。
   static Future<int> importFromFile() async {
-    final result = await FilePicker.platform.pickFiles(
+    final pickedFile = await FilePicker.pickFile(
       type: FileType.custom,
       allowedExtensions: ['json'],
-      withData: false,
-      withReadStream: false,
     );
-    if (result == null || result.files.isEmpty) {
+    if (pickedFile == null) {
       throw const ConfigIOException(ConfigIOError.noFileSelected);
     }
-    final path = result.files.first.path;
+    final path = pickedFile.path;
     if (path == null) throw const ConfigIOException(ConfigIOError.noFilePath);
     final json = await File(path).readAsString();
     return importFromJson(json);

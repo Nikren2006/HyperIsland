@@ -1,16 +1,23 @@
 import java.util.Properties
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+val buildTime: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // The Flutter Gradle Plugin must be applied after the Android Gradle plugin.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
     namespace = "io.github.hyperisland"
-    compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    compileSdk = 37
+    ndkVersion = "28.2.13676358"
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -21,6 +28,9 @@ android {
         resources {
             merges += "META-INF/xposed/*"
             excludes += "**"
+        }
+        jniLibs {
+            useLegacyPackaging = true
         }
     }
 
@@ -53,10 +63,11 @@ android {
 
     defaultConfig {
         applicationId = "io.github.hyperisland"
-        minSdk = 27
+        minSdk = 33
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
     }
 
     buildTypes {
@@ -98,6 +109,6 @@ configurations.all {
 dependencies {
     implementation("androidx.graphics:graphics-shapes:1.1.0")
     implementation("io.github.d4viddf:hyperisland_kit:0.4.4")
-    compileOnly("io.github.libxposed:api:101.0.0")
-    implementation("io.github.libxposed:service:101.0.0")
+    compileOnly("io.github.libxposed:api:102.0.0")
+    implementation("io.github.libxposed:service:102.0.0")
 }

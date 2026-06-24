@@ -20,15 +20,11 @@ class IslandBackgroundService {
   /// Picks an image file and returns the local path (no copy yet).
   static Future<String?> pickImage() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final pickedFile = await FilePicker.pickFile(
         type: FileType.image,
-        allowMultiple: false,
       );
 
-      if (result == null || result.files.isEmpty) return null;
-
-      final pickedFile = result.files.first;
-      return pickedFile.path;
+      return pickedFile?.path;
     } catch (e) {
       debugPrint('IslandBackgroundService.pickImage error: $e');
       return null;
