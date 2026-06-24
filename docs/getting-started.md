@@ -57,7 +57,7 @@
 
 ### AI 总结配置
 
-- AI总结仅支持**非思考**模型，请勿使用思考模型，如DeepSeek请使用 **deepseek-chat**
+- AI总结仅支持**非思考**模型，请勿使用思考模型，如DeepSeek请使用 **deepseek-v4-flash**
 - URL需完整填写，如DeepSeek模型需填写 https://api.deepseek.com/v1/chat/completions **不可遗漏/chat/completions**
 - 总结失败会自动回退为普通通知，如不生效请检查是否正确配置
 - 如果仍报错请检查**账户余额**是否充足

@@ -57,7 +57,7 @@ Download Island is disabled by default. Go to the app and enable **"Show System 
 
 ### AI Summary Configuration
 
-- AI summary only supports **non-reasoning** models. Do not use reasoning models. For DeepSeek, use **deepseek-chat**
+- AI summary only supports **non-reasoning** models. Do not use reasoning models. For DeepSeek, use **deepseek-v4-flash**
 - URL must be fully filled in. For DeepSeek models, fill in `https://api.deepseek.com/v1/chat/completions` — **do not omit `/chat/completions`**
 - If summary fails, it will automatically fall back to normal notifications. If not working, check your configuration
 - If still failing, check if your **account balance** is sufficient
