@@ -120,7 +120,7 @@ object SettingsHomeEntryHook : BaseHook() {
         if (context != null && iconId != 0) {
             context.resources.getDrawable(iconId, null)?.also { moduleIconState = it.constantState }
         } else {
-            null
+            resources?.getDrawable(android.R.drawable.ic_dialog_info, null)
         }
     } catch (_: Throwable) {
         resources?.getDrawable(android.R.drawable.ic_dialog_info, null)
