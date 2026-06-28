@@ -8,13 +8,17 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.os.BatteryManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import io.github.hyperisland.xposed.ConfigManager
 import io.github.hyperisland.xposed.utils.HookUtils
 import io.github.libxposed.api.XposedModule
 import io.github.libxposed.api.XposedModuleInterface.PackageLoadedParam
+import java.io.File
 import java.lang.reflect.Method
 import java.util.Collections
 import java.util.Locale
+import java.lang.ref.WeakReference
 import java.util.WeakHashMap
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
@@ -50,11 +54,17 @@ object ChargeIslandHook : BaseHook() {
     private val hookedClassLoaders = ConcurrentHashMap.newKeySet<Int>()
     private val hookedMethods = Collections.newSetFromMap(WeakHashMap<Method, Boolean>())
     private val modelAccessorsByClass: ConcurrentMap<Class<*>, ModelAccessors> = ConcurrentHashMap()
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     @Volatile private var appContext: Context? = null
     @Volatile private var receiverRegistered = false
     @Volatile private var battery = BatterySnapshot()
     @Volatile private var lastSnapshotLogAt = 0L
+    @Volatile private var lastPowerRefreshAt = 0L
+    @Volatile private var chargeLeftHolderRef: WeakReference<Any>? = null
+    @Volatile private var chargeRightHolderRef: WeakReference<Any>? = null
+    @Volatile private var lastLeftViewText: String? = null
+    @Volatile private var lastRightViewText: String? = null
 
     override fun getTag() = TAG
 
@@ -65,8 +75,10 @@ object ChargeIslandHook : BaseHook() {
         HookUtils.hookDynamicClassLoaders(module, ClassLoader.getSystemClassLoader()) { classLoader ->
             debug(module, "dynamic classloader created: $classLoader")
             hookChargeModel(module, classLoader)
+            hookIslandTextHolder(module, classLoader)
         }
         hookChargeModel(module, param.defaultClassLoader)
+        hookIslandTextHolder(module, param.defaultClassLoader)
     }
 
     private fun hookApplicationOnCreate(module: XposedModule, classLoader: ClassLoader) {
@@ -125,8 +137,42 @@ object ChargeIslandHook : BaseHook() {
                         model
                     }
                 }
-                debug(module, "hooked ${clazz.name}.${method.name} params=${method.parameterTypes.joinToString { it.name }}")
+            debug(module, "hooked ${clazz.name}.${method.name} params=${method.parameterTypes.joinToString { it.name }}")
             }
+    }
+
+    private fun hookIslandTextHolder(module: XposedModule, classLoader: ClassLoader) {
+        listOf(
+            "miui.systemui.dynamicisland.module.IslandImageTextViewHolder",
+            "miui.systemui.dynamicisland.module.IslandIconFixedWidthTextHolder",
+            "miui.systemui.dynamicisland.module.IslandImageTextView4Holder",
+        ).forEach { className ->
+            val clazz = runCatching { classLoader.loadClass(className) }.getOrNull() ?: return@forEach
+            clazz.declaredMethods
+                .filter { it.name == "bind" && it.parameterTypes.size == 2 }
+                .forEach { method ->
+                    var shouldHook = false
+                    synchronized(hookedMethods) {
+                        shouldHook = hookedMethods.add(method)
+                    }
+                    if (!shouldHook) return@forEach
+                    method.isAccessible = true
+                    module.hook(method).intercept { chain ->
+                        val result = chain.proceed()
+                        val key = callString(chain.args.getOrNull(1), "getKey")
+                        if (key == "charge") {
+                            if (className.endsWith("IslandImageTextView4Holder")) {
+                                chargeRightHolderRef = WeakReference(chain.thisObject)
+                            } else {
+                                chargeLeftHolderRef = WeakReference(chain.thisObject)
+                            }
+                            updateChargeViews(module)
+                        }
+                        result
+                    }
+                    debug(module, "hooked $className.${method.name} for charge text view refresh")
+                }
+        }
     }
 
     private fun hookChargeNumberAnimation(module: XposedModule, clazz: Class<*>) {
@@ -143,7 +189,7 @@ object ChargeIslandHook : BaseHook() {
             module.hook(method).intercept { chain ->
                 val result = chain.proceed()
                 if (ConfigManager.getBoolean(PREF_ENABLED, false)) {
-                    val duration = resolveChargeDurationMillis() ?: return@intercept result
+                    val duration = resolveChargeAnimationDurationMillis() ?: return@intercept result
                     val animator = readField(chain.thisObject, "valueAnimator") as? ValueAnimator
                     animator?.duration = duration
                     debug(module, "charge number animation duration overridden: ${duration}ms")
@@ -201,6 +247,16 @@ object ChargeIslandHook : BaseHook() {
         }
     }
 
+    private fun resolveChargeAnimationDurationMillis(): Long? {
+        return when (ConfigManager.getString(PREF_DURATION_MODE, DURATION_DEFAULT)) {
+            DURATION_CUSTOM -> ConfigManager.getInt(PREF_DURATION_SECONDS, 10)
+                .coerceIn(1, 86400)
+                .toLong() * 1000L
+            // 常驻不能拉长电量动画，否则 SystemUI 的模型刷新会被拖慢，真实功率也不再更新。
+            else -> null
+        }
+    }
+
     private fun registerBatteryReceiver(context: Context, module: XposedModule) {
         if (receiverRegistered) return
         synchronized(this) {
@@ -225,19 +281,97 @@ object ChargeIslandHook : BaseHook() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == Intent.ACTION_BATTERY_CHANGED) {
                 updateBatterySnapshot(intent)
+                refreshBatterySnapshot(context)
             }
         }
     }
 
     private fun refreshBatterySnapshot(context: Context) {
-        val manager = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager ?: return
+        val now = System.currentTimeMillis()
+        if (now - lastPowerRefreshAt < POWER_REFRESH_INTERVAL_MS) return
+        lastPowerRefreshAt = now
+
+        val old = battery
+        val sysfs = readSysfsBatterySnapshot()
+        val managerCurrent = readBatteryManagerCurrent(context)
+        val current = sysfs.currentMicroAmp ?: managerCurrent
+        if (current == null && sysfs.voltageMilliVolt == null) return
+        battery = old.copy(
+            voltageMilliVolt = sysfs.voltageMilliVolt ?: old.voltageMilliVolt,
+            voltageSource = sysfs.voltageSource ?: old.voltageSource,
+            currentMicroAmp = current ?: old.currentMicroAmp,
+            currentSource = when {
+                sysfs.currentMicroAmp != null -> sysfs.currentSource
+                managerCurrent != null -> "BatteryManager"
+                else -> old.currentSource
+            },
+        )
+        logSnapshotIfNeeded()
+        updateChargeViews()
+    }
+
+    private fun readBatteryManagerCurrent(context: Context): Int? {
+        val manager = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager ?: return null
         val currentMicroAmp = runCatching {
             manager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
         }.getOrDefault(Int.MIN_VALUE)
-        if (currentMicroAmp == Int.MIN_VALUE || currentMicroAmp == 0) return
-        val old = battery
-        battery = old.copy(currentMicroAmp = currentMicroAmp)
-        logSnapshotIfNeeded()
+        return currentMicroAmp.takeIf { it != Int.MIN_VALUE && it != 0 }
+    }
+
+    private fun readSysfsBatterySnapshot(): SysfsBatterySnapshot {
+        SYSFS_POWER_SUPPLY_NAMES.forEach { name ->
+            val dir = File("/sys/class/power_supply/$name")
+            val fromUevent = readPowerSupplyUevent(dir, name)
+            if (fromUevent.currentMicroAmp != null || fromUevent.voltageMilliVolt != null) return fromUevent
+
+            val current = readLongFile(File(dir, "current_now"))
+            val voltage = readLongFile(File(dir, "voltage_now"))
+            if (current != null || voltage != null) {
+                return SysfsBatterySnapshot(
+                    currentMicroAmp = current?.toIntOrNull(),
+                    currentSource = current?.let { "$name/current_now" },
+                    voltageMilliVolt = voltage?.toMilliVoltOrNull(),
+                    voltageSource = voltage?.let { "$name/voltage_now" },
+                )
+            }
+        }
+        return SysfsBatterySnapshot()
+    }
+
+    private fun readPowerSupplyUevent(dir: File, name: String): SysfsBatterySnapshot {
+        val values = readKeyValueFile(File(dir, "uevent"))
+        val current = values["POWER_SUPPLY_CURRENT_NOW"]
+            ?: values["POWER_SUPPLY_BATT_CURRENT_NOW"]
+            ?: values["POWER_SUPPLY_CONSTANT_CHARGE_CURRENT"]
+        val voltage = values["POWER_SUPPLY_VOLTAGE_NOW"]
+            ?: values["POWER_SUPPLY_BATT_VOLTAGE_NOW"]
+        return SysfsBatterySnapshot(
+            currentMicroAmp = current?.toIntOrNull(),
+            currentSource = current?.let { "$name/uevent" },
+            voltageMilliVolt = voltage?.toLongOrNull()?.toMilliVoltOrNull(),
+            voltageSource = voltage?.let { "$name/uevent" },
+        )
+    }
+
+    private fun readKeyValueFile(file: File): Map<String, String> = runCatching {
+        if (!file.canRead()) return emptyMap()
+        file.readLines().mapNotNull { line ->
+            val index = line.indexOf('=')
+            if (index <= 0) null else line.substring(0, index) to line.substring(index + 1)
+        }.toMap()
+    }.getOrDefault(emptyMap())
+
+    private fun readLongFile(file: File): Long? = runCatching {
+        if (!file.canRead()) return null
+        file.readText().trim().toLongOrNull()
+    }.getOrNull()
+
+    private fun Long.toIntOrNull(): Int? = takeIf { it in Int.MIN_VALUE..Int.MAX_VALUE }?.toInt()
+
+    private fun Long.toMilliVoltOrNull(): Int? {
+        if (this <= 0L) return null
+        val milliVolt = if (this > 100000L) this / 1000L else this
+        return milliVolt.toIntOrNull()
     }
 
     private fun updateBatterySnapshot(intent: Intent) {
@@ -251,6 +385,7 @@ object ChargeIslandHook : BaseHook() {
             levelPercent = percent,
             levelText = percent?.let { formatLevel(it) },
             voltageMilliVolt = voltageMilliVolt,
+            voltageSource = voltageMilliVolt?.let { "BATTERY_CHANGED" },
             temperatureCentiCelsius = temperatureCentiCelsius,
         )
         logSnapshotIfNeeded()
@@ -355,6 +490,91 @@ object ChargeIslandHook : BaseHook() {
         )
     }
 
+    private fun updateChargeViews(module: XposedModule? = null) {
+        if (!ConfigManager.getBoolean(PREF_ENABLED, false)) return
+        updateChargeLeftView(module)
+        updateChargeRightView(module)
+    }
+
+    private fun updateChargeLeftView(module: XposedModule? = null) {
+        val leftMode = ConfigManager.getString(PREF_LEFT_MODE, MODE_DEFAULT)
+        if (leftMode == MODE_DEFAULT) return
+        val text = formatMode(leftMode) ?: return
+        if (text == lastLeftViewText) return
+        val holder = chargeLeftHolderRef?.get() ?: return
+        mainHandler.post {
+            runCatching {
+                if (setHolderText(holder, text)) {
+                    lastLeftViewText = text
+                    module?.let { debug(it, "charge left view refreshed: $text") }
+                }
+            }.onFailure { error ->
+                module?.let { logWarn(it, "charge left view refresh failed: ${error.message}") }
+            }
+        }
+    }
+
+    private fun updateChargeRightView(module: XposedModule? = null) {
+        val rightMode = ConfigManager.getString(PREF_RIGHT_MODE, MODE_DEFAULT)
+        if (rightMode == MODE_DEFAULT) return
+        val text = formatMode(rightMode) ?: return
+        if (text == lastRightViewText) return
+        val holder = chargeRightHolderRef?.get() ?: return
+        mainHandler.post {
+            runCatching {
+                if (setRightHolderText(holder, text)) {
+                    lastRightViewText = text
+                    module?.let { debug(it, "charge right view refreshed: $text") }
+                }
+            }.onFailure { error ->
+                module?.let { logWarn(it, "charge right view refresh failed: ${error.message}") }
+            }
+        }
+    }
+
+    private fun setHolderText(holder: Any, text: String): Boolean {
+        val textHolder = readField(holder, "textViewHolder") ?: holder
+        val title = readField(textHolder, "title") ?: return false
+        val content = readField(textHolder, "content")
+        if (readField(textHolder, "fixedContainer") != null && content != null) {
+            val parts = splitValueAndUnit(text)
+            val titleUpdated = setTextIfChanged(title, parts.first)
+            val contentUpdated = setTextIfChanged(content, parts.second)
+            return titleUpdated || contentUpdated
+        }
+        return setTextIfChanged(title, text)
+    }
+
+    private fun setRightHolderText(holder: Any, text: String): Boolean {
+        val chargeView = readField(holder, "chargeView")
+        val chargeTextView = runCatching {
+            chargeView?.javaClass?.getMethod("getTextView")?.invoke(chargeView)
+        }.getOrNull()
+        val powerSaveView = readField(holder, "powerSaveView")
+        return listOfNotNull(chargeTextView, powerSaveView)
+            .map { setTextIfChanged(it, text) }
+            .any { it }
+    }
+
+    private fun setTextIfChanged(view: Any, text: String): Boolean {
+        val current = callString(view, "getText")
+        return if (current != null && current != text) {
+            callSetText(view, text)
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun splitValueAndUnit(text: String): Pair<String, String> {
+        val match = Regex("^(-?\\d+(?:\\.\\d+)?)(.*)$").matchEntire(text)
+        return if (match == null) {
+            text to ""
+        } else {
+            match.groupValues[1] to match.groupValues[2]
+        }
+    }
+
     private fun debug(module: XposedModule, message: String) {
         log(module, message)
     }
@@ -414,6 +634,18 @@ object ChargeIslandHook : BaseHook() {
         obj.javaClass.getMethod(methodName).invoke(obj) as? Number
     }.getOrNull()
 
+    private fun callString(obj: Any?, methodName: String): String? = runCatching {
+        obj?.javaClass?.getMethod(methodName)?.invoke(obj)?.toString()
+    }.getOrNull()
+
+    private fun callSetText(obj: Any, text: String) {
+        val method = obj.javaClass.methods.firstOrNull { method ->
+            method.name == "setText" && method.parameterTypes.size == 1 &&
+                CharSequence::class.java.isAssignableFrom(method.parameterTypes[0])
+        } ?: return
+        method.invoke(obj, text)
+    }
+
     private fun readField(obj: Any?, fieldName: String): Any? {
         if (obj == null) return null
         var clazz: Class<*>? = obj.javaClass
@@ -432,7 +664,9 @@ object ChargeIslandHook : BaseHook() {
         val levelPercent: Double? = null,
         val levelText: String? = null,
         val voltageMilliVolt: Int? = null,
+        val voltageSource: String? = null,
         val currentMicroAmp: Int? = null,
+        val currentSource: String? = null,
         val temperatureCentiCelsius: Int? = null,
     ) {
         fun toLogString(): String {
@@ -441,9 +675,16 @@ object ChargeIslandHook : BaseHook() {
             } else {
                 null
             }
-            return "level=$levelText voltageMv=$voltageMilliVolt currentUa=$currentMicroAmp temp=${temperatureCentiCelsius?.let { it / 10.0 }} powerW=$powerWatt"
+            return "level=$levelText voltageMv=$voltageMilliVolt voltageSource=$voltageSource currentUa=$currentMicroAmp currentSource=$currentSource temp=${temperatureCentiCelsius?.let { it / 10.0 }} powerW=$powerWatt"
         }
     }
+
+    private data class SysfsBatterySnapshot(
+        val currentMicroAmp: Int? = null,
+        val currentSource: String? = null,
+        val voltageMilliVolt: Int? = null,
+        val voltageSource: String? = null,
+    )
 
     private class ModelAccessors(
         val getLeft: Method,
@@ -529,4 +770,6 @@ object ChargeIslandHook : BaseHook() {
 
     private val POWER_PATTERN = Regex("\\d+(?:\\.\\d+)?\\s*(?:W|w)(?:\\s*max)?")
     private val LEVEL_PATTERN = Regex("\\d+(?:\\.\\d+)?\\s*%")
+    private val SYSFS_POWER_SUPPLY_NAMES = listOf("bms", "battery")
+    private const val POWER_REFRESH_INTERVAL_MS = 1000L
 }
