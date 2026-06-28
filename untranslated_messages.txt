@@ -65,6 +65,7 @@
     "importErrorMissingChannels",
     "importErrorNoMatch",
     "importErrorUnknown",
+    "chargeIslandOuterGlowSubtitle",
     "bluetoothIslandWhitelistTitle",
     "bluetoothIslandWhitelistSubtitle",
     "bluetoothIslandWhitelistButton",
@@ -74,6 +75,30 @@
     "bluetoothIslandWhitelistAllHint",
     "bluetoothIslandLoadDevicesFailed",
     "bluetoothIslandNeedBtPermission"
+  ],
+
+  "ru": [
+    "noChannelsFoundSubtitle",
+    "chargeIslandTitle",
+    "chargeIslandSubtitle",
+    "chargeIslandSettingsTitle",
+    "chargeIslandEnableTitle",
+    "chargeIslandEnableSubtitle",
+    "chargeIslandLeftModeTitle",
+    "chargeIslandRightModeTitle",
+    "chargeIslandModeDefault",
+    "chargeIslandModePower",
+    "chargeIslandModeVoltage",
+    "chargeIslandModeCurrent",
+    "chargeIslandModeLevel",
+    "chargeIslandModeTemperature",
+    "chargeIslandDurationModeTitle",
+    "chargeIslandDurationDefault",
+    "chargeIslandDurationCustom",
+    "chargeIslandDurationPersistent",
+    "chargeIslandDurationSecondsTitle",
+    "chargeIslandDurationSecondsUnit",
+    "chargeIslandOuterGlowSubtitle"
   ],
 
   "tr": [
@@ -147,6 +172,7 @@
     "importErrorMissingChannels",
     "importErrorNoMatch",
     "importErrorUnknown",
+    "chargeIslandOuterGlowSubtitle",
     "bluetoothIslandWhitelistTitle",
     "bluetoothIslandWhitelistSubtitle",
     "bluetoothIslandWhitelistButton",

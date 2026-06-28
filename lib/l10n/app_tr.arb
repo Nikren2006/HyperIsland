@@ -132,6 +132,7 @@
   "languageZh": "中文",
   "languageEn": "English",
   "languageJa": "日本語",
+  "languageRu": "Русский",
   "languageTr": "Türkçe",
   "exportToFile": "Dosyaya Dışa Aktar",
   "exportToFileSubtitle": "Yapılandırmayı JSON dosyası olarak kaydeder.",

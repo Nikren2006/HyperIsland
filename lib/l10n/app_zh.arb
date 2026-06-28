@@ -165,6 +165,7 @@
   "languageZh": "中文",
   "languageEn": "English",
   "languageJa": "日本語",
+  "languageRu": "Русский",
   "languageTr": "Türkçe",
   "exportToFile": "导出到文件",
   "exportToFileSubtitle": "将配置保存为 JSON 文件",

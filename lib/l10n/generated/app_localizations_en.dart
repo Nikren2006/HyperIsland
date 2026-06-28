@@ -338,6 +338,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageJa => '日本語';
 
   @override
+  String get languageRu => 'Русский';
+
+  @override
   String get languageTr => 'Türkçe';
 
   @override
@@ -1700,6 +1703,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chargeIslandDurationSecondsUnit => 's';
+
+  @override
+  String get chargeIslandOuterGlowSubtitle =>
+      'Control the outer glow effect of Charging Island';
 
   @override
   String get outerGlowTitle => 'Outer Glow';

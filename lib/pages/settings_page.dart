@@ -53,6 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
       'zh' => l10n.languageZh,
       'en' => l10n.languageEn,
       'ja' => l10n.languageJa,
+      'ru' => l10n.languageRu,
       'tr' => l10n.languageTr,
       _ => _ctrl.locale!.languageCode,
     };
@@ -86,6 +87,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 RadioListTile<Locale?>(
                   title: Text(l10n.languageJa),
                   value: const Locale('ja'),
+                ),
+                RadioListTile<Locale?>(
+                  title: Text(l10n.languageRu),
+                  value: const Locale('ru'),
                 ),
                 RadioListTile<Locale?>(
                   title: Text(l10n.languageTr),

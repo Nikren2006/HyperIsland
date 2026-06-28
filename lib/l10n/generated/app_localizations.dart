@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_ja.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_tr.dart';
 import 'app_localizations_zh.dart';
 
@@ -98,6 +99,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('ja'),
+    Locale('ru'),
     Locale('tr'),
     Locale('zh'),
   ];
@@ -683,6 +685,12 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'日本語'**
   String get languageJa;
+
+  /// No description provided for @languageRu.
+  ///
+  /// In zh, this message translates to:
+  /// **'Русский'**
+  String get languageRu;
 
   /// No description provided for @languageTr.
   ///
@@ -3156,6 +3164,12 @@ abstract class AppLocalizations {
   /// **'秒'**
   String get chargeIslandDurationSecondsUnit;
 
+  /// No description provided for @chargeIslandOuterGlowSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'控制充电超级岛的外圈光效'**
+  String get chargeIslandOuterGlowSubtitle;
+
   /// No description provided for @outerGlowTitle.
   ///
   /// In zh, this message translates to:
@@ -3378,7 +3392,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'ja', 'tr', 'zh'].contains(locale.languageCode);
+      <String>['en', 'ja', 'ru', 'tr', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3391,6 +3405,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'ja':
       return AppLocalizationsJa();
+    case 'ru':
+      return AppLocalizationsRu();
     case 'tr':
       return AppLocalizationsTr();
     case 'zh':
