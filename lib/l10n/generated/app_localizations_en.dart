@@ -1130,7 +1130,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String aiTimeoutLabel(int seconds) {
-    return 'AI Response Timeout';
+    return '${seconds}s';
   }
 
   @override
@@ -1236,6 +1236,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get templateAiNotificationIslandName => 'AI Notification Island';
+
+  @override
+  String get aiPromptDefault =>
+      'Extract key info from notification, left and right each no more than 6 words or 12 characters';
+
+  @override
+  String get aiDefaultNotificationText =>
+      '[Delivery] Your delivery has arrived and was placed in the parcel locker at the door';
+
+  @override
+  String get aiTestSampleUserContent => 'Reply exactly: test successful';
+
+  @override
+  String aiNotificationUserContent(String content) {
+    return 'App package: com.example.app\nTitle: Test notification\nBody: $content';
+  }
+
+  @override
+  String get aiJsonOnlyInstruction =>
+      'Return only the following JSON. Do not include any other text or code block:';
+
+  @override
+  String get aiJsonLeftDescription => 'left text (sender)';
+
+  @override
+  String get aiJsonRightDescription => 'right text (summary)';
+
+  @override
+  String get aiInvalidJsonError =>
+      'Invalid AI response format. JSON with left and right fields is required';
+
+  @override
+  String get aiEmptyJsonError =>
+      'AI response is empty. JSON with left and right fields is required';
+
+  @override
+  String get aiNotificationTestSection => 'Notification Test';
+
+  @override
+  String get aiNotificationContentLabel => 'Notification Content';
+
+  @override
+  String get aiTestNotificationTitle => 'Test Notification';
+
+  @override
+  String get aiNotificationSent => 'Notification sent';
+
+  @override
+  String get aiAiNotificationSent => 'AI notification sent';
+
+  @override
+  String get aiSendNotificationButton => 'Send Notification';
+
+  @override
+  String get aiSendAiNotificationButton => 'Send AI Notification';
 
   @override
   String get hideDesktopIconTitle => 'Hide Desktop Icon';

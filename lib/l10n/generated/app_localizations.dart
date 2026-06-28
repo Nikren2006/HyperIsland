@@ -2312,6 +2312,102 @@ abstract class AppLocalizations {
   /// **'AI 通知超级岛'**
   String get templateAiNotificationIslandName;
 
+  /// No description provided for @aiPromptDefault.
+  ///
+  /// In zh, this message translates to:
+  /// **'根据通知信息，提取关键信息，左右分别不超过 6 汉字 12 字符'**
+  String get aiPromptDefault;
+
+  /// No description provided for @aiDefaultNotificationText.
+  ///
+  /// In zh, this message translates to:
+  /// **'[外卖]，您的外卖到了，送至门口外卖柜'**
+  String get aiDefaultNotificationText;
+
+  /// No description provided for @aiTestSampleUserContent.
+  ///
+  /// In zh, this message translates to:
+  /// **'请直接回复：测试成功'**
+  String get aiTestSampleUserContent;
+
+  /// No description provided for @aiNotificationUserContent.
+  ///
+  /// In zh, this message translates to:
+  /// **'应用包名：com.example.app\n标题：测试通知\n正文：{content}'**
+  String aiNotificationUserContent(String content);
+
+  /// No description provided for @aiJsonOnlyInstruction.
+  ///
+  /// In zh, this message translates to:
+  /// **'仅返回如下 JSON，不得包含任何其他文字或代码块：'**
+  String get aiJsonOnlyInstruction;
+
+  /// No description provided for @aiJsonLeftDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'左侧文本（谁发的）'**
+  String get aiJsonLeftDescription;
+
+  /// No description provided for @aiJsonRightDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'右侧文本（总结）'**
+  String get aiJsonRightDescription;
+
+  /// No description provided for @aiInvalidJsonError.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 返回格式错误，需要包含 left 和 right 字段的 JSON'**
+  String get aiInvalidJsonError;
+
+  /// No description provided for @aiEmptyJsonError.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 返回为空，需要包含 left 和 right 字段的 JSON'**
+  String get aiEmptyJsonError;
+
+  /// No description provided for @aiNotificationTestSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'通知测试'**
+  String get aiNotificationTestSection;
+
+  /// No description provided for @aiNotificationContentLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'通知内容'**
+  String get aiNotificationContentLabel;
+
+  /// No description provided for @aiTestNotificationTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'测试通知'**
+  String get aiTestNotificationTitle;
+
+  /// No description provided for @aiNotificationSent.
+  ///
+  /// In zh, this message translates to:
+  /// **'通知已发送'**
+  String get aiNotificationSent;
+
+  /// No description provided for @aiAiNotificationSent.
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 通知已发送'**
+  String get aiAiNotificationSent;
+
+  /// No description provided for @aiSendNotificationButton.
+  ///
+  /// In zh, this message translates to:
+  /// **'发送通知'**
+  String get aiSendNotificationButton;
+
+  /// No description provided for @aiSendAiNotificationButton.
+  ///
+  /// In zh, this message translates to:
+  /// **'发送 AI 通知'**
+  String get aiSendAiNotificationButton;
+
   /// No description provided for @hideDesktopIconTitle.
   ///
   /// In zh, this message translates to:

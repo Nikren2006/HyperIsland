@@ -603,6 +603,29 @@
   "aiConfigSaved": "AI 配置已保存",
   "aiConfigTips": "AI 将收到通知的应用包名、标题和正文，返回左侧（来源）和右侧（内容）短文本。支持兼容 OpenAI 格式的接口（如 DeepSeek、Claude 等）。超过 3 秒未响应时自动回退到默认逻辑。",
   "templateAiNotificationIslandName": "AI 通知超级岛",
+  "aiPromptDefault": "根据通知信息，提取关键信息，左右分别不超过 6 汉字 12 字符",
+  "aiDefaultNotificationText": "[外卖]，您的外卖到了，送至门口外卖柜",
+  "aiTestSampleUserContent": "请直接回复：测试成功",
+  "aiNotificationUserContent": "应用包名：com.example.app\n标题：测试通知\n正文：{content}",
+  "@aiNotificationUserContent": {
+    "placeholders": {
+      "content": {
+        "type": "String"
+      }
+    }
+  },
+  "aiJsonOnlyInstruction": "仅返回如下 JSON，不得包含任何其他文字或代码块：",
+  "aiJsonLeftDescription": "左侧文本（谁发的）",
+  "aiJsonRightDescription": "右侧文本（总结）",
+  "aiInvalidJsonError": "AI 返回格式错误，需要包含 left 和 right 字段的 JSON",
+  "aiEmptyJsonError": "AI 返回为空，需要包含 left 和 right 字段的 JSON",
+  "aiNotificationTestSection": "通知测试",
+  "aiNotificationContentLabel": "通知内容",
+  "aiTestNotificationTitle": "测试通知",
+  "aiNotificationSent": "通知已发送",
+  "aiAiNotificationSent": "AI 通知已发送",
+  "aiSendNotificationButton": "发送通知",
+  "aiSendAiNotificationButton": "发送 AI 通知",
 
   "hideDesktopIconTitle": "隐藏桌面图标",
   "hideDesktopIconSubtitle": "隐藏启动器中的应用图标，隐藏后可通过 LSPosed 管理器打开",

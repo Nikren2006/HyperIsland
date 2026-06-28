@@ -20,8 +20,6 @@ class AiConfigPage extends StatefulWidget {
 class _AiConfigPageState extends State<AiConfigPage> {
   final _ctrl = SettingsController.instance;
   static const _platform = MethodChannel('io.github.hyperisland/test');
-  static const _defaultAiPrompt = '根据通知信息，提取关键信息，左右分别不超过6汉字12字符';
-  static const _defaultNotificationText = '[外卖]，您的外卖到了，送至门口外卖柜';
 
   late final TextEditingController _urlCtrl;
   late final TextEditingController _keyCtrl;
@@ -39,6 +37,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
   late int _aiMaxTokensDraft;
   late bool _aiEnabledValue;
   late bool _aiPromptInUserValue;
+  bool _localizedDefaultsInitialized = false;
 
   void _onCtrlChanged() {
     if (!mounted) return;
@@ -70,15 +69,25 @@ class _AiConfigPageState extends State<AiConfigPage> {
     _urlCtrl = TextEditingController(text: _ctrl.aiUrl);
     _keyCtrl = TextEditingController(text: _ctrl.aiApiKey);
     _modelCtrl = TextEditingController(text: _ctrl.aiModel);
-    _promptCtrl = TextEditingController(
-      text: _ctrl.aiPrompt.isEmpty ? _defaultAiPrompt : _ctrl.aiPrompt,
-    );
-    _notificationCtrl = TextEditingController(text: _defaultNotificationText);
+    _promptCtrl = TextEditingController(text: _ctrl.aiPrompt);
+    _notificationCtrl = TextEditingController();
     _aiTimeoutDraft = _ctrl.aiTimeout;
     _aiTemperatureDraft = _ctrl.aiTemperature;
     _aiMaxTokensDraft = _ctrl.aiMaxTokens;
     _aiEnabledValue = _ctrl.aiEnabled;
     _aiPromptInUserValue = _ctrl.aiPromptInUser;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_localizedDefaultsInitialized) return;
+    final l10n = AppLocalizations.of(context)!;
+    if (_promptCtrl.text.isEmpty) {
+      _promptCtrl.text = l10n.aiPromptDefault;
+    }
+    _notificationCtrl.text = l10n.aiDefaultNotificationText;
+    _localizedDefaultsInitialized = true;
   }
 
   @override
@@ -210,7 +219,9 @@ class _AiConfigPageState extends State<AiConfigPage> {
     });
 
     try {
-      const sampleUserContent = '请直接回复：测试成功';
+      final sampleUserContent = AppLocalizations.of(
+        context,
+      )!.aiTestSampleUserContent;
       requestBody = jsonEncode(
         _buildRequestPayload(
           model: model,
@@ -305,17 +316,22 @@ class _AiConfigPageState extends State<AiConfigPage> {
   }
 
   Future<String> _requestAiNotificationText(String content) async {
+    final l10n = AppLocalizations.of(context)!;
     final url = _urlCtrl.text.trim();
     final key = _keyCtrl.text.trim();
     final model = _modelCtrl.text.trim();
     if (url.isEmpty) {
-      throw Exception(AppLocalizations.of(context)!.aiTestUrlEmpty);
+      throw Exception(l10n.aiTestUrlEmpty);
     }
 
     final promptText = _promptCtrl.text.trim().isEmpty
-        ? _defaultAiPrompt
+        ? l10n.aiPromptDefault
         : _promptCtrl.text.trim();
-    final userContent = '应用包名：com.example.app\n标题：测试通知\n正文：$content';
+    final userContent = l10n.aiNotificationUserContent(content);
+    final jsonExample = jsonEncode({
+      'left': l10n.aiJsonLeftDescription,
+      'right': l10n.aiJsonRightDescription,
+    });
     final messages = _ctrl.aiPromptInUser
         ? [
             {
@@ -323,8 +339,8 @@ class _AiConfigPageState extends State<AiConfigPage> {
               'content': [
                 promptText,
                 '',
-                '仅返回如下 JSON，不得包含任何其他文字或代码块：',
-                '{"left":"左侧文本（谁发的）","right":"右侧文本（总结）"}',
+                l10n.aiJsonOnlyInstruction,
+                jsonExample,
                 '',
                 userContent,
               ].join('\n'),
@@ -335,8 +351,8 @@ class _AiConfigPageState extends State<AiConfigPage> {
               'role': 'system',
               'content': [
                 promptText,
-                '仅返回如下 JSON，不得包含任何其他文字或代码块：',
-                '{"left":"左侧文本(谁发的)","right":"右侧文本（总结）"}',
+                l10n.aiJsonOnlyInstruction,
+                jsonExample,
               ].join('\n'),
             },
             {'role': 'user', 'content': userContent},
@@ -385,14 +401,17 @@ class _AiConfigPageState extends State<AiConfigPage> {
         return (left, right);
       }
     } on Exception {
-      throw Exception('AI 返回格式错误，需要 JSON：{"left":"...","right":"..."}');
+      throw Exception(AppLocalizations.of(context)!.aiInvalidJsonError);
     }
-    throw Exception('AI 返回为空，需要 JSON：{"left":"...","right":"..."}');
+    throw Exception(AppLocalizations.of(context)!.aiEmptyJsonError);
   }
 
   Future<void> _sendNotification({required bool useAi}) async {
+    final l10n = AppLocalizations.of(context)!;
     final rawContent = _notificationCtrl.text.trim();
-    final content = rawContent.isEmpty ? _defaultNotificationText : rawContent;
+    final content = rawContent.isEmpty
+        ? l10n.aiDefaultNotificationText
+        : rawContent;
     setState(() {
       if (useAi) {
         _sendingAiNotification = true;
@@ -404,7 +423,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
     try {
       final (title, body) = useAi
           ? _splitAiNotificationText(await _requestAiNotificationText(content))
-          : ('测试通知', content);
+          : (l10n.aiTestNotificationTitle, content);
       await _platform.invokeMethod('showCustomTest', {
         'title': title,
         'content': body,
@@ -414,7 +433,9 @@ class _AiConfigPageState extends State<AiConfigPage> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(useAi ? 'AI 通知已发送' : '通知已发送'),
+          content: Text(
+            useAi ? l10n.aiAiNotificationSent : l10n.aiNotificationSent,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -557,7 +578,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
                                     style: textTheme.titleMedium,
                                   ),
                                   Text(
-                                    '${_aiTimeoutDraft}s',
+                                    l10n.aiTimeoutLabel(_aiTimeoutDraft),
                                     style: textTheme.bodySmall?.copyWith(
                                       color: cs.onSurfaceVariant,
                                     ),
@@ -574,7 +595,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
                             min: 2,
                             max: 15,
                             divisions: 13,
-                            label: '${_aiTimeoutDraft}s',
+                            label: l10n.aiTimeoutLabel(_aiTimeoutDraft),
                             onChanged: InteractionHaptics.interceptSlider(
                               _onTimeoutChanged,
                             ),
@@ -735,7 +756,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
                 ),
                 const SizedBox(height: 16),
 
-                SectionLabel('通知测试'),
+                SectionLabel(l10n.aiNotificationTestSection),
                 const SizedBox(height: 8),
                 Card(
                   elevation: 0,
@@ -747,8 +768,8 @@ class _AiConfigPageState extends State<AiConfigPage> {
                       children: [
                         _buildTextField(
                           controller: _notificationCtrl,
-                          label: '通知内容',
-                          hint: _defaultNotificationText,
+                          label: l10n.aiNotificationContentLabel,
+                          hint: l10n.aiDefaultNotificationText,
                           icon: FontAwesomeIcons.bell,
                           minLines: 2,
                           maxLines: 4,
@@ -777,7 +798,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
                                         FontAwesomeIcons.paperPlane,
                                         size: 16,
                                       ),
-                                label: const Text('发送通知'),
+                                label: Text(l10n.aiSendNotificationButton),
                                 style: OutlinedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,
@@ -807,7 +828,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
                                         FontAwesomeIcons.robot,
                                         size: 16,
                                       ),
-                                label: const Text('发送AI通知'),
+                                label: Text(l10n.aiSendAiNotificationButton),
                                 style: FilledButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 12,

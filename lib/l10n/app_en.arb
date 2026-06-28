@@ -422,7 +422,7 @@
   "aiPromptInUserTitle": "Put prompt in user message",
   "aiPromptInUserSubtitle": "Some models do not support system instructions; enable to put prompt in user message",
   "aiTimeoutTitle": "AI Response Timeout",
-  "aiTimeoutLabel": "AI Response Timeout",
+  "aiTimeoutLabel": "{seconds}s",
   "@aiTimeoutLabel": {
     "placeholders": {
       "seconds": { "type": "int" }
@@ -433,6 +433,26 @@
   "aiMaxTokensTitle": "Max Tokens",
   "aiMaxTokensSubtitle": "Limit the maximum length of AI-generated responses",
   "aiDefaultPromptFull": "Leave empty to use default prompt: Extract key info from notification, no more than 6 words or 12 characters for left and right sides",
+  "aiDefaultNotificationText": "[Delivery] Your delivery has arrived and was placed in the parcel locker at the door",
+  "aiTestSampleUserContent": "Reply exactly: test successful",
+  "aiNotificationUserContent": "App package: com.example.app\nTitle: Test notification\nBody: {content}",
+  "@aiNotificationUserContent": {
+    "placeholders": {
+      "content": { "type": "String" }
+    }
+  },
+  "aiJsonOnlyInstruction": "Return only the following JSON. Do not include any other text or code block:",
+  "aiJsonLeftDescription": "left text (sender)",
+  "aiJsonRightDescription": "right text (summary)",
+  "aiInvalidJsonError": "Invalid AI response format. JSON with left and right fields is required",
+  "aiEmptyJsonError": "AI response is empty. JSON with left and right fields is required",
+  "aiNotificationTestSection": "Notification Test",
+  "aiNotificationContentLabel": "Notification Content",
+  "aiTestNotificationTitle": "Test Notification",
+  "aiNotificationSent": "Notification sent",
+  "aiAiNotificationSent": "AI notification sent",
+  "aiSendNotificationButton": "Send Notification",
+  "aiSendAiNotificationButton": "Send AI Notification",
 
   "hideDesktopIconTitle": "Hide Desktop Icon",
   "hideDesktopIconSubtitle": "Hide the app icon from launcher. Open via LSPosed Manager after hiding",

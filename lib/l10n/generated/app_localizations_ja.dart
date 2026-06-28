@@ -1195,6 +1195,56 @@ class AppLocalizationsJa extends AppLocalizations {
   String get templateAiNotificationIslandName => 'AI Notification Island';
 
   @override
+  String get aiPromptDefault => '通知から重要な情報を抽出します。左右それぞれ 6 単語または 12 文字以内とします。';
+
+  @override
+  String get aiDefaultNotificationText => '[外卖]，您的外卖到了，送至门口外卖柜';
+
+  @override
+  String get aiTestSampleUserContent => '请直接回复：测试成功';
+
+  @override
+  String aiNotificationUserContent(String content) {
+    return '应用包名：com.example.app\n标题：测试通知\n正文：$content';
+  }
+
+  @override
+  String get aiJsonOnlyInstruction => '仅返回如下 JSON，不得包含任何其他文字或代码块：';
+
+  @override
+  String get aiJsonLeftDescription => '左侧文本（谁发的）';
+
+  @override
+  String get aiJsonRightDescription => '右侧文本（总结）';
+
+  @override
+  String get aiInvalidJsonError => 'AI 返回格式错误，需要包含 left 和 right 字段的 JSON';
+
+  @override
+  String get aiEmptyJsonError => 'AI 返回为空，需要包含 left 和 right 字段的 JSON';
+
+  @override
+  String get aiNotificationTestSection => '通知测试';
+
+  @override
+  String get aiNotificationContentLabel => '通知内容';
+
+  @override
+  String get aiTestNotificationTitle => '测试通知';
+
+  @override
+  String get aiNotificationSent => '通知已发送';
+
+  @override
+  String get aiAiNotificationSent => 'AI 通知已发送';
+
+  @override
+  String get aiSendNotificationButton => '发送通知';
+
+  @override
+  String get aiSendAiNotificationButton => '发送 AI 通知';
+
+  @override
   String get hideDesktopIconTitle => 'デスクトップアイコンを非表示にする';
 
   @override
