@@ -139,12 +139,16 @@ object ToastUiInterceptHook : BaseHook() {
 
         val rule = loadRule(pkg)
 
-        if (!rule.forwardEnabled) {
-            return rule.blockOriginal
+        // 过滤逻辑：拦截和转发共用，不在黑名单/不在白名单的不处理
+        val hasKeywords = rule.whitelistKeywords.isNotEmpty() || rule.blacklistKeywords.isNotEmpty()
+        val shouldFilter = (rule.blockOriginal || rule.forwardEnabled) && hasKeywords
+        if (shouldFilter && !shouldForwardText(normalizedText, rule)) {
+            return true  // 匹配过滤规则，拦截此 toast
         }
 
-        if (!shouldForwardText(normalizedText, rule)) {
-            return true
+        if (!rule.forwardEnabled) {
+            // 只开拦截：只有匹配黑名单的才拦截（上面已 return true），其余一律放行
+            return false
         }
 
         val dedupeKey = "$pkg|$normalizedText"
