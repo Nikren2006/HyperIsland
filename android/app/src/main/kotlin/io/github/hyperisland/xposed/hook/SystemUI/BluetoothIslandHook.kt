@@ -29,6 +29,7 @@ object BluetoothIslandHook : BaseHook() {
     private const val TAG = "HyperIsland[BluetoothIsland]"
     private const val PREF_ENABLED = "pref_bluetooth_island"
     private const val PREF_SHOW_DEVICE_NAME = "pref_bluetooth_island_show_device_name"
+    private const val PREF_DISPLAY_DURATION_SECONDS = "pref_bluetooth_island_display_duration_seconds"
     private const val PREF_OUTER_GLOW = "pref_bluetooth_island_outer_glow"
     private const val PREF_OUTER_GLOW_COLOR = "pref_bluetooth_island_outer_glow_color"
     private const val PREF_WHITELIST_ENABLED = "pref_bluetooth_island_whitelist_enabled"
@@ -36,9 +37,7 @@ object BluetoothIslandHook : BaseHook() {
     private const val NOTIF_ID = 0x48494254
     private const val ACTION_BATTERY_LEVEL_CHANGED = "android.bluetooth.device.action.BATTERY_LEVEL_CHANGED"
     private const val EXTRA_BATTERY_LEVEL = "android.bluetooth.device.extra.BATTERY_LEVEL"
-    private const val DEVICE_NAME_UPDATE_DELAY_MS = 1500L
-    private const val DEVICE_NAME_TIMEOUT_SECS = 1
-    private const val BATTERY_TIMEOUT_SECS = 2
+    private const val DEFAULT_DISPLAY_DURATION_SECS = 2
 
     @Volatile private var registered = false
     @Volatile private var moduleRef: XposedModule? = null
@@ -96,6 +95,7 @@ object BluetoothIslandHook : BaseHook() {
             val action = intent.action
             val enabled = ConfigManager.getBoolean(PREF_ENABLED, false)
             val showDeviceName = ConfigManager.getBoolean(PREF_SHOW_DEVICE_NAME, true)
+            val displayDurationSecs = getDisplayDurationSecs()
             val showDeviceNameStored = ConfigManager.contains(PREF_SHOW_DEVICE_NAME)
             moduleRef?.let {
                 logWarn(
@@ -146,7 +146,7 @@ object BluetoothIslandHook : BaseHook() {
                         deviceName = deviceName,
                         rightTextOverride = null,
                         clearBeforePost = false,
-                        timeoutSecs = BATTERY_TIMEOUT_SECS,
+                        timeoutSecs = displayDurationSecs,
                     )
                 } else {
                     moduleRef?.let {
@@ -186,7 +186,8 @@ object BluetoothIslandHook : BaseHook() {
                 logWarn(
                     it,
                     "bluetooth state changed: connected=$connected battery=$battery " +
-                        "deviceName=$deviceName key=$key showDeviceName=$showDeviceName",
+                        "deviceName=$deviceName key=$key showDeviceName=$showDeviceName " +
+                        "displayDurationSecs=$displayDurationSecs",
                 )
             }
             if (connected && battery !in 0..100 && !showDeviceName) {
@@ -212,9 +213,16 @@ object BluetoothIslandHook : BaseHook() {
                     deviceName = deviceName,
                     rightTextOverride = deviceName,
                     clearBeforePost = true,
-                    timeoutSecs = DEVICE_NAME_TIMEOUT_SECS,
+                    timeoutSecs = displayDurationSecs,
                 )
-                scheduleStatusRefresh(context, key, connected, battery, deviceName)
+                scheduleStatusRefresh(
+                    context,
+                    key,
+                    connected,
+                    battery,
+                    deviceName,
+                    displayDurationSecs,
+                )
             } else {
                 pendingNameRefreshes.remove(key)?.let { mainHandler.removeCallbacks(it) }
                 moduleRef?.let {
@@ -230,10 +238,17 @@ object BluetoothIslandHook : BaseHook() {
                     deviceName = deviceName,
                     rightTextOverride = if (connected) null else deviceName,
                     clearBeforePost = true,
-                    timeoutSecs = BATTERY_TIMEOUT_SECS,
+                    timeoutSecs = displayDurationSecs,
                 )
             }
         }
+    }
+
+    private fun getDisplayDurationSecs(): Int {
+        return ConfigManager.getInt(
+            PREF_DISPLAY_DURATION_SECONDS,
+            DEFAULT_DISPLAY_DURATION_SECS,
+        ).coerceIn(1, 86400)
     }
 
     private fun isDeviceAllowedByWhitelist(deviceAddress: String?): Boolean {
@@ -313,6 +328,7 @@ object BluetoothIslandHook : BaseHook() {
         connected: Boolean,
         battery: Int,
         deviceName: String,
+        displayDurationSecs: Int,
     ) {
         pendingNameRefreshes.remove(key)?.let { mainHandler.removeCallbacks(it) }
         val runnable = Runnable {
@@ -332,18 +348,18 @@ object BluetoothIslandHook : BaseHook() {
                 deviceName = deviceName,
                 rightTextOverride = null,
                 clearBeforePost = false,
-                timeoutSecs = BATTERY_TIMEOUT_SECS,
+                timeoutSecs = displayDurationSecs,
             )
         }
         pendingNameRefreshes[key] = runnable
         moduleRef?.let {
             logWarn(
                 it,
-                "schedule bluetooth status refresh: key=$key delayMs=$DEVICE_NAME_UPDATE_DELAY_MS " +
+                "schedule bluetooth status refresh: key=$key delayMs=${displayDurationSecs * 1000L} " +
                     "pendingCount=${pendingNameRefreshes.size}",
             )
         }
-        mainHandler.postDelayed(runnable, DEVICE_NAME_UPDATE_DELAY_MS)
+        mainHandler.postDelayed(runnable, displayDurationSecs * 1000L)
     }
 
     private fun getBluetoothDevice(intent: Intent): BluetoothDevice? {

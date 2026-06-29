@@ -1592,8 +1592,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bluetoothIslandShowDeviceNameTitle => '显示设备名称';
 
   @override
-  String get bluetoothIslandShowDeviceNameSubtitle =>
-      '连接时右侧先显示设备名称，2 秒后再显示连接状态';
+  String get bluetoothIslandShowDeviceNameSubtitle => '连接时右侧先显示设备名称，之后再显示连接状态';
+
+  @override
+  String get bluetoothIslandDisplayDurationTitle => '显示时长';
 
   @override
   String get chargeIslandTitle => '充电超级岛';

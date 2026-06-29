@@ -1681,7 +1681,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bluetoothIslandShowDeviceNameSubtitle =>
-      'On connection, show the device name on the right first, then show the connection status after 2 seconds';
+      'On connection, show the device name on the right first, then show the connection status afterward';
+
+  @override
+  String get bluetoothIslandDisplayDurationTitle => 'Display Duration';
 
   @override
   String get chargeIslandTitle => 'Charging Island';

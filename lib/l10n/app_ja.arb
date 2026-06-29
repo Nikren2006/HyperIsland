@@ -502,7 +502,8 @@
   "bluetoothIslandEnableTitle": "Bluetooth Island を有効化",
   "bluetoothIslandEnableSubtitle": "オフにした後は System UI を再起動すると反映され、Bluetooth Hook は登録されません",
   "bluetoothIslandShowDeviceNameTitle": "デバイス名を表示",
-  "bluetoothIslandShowDeviceNameSubtitle": "接続時は右側にデバイス名を先に表示し、2 秒後に接続状態を表示します",
+  "bluetoothIslandShowDeviceNameSubtitle": "接続時は右側にデバイス名を先に表示し、その後に接続状態を表示します",
+  "bluetoothIslandDisplayDurationTitle": "表示時間",
   "chargeIslandTitle": "Charging Island",
   "chargeIslandSubtitle": "{status} · Charging Island の電力または電池表示部分を置き換えます",
   "@chargeIslandSubtitle": {

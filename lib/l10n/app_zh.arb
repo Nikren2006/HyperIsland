@@ -765,7 +765,8 @@
   "bluetoothIslandEnableTitle": "启用蓝牙超级岛",
   "bluetoothIslandEnableSubtitle": "关闭后重启 SystemUI 生效，且不会注册蓝牙 Hook",
   "bluetoothIslandShowDeviceNameTitle": "显示设备名称",
-  "bluetoothIslandShowDeviceNameSubtitle": "连接时右侧先显示设备名称，2 秒后再显示连接状态",
+  "bluetoothIslandShowDeviceNameSubtitle": "连接时右侧先显示设备名称，之后再显示连接状态",
+  "bluetoothIslandDisplayDurationTitle": "显示时长",
   "chargeIslandTitle": "充电超级岛",
   "chargeIslandSubtitle": "{status} · 替换充电超级岛中的功率或电量片段",
   "@chargeIslandSubtitle": {

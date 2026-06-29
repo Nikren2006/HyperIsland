@@ -3119,8 +3119,14 @@ abstract class AppLocalizations {
   /// No description provided for @bluetoothIslandShowDeviceNameSubtitle.
   ///
   /// In zh, this message translates to:
-  /// **'连接时右侧先显示设备名称，2 秒后再显示连接状态'**
+  /// **'连接时右侧先显示设备名称，之后再显示连接状态'**
   String get bluetoothIslandShowDeviceNameSubtitle;
+
+  /// No description provided for @bluetoothIslandDisplayDurationTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'显示时长'**
+  String get bluetoothIslandDisplayDurationTitle;
 
   /// No description provided for @chargeIslandTitle.
   ///

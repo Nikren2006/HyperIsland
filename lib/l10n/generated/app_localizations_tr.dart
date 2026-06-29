@@ -1676,7 +1676,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get bluetoothIslandShowDeviceNameSubtitle =>
-      'Bağlandığında önce sağda cihaz adını gösterir, 2 saniye sonra bağlantı durumunu gösterir';
+      'Bağlandığında önce sağda cihaz adını gösterir, ardından bağlantı durumunu gösterir';
+
+  @override
+  String get bluetoothIslandDisplayDurationTitle => 'Gösterim Süresi';
 
   @override
   String get chargeIslandTitle => 'Şarj Adası';

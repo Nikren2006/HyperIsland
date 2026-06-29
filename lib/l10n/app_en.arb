@@ -613,7 +613,8 @@
   "bluetoothIslandEnableTitle": "Enable Bluetooth Island",
   "bluetoothIslandEnableSubtitle": "After disabling, restart System UI to take effect. The Bluetooth Hook will not be registered",
   "bluetoothIslandShowDeviceNameTitle": "Show Device Name",
-  "bluetoothIslandShowDeviceNameSubtitle": "On connection, show the device name on the right first, then show the connection status after 2 seconds",
+  "bluetoothIslandShowDeviceNameSubtitle": "On connection, show the device name on the right first, then show the connection status afterward",
+  "bluetoothIslandDisplayDurationTitle": "Display Duration",
   "chargeIslandTitle": "Charging Island",
   "chargeIslandSubtitle": "{status} · Replace the power or battery segment in Charging Island",
   "@chargeIslandSubtitle": {

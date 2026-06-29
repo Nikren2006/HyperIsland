@@ -25,6 +25,7 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
     _ctrl.settingsHomeEntry,
     _ctrl.bluetoothIsland,
     _ctrl.bluetoothIslandShowDeviceName,
+    _ctrl.bluetoothIslandDisplayDurationSeconds,
     _ctrl.bluetoothIslandOuterGlow,
     _ctrl.bluetoothIslandOuterGlowColor,
     _ctrl.bluetoothIslandWhitelistEnabled,
@@ -122,40 +123,50 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
       builder: (dialogContext) => _BluetoothIslandSettingsDialog(
         enabled: _ctrl.bluetoothIsland,
         showDeviceName: _ctrl.bluetoothIslandShowDeviceName,
+        displayDurationSeconds: _ctrl.bluetoothIslandDisplayDurationSeconds,
         outerGlow: _ctrl.bluetoothIslandOuterGlow,
         outerGlowColor: _ctrl.bluetoothIslandOuterGlowColor,
         whitelistEnabled: _ctrl.bluetoothIslandWhitelistEnabled,
         whitelistAddresses: _ctrl.bluetoothIslandWhitelistAddresses,
-        onApply: (
-          enabled,
-          showDeviceName,
-          outerGlow,
-          outerGlowColor,
-          whitelistEnabled,
-          whitelistAddresses,
-        ) async {
-          final enabledChanged = enabled != _ctrl.bluetoothIsland;
-          if (!await _requestScopesIfEnabled(enabled, const [
-            'com.android.systemui',
-          ])) {
-            return false;
-          }
-          await _ctrl.setBluetoothIsland(enabled);
-          await _ctrl.setBluetoothIslandShowDeviceName(showDeviceName);
-          await _ctrl.setBluetoothIslandOuterGlow(outerGlow);
-          await _ctrl.setBluetoothIslandOuterGlowColor(outerGlowColor);
-          await _ctrl.setBluetoothIslandWhitelistEnabled(whitelistEnabled);
-          await _ctrl.setBluetoothIslandWhitelistAddresses(whitelistAddresses);
-          if (mounted && enabledChanged) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.restartScopeApp),
-                duration: const Duration(seconds: 4),
-              ),
-            );
-          }
-          return true;
-        },
+        onApply:
+            (
+              enabled,
+              showDeviceName,
+              displayDurationSeconds,
+              outerGlow,
+              outerGlowColor,
+              whitelistEnabled,
+              whitelistAddresses,
+            ) async {
+              final enabledChanged = enabled != _ctrl.bluetoothIsland;
+              if (!await _requestScopesIfEnabled(enabled, const [
+                'com.android.systemui',
+              ])) {
+                return false;
+              }
+              await _ctrl.setBluetoothIsland(enabled);
+              await _ctrl.setBluetoothIslandShowDeviceName(showDeviceName);
+              await _ctrl.setBluetoothIslandDisplayDurationSeconds(
+                displayDurationSeconds,
+              );
+              await _ctrl.setBluetoothIslandOuterGlow(outerGlow);
+              await _ctrl.setBluetoothIslandOuterGlowColor(outerGlowColor);
+              await _ctrl.setBluetoothIslandWhitelistEnabled(whitelistEnabled);
+              await _ctrl.setBluetoothIslandWhitelistAddresses(
+                whitelistAddresses,
+              );
+              if (mounted && enabledChanged) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context)!.restartScopeApp,
+                    ),
+                    duration: const Duration(seconds: 4),
+                  ),
+                );
+              }
+              return true;
+            },
       ),
     );
   }
@@ -170,36 +181,39 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
         durationMode: _ctrl.chargeIslandDurationMode,
         durationSeconds: _ctrl.chargeIslandDurationSeconds,
         outerGlow: _ctrl.chargeIslandOuterGlow,
-        onApply: (
-          enabled,
-          leftMode,
-          rightMode,
-          durationMode,
-          durationSeconds,
-          outerGlow,
-        ) async {
-          final enabledChanged = enabled != _ctrl.chargeIsland;
-          if (!await _requestScopesIfEnabled(enabled, const [
-            'com.android.systemui',
-          ])) {
-            return false;
-          }
-          await _ctrl.setChargeIsland(enabled);
-          await _ctrl.setChargeIslandLeftMode(leftMode);
-          await _ctrl.setChargeIslandRightMode(rightMode);
-          await _ctrl.setChargeIslandDurationMode(durationMode);
-          await _ctrl.setChargeIslandDurationSeconds(durationSeconds);
-          await _ctrl.setChargeIslandOuterGlow(outerGlow);
-          if (mounted && enabledChanged) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(AppLocalizations.of(context)!.restartScopeApp),
-                duration: const Duration(seconds: 4),
-              ),
-            );
-          }
-          return true;
-        },
+        onApply:
+            (
+              enabled,
+              leftMode,
+              rightMode,
+              durationMode,
+              durationSeconds,
+              outerGlow,
+            ) async {
+              final enabledChanged = enabled != _ctrl.chargeIsland;
+              if (!await _requestScopesIfEnabled(enabled, const [
+                'com.android.systemui',
+              ])) {
+                return false;
+              }
+              await _ctrl.setChargeIsland(enabled);
+              await _ctrl.setChargeIslandLeftMode(leftMode);
+              await _ctrl.setChargeIslandRightMode(rightMode);
+              await _ctrl.setChargeIslandDurationMode(durationMode);
+              await _ctrl.setChargeIslandDurationSeconds(durationSeconds);
+              await _ctrl.setChargeIslandOuterGlow(outerGlow);
+              if (mounted && enabledChanged) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context)!.restartScopeApp,
+                    ),
+                    duration: const Duration(seconds: 4),
+                  ),
+                );
+              }
+              return true;
+            },
       ),
     );
   }
@@ -301,7 +315,8 @@ class _HookExtensionPageState extends State<HookExtensionPage> {
                         _SmoothingSliderTile(
                           title: l10n.smoothIslandSmoothingTitle,
                           value: _ctrl.smoothIslandSmoothing,
-                          onChanged: (value) => _ctrl.setSmoothIslandSmoothing(value),
+                          onChanged: (value) =>
+                              _ctrl.setSmoothIslandSmoothing(value),
                         ),
                       ],
                     ],
@@ -449,8 +464,9 @@ class _SmoothingSliderTile extends StatelessWidget {
           Expanded(child: Text(title, style: titleStyle)),
           Text(
             value.toStringAsFixed(2),
-            style: Theme.of(context).textTheme.bodySmall
-                ?.copyWith(color: cs.onSurfaceVariant),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
           ),
         ],
       ),
@@ -472,6 +488,7 @@ class _BluetoothIslandSettingsDialog extends StatefulWidget {
   const _BluetoothIslandSettingsDialog({
     required this.enabled,
     required this.showDeviceName,
+    required this.displayDurationSeconds,
     required this.outerGlow,
     required this.outerGlowColor,
     required this.whitelistEnabled,
@@ -481,6 +498,7 @@ class _BluetoothIslandSettingsDialog extends StatefulWidget {
 
   final bool enabled;
   final bool showDeviceName;
+  final int displayDurationSeconds;
   final bool outerGlow;
   final String outerGlowColor;
   final bool whitelistEnabled;
@@ -488,6 +506,7 @@ class _BluetoothIslandSettingsDialog extends StatefulWidget {
   final Future<bool> Function(
     bool enabled,
     bool showDeviceName,
+    int displayDurationSeconds,
     bool outerGlow,
     String outerGlowColor,
     bool whitelistEnabled,
@@ -751,6 +770,7 @@ class _BluetoothIslandSettingsDialogState
   late bool _showDeviceName;
   late bool _whitelistEnabled;
   late List<String> _whitelistAddresses;
+  late final TextEditingController _durationController;
   late final TextEditingController _colorController;
   late String _outerGlowColor;
 
@@ -765,11 +785,15 @@ class _BluetoothIslandSettingsDialogState
     _outerGlowColor = widget.outerGlowColor;
     _whitelistEnabled = widget.whitelistEnabled;
     _whitelistAddresses = List.of(widget.whitelistAddresses);
+    _durationController = TextEditingController(
+      text: widget.displayDurationSeconds.toString(),
+    );
     _colorController = TextEditingController(text: _outerGlowColor);
   }
 
   @override
   void dispose() {
+    _durationController.dispose();
     _colorController.dispose();
     super.dispose();
   }
@@ -831,6 +855,18 @@ class _BluetoothIslandSettingsDialogState
               value: _showDeviceName,
               onChanged: (value) => setState(() => _showDeviceName = value),
             ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _durationController,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(
+                labelText: l10n.bluetoothIslandDisplayDurationTitle,
+                suffixText: l10n.seconds,
+                border: const OutlineInputBorder(),
+                isDense: true,
+              ),
+            ),
             const Divider(height: 24),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
@@ -859,9 +895,9 @@ class _BluetoothIslandSettingsDialogState
                 padding: const EdgeInsets.only(left: 4),
                 child: Text(
                   l10n.bluetoothIslandWhitelistAllHint,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: cs.onSurfaceVariant,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: cs.onSurfaceVariant),
                 ),
               ),
             ],
@@ -926,6 +962,7 @@ class _BluetoothIslandSettingsDialogState
             final applied = await widget.onApply(
               _enabled,
               _showDeviceName,
+              _parseDurationSeconds(),
               _outerGlow,
               _outerGlowColor,
               _whitelistEnabled,
@@ -938,6 +975,11 @@ class _BluetoothIslandSettingsDialogState
         ),
       ],
     );
+  }
+
+  int _parseDurationSeconds() {
+    final raw = int.tryParse(_durationController.text.trim()) ?? 2;
+    return raw.clamp(1, 86400);
   }
 }
 
@@ -972,10 +1014,7 @@ class _BluetoothDevicePickerDialogState
     final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
       title: Text(l10n.bluetoothIslandWhitelistDialogTitle),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: _buildContent(l10n),
-      ),
+      content: SizedBox(width: double.maxFinite, child: _buildContent(l10n)),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),

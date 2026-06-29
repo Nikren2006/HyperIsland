@@ -649,7 +649,8 @@
   "bluetoothIslandEnableTitle": "Bluetooth Adasını Etkinleştir",
   "bluetoothIslandEnableSubtitle": "Devre dışı bıraktıktan sonra geçerli olması için Sistem UI'ı yeniden başlatın. Bluetooth Hook kaydedilmez",
   "bluetoothIslandShowDeviceNameTitle": "Cihaz Adını Göster",
-  "bluetoothIslandShowDeviceNameSubtitle": "Bağlandığında önce sağda cihaz adını gösterir, 2 saniye sonra bağlantı durumunu gösterir",
+  "bluetoothIslandShowDeviceNameSubtitle": "Bağlandığında önce sağda cihaz adını gösterir, ardından bağlantı durumunu gösterir",
+  "bluetoothIslandDisplayDurationTitle": "Gösterim Süresi",
   "chargeIslandTitle": "Şarj Adası",
   "chargeIslandSubtitle": "{status} · Şarj Adasındaki güç veya pil bölümünü değiştirir",
   "@chargeIslandSubtitle": {

@@ -1697,7 +1697,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get bluetoothIslandShowDeviceNameSubtitle =>
-      'При подключении сначала показать имя устройства справа, затем через 2 секунды показать статус подключения';
+      'При подключении сначала показать имя устройства справа, затем показать статус подключения';
+
+  @override
+  String get bluetoothIslandDisplayDurationTitle => 'Длительность показа';
 
   @override
   String get chargeIslandTitle => '充电超级岛';

@@ -12,6 +12,8 @@ const kPrefSettingsHomeEntry = 'pref_settings_home_entry';
 const kPrefBluetoothIsland = 'pref_bluetooth_island';
 const kPrefBluetoothIslandShowDeviceName =
     'pref_bluetooth_island_show_device_name';
+const kPrefBluetoothIslandDisplayDurationSeconds =
+    'pref_bluetooth_island_display_duration_seconds';
 const kPrefBluetoothIslandOuterGlow = 'pref_bluetooth_island_outer_glow';
 const kPrefBluetoothIslandOuterGlowColor =
     'pref_bluetooth_island_outer_glow_color';
@@ -175,6 +177,7 @@ class SettingsController extends ChangeNotifier {
   bool settingsHomeEntry = true;
   bool bluetoothIsland = false;
   bool bluetoothIslandShowDeviceName = true;
+  int bluetoothIslandDisplayDurationSeconds = 2;
   bool bluetoothIslandOuterGlow = false;
   String bluetoothIslandOuterGlowColor = '';
   bool bluetoothIslandWhitelistEnabled = false;
@@ -267,6 +270,10 @@ class SettingsController extends ChangeNotifier {
     bluetoothIsland = prefs.getBool(kPrefBluetoothIsland) ?? false;
     bluetoothIslandShowDeviceName =
         prefs.getBool(kPrefBluetoothIslandShowDeviceName) ?? true;
+    bluetoothIslandDisplayDurationSeconds =
+        _normalizeBluetoothIslandDisplayDurationSeconds(
+          prefs.getInt(kPrefBluetoothIslandDisplayDurationSeconds),
+        );
     bluetoothIslandOuterGlow =
         prefs.getBool(kPrefBluetoothIslandOuterGlow) ?? false;
     bluetoothIslandOuterGlowColor =
@@ -671,6 +678,15 @@ class SettingsController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> setBluetoothIslandDisplayDurationSeconds(int value) async {
+    final normalized = _normalizeBluetoothIslandDisplayDurationSeconds(value);
+    if (bluetoothIslandDisplayDurationSeconds == normalized) return;
+    final prefs = await _getPrefs();
+    await prefs.setInt(kPrefBluetoothIslandDisplayDurationSeconds, normalized);
+    bluetoothIslandDisplayDurationSeconds = normalized;
+    notifyListeners();
+  }
+
   Future<void> setDefaultMarqueeAutoHide(String value) async {
     final normalized = _normalizeMarqueeAutoHide(value);
     if (defaultMarqueeAutoHide == normalized) return;
@@ -871,6 +887,10 @@ class SettingsController extends ChangeNotifier {
 
   int _normalizeChargeIslandDurationSeconds(int? value) {
     return (value ?? 10).clamp(1, 86400);
+  }
+
+  int _normalizeBluetoothIslandDisplayDurationSeconds(int? value) {
+    return (value ?? 2).clamp(1, 86400);
   }
 
   Future<void> setHideDesktopIcon(bool value) async {
