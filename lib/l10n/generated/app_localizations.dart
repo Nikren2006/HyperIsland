@@ -590,6 +590,36 @@ abstract class AppLocalizations {
   /// **'消息滚动'**
   String get marqueeChannelTitle;
 
+  /// No description provided for @marqueeAutoHideTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'滚动后隐藏岛'**
+  String get marqueeAutoHideTitle;
+
+  /// No description provided for @marqueeAutoHideSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'消息滚动达到指定次数后隐藏当前岛'**
+  String get marqueeAutoHideSubtitle;
+
+  /// No description provided for @marqueeAutoHideOff.
+  ///
+  /// In zh, this message translates to:
+  /// **'关'**
+  String get marqueeAutoHideOff;
+
+  /// No description provided for @marqueeAutoHideOnce.
+  ///
+  /// In zh, this message translates to:
+  /// **'滚动1次'**
+  String get marqueeAutoHideOnce;
+
+  /// No description provided for @marqueeAutoHideTwice.
+  ///
+  /// In zh, this message translates to:
+  /// **'滚动2次'**
+  String get marqueeAutoHideTwice;
+
   /// No description provided for @marqueeSpeedTitle.
   ///
   /// In zh, this message translates to:

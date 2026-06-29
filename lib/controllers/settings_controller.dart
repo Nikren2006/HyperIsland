@@ -43,6 +43,7 @@ const kPrefDefaultFirstFloat = 'pref_default_first_float';
 const kPrefDefaultEnableFloat = 'pref_default_enable_float';
 const kPrefDefaultShowIslandIcon = 'pref_default_show_island_icon';
 const kPrefDefaultMarquee = 'pref_default_marquee';
+const kPrefDefaultMarqueeAutoHide = 'pref_default_marquee_auto_hide';
 const kPrefDefaultFocusNotif = 'pref_default_focus_notif';
 const kPrefDefaultAodText = 'pref_default_aod_text';
 const kPrefDefaultDynamicHighlightColor =
@@ -199,6 +200,7 @@ class SettingsController extends ChangeNotifier {
   bool defaultEnableFloat = false;
   bool defaultShowIslandIcon = true;
   bool defaultMarquee = false;
+  String defaultMarqueeAutoHide = kTriOptOff;
   bool defaultFocusNotif = true;
   bool defaultAodText = false;
   bool defaultDynamicHighlightColor = false;
@@ -303,6 +305,9 @@ class SettingsController extends ChangeNotifier {
     defaultEnableFloat = prefs.getBool(kPrefDefaultEnableFloat) ?? false;
     defaultShowIslandIcon = prefs.getBool(kPrefDefaultShowIslandIcon) ?? true;
     defaultMarquee = prefs.getBool(kPrefDefaultMarquee) ?? false;
+    defaultMarqueeAutoHide = _normalizeMarqueeAutoHide(
+      prefs.getString(kPrefDefaultMarqueeAutoHide),
+    );
     defaultFocusNotif = prefs.getBool(kPrefDefaultFocusNotif) ?? true;
     defaultAodText = prefs.getBool(kPrefDefaultAodText) ?? false;
     defaultDynamicHighlightColor =
@@ -664,6 +669,23 @@ class SettingsController extends ChangeNotifier {
     await prefs.setBool(kPrefDefaultMarquee, value);
     defaultMarquee = value;
     notifyListeners();
+  }
+
+  Future<void> setDefaultMarqueeAutoHide(String value) async {
+    final normalized = _normalizeMarqueeAutoHide(value);
+    if (defaultMarqueeAutoHide == normalized) return;
+    final prefs = await _getPrefs();
+    await prefs.setString(kPrefDefaultMarqueeAutoHide, normalized);
+    defaultMarqueeAutoHide = normalized;
+    notifyListeners();
+  }
+
+  String _normalizeMarqueeAutoHide(String? value) {
+    return switch (value) {
+      '1' => '1',
+      '2' => '2',
+      _ => kTriOptOff,
+    };
   }
 
   Future<void> setDefaultFocusNotif(bool value) async {

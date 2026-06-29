@@ -1,5 +1,10 @@
 {
   "ja": [
+    "marqueeAutoHideTitle",
+    "marqueeAutoHideSubtitle",
+    "marqueeAutoHideOff",
+    "marqueeAutoHideOnce",
+    "marqueeAutoHideTwice",
     "bigIslandMaxWidthTitle",
     "bigIslandMaxWidthLabel",
     "bigIslandMinWidthTitle",
@@ -93,6 +98,11 @@
   ],
 
   "ru": [
+    "marqueeAutoHideTitle",
+    "marqueeAutoHideSubtitle",
+    "marqueeAutoHideOff",
+    "marqueeAutoHideOnce",
+    "marqueeAutoHideTwice",
     "noChannelsFoundSubtitle",
     "aiDefaultNotificationText",
     "aiTestSampleUserContent",
@@ -132,6 +142,11 @@
   ],
 
   "tr": [
+    "marqueeAutoHideTitle",
+    "marqueeAutoHideSubtitle",
+    "marqueeAutoHideOff",
+    "marqueeAutoHideOnce",
+    "marqueeAutoHideTwice",
     "bigIslandMaxWidthTitle",
     "bigIslandMaxWidthLabel",
     "bigIslandMinWidthTitle",

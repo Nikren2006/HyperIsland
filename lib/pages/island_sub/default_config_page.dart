@@ -47,6 +47,32 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
         '${l10n.islandSection} ${_outerGlowModeLabel(l10n, _ctrl.defaultIslandOuterGlow)}';
   }
 
+  bool _isZh(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'zh';
+  }
+
+  String _marqueeAutoHideTitle(BuildContext context) {
+    return _isZh(context) ? '滚动后隐藏岛' : 'Hide Island after scrolling';
+  }
+
+  String _marqueeAutoHideSubtitle(BuildContext context) {
+    return _isZh(context)
+        ? '消息滚动达到指定次数后隐藏当前岛'
+        : 'Hide the current Island after the message scrolls the selected number of times';
+  }
+
+  String _marqueeAutoHideOff(BuildContext context) {
+    return _isZh(context) ? '关' : 'Off';
+  }
+
+  String _marqueeAutoHideOnce(BuildContext context) {
+    return _isZh(context) ? '滚动1次' : 'Scroll once';
+  }
+
+  String _marqueeAutoHideTwice(BuildContext context) {
+    return _isZh(context) ? '滚动2次' : 'Scroll twice';
+  }
+
   InputDecoration _dialogFieldDecoration(
     BuildContext context, {
     String? hintText,
@@ -255,6 +281,10 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
     final titleStyle = Theme.of(context).textTheme.titleMedium;
+    final dropdownWidth = (MediaQuery.sizeOf(context).width * 0.288).clamp(
+      90.0,
+      138.0,
+    );
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -329,6 +359,64 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                         value: _ctrl.defaultMarquee,
                         onChanged: InteractionHaptics.interceptToggle(
                           (v) => _ctrl.setDefaultMarquee(v),
+                        ),
+                      ),
+                      const Divider(height: 1, indent: 16, endIndent: 16),
+                      ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 4,
+                        ),
+                        title: Text(
+                          _marqueeAutoHideTitle(context),
+                          style: titleStyle,
+                        ),
+                        subtitle: Text(_marqueeAutoHideSubtitle(context)),
+                        trailing: DropdownButtonHideUnderline(
+                          child: SizedBox(
+                            width: dropdownWidth,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: cs.surfaceContainerHigh,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: cs.outlineVariant),
+                              ),
+                              child: DropdownButton<String>(
+                                value: _ctrl.defaultMarqueeAutoHide,
+                                isExpanded: true,
+                                alignment: Alignment.center,
+                                borderRadius: BorderRadius.circular(16),
+                                items: [
+                                  DropdownMenuItem(
+                                    value: kTriOptOff,
+                                    child: Center(
+                                      child: Text(_marqueeAutoHideOff(context)),
+                                    ),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: '1',
+                                    child: Center(
+                                      child: Text(_marqueeAutoHideOnce(context)),
+                                    ),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: '2',
+                                    child: Center(
+                                      child: Text(_marqueeAutoHideTwice(context)),
+                                    ),
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    _ctrl.setDefaultMarqueeAutoHide(value);
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       const Divider(height: 1, indent: 16, endIndent: 16),

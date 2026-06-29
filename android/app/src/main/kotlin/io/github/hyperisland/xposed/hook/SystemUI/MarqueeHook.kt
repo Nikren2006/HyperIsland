@@ -39,6 +39,7 @@ object MarqueeHook : BaseHook() {
     private val scrollerMap = WeakHashMap<TextView, MarqueeController>()
     private val observedViews = WeakHashMap<TextView, TextViewListeners>()
     private val islandMarqueeState = WeakHashMap<ViewGroup, Boolean>()
+    private val islandAutoHideLoops = WeakHashMap<ViewGroup, Int>()
     private val forcedSingleLineMaxLines = WeakHashMap<TextView, Int>()
 
     @Volatile private var cachedSpeed: Int? = null
@@ -83,6 +84,7 @@ object MarqueeHook : BaseHook() {
         scrollerMap.clear()
         forcedSingleLineMaxLines.clear()
         islandMarqueeState.clear()
+        islandAutoHideLoops.clear()
     }
 
     fun startMarquee(textView: TextView) {
@@ -141,10 +143,22 @@ object MarqueeHook : BaseHook() {
         return if (visibleW == Int.MAX_VALUE) 0 else visibleW
     }
 
-    fun traverseAndApplyMarquee(bigIslandView: ViewGroup, enabled: Boolean) {
+    fun traverseAndApplyMarquee(bigIslandView: ViewGroup, enabled: Boolean, autoHideLoops: Int = 0) {
         //log("Marquee ${if (enabled) "enabled" else "disabled"} for island view")
         islandMarqueeState[bigIslandView] = enabled
+        islandAutoHideLoops[bigIslandView] = if (enabled) autoHideLoops.coerceIn(0, 2) else 0
         traverseInternal(bigIslandView, enabled)
+    }
+
+    private fun resolveAutoHideLoops(textView: TextView): Int {
+        val island = findBigIslandView(textView) ?: return 0
+        return islandAutoHideLoops[island] ?: 0
+    }
+
+    private fun dismissIslandFor(textView: TextView) {
+        val island = findBigIslandView(textView) ?: return
+        val key = targetIslandKey[island] ?: return
+        ActiveIslandDismissHook.dismiss(key)
     }
 
     private fun isInExpandedView(view: View): Boolean {
@@ -232,6 +246,7 @@ object MarqueeHook : BaseHook() {
     private val hookedClassLoaders = ConcurrentHashMap.newKeySet<Int>()
     private val targetPkg = java.util.Collections.synchronizedMap(WeakHashMap<View, String>())
     private val targetChannel = java.util.Collections.synchronizedMap(WeakHashMap<View, String>())
+    private val targetIslandKey = java.util.Collections.synchronizedMap(WeakHashMap<View, String>())
     @Volatile private var cachedWhitelist: Map<String, Set<String>>? = null
     private val directProxyExpireAt =
         java.util.Collections.synchronizedMap(mutableMapOf<String, Long>())
@@ -304,9 +319,12 @@ object MarqueeHook : BaseHook() {
                             val islandData = chain.args.getOrNull(0)
                             var pkgName = ""
                             var channelId = ""
+                            var islandKey = ""
                             var isOngoing = false
                             try {
                                 if (islandData != null) {
+                                    islandKey = islandData.javaClass.getMethod("getKey")
+                                        .invoke(islandData) as? String ?: ""
                                     val getExtrasMethod = islandData.javaClass.getMethod("getExtras")
                                     val extras = getExtrasMethod.invoke(islandData) as? android.os.Bundle
                                     val sbn = if (android.os.Build.VERSION.SDK_INT >= 33) {
@@ -343,6 +361,7 @@ object MarqueeHook : BaseHook() {
                                     isOngoing = (sbn?.notification?.flags ?: 0) and android.app.Notification.FLAG_ONGOING_EVENT != 0
                                     targetPkg[islandView] = pkgName
                                     targetChannel[islandView] = channelId
+                                    if (islandKey.isNotEmpty()) targetIslandKey[islandView] = islandKey
                                 }
                             } catch (_: Exception) {}
                             if (pkgName.isEmpty()) {
@@ -385,6 +404,22 @@ object MarqueeHook : BaseHook() {
                                 "off" -> false
                                 else -> defaultMarquee
                             }
+                            val autoHideLoops = if (isToastSource) 0 else {
+                                val autoHideRaw = ConfigManager.getString(
+                                    "pref_channel_marquee_auto_hide_${pkgName}_${channelId}",
+                                    "default"
+                                )
+                                val defaultAutoHideRaw = ConfigManager.getString(
+                                    "pref_default_marquee_auto_hide",
+                                    "off"
+                                )
+                                val effectiveAutoHide = if (autoHideRaw == "default") {
+                                    defaultAutoHideRaw
+                                } else {
+                                    autoHideRaw
+                                }
+                                effectiveAutoHide.toIntOrNull()?.coerceIn(1, 2) ?: 0
+                            }
                             
                             if (!enabled || isOngoing) {
                                 traverseAndApplyMarquee(islandView, false)
@@ -392,7 +427,7 @@ object MarqueeHook : BaseHook() {
                             }
                             
                             //log("Marquee triggered for package: $pkgName")
-                            traverseAndApplyMarquee(islandView, true)
+                            traverseAndApplyMarquee(islandView, true, autoHideLoops)
                         } catch (e: Exception) {
                             logError("Error in updateBigIslandView hook: ${e.message}")
                         }
@@ -428,6 +463,7 @@ object MarqueeHook : BaseHook() {
         private val viewRef = WeakReference(view)
         private var state = 0
         private var currentText = ""
+        private var completedLoops = 0
 
         fun start() {
             val view = viewRef.get() ?: return
@@ -437,6 +473,7 @@ object MarqueeHook : BaseHook() {
             isRunning = true
             currentScrollX = 0f
             state = 0
+            completedLoops = 0
             startTimeNanos = 0
             choreographer.removeFrameCallback(this)
             choreographer.postFrameCallback(this)
@@ -497,6 +534,13 @@ object MarqueeHook : BaseHook() {
                     view.scrollTo(currentScrollX.toInt(), 0)
                 }
                 2 -> if (elapsedMs > PAUSE_AT_END_MS) {
+                    completedLoops += 1
+                    val targetLoops = resolveAutoHideLoops(view)
+                    if (targetLoops > 0 && completedLoops >= targetLoops) {
+                        dismissIslandFor(view)
+                        stop()
+                        return
+                    }
                     currentScrollX = 0f
                     view.scrollTo(0, 0)
                     state = 0

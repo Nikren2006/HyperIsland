@@ -264,6 +264,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get marqueeChannelTitle => '消息滚动';
 
   @override
+  String get marqueeAutoHideTitle => '滚动后隐藏岛';
+
+  @override
+  String get marqueeAutoHideSubtitle => '消息滚动达到指定次数后隐藏当前岛';
+
+  @override
+  String get marqueeAutoHideOff => '关';
+
+  @override
+  String get marqueeAutoHideOnce => '滚动1次';
+
+  @override
+  String get marqueeAutoHideTwice => '滚动2次';
+
+  @override
   String get marqueeSpeedTitle => '滚动速度';
 
   @override

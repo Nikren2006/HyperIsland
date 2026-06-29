@@ -188,6 +188,7 @@ object ConfigManager {
         "pref_default_enable_float",
         "pref_default_show_island_icon",
         "pref_default_marquee",
+        "pref_default_marquee_auto_hide",
         "pref_default_focus_notif",
         "pref_default_aod_text",
         "pref_default_dynamic_highlight_color",

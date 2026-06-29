@@ -715,7 +715,7 @@ class WhitelistController extends ChangeNotifier {
 
   // ── 渠道级额外设置（图标、焦点通知、初次展开、更新展开）────────────────────
 
-  /// 批量读取各渠道的额外设置，返回 channelId → {icon, focus, preserve_small_icon, first_float, enable_float, timeout, marquee, highlight_color, dynamic_highlight_color, outer_glow, out_effect_color}。
+  /// 批量读取各渠道的额外设置，返回 channelId → {icon, focus, preserve_small_icon, first_float, enable_float, timeout, marquee, marquee_auto_hide, highlight_color, dynamic_highlight_color, outer_glow, out_effect_color}。
   Future<Map<String, Map<String, String>>> getChannelExtraSettings(
     String packageName,
     List<String> channelIds,
@@ -750,6 +750,11 @@ class WhitelistController extends ChangeNotifier {
               prefs.getString('pref_channel_timeout_${packageName}_$id') ?? '5',
           'marquee':
               prefs.getString('pref_channel_marquee_${packageName}_$id') ??
+              kTriOptDefault,
+          'marquee_auto_hide':
+              prefs.getString(
+                'pref_channel_marquee_auto_hide_${packageName}_$id',
+              ) ??
               kTriOptDefault,
           'renderer':
               prefs.getString('pref_channel_renderer_${packageName}_$id') ??
@@ -1029,6 +1034,18 @@ class WhitelistController extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
       'pref_channel_marquee_${packageName}_$channelId',
+      value,
+    );
+  }
+
+  Future<void> setChannelMarqueeAutoHide(
+    String packageName,
+    String channelId,
+    String value,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      'pref_channel_marquee_auto_hide_${packageName}_$channelId',
       value,
     );
   }
@@ -1366,6 +1383,7 @@ class WhitelistController extends ChangeNotifier {
       'enable_float': 'pref_channel_enable_float',
       'timeout': 'pref_channel_timeout',
       'marquee': 'pref_channel_marquee',
+      'marquee_auto_hide': 'pref_channel_marquee_auto_hide',
       'restore_lockscreen': 'pref_channel_restore_lockscreen',
       'highlight_color': 'pref_channel_highlight_color',
       'dynamic_highlight_color': 'pref_channel_dynamic_highlight_color',

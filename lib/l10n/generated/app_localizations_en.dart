@@ -284,6 +284,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get marqueeChannelTitle => 'Text Scrolling Island';
 
   @override
+  String get marqueeAutoHideTitle => 'Hide Island after scrolling';
+
+  @override
+  String get marqueeAutoHideSubtitle =>
+      'Hide the current Island after the message scrolls the selected number of times';
+
+  @override
+  String get marqueeAutoHideOff => 'Off';
+
+  @override
+  String get marqueeAutoHideOnce => 'Scroll once';
+
+  @override
+  String get marqueeAutoHideTwice => 'Scroll twice';
+
+  @override
   String get marqueeSpeedTitle => 'Speed';
 
   @override

@@ -128,6 +128,11 @@
   "roundIconTitle": "图标圆角",
   "roundIconSubtitle": "为通知图标添加圆角效果",
   "marqueeChannelTitle": "消息滚动",
+  "marqueeAutoHideTitle": "滚动后隐藏岛",
+  "marqueeAutoHideSubtitle": "消息滚动达到指定次数后隐藏当前岛",
+  "marqueeAutoHideOff": "关",
+  "marqueeAutoHideOnce": "滚动1次",
+  "marqueeAutoHideTwice": "滚动2次",
   "marqueeSpeedTitle": "滚动速度",
   "marqueeSpeedLabel": "{speed} 像素/秒",
   "@marqueeSpeedLabel": {

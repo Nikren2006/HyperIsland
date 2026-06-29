@@ -3,6 +3,7 @@ package io.github.hyperisland.xposed
 import io.github.hyperisland.xposed.hook.SystemUI.BigIslandMinWidthHook
 import io.github.hyperisland.xposed.hook.SystemUI.IslandTopOffsetHook
 import io.github.hyperisland.xposed.hook.SystemUI.SmoothIslandHook
+import io.github.hyperisland.xposed.hook.ActiveIslandDismissHook
 import io.github.hyperisland.xposed.hook.BluetoothIslandHook
 import io.github.hyperisland.xposed.hook.ChargeIslandHook
 import io.github.hyperisland.xposed.hook.DownloadHook
@@ -40,6 +41,7 @@ class HyperIslandModule : XposedModule() {
             "com.android.systemui"-> {
                 IslandDispatcherHook.init(this, param)
                 GenericProgressHook.init(this, param)
+                ActiveIslandDismissHook.init(this, param)
                 MarqueeHook.init(this, param)
                 BigIslandMinWidthHook.init(this, param)
                 UnlockAllFocusHook.init(this, param)

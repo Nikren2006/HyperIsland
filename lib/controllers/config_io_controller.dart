@@ -65,6 +65,7 @@ class ConfigIOController {
     'pref_channel_enable_float_',
     'pref_channel_timeout_',
     'pref_channel_marquee_',
+    'pref_channel_marquee_auto_hide_',
     'pref_channel_restore_lockscreen_',
     'pref_channel_highlight_color_',
     'pref_channel_dynamic_highlight_color_',

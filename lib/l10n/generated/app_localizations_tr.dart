@@ -286,6 +286,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get marqueeChannelTitle => 'Ada Metnini Kaydır';
 
   @override
+  String get marqueeAutoHideTitle => '滚动后隐藏岛';
+
+  @override
+  String get marqueeAutoHideSubtitle => '消息滚动达到指定次数后隐藏当前岛';
+
+  @override
+  String get marqueeAutoHideOff => '关';
+
+  @override
+  String get marqueeAutoHideOnce => '滚动1次';
+
+  @override
+  String get marqueeAutoHideTwice => '滚动2次';
+
+  @override
   String get marqueeSpeedTitle => 'Kaydırma Hızı';
 
   @override

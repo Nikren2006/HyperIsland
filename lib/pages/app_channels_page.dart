@@ -265,6 +265,10 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
     queueExtra('timeout', widget.controller.setChannelTimeout);
     queueExtra('marquee', widget.controller.setChannelMarquee);
     queueExtra(
+      'marquee_auto_hide',
+      widget.controller.setChannelMarqueeAutoHide,
+    );
+    queueExtra(
       'restore_lockscreen',
       widget.controller.setChannelRestoreLockscreen,
     );
@@ -955,6 +959,8 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                         enableFloat: extras['enable_float'] ?? kTriOptDefault,
                         islandTimeout: extras['timeout'] ?? '5',
                         marquee: extras['marquee'] ?? kTriOptDefault,
+                        marqueeAutoHide:
+                            extras['marquee_auto_hide'] ?? kTriOptDefault,
                         restoreLockscreen:
                             extras['restore_lockscreen'] ?? kTriOptDefault,
                         highlightColor: extras['highlight_color'] ?? '',
@@ -1195,6 +1201,7 @@ class _ChannelTile extends StatelessWidget {
     required this.enableFloat,
     required this.islandTimeout,
     required this.marquee,
+    required this.marqueeAutoHide,
     required this.restoreLockscreen,
     required this.highlightColor,
     required this.dynamicHighlightColor,
@@ -1237,6 +1244,7 @@ class _ChannelTile extends StatelessWidget {
   final String enableFloat;
   final String islandTimeout;
   final String marquee;
+  final String marqueeAutoHide;
   final String restoreLockscreen;
   final String highlightColor;
   final String dynamicHighlightColor;
@@ -1275,6 +1283,7 @@ class _ChannelTile extends StatelessWidget {
         enableFloat: enableFloat,
         islandTimeout: islandTimeout,
         marquee: marquee,
+        marqueeAutoHide: marqueeAutoHide,
         restoreLockscreen: restoreLockscreen,
         highlightColor: highlightColor,
         dynamicHighlightColor: dynamicHighlightColor,

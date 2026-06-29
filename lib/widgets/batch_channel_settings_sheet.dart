@@ -29,6 +29,7 @@ class SingleChannelMode extends ChannelSettingsMode {
     required this.enableFloat,
     required this.islandTimeout,
     required this.marquee,
+    required this.marqueeAutoHide,
     required this.restoreLockscreen,
     required this.highlightColor,
     required this.dynamicHighlightColor,
@@ -61,6 +62,7 @@ class SingleChannelMode extends ChannelSettingsMode {
   final String enableFloat;
   final String islandTimeout;
   final String marquee;
+  final String marqueeAutoHide;
   final String restoreLockscreen;
   final String highlightColor;
   final String dynamicHighlightColor;
@@ -197,6 +199,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
   String? _enableFloat;
   String? _islandTimeout;
   String? _marquee;
+  String? _marqueeAutoHide;
   String? _restoreLockscreen;
   String? _highlightColor;
   String? _dynamicHighlightColor;
@@ -275,6 +278,24 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
     ];
   }
 
+  String _marqueeAutoHideLabel(BuildContext context, String value) {
+    final l10n = _l10n(context);
+    final isZh = Localizations.localeOf(context).languageCode == 'zh';
+    final offLabel = isZh ? '关' : 'Off';
+    return switch (value) {
+      '1' => isZh ? '滚动1次' : 'Scroll once',
+      '2' => isZh ? '滚动2次' : 'Scroll twice',
+      kTriOptDefault => '${l10n.optDefault}（${_marqueeAutoHideLabel(context, _ctrl.defaultMarqueeAutoHide)}）',
+      _ => offLabel,
+    };
+  }
+
+  String _marqueeAutoHideTitle(BuildContext context) {
+    return Localizations.localeOf(context).languageCode == 'zh'
+        ? '滚动后隐藏岛'
+        : 'Hide Island after scrolling';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -290,6 +311,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
       _enableFloat = m.enableFloat;
       _islandTimeout = m.islandTimeout;
       _marquee = m.marquee;
+      _marqueeAutoHide = m.marqueeAutoHide;
       _restoreLockscreen = m.restoreLockscreen;
       _highlightColor = m.highlightColor;
       _dynamicHighlightColor = m.dynamicHighlightColor;
@@ -1008,6 +1030,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
       _enableFloat != null ||
       _islandTimeout != null ||
       _marquee != null ||
+      _marqueeAutoHide != null ||
       _restoreLockscreen != null ||
       _highlightColor != null ||
       _dynamicHighlightColor != null ||
@@ -1063,6 +1086,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
           'enable_float': _enableFloat,
           'timeout': _islandTimeout,
           'marquee': _marquee,
+          'marquee_auto_hide': _marqueeAutoHide,
           'restore_lockscreen': _restoreLockscreen,
           'highlight_color': _isSingle
               ? (_highlightColor ?? '')
@@ -1375,6 +1399,33 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                           ),
                         ],
                         onChanged: (v) => setState(() => _marquee = v),
+                      ),
+                      SizedBox(height: rowGap),
+                      _BatchSettingRow(
+                        label: _marqueeAutoHideTitle(context),
+                        value: _marqueeAutoHide,
+                        showNotChange: !_isSingle,
+                        items: [
+                          DropdownMenuItem(
+                            value: kTriOptDefault,
+                            child: Text(
+                              _marqueeAutoHideLabel(context, kTriOptDefault),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: kTriOptOff,
+                            child: Text(l10n.optOff),
+                          ),
+                          DropdownMenuItem(
+                            value: '1',
+                            child: Text(_marqueeAutoHideLabel(context, '1')),
+                          ),
+                          DropdownMenuItem(
+                            value: '2',
+                            child: Text(_marqueeAutoHideLabel(context, '2')),
+                          ),
+                        ],
+                        onChanged: (v) => setState(() => _marqueeAutoHide = v),
                       ),
                       SizedBox(height: rowGap),
                       _SettingField(

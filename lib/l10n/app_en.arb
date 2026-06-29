@@ -111,6 +111,11 @@
   "roundIconTitle": "Round icon corners",
   "roundIconSubtitle": "Add rounded corners to notification icons",
   "marqueeChannelTitle": "Text Scrolling Island",
+  "marqueeAutoHideTitle": "Hide Island after scrolling",
+  "marqueeAutoHideSubtitle": "Hide the current Island after the message scrolls the selected number of times",
+  "marqueeAutoHideOff": "Off",
+  "marqueeAutoHideOnce": "Scroll once",
+  "marqueeAutoHideTwice": "Scroll twice",
   "marqueeSpeedTitle": "Speed",
   "marqueeSpeedLabel": "{speed} px/s",
   "@marqueeSpeedLabel": {
