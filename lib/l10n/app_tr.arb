@@ -719,7 +719,7 @@
   "hideBehaviorScreenLockedSubtitle": "Hide the island during lock screen or screen-off flows",
   "hideBehaviorNotificationCenter": "Notification center",
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
-  "tapToSelectImage": "Görsel seçmek için dokunun",
+  "tapToSelectImage": "Resim veya GIF seçmek için dokunun",
   "autoExpandNotification": "Bildirimi otomatik genişlet",
   "off": "Kapalı"
 }

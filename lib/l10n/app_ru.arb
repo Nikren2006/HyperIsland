@@ -631,7 +631,7 @@
   "hideBehaviorScreenLockedSubtitle": "Скрывать Остров во время работы экрана блокировки или выключения экрана",
   "hideBehaviorNotificationCenter": "Центр уведомлений",
   "hideBehaviorNotificationCenterSubtitle": "Скрывать Остров, пока шторка уведомлений разворачивается или переходит",
-  "tapToSelectImage": "Нажмите, чтобы выбрать изображение",
+  "tapToSelectImage": "Нажмите, чтобы выбрать изображение или GIF",
   "autoExpandNotification": "Автоматически разворачивать уведомление",
   "widthDpLabel": "{width} dp",
   "@widthDpLabel": {

@@ -378,7 +378,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                     children: [
                       _IslandBgTile(
                         title: l10n.islandBgSmallTitle,
-                        subtitle: _tapToSelectImageOrGif,
+                        subtitle: l10n.tapToSelectImage,
                         icon: Icons.panorama_vertical,
                         imagePath: _ctrl.islandBgSmallPath,
                         onTap: () => _pickIslandBackground(IslandBgType.small),
@@ -390,7 +390,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                       const Divider(height: 1, indent: 16, endIndent: 16),
                       _IslandBgTile(
                         title: l10n.islandBgBigTitle,
-                        subtitle: _tapToSelectImageOrGif,
+                        subtitle: l10n.tapToSelectImage,
                         icon: Icons.panorama_vertical,
                         imagePath: _ctrl.islandBgBigPath,
                         onTap: () => _pickIslandBackground(IslandBgType.big),
@@ -401,7 +401,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                       const Divider(height: 1, indent: 16, endIndent: 16),
                       _IslandBgTile(
                         title: l10n.islandBgExpandTitle,
-                        subtitle: _tapToSelectImageOrGif,
+                        subtitle: l10n.tapToSelectImage,
                         icon: Icons.panorama_vertical,
                         imagePath: _ctrl.islandBgExpandPath,
                         onTap: () => _pickIslandBackground(IslandBgType.expand),
@@ -415,7 +415,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                 ),
                 const SizedBox(height: 8),
                 // --- 文字 ---
-                _SectionLabel(_islandTextSection),
+                _SectionLabel(l10n.islandTextSection),
                 const SizedBox(height: 8),
                 Card(
                   elevation: 0,
@@ -425,7 +425,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                       horizontal: 16,
                       vertical: 4,
                     ),
-                    title: Text(_islandTextColorTitle, style: titleStyle),
+                    title: Text(l10n.islandTextColorTitle, style: titleStyle),
                     trailing: DropdownButton<String>(
                       value: _ctrl.islandTextColorMode,
                       underline: const SizedBox.shrink(),
@@ -433,45 +433,37 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                         DropdownMenuItem(
                           value: kIslandTextColorDefault,
                           child: Text(
-                            _textColorModeLabel(kIslandTextColorDefault),
+                            _textColorModeLabel(l10n, kIslandTextColorDefault),
                           ),
                         ),
                         DropdownMenuItem(
                           value: kIslandTextColorBlack,
                           child: Text(
-                            _textColorModeLabel(kIslandTextColorBlack),
+                            _textColorModeLabel(l10n, kIslandTextColorBlack),
                           ),
                         ),
                         DropdownMenuItem(
                           value: kIslandTextColorFollowBackground,
                           child: Text(
-                            _textColorModeLabel(
-                              kIslandTextColorFollowBackground,
-                            ),
+                            _textColorModeLabel(l10n, kIslandTextColorFollowBackground),
                           ),
                         ),
                         DropdownMenuItem(
                           value: kIslandTextColorInvertBackground,
                           child: Text(
-                            _textColorModeLabel(
-                              kIslandTextColorInvertBackground,
-                            ),
+                            _textColorModeLabel(l10n, kIslandTextColorInvertBackground),
                           ),
                         ),
                         DropdownMenuItem(
                           value: kIslandTextColorFollowStatusBar,
                           child: Text(
-                            _textColorModeLabel(
-                              kIslandTextColorFollowStatusBar,
-                            ),
+                            _textColorModeLabel(l10n, kIslandTextColorFollowStatusBar),
                           ),
                         ),
                         DropdownMenuItem(
                           value: kIslandTextColorInvertStatusBar,
                           child: Text(
-                            _textColorModeLabel(
-                              kIslandTextColorInvertStatusBar,
-                            ),
+                            _textColorModeLabel(l10n, kIslandTextColorInvertStatusBar),
                           ),
                         ),
                       ],
@@ -513,28 +505,14 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
     );
   }
 
-  String get _languageCode => Localizations.localeOf(context).languageCode;
-
-  String get _islandTextSection =>
-      _languageCode == 'zh' ? '超级岛文字' : 'Island Text';
-
-  String get _islandTextColorTitle =>
-      _languageCode == 'zh' ? '超级岛文本颜色' : 'Island Text Color';
-
-  String get _tapToSelectImageOrGif =>
-      _languageCode == 'zh' ? '点击选择图片或 GIF' : 'Tap to select image or GIF';
-
-  String _textColorModeLabel(String mode) {
-    final isZh = _languageCode == 'zh';
+  String _textColorModeLabel(AppLocalizations l10n, String mode) {
     return switch (mode) {
-      kIslandTextColorBlack => isZh ? '黑色' : 'Black',
-      kIslandTextColorFollowBackground =>
-        isZh ? '跟随岛背景' : 'Follow island background',
-      kIslandTextColorInvertBackground =>
-        isZh ? '反跟随岛背景' : 'Invert island background',
-      kIslandTextColorFollowStatusBar => isZh ? '跟随状态栏' : 'Follow status bar',
-      kIslandTextColorInvertStatusBar => isZh ? '反跟随状态栏' : 'Invert status bar',
-      _ => isZh ? '默认' : 'Default',
+      kIslandTextColorBlack => l10n.islandTextColorBlack,
+      kIslandTextColorFollowBackground => l10n.islandTextColorFollowBackground,
+      kIslandTextColorInvertBackground => l10n.islandTextColorInvertBackground,
+      kIslandTextColorFollowStatusBar => l10n.islandTextColorFollowStatusBar,
+      kIslandTextColorInvertStatusBar => l10n.islandTextColorInvertStatusBar,
+      _ => l10n.islandTextColorDefault,
     };
   }
 }

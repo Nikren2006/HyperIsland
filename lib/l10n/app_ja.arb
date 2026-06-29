@@ -572,7 +572,7 @@
   "hideBehaviorScreenLockedSubtitle": "Hide the island during lock screen or screen-off flows",
   "hideBehaviorNotificationCenter": "Notification center",
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
-  "tapToSelectImage": "タップして画像を選択",
+  "tapToSelectImage": "タップして画像またはGIFを選択",
   "autoExpandNotification": "通知を自動展開",
   "off": "オフ"
 }

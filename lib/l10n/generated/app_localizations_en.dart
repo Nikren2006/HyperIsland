@@ -1872,7 +1872,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get off => 'Off';
 
   @override
-  String get tapToSelectImage => 'Tap to select image';
+  String get islandTextSection => 'Island Text';
+
+  @override
+  String get islandTextColorTitle => 'Island Text Color';
+
+  @override
+  String get islandTextColorBlack => 'Black';
+
+  @override
+  String get islandTextColorFollowBackground => 'Follow island background';
+
+  @override
+  String get islandTextColorInvertBackground => 'Invert island background';
+
+  @override
+  String get islandTextColorFollowStatusBar => 'Follow status bar';
+
+  @override
+  String get islandTextColorInvertStatusBar => 'Invert status bar';
+
+  @override
+  String get islandTextColorDefault => 'Default';
+
+  @override
+  String get tapToSelectImage => 'Tap to select image or GIF';
 
   @override
   String get autoExpandNotification => 'Auto expand notification';

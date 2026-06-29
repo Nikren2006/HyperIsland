@@ -47,20 +47,6 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
         '${l10n.islandSection} ${_outerGlowModeLabel(l10n, _ctrl.defaultIslandOuterGlow)}';
   }
 
-  bool _isZh(BuildContext context) {
-    return Localizations.localeOf(context).languageCode == 'zh';
-  }
-
-  String _marqueeAutoHideTitle(BuildContext context) {
-    return _isZh(context) ? '滚动后隐藏岛' : 'Hide Island after scrolling';
-  }
-
-  String _marqueeAutoHideSubtitle(BuildContext context) {
-    return _isZh(context)
-        ? '消息滚动达到指定次数后隐藏当前岛'
-        : 'Hide the current Island after the message scrolls the selected number of times';
-  }
-
 
   InputDecoration _dialogFieldDecoration(
     BuildContext context, {
@@ -358,7 +344,7 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                           vertical: 4,
                         ),
                         title: Text(
-                          _marqueeAutoHideTitle(context),
+                          l10n.marqueeAutoHideTitle,
                           style: titleStyle?.copyWith(
                             color: marqueeAutoHideEnabled
                                 ? null
@@ -366,7 +352,7 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                           ),
                         ),
                         subtitle: Text(
-                          _marqueeAutoHideSubtitle(context),
+                          l10n.marqueeAutoHideSubtitle,
                           style: marqueeAutoHideEnabled
                               ? null
                               : TextStyle(

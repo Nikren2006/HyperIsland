@@ -90,6 +90,14 @@
     "bluetoothIslandWhitelistAllHint",
     "bluetoothIslandLoadDevicesFailed",
     "bluetoothIslandNeedBtPermission",
+    "islandTextSection",
+    "islandTextColorTitle",
+    "islandTextColorBlack",
+    "islandTextColorFollowBackground",
+    "islandTextColorInvertBackground",
+    "islandTextColorFollowStatusBar",
+    "islandTextColorInvertStatusBar",
+    "islandTextColorDefault",
     "widthDpLabel"
   ],
 
@@ -131,7 +139,15 @@
     "chargeIslandDurationCustom",
     "chargeIslandDurationPersistent",
     "chargeIslandDurationSecondsTitle",
-    "chargeIslandOuterGlowSubtitle"
+    "chargeIslandOuterGlowSubtitle",
+    "islandTextSection",
+    "islandTextColorTitle",
+    "islandTextColorBlack",
+    "islandTextColorFollowBackground",
+    "islandTextColorInvertBackground",
+    "islandTextColorFollowStatusBar",
+    "islandTextColorInvertStatusBar",
+    "islandTextColorDefault"
   ],
 
   "tr": [
@@ -230,6 +246,14 @@
     "bluetoothIslandWhitelistAllHint",
     "bluetoothIslandLoadDevicesFailed",
     "bluetoothIslandNeedBtPermission",
+    "islandTextSection",
+    "islandTextColorTitle",
+    "islandTextColorBlack",
+    "islandTextColorFollowBackground",
+    "islandTextColorInvertBackground",
+    "islandTextColorFollowStatusBar",
+    "islandTextColorInvertStatusBar",
+    "islandTextColorDefault",
     "widthDpLabel"
   ]
 }

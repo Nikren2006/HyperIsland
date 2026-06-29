@@ -289,21 +289,17 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
 
   String _marqueeAutoHideLabel(BuildContext context, String value) {
     final l10n = _l10n(context);
-    final isZh = Localizations.localeOf(context).languageCode == 'zh';
-    final offLabel = isZh ? '关' : 'Off';
     return switch (value) {
-      '1' => isZh ? '滚动1次' : 'Scroll once',
-      '2' => isZh ? '滚动2次' : 'Scroll twice',
+      '1' => l10n.marqueeAutoHideOnce,
+      '2' => l10n.marqueeAutoHideTwice,
       kTriOptDefault =>
         '${l10n.optDefault}（${_marqueeAutoHideLabel(context, _ctrl.defaultMarqueeAutoHide)}）',
-      _ => offLabel,
+      _ => l10n.off,
     };
   }
 
   String _marqueeAutoHideTitle(BuildContext context) {
-    return Localizations.localeOf(context).languageCode == 'zh'
-        ? '滚动后隐藏岛'
-        : 'Hide Island after scrolling';
+    return _l10n(context).marqueeAutoHideTitle;
   }
 
   @override

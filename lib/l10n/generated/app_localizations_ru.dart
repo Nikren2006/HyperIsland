@@ -1888,7 +1888,31 @@ class AppLocalizationsRu extends AppLocalizations {
   String get off => 'Выкл';
 
   @override
-  String get tapToSelectImage => 'Нажмите, чтобы выбрать изображение';
+  String get islandTextSection => '超级岛文字';
+
+  @override
+  String get islandTextColorTitle => '超级岛文本颜色';
+
+  @override
+  String get islandTextColorBlack => '黑色';
+
+  @override
+  String get islandTextColorFollowBackground => '跟随岛背景';
+
+  @override
+  String get islandTextColorInvertBackground => '反跟随岛背景';
+
+  @override
+  String get islandTextColorFollowStatusBar => '跟随状态栏';
+
+  @override
+  String get islandTextColorInvertStatusBar => '反跟随状态栏';
+
+  @override
+  String get islandTextColorDefault => '默认';
+
+  @override
+  String get tapToSelectImage => 'Нажмите, чтобы выбрать изображение или GIF';
 
   @override
   String get autoExpandNotification =>

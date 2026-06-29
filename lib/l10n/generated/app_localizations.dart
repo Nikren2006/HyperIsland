@@ -3458,10 +3458,58 @@ abstract class AppLocalizations {
   /// **'关闭'**
   String get off;
 
+  /// No description provided for @islandTextSection.
+  ///
+  /// In zh, this message translates to:
+  /// **'超级岛文字'**
+  String get islandTextSection;
+
+  /// No description provided for @islandTextColorTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'超级岛文本颜色'**
+  String get islandTextColorTitle;
+
+  /// No description provided for @islandTextColorBlack.
+  ///
+  /// In zh, this message translates to:
+  /// **'黑色'**
+  String get islandTextColorBlack;
+
+  /// No description provided for @islandTextColorFollowBackground.
+  ///
+  /// In zh, this message translates to:
+  /// **'跟随岛背景'**
+  String get islandTextColorFollowBackground;
+
+  /// No description provided for @islandTextColorInvertBackground.
+  ///
+  /// In zh, this message translates to:
+  /// **'反跟随岛背景'**
+  String get islandTextColorInvertBackground;
+
+  /// No description provided for @islandTextColorFollowStatusBar.
+  ///
+  /// In zh, this message translates to:
+  /// **'跟随状态栏'**
+  String get islandTextColorFollowStatusBar;
+
+  /// No description provided for @islandTextColorInvertStatusBar.
+  ///
+  /// In zh, this message translates to:
+  /// **'反跟随状态栏'**
+  String get islandTextColorInvertStatusBar;
+
+  /// No description provided for @islandTextColorDefault.
+  ///
+  /// In zh, this message translates to:
+  /// **'默认'**
+  String get islandTextColorDefault;
+
   /// No description provided for @tapToSelectImage.
   ///
   /// In zh, this message translates to:
-  /// **'点击选择图片'**
+  /// **'点击选择图片或 GIF'**
   String get tapToSelectImage;
 
   /// No description provided for @autoExpandNotification.
