@@ -319,6 +319,10 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
       'blacklist_keywords',
       widget.controller.setChannelBlacklistKeywords,
     );
+    queueExtra(
+      'island_enabled',
+      widget.controller.setChannelIslandEnabled,
+    );
 
     if (templateChanged || extrasChanged) {
       setState(() {
@@ -993,6 +997,8 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                             (extras['blacklist_keywords'] ?? '').isEmpty
                             ? []
                             : (extras['blacklist_keywords'] ?? '').split(','),
+                        islandEnabled:
+                            extras['island_enabled'] != 'false',
                         controller: widget.controller,
                         onToggle: (v) => _toggle(ch.id, v),
                         onSettingsApplied: (s) =>
@@ -1220,6 +1226,7 @@ class _ChannelTile extends StatelessWidget {
     required this.filterMode,
     required this.whitelistKeywords,
     required this.blacklistKeywords,
+    required this.islandEnabled,
     required this.controller,
     required this.onToggle,
     required this.onSettingsApplied,
@@ -1263,6 +1270,7 @@ class _ChannelTile extends StatelessWidget {
   final String filterMode;
   final List<String> whitelistKeywords;
   final List<String> blacklistKeywords;
+  final bool islandEnabled;
   final WhitelistController controller;
   final ValueChanged<bool> onToggle;
   final ValueChanged<Map<String, String?>> onSettingsApplied;
@@ -1302,6 +1310,7 @@ class _ChannelTile extends StatelessWidget {
         filterMode: filterMode,
         whitelistKeywords: whitelistKeywords,
         blacklistKeywords: blacklistKeywords,
+        islandEnabled: islandEnabled,
       ),
       templateLabels: templateLabels,
       rendererLabels: rendererLabels,

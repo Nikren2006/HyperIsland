@@ -96,6 +96,7 @@ object NotificationIslandNotification : IslandTemplate {
                     aodText          = data.aodText,
                     aodTitle         = islandText.second.ifEmpty { islandText.first },
                     aodCustomizationJson = data.aodCustomizationJson,
+                    islandEnabled    = data.islandEnabled,
                 ),
             )
             //ConfigManager.module()?.log("$TAG: dispatcher island — ${data.title} | iconMode=${data.iconMode} | timeout=${data.islandTimeout}")
@@ -151,6 +152,7 @@ object NotificationIslandNotification : IslandTemplate {
             outEffectColor = null,
             aodText = data.aodText,
             aodCustomizationJson = data.aodCustomizationJson,
+            islandEnabled = data.islandEnabled,
         )
         val applyResult = FocusCustomizationEngine.apply(context, data, baseVm)
         val vm = FocusCustomizationEngine.applyIsland(data, applyResult.vm)

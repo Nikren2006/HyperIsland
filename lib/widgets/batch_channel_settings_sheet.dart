@@ -48,6 +48,7 @@ class SingleChannelMode extends ChannelSettingsMode {
     required this.filterMode,
     required this.whitelistKeywords,
     required this.blacklistKeywords,
+    required this.islandEnabled,
   });
 
   final String channelName;
@@ -81,6 +82,7 @@ class SingleChannelMode extends ChannelSettingsMode {
   final String filterMode;
   final List<String> whitelistKeywords;
   final List<String> blacklistKeywords;
+  final bool islandEnabled;
 }
 
 /// 批量模式：对多个渠道批量操作，字段默认"不更改"。
@@ -239,6 +241,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
   bool _focusCustomExpanded = false;
   bool _aodExpanded = false;
   bool _filterExpanded = false;
+  bool _islandEnabled = true;
 
   // 仅 BatchChannelMode + SingleAppScope 下使用
   bool _onlyEnabled = false;
@@ -336,6 +339,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
       _filterMode = m.filterMode;
       _whitelistKeywords = List.from(m.whitelistKeywords);
       _blacklistKeywords = List.from(m.blacklistKeywords);
+      _islandEnabled = m.islandEnabled;
       _timeoutController = TextEditingController(text: m.islandTimeout);
       _highlightColorController = TextEditingController(text: m.highlightColor);
       _islandOuterGlowColorController = TextEditingController(
@@ -1054,7 +1058,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
       _aodCustom != null ||
       _filterMode != null ||
       _whitelistKeywords.isNotEmpty ||
-      _blacklistKeywords.isNotEmpty;
+      _blacklistKeywords.isNotEmpty ||
+      !_islandEnabled;
 
   String _title(AppLocalizations l10n) => switch (widget.mode) {
     SingleChannelMode m => m.channelName,
@@ -1136,6 +1141,16 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
               ? _blacklistKeywords.join(',')
               : (_blacklistKeywords.isNotEmpty
                     ? _blacklistKeywords.join(',')
+                    : null),
+          'island_enabled': _isSingle
+              ? ((_focusNotif == kTriOptOn ||
+                          (_focusNotif == kTriOptDefault && _ctrl.defaultFocusNotif))
+                    ? _islandEnabled
+                    : true)
+                  .toString()
+              : ((_focusNotif == kTriOptOn ||
+                          (_focusNotif == kTriOptDefault && _ctrl.defaultFocusNotif))
+                    ? (_islandEnabled ? null : 'false')
                     : null),
         },
         onlyEnabled: switch (widget.mode) {
@@ -1283,10 +1298,36 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                     title: l10n.islandSection,
                     icon: Icons.smart_display_rounded,
                     expanded: _islandExpanded,
+                    enabled: _islandEnabled,
                     onToggle: () =>
                         setState(() => _islandExpanded = !_islandExpanded),
                     children: [
                       SizedBox(height: sectionTitleGap),
+                      _BatchSettingRow(
+                        label: l10n.islandEnabledLabel,
+                        value: _islandEnabled ? kTriOptOn : kTriOptOff,
+                        showNotChange: !_isSingle,
+                        items: [
+                          DropdownMenuItem(
+                            value: kTriOptOn,
+                            child: Text(l10n.optOn),
+                          ),
+                          DropdownMenuItem(
+                            value: kTriOptOff,
+                            child: Text(l10n.optOff),
+                          ),
+                        ],
+                        onChanged: focusNotificationEnabled
+                            ? (v) => setState(() {
+                                  _islandEnabled = v == kTriOptOn;
+                                  if (!_islandEnabled) {
+                                    _islandExpanded = false;
+                                    _islandCustomExpanded = false;
+                                  }
+                                })
+                            : null,
+                      ),
+                      SizedBox(height: rowGap),
                       _BatchSettingRow(
                         label: l10n.islandIcon,
                         value: _iconMode,
@@ -1681,6 +1722,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                       title: l10n.islandExpressionCustomizationSection,
                       icon: Icons.code_rounded,
                       expanded: _islandCustomExpanded,
+                      enabled: _islandEnabled,
                       onToggle: () => setState(
                         () => _islandCustomExpanded = !_islandCustomExpanded,
                       ),
@@ -1730,6 +1772,7 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                           if (v == kTriOptOff) {
                             _showNotification = kTriOptOn;
                             _preserveSmallIcon = kTriOptOff;
+                            _islandEnabled = true;
                           }
                         }),
                       ),
@@ -2100,7 +2143,7 @@ class _SectionLabel extends StatelessWidget {
 
 // ── 可折叠分组 ──────────────────────────────────────────────────────────────────
 
-class _ExpandableSection extends StatefulWidget {
+class _ExpandableSection extends StatelessWidget {
   const _ExpandableSection({
     required this.title,
     required this.icon,
@@ -2108,6 +2151,7 @@ class _ExpandableSection extends StatefulWidget {
     required this.onToggle,
     required this.children,
     this.enabled = true,
+    this.trailing,
   });
 
   final String title;
@@ -2116,133 +2160,51 @@ class _ExpandableSection extends StatefulWidget {
   final VoidCallback onToggle;
   final List<Widget> children;
   final bool enabled;
-
-  @override
-  State<_ExpandableSection> createState() => _ExpandableSectionState();
-}
-
-class _ExpandableSectionState extends State<_ExpandableSection>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _heightFactor;
-  late final Animation<double> _fade;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _heightFactor = CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic);
-    _fade = CurvedAnimation(
-      parent: _ctrl,
-      curve: Interval(0.2, 1.0, curve: Curves.easeOutCubic),
-    );
-    if (widget.expanded) _ctrl.value = 1.0;
-  }
-
-  @override
-  void didUpdateWidget(covariant _ExpandableSection old) {
-    super.didUpdateWidget(old);
-    if (!widget.enabled) {
-      _ctrl.reverse();
-    } else if (widget.expanded != old.expanded || !old.enabled) {
-      if (widget.expanded) {
-        _ctrl.forward();
-      } else {
-        _ctrl.reverse();
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final active = widget.enabled;
-    final expanded = active && widget.expanded;
-    final color = active ? cs.primary : cs.onSurface.withValues(alpha: 0.38);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerHighest,
+    final color = enabled ? cs.primary : cs.onSurface.withValues(alpha: 0.38);
+    return ExpansionTile(
+      key: ValueKey('${title}_$enabled'),
+      initiallyExpanded: expanded && enabled,
+      onExpansionChanged: enabled ? (_) => onToggle() : null,
+      tilePadding: const EdgeInsets.fromLTRB(16, 2, 8, 2),
+      dense: false,
+      visualDensity: VisualDensity.standard,
+      childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      collapsedShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      backgroundColor: cs.surfaceContainerHighest,
+      collapsedBackgroundColor: cs.surfaceContainerHighest,
+      iconColor: cs.onSurfaceVariant,
+      collapsedIconColor: cs.onSurfaceVariant,
+      title: Row(
         children: [
-          Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.vertical(
-              top: const Radius.circular(16),
-              bottom: expanded ? Radius.zero : const Radius.circular(16),
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.vertical(
-                top: const Radius.circular(16),
-                bottom: expanded ? Radius.zero : const Radius.circular(16),
-              ),
-              onTap: active ? widget.onToggle : null,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 12, 14),
-                child: Row(
-                  children: [
-                    Icon(widget.icon, color: color, size: 20),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        widget.title,
-                        style: text.titleSmall?.copyWith(
-                          color: color,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    AnimatedRotation(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOutCubic,
-                      turns: expanded ? 0.5 : 0,
-                      child: Icon(
-                        Icons.expand_more_rounded,
-                        color: color,
-                        size: 22,
-                      ),
-                    ),
-                  ],
-                ),
+          Icon(icon, color: color, size: 20),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              title,
+              style: text.titleSmall?.copyWith(
+                color: color,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
-          ClipRect(
-            child: AnimatedBuilder(
-              animation: _heightFactor,
-              builder: (_, child) {
-                return Align(
-                  alignment: Alignment.topCenter,
-                  heightFactor: _heightFactor.value,
-                  child: child,
-                );
-              },
-              child: FadeTransition(
-                opacity: _fade,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: widget.children,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          if (trailing != null) trailing!,
         ],
       ),
+      children: [
+        const SizedBox(height: 8),
+        ...children,
+      ],
     );
   }
 }

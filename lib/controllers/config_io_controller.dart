@@ -88,6 +88,7 @@ class ConfigIOController {
     'pref_channel_filter_mode_',
     'pref_channel_filter_whitelist_keywords_',
     'pref_channel_filter_blacklist_keywords_',
+    'pref_channel_island_enabled_',
   ];
 
   static bool _matchesPackage(String value, List<String> packageNames) {

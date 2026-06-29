@@ -933,6 +933,9 @@ class WhitelistController extends ChangeNotifier {
                 'pref_channel_filter_blacklist_keywords_${packageName}_$id',
               ) ??
               '',
+          'island_enabled':
+              prefs.getString('pref_channel_island_enabled_${packageName}_$id') ??
+              'true',
         }),
       ),
     );
@@ -1473,6 +1476,20 @@ class WhitelistController extends ChangeNotifier {
     }
   }
 
+  Future<void> setChannelIslandEnabled(
+    String packageName,
+    String channelId,
+    String value,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'pref_channel_island_enabled_${packageName}_$channelId';
+    if (value == 'true') {
+      await prefs.remove(key);
+    } else {
+      await prefs.setString(key, value);
+    }
+  }
+
   /// 批量应用渠道配置到指定渠道列表。
   /// [settings] 中 null 值的 key 表示不更改该项。
   Future<void> batchApplyChannelSettings(
@@ -1513,6 +1530,7 @@ class WhitelistController extends ChangeNotifier {
       'filter_mode': 'pref_channel_filter_mode',
       'whitelist_keywords': 'pref_channel_filter_whitelist_keywords',
       'blacklist_keywords': 'pref_channel_filter_blacklist_keywords',
+      'island_enabled': 'pref_channel_island_enabled',
     };
     final futures = <Future<bool>>[];
     for (final id in channelIds) {

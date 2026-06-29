@@ -74,4 +74,6 @@ data class IslandViewModel(
     val aodTitle: String? = null,
     /** 息屏显示自定义配置（JSON 字符串），包含文本表达式与图标来源。 */
     val aodCustomizationJson: String? = null,
+    /** 是否启用超级岛（false 时从 focus param 中移除 param_island 字段）。 */
+    val islandEnabled: Boolean = true,
 )

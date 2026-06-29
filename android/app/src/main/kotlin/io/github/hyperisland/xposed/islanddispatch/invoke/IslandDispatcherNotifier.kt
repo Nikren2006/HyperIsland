@@ -72,38 +72,42 @@ internal object IslandDispatcherNotifier {
             islandBuilder.setEnableFloat(effectiveEnableFloat)
             islandBuilder.setShowNotification(request.showNotification)
             islandBuilder.setIslandConfig(timeout = request.timeoutSecs)
-            islandBuilder.setSmallIsland("key_island_icon")
-            val bigIslandLeft = if (request.showIslandIcon) {
-                ImageTextInfoLeft(
-                    type = 1,
-                    picInfo = PicInfo(type = 1, pic = "key_island_icon"),
-                    textInfo = TextInfo(
-                        title = request.title,
-                        narrowFont = request.showLeftNarrowFont,
-                        showHighlightColor = request.showLeftHighlightColor,
-                    ),
-                )
-            } else {
-                ImageTextInfoLeft(
-                    type = 1,
-                    textInfo = TextInfo(
-                        title = request.title,
-                        narrowFont = request.showLeftNarrowFont,
-                        showHighlightColor = request.showLeftHighlightColor,
+
+            // 小岛 + 大岛（islandEnabled=false 时不构建，param_island 自然不存在）
+            if (request.islandEnabled) {
+                islandBuilder.setSmallIsland("key_island_icon")
+                val bigIslandLeft = if (request.showIslandIcon) {
+                    ImageTextInfoLeft(
+                        type = 1,
+                        picInfo = PicInfo(type = 1, pic = "key_island_icon"),
+                        textInfo = TextInfo(
+                            title = request.title,
+                            narrowFont = request.showLeftNarrowFont,
+                            showHighlightColor = request.showLeftHighlightColor,
+                        ),
+                    )
+                } else {
+                    ImageTextInfoLeft(
+                        type = 1,
+                        textInfo = TextInfo(
+                            title = request.title,
+                            narrowFont = request.showLeftNarrowFont,
+                            showHighlightColor = request.showLeftHighlightColor,
+                        ),
+                    )
+                }
+                islandBuilder.setBigIslandInfo(
+                    left = bigIslandLeft,
+                    right = ImageTextInfoRight(
+                        type = 2,
+                        textInfo = TextInfo(
+                            title = request.content,
+                            narrowFont = request.showRightNarrowFont,
+                            showHighlightColor = request.showRightHighlightColor,
+                        ),
                     ),
                 )
             }
-            islandBuilder.setBigIslandInfo(
-                left = bigIslandLeft,
-                right = ImageTextInfoRight(
-                    type = 2,
-                    textInfo = TextInfo(
-                        title = request.content,
-                        narrowFont = request.showRightNarrowFont,
-                        showHighlightColor = request.showRightHighlightColor,
-                    ),
-                ),
-            )
 
             val effectiveActions = request.actions.take(2)
             if (effectiveActions.isNotEmpty()) {
@@ -164,6 +168,7 @@ internal object IslandDispatcherNotifier {
                         dismissIsland = request.dismissIsland,
                         aodTitle = request.aodTitle ?: request.content.ifEmpty { request.title },
                         aodPicKey = aodIconKey,
+                        islandEnabled = request.islandEnabled,
                     )
                 }
             notif.extras.putString("miui.focus.param", jsonParam)
@@ -178,7 +183,7 @@ internal object IslandDispatcherNotifier {
                 notif.extras.putString("hyperisland_island_outer_glow_color", it)
             }
             notif.extras.putString(EXTRA_OWNER, OWNER_MARKER)
-            if (request.islandOuterGlow) {
+            if (request.islandEnabled && request.islandOuterGlow) {
                 notif.extras.putString("miui.bigIsland.effect.src", EFFECT_SRC)
             } else {
                 notif.extras.remove("miui.bigIsland.effect.src")
@@ -273,6 +278,7 @@ internal object IslandDispatcherNotifier {
         dismissIsland: Boolean,
         aodTitle: String?,
         aodPicKey: String?,
+        islandEnabled: Boolean = true,
     ): String {
         if (highlightColor == null && !outerGlow && !islandOuterGlow && islandOuterGlowColor.isNullOrBlank() && outEffectColor.isNullOrBlank() && !dismissIsland && aodTitle.isNullOrBlank() && aodPicKey.isNullOrBlank()) {
             return jsonParam
@@ -280,13 +286,16 @@ internal object IslandDispatcherNotifier {
         return try {
             val json = org.json.JSONObject(jsonParam)
             val pv2 = json.optJSONObject("param_v2") ?: return jsonParam
-            val paramIsland = pv2.optJSONObject("param_island") ?: org.json.JSONObject()
-            highlightColor?.let { paramIsland.put("highlightColor", it) }
-            if (dismissIsland) paramIsland.put("dismissIsland", true)
-            if (!islandOuterGlowColor.isNullOrBlank()) paramIsland.put("outEffectColor", islandOuterGlowColor)
-            pv2.put("param_island", paramIsland)
+            // islandEnabled=false 时不写 param_island 任何字段
+            if (islandEnabled) {
+                val paramIsland = pv2.optJSONObject("param_island") ?: org.json.JSONObject()
+                highlightColor?.let { paramIsland.put("highlightColor", it) }
+                if (dismissIsland) paramIsland.put("dismissIsland", true)
+                if (!islandOuterGlowColor.isNullOrBlank()) paramIsland.put("outEffectColor", islandOuterGlowColor)
+                if (islandOuterGlow) paramIsland.put("outEffectSrc", "outer_glow")
+                pv2.put("param_island", paramIsland)
+            }
             if (outerGlow) pv2.put("outEffectSrc", "outer_glow")
-            if (islandOuterGlow) paramIsland.put("outEffectSrc", "outer_glow")
             if (!outEffectColor.isNullOrBlank()) pv2.put("outEffectColor", outEffectColor)
             if (!aodTitle.isNullOrBlank()) pv2.put("aodTitle", aodTitle)
             if (!aodPicKey.isNullOrBlank()) pv2.put("aodPic", aodPicKey)

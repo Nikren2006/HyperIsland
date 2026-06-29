@@ -273,6 +273,7 @@ $userPrompt
                     aodText          = data.aodText,
                     aodTitle         = islandText.second.ifEmpty { islandText.first },
                     aodCustomizationJson = data.aodCustomizationJson,
+                    islandEnabled    = data.islandEnabled,
                 ),
             )
         } catch (e: Exception) {

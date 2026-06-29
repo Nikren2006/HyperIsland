@@ -170,6 +170,7 @@ object GenericDownloadIslandNotification : IslandTemplate {
             outEffectColor = data.outEffectColor,
             aodText = data.aodText,
             aodCustomizationJson = data.aodCustomizationJson,
+            islandEnabled = data.islandEnabled,
         )
         val applyResult = FocusCustomizationEngine.apply(context, data, baseVm)
         val vm = FocusCustomizationEngine.applyIsland(data, applyResult.vm)

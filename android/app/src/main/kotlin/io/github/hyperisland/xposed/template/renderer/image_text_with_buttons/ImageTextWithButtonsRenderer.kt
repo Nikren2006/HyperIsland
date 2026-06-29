@@ -82,38 +82,41 @@ object ImageTextWithButtonsRenderer : IslandRenderer {
             builder.setShowNotification(vm.showNotification)
             builder.setIslandConfig(timeout = vm.timeoutSecs)
 
-            // 小岛
-            if (vm.circularProgress != null) {
-                builder.setSmallIslandCircularProgress(iconKey, vm.circularProgress)
-            } else {
-                builder.setSmallIsland(iconKey)
-            }
+            // 小岛 + 大岛（islandEnabled=false 时不构建，param_island 自然不存在）
+            if (vm.islandEnabled) {
+                // 小岛
+                if (vm.circularProgress != null) {
+                    builder.setSmallIslandCircularProgress(iconKey, vm.circularProgress)
+                } else {
+                    builder.setSmallIsland(iconKey)
+                }
 
-            // 大岛
-            val leftSide = if (!vm.showIslandIcon) {
-                ImageTextInfoLeft(
-                    type     = 1,
-                    textInfo = TextInfo(title = vm.leftTitle, narrowFont = vm.showLeftNarrowFont, showHighlightColor = vm.showLeftHighlightColor),
-                )
-            } else {
-                ImageTextInfoLeft(
-                    type     = 1,
-                    picInfo  = PicInfo(type = 1, pic = iconKey),
-                    textInfo = TextInfo(title = vm.leftTitle, narrowFont = vm.showLeftNarrowFont, showHighlightColor = vm.showLeftHighlightColor),
-                )
-            }
-            when {
-                vm.circularProgress != null -> builder.setBigIslandInfo(
-                    left = leftSide,
-                    progressText = progressTextInfoFor(vm),
-                )
-                else -> builder.setBigIslandInfo(
-                    left  = leftSide,
-                    right = ImageTextInfoRight(
-                        type     = 2,
-                        textInfo = TextInfo(title = vm.rightTitle, narrowFont = vm.showRightNarrowFont, showHighlightColor = vm.showRightHighlightColor),
-                    ),
-                )
+                // 大岛
+                val leftSide = if (!vm.showIslandIcon) {
+                    ImageTextInfoLeft(
+                        type     = 1,
+                        textInfo = TextInfo(title = vm.leftTitle, narrowFont = vm.showLeftNarrowFont, showHighlightColor = vm.showLeftHighlightColor),
+                    )
+                } else {
+                    ImageTextInfoLeft(
+                        type     = 1,
+                        picInfo  = PicInfo(type = 1, pic = iconKey),
+                        textInfo = TextInfo(title = vm.leftTitle, narrowFont = vm.showLeftNarrowFont, showHighlightColor = vm.showLeftHighlightColor),
+                    )
+                }
+                when {
+                    vm.circularProgress != null -> builder.setBigIslandInfo(
+                        left = leftSide,
+                        progressText = progressTextInfoFor(vm),
+                    )
+                    else -> builder.setBigIslandInfo(
+                        left  = leftSide,
+                        right = ImageTextInfoRight(
+                            type     = 2,
+                            textInfo = TextInfo(title = vm.rightTitle, narrowFont = vm.showRightNarrowFont, showHighlightColor = vm.showRightHighlightColor),
+                        ),
+                    )
+                }
             }
 
             // 按钮（showNotification=false 时不添加）
@@ -163,7 +166,7 @@ object ImageTextWithButtonsRenderer : IslandRenderer {
             if (applyWrap) jsonParam = wrapLongTextJson(jsonParam)
             jsonParam = injectProgressColor(jsonParam, vm.progressColor)
             jsonParam = injectUpdatable(jsonParam, vm.updatable)
-            jsonParam = injectHighlightColor(jsonParam, vm.highlightColor)
+            if (vm.islandEnabled) jsonParam = injectHighlightColor(jsonParam, vm.highlightColor)
             jsonParam = injectOuterGlow(jsonParam, vm.outerGlow)
             jsonParam = injectOutEffectColor(jsonParam, vm.outEffectColor)
             jsonParam = injectAodConfig(jsonParam, vm.aodTitle, aodIconKey)
