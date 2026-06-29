@@ -97,104 +97,100 @@ class WhitelistPageState extends State<WhitelistPage> {
 
   List<Widget> _actionsForWhitelist(bool allSelected, AppLocalizations l10n) =>
       _selectionMode
-          ? [
-              // 全选 / 全不选
-              IconButton(
-                icon: Icon(
-                  allSelected ? Icons.deselect : Icons.select_all,
+      ? [
+          // 全选 / 全不选
+          IconButton(
+            icon: Icon(allSelected ? Icons.deselect : Icons.select_all),
+            tooltip: allSelected ? l10n.deselectAll : l10n.selectAll,
+            onPressed: InteractionHaptics.interceptButton(
+              allSelected ? _deselectAll : _selectAll,
+            ),
+          ),
+          // 批量设置渠道配置
+          IconButton(
+            icon: const Icon(Icons.tune),
+            tooltip: l10n.batchChannelSettings,
+            onPressed: _selectedPackages.isNotEmpty
+                ? InteractionHaptics.interceptButton(
+                    _isToastMode
+                        ? _batchApplySelectedToast
+                        : _batchApplySelected,
+                  )
+                : null,
+          ),
+          // 批量操作菜单
+          AppBarOverflowMenuButton(
+            onSelected: (value) async {
+              switch (value) {
+                case _selectEnabledAction:
+                  _selectEnabled();
+                case _enableAction:
+                  await _setSelectedEnabled(true);
+                case _disableAction:
+                  await _setSelectedEnabled(false);
+              }
+            },
+            itemBuilder: (ctx) {
+              final ml = AppLocalizations.of(ctx)!;
+              return [
+                buildAppPopupMenuItem(
+                  value: _selectEnabledAction,
+                  icon: Icons.playlist_add_check_circle_rounded,
+                  label: ml.selectEnabledApps,
                 ),
-                tooltip: allSelected ? l10n.deselectAll : l10n.selectAll,
-                onPressed: InteractionHaptics.interceptButton(
-                  allSelected ? _deselectAll : _selectAll,
+                const PopupMenuDivider(height: 8),
+                buildAppPopupMenuItem(
+                  value: _enableAction,
+                  icon: Icons.done_all_rounded,
+                  label: ml.batchEnable,
+                  enabled: _selectedPackages.isNotEmpty,
                 ),
-              ),
-              // 批量设置渠道配置
-              IconButton(
-                icon: const Icon(Icons.tune),
-                tooltip: l10n.batchChannelSettings,
-                onPressed: _selectedPackages.isNotEmpty
-                    ? InteractionHaptics.interceptButton(
-                        _isToastMode
-                            ? _batchApplySelectedToast
-                            : _batchApplySelected,
-                      )
-                    : null,
-              ),
-              // 批量操作菜单
-              AppBarOverflowMenuButton(
-                onSelected: (value) async {
-                  switch (value) {
-                    case _selectEnabledAction:
-                      _selectEnabled();
-                    case _enableAction:
-                      await _setSelectedEnabled(true);
-                    case _disableAction:
-                      await _setSelectedEnabled(false);
-                  }
-                },
-                itemBuilder: (ctx) {
-                  final ml = AppLocalizations.of(ctx)!;
-                  return [
-                    buildAppPopupMenuItem(
-                      value: _selectEnabledAction,
-                      icon: Icons.playlist_add_check_circle_rounded,
-                      label: ml.selectEnabledApps,
-                    ),
-                    const PopupMenuDivider(height: 8),
-                    buildAppPopupMenuItem(
-                      value: _enableAction,
-                      icon: Icons.done_all_rounded,
-                      label: ml.batchEnable,
-                      enabled: _selectedPackages.isNotEmpty,
-                    ),
-                    buildAppPopupMenuItem(
-                      value: _disableAction,
-                      icon: Icons.block_rounded,
-                      label: ml.batchDisable,
-                      enabled: _selectedPackages.isNotEmpty,
-                    ),
-                  ];
-                },
-              ),
-            ]
-          : [
-              // 进入多选模式
-              IconButton(
-                icon: const Icon(Icons.checklist_outlined),
-                tooltip: l10n.multiSelect,
-                onPressed: _ctrl.loading
-                    ? null
-                    : InteractionHaptics.interceptButton(
-                        _enterSelectionMode,
-                      ),
-              ),
-              AppBarOverflowMenuButton(
-                onSelected: (value) => handleAppListOverflowMenuSelection(
-                  value: value,
-                  onToggleSystemApps: () {
-                    _ctrl.setShowSystemApps(!_ctrl.showSystemApps);
-                  },
-                  onRefresh: _ctrl.refresh,
-                  onEnableAll: _isToastMode
-                      ? _ctrl.enableAllToast
-                      : _ctrl.enableAll,
-                  onDisableAll: _isToastMode
-                      ? _ctrl.disableAllToast
-                      : _ctrl.disableAll,
+                buildAppPopupMenuItem(
+                  value: _disableAction,
+                  icon: Icons.block_rounded,
+                  label: ml.batchDisable,
+                  enabled: _selectedPackages.isNotEmpty,
                 ),
-                itemBuilder: (ctx) {
-                  final ml = AppLocalizations.of(ctx)!;
-                  return buildAppListOverflowMenuItems(
-                    context: ctx,
-                    showSystemApps: _ctrl.showSystemApps,
-                    showSystemAppsLabel: ml.showSystemApps,
-                    refreshLabel: ml.refreshList,
-                    enableAllLabel: ml.enableAll,
-                    disableAllLabel: ml.disableAll,
-                  );
-                },
-              ),
-            ];
+              ];
+            },
+          ),
+        ]
+      : [
+          // 进入多选模式
+          IconButton(
+            icon: const Icon(Icons.checklist_outlined),
+            tooltip: l10n.multiSelect,
+            onPressed: _ctrl.loading
+                ? null
+                : InteractionHaptics.interceptButton(_enterSelectionMode),
+          ),
+          AppBarOverflowMenuButton(
+            onSelected: (value) => handleAppListOverflowMenuSelection(
+              value: value,
+              onToggleSystemApps: () {
+                _ctrl.setShowSystemApps(!_ctrl.showSystemApps);
+              },
+              onRefresh: _ctrl.refresh,
+              onEnableAll: _isToastMode
+                  ? _ctrl.enableAllToast
+                  : _ctrl.enableAll,
+              onDisableAll: _isToastMode
+                  ? _ctrl.disableAllToast
+                  : _ctrl.disableAll,
+            ),
+            itemBuilder: (ctx) {
+              final ml = AppLocalizations.of(ctx)!;
+              return buildAppListOverflowMenuItems(
+                context: ctx,
+                showSystemApps: _ctrl.showSystemApps,
+                showSystemAppsLabel: ml.showSystemApps,
+                refreshLabel: ml.refreshList,
+                enableAllLabel: ml.enableAll,
+                disableAllLabel: ml.disableAll,
+              );
+            },
+          ),
+        ];
 
   bool get _selectionMode => _inSelectionMode;
 
@@ -291,12 +287,14 @@ class WhitelistPageState extends State<WhitelistPage> {
   void _selectEnabled() {
     setState(() {
       _selectedPackages.addAll(
-        _ctrl.filteredApps.where((a) {
-          final pkg = a.packageName;
-          return _isToastMode
-              ? _ctrl.isToastForwardEnabledSync(pkg)
-              : _ctrl.enabledPackages.contains(pkg);
-        }).map((a) => a.packageName),
+        _ctrl.filteredApps
+            .where((a) {
+              final pkg = a.packageName;
+              return _isToastMode
+                  ? _ctrl.isToastForwardEnabledSync(pkg)
+                  : _ctrl.enabledPackages.contains(pkg);
+            })
+            .map((a) => a.packageName),
       );
     });
   }
@@ -394,7 +392,9 @@ class WhitelistPageState extends State<WhitelistPage> {
       showNotification: result.showNotification,
       showIslandIcon: result.showIslandIcon,
       firstFloat: result.firstFloat,
+      enableFloat: result.enableFloat,
       marquee: result.marquee,
+      marqueeAutoHide: result.marqueeAutoHide,
       timeout: result.timeout,
       highlightColor: result.highlightColor,
       dynamicHighlightColor: result.dynamicHighlightColor,
@@ -404,6 +404,9 @@ class WhitelistPageState extends State<WhitelistPage> {
       outEffectColor: result.outEffectColor,
       islandOuterGlow: result.islandOuterGlow,
       islandOuterGlowColor: result.islandOuterGlowColor,
+      filterMode: result.filterMode,
+      whitelistKeywords: result.whitelistKeywords,
+      blacklistKeywords: result.blacklistKeywords,
     );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -653,7 +656,9 @@ class _BatchToastSettings {
     required this.showNotification,
     required this.showIslandIcon,
     this.firstFloat,
+    this.enableFloat,
     this.marquee,
+    this.marqueeAutoHide,
     this.timeout,
     this.highlightColor,
     this.dynamicHighlightColor,
@@ -663,6 +668,9 @@ class _BatchToastSettings {
     this.outEffectColor,
     this.islandOuterGlow,
     this.islandOuterGlowColor,
+    this.filterMode,
+    this.whitelistKeywords,
+    this.blacklistKeywords,
   });
 
   final bool forwardEnabled;
@@ -670,7 +678,9 @@ class _BatchToastSettings {
   final bool showNotification;
   final bool showIslandIcon;
   final String? firstFloat;
+  final String? enableFloat;
   final String? marquee;
+  final String? marqueeAutoHide;
   final String? timeout;
   final String? highlightColor;
   final String? dynamicHighlightColor;
@@ -680,6 +690,9 @@ class _BatchToastSettings {
   final String? outEffectColor;
   final String? islandOuterGlow;
   final String? islandOuterGlowColor;
+  final String? filterMode;
+  final String? whitelistKeywords;
+  final String? blacklistKeywords;
 }
 
 class _BatchToastSettingsSheet extends StatefulWidget {
@@ -711,7 +724,9 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
   bool _showIslandIcon = true;
 
   String? _firstFloat;
+  String? _enableFloat;
   String? _marquee;
+  String? _marqueeAutoHide;
   String? _timeout;
   String? _highlightColor;
   String? _dynamicHighlightColor;
@@ -721,6 +736,9 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
   String? _outEffectColor;
   String? _islandOuterGlow;
   String? _islandOuterGlowColor;
+  String? _filterMode;
+  List<String> _whitelistKeywords = [];
+  List<String> _blacklistKeywords = [];
 
   @override
   void dispose() {
@@ -755,7 +773,6 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
                 forwardEnabled: _forwardEnabled,
                 blockOriginal: _blockOriginal,
                 showNotification: _showNotification,
-                showIslandIcon: _showIslandIcon,
                 onForwardEnabledChanged: (value) {
                   setState(() {
                     _forwardEnabled = value;
@@ -771,14 +788,21 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
                   if (!_forwardEnabled && value) return;
                   setState(() => _showNotification = value);
                 },
-                onShowIslandIconChanged: (value) {
-                  if (!_forwardEnabled) return;
-                  setState(() => _showIslandIcon = value);
-                },
                 showHint: false,
                 allowIndependentBlockOriginal: true,
               ),
               const SizedBox(height: 12),
+              _BatchTriOptTile(
+                label: l10n.islandIconLabel,
+                value: _showIslandIcon ? kTriOptOn : kTriOptOff,
+                defaultLabel: l10n.noChange,
+                onChanged: (v) => setState(
+                  () => _showIslandIcon = v == null
+                      ? _showIslandIcon
+                      : v != kTriOptOff,
+                ),
+              ),
+              const SizedBox(height: 10),
               _BatchTriOptTile(
                 label: l10n.firstFloatLabel,
                 value: _firstFloat,
@@ -787,10 +811,48 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
               ),
               const SizedBox(height: 10),
               _BatchTriOptTile(
+                label: l10n.updateFloatLabel,
+                value: _enableFloat,
+                defaultLabel: l10n.noChange,
+                onChanged: (v) => setState(() => _enableFloat = v),
+              ),
+              const SizedBox(height: 10),
+              _BatchTriOptTile(
                 label: l10n.marqueeChannelTitle,
                 value: _marquee,
                 defaultLabel: l10n.noChange,
                 onChanged: (v) => setState(() => _marquee = v),
+              ),
+              const SizedBox(height: 10),
+              _BatchField(
+                label: l10n.marqueeAutoHideTitle,
+                child: DropdownButtonFormField<String?>(
+                  initialValue: _marqueeAutoHide,
+                  decoration: _batchFieldDecoration(context),
+                  items: [
+                    DropdownMenuItem<String?>(
+                      value: null,
+                      child: Text(l10n.noChange),
+                    ),
+                    DropdownMenuItem<String?>(
+                      value: kTriOptDefault,
+                      child: Text(l10n.optDefault),
+                    ),
+                    DropdownMenuItem<String?>(
+                      value: kTriOptOff,
+                      child: Text(l10n.marqueeAutoHideOff),
+                    ),
+                    DropdownMenuItem<String?>(
+                      value: '1',
+                      child: Text(l10n.marqueeAutoHideOnce),
+                    ),
+                    DropdownMenuItem<String?>(
+                      value: '2',
+                      child: Text(l10n.marqueeAutoHideTwice),
+                    ),
+                  ],
+                  onChanged: (v) => setState(() => _marqueeAutoHide = v),
+                ),
               ),
               const SizedBox(height: 10),
               _BatchField(
@@ -998,6 +1060,59 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
                   },
                 ),
               ),
+              const SizedBox(height: 10),
+              _BatchField(
+                label: l10n.filterModeLabel,
+                child: DropdownButtonFormField<String?>(
+                  initialValue: _filterMode,
+                  decoration: _batchFieldDecoration(context),
+                  items: [
+                    DropdownMenuItem<String?>(
+                      value: null,
+                      child: Text(l10n.noChange),
+                    ),
+                    DropdownMenuItem<String?>(
+                      value: 'blacklist',
+                      child: Text(l10n.filterModeBlacklist),
+                    ),
+                    DropdownMenuItem<String?>(
+                      value: 'whitelist',
+                      child: Text(l10n.filterModeWhitelist),
+                    ),
+                  ],
+                  onChanged: (v) => setState(() => _filterMode = v),
+                ),
+              ),
+              const SizedBox(height: 10),
+              ToastKeywordListEditor(
+                label: l10n.whitelistKeywordsLabel,
+                keywords: _whitelistKeywords,
+                enabled: true,
+                hintText: l10n.addKeyword,
+                onAdd: (kw) => setState(
+                  () => _whitelistKeywords = [..._whitelistKeywords, kw],
+                ),
+                onRemove: (kw) => setState(
+                  () => _whitelistKeywords = _whitelistKeywords
+                      .where((k) => k != kw)
+                      .toList(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              ToastKeywordListEditor(
+                label: l10n.blacklistKeywordsLabel,
+                keywords: _blacklistKeywords,
+                enabled: true,
+                hintText: l10n.addKeyword,
+                onAdd: (kw) => setState(
+                  () => _blacklistKeywords = [..._blacklistKeywords, kw],
+                ),
+                onRemove: (kw) => setState(
+                  () => _blacklistKeywords = _blacklistKeywords
+                      .where((k) => k != kw)
+                      .toList(),
+                ),
+              ),
               const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -1019,7 +1134,9 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
                           showNotification: _showNotification,
                           showIslandIcon: _showIslandIcon,
                           firstFloat: _firstFloat,
+                          enableFloat: _enableFloat,
                           marquee: _marquee,
+                          marqueeAutoHide: _marqueeAutoHide,
                           timeout: _timeout,
                           highlightColor: _highlightColor,
                           dynamicHighlightColor: _dynamicHighlightColor,
@@ -1033,6 +1150,13 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
                           outEffectColor: _outEffectColor,
                           islandOuterGlow: _islandOuterGlow,
                           islandOuterGlowColor: _islandOuterGlowColor,
+                          filterMode: _filterMode,
+                          whitelistKeywords: _whitelistKeywords.isEmpty
+                              ? null
+                              : _whitelistKeywords.join('\n'),
+                          blacklistKeywords: _blacklistKeywords.isEmpty
+                              ? null
+                              : _blacklistKeywords.join('\n'),
                         ),
                       );
                     }),

@@ -22,6 +22,8 @@ String _prefToastPreserveSmallIconKey(String packageName) =>
     'pref_toast_preserve_small_icon_$packageName';
 String _prefToastMarqueeKey(String packageName) =>
     'pref_toast_marquee_$packageName';
+String _prefToastMarqueeAutoHideKey(String packageName) =>
+    'pref_toast_marquee_auto_hide_$packageName';
 String _prefToastTimeoutKey(String packageName) =>
     'pref_toast_timeout_$packageName';
 String _prefToastHighlightColorKey(String packageName) =>
@@ -40,6 +42,12 @@ String _prefToastIslandOuterGlowKey(String packageName) =>
     'pref_toast_island_outer_glow_$packageName';
 String _prefToastIslandOuterGlowColorKey(String packageName) =>
     'pref_toast_island_outer_glow_color_$packageName';
+String _prefToastFilterModeKey(String packageName) =>
+    'pref_toast_filter_mode_$packageName';
+String _prefToastFilterWhitelistKeywordsKey(String packageName) =>
+    'pref_toast_filter_whitelist_keywords_$packageName';
+String _prefToastFilterBlacklistKeywordsKey(String packageName) =>
+    'pref_toast_filter_blacklist_keywords_$packageName';
 String prefMediaIslandEnabledKey(String packageName) =>
     'pref_media_island_enabled_$packageName';
 String prefMediaIslandNormalNotificationKey(String packageName) =>
@@ -439,6 +447,17 @@ class WhitelistController extends ChangeNotifier {
     await prefs.setString(_prefToastMarqueeKey(packageName), value);
   }
 
+  Future<String> getToastMarqueeAutoHide(String packageName) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_prefToastMarqueeAutoHideKey(packageName)) ??
+        kTriOptDefault;
+  }
+
+  Future<void> setToastMarqueeAutoHide(String packageName, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_prefToastMarqueeAutoHideKey(packageName), value);
+  }
+
   Future<String> getToastTimeout(String packageName) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_prefToastTimeoutKey(packageName)) ?? '5';
@@ -565,6 +584,52 @@ class WhitelistController extends ChangeNotifier {
     }
   }
 
+  Future<String> getToastFilterMode(String packageName) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_prefToastFilterModeKey(packageName)) ?? 'blacklist';
+  }
+
+  Future<void> setToastFilterMode(String packageName, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_prefToastFilterModeKey(packageName), value);
+  }
+
+  Future<List<String>> getToastWhitelistKeywords(String packageName) async {
+    final prefs = await SharedPreferences.getInstance();
+    return _decodeKeywordList(
+      prefs.getString(_prefToastFilterWhitelistKeywordsKey(packageName)) ?? '',
+    );
+  }
+
+  Future<void> setToastWhitelistKeywords(
+    String packageName,
+    List<String> keywords,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      _prefToastFilterWhitelistKeywordsKey(packageName),
+      _encodeKeywordList(keywords),
+    );
+  }
+
+  Future<List<String>> getToastBlacklistKeywords(String packageName) async {
+    final prefs = await SharedPreferences.getInstance();
+    return _decodeKeywordList(
+      prefs.getString(_prefToastFilterBlacklistKeywordsKey(packageName)) ?? '',
+    );
+  }
+
+  Future<void> setToastBlacklistKeywords(
+    String packageName,
+    List<String> keywords,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      _prefToastFilterBlacklistKeywordsKey(packageName),
+      _encodeKeywordList(keywords),
+    );
+  }
+
   Future<void> setToastSettingsBatch(
     List<String> packages, {
     bool? forwardEnabled,
@@ -572,7 +637,9 @@ class WhitelistController extends ChangeNotifier {
     bool? showNotification,
     bool? showIslandIcon,
     String? firstFloat,
+    String? enableFloat,
     String? marquee,
+    String? marqueeAutoHide,
     String? timeout,
     String? highlightColor,
     String? dynamicHighlightColor,
@@ -582,6 +649,9 @@ class WhitelistController extends ChangeNotifier {
     String? outEffectColor,
     String? islandOuterGlow,
     String? islandOuterGlowColor,
+    String? filterMode,
+    String? whitelistKeywords,
+    String? blacklistKeywords,
   }) async {
     if (packages.isEmpty) return;
     final prefs = await SharedPreferences.getInstance();
@@ -605,8 +675,17 @@ class WhitelistController extends ChangeNotifier {
       if (firstFloat != null) {
         await prefs.setString(_prefToastFirstFloatKey(pkg), firstFloat);
       }
+      if (enableFloat != null) {
+        await prefs.setString(_prefToastEnableFloatKey(pkg), enableFloat);
+      }
       if (marquee != null) {
         await prefs.setString(_prefToastMarqueeKey(pkg), marquee);
+      }
+      if (marqueeAutoHide != null) {
+        await prefs.setString(
+          _prefToastMarqueeAutoHideKey(pkg),
+          marqueeAutoHide,
+        );
       }
       if (timeout != null) {
         await prefs.setString(_prefToastTimeoutKey(pkg), timeout);
@@ -661,6 +740,21 @@ class WhitelistController extends ChangeNotifier {
         } else {
           await prefs.setString(key, islandOuterGlowColor);
         }
+      }
+      if (filterMode != null) {
+        await prefs.setString(_prefToastFilterModeKey(pkg), filterMode);
+      }
+      if (whitelistKeywords != null) {
+        await prefs.setString(
+          _prefToastFilterWhitelistKeywordsKey(pkg),
+          whitelistKeywords,
+        );
+      }
+      if (blacklistKeywords != null) {
+        await prefs.setString(
+          _prefToastFilterBlacklistKeywordsKey(pkg),
+          blacklistKeywords,
+        );
       }
     }
     if (forwardEnabled != null) {
@@ -1036,6 +1130,23 @@ class WhitelistController extends ChangeNotifier {
       'pref_channel_marquee_${packageName}_$channelId',
       value,
     );
+  }
+
+  static List<String> _decodeKeywordList(String raw) {
+    return raw
+        .split('\n')
+        .map((s) => s.trim())
+        .where((s) => s.isNotEmpty)
+        .toSet()
+        .toList();
+  }
+
+  static String _encodeKeywordList(List<String> keywords) {
+    return keywords
+        .map((s) => s.trim())
+        .where((s) => s.isNotEmpty)
+        .toSet()
+        .join('\n');
   }
 
   Future<void> setChannelMarqueeAutoHide(

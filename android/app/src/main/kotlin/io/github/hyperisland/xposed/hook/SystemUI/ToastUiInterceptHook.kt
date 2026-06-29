@@ -32,6 +32,7 @@ object ToastUiInterceptHook : BaseHook() {
         val showNotification: Boolean,
         val showIslandIcon: Boolean,
         val firstFloat: Boolean,
+        val enableFloat: Boolean,
         val timeoutSecs: Int,
         val highlightColor: String?,
         val dynamicHighlightMode: String,
@@ -41,6 +42,9 @@ object ToastUiInterceptHook : BaseHook() {
         val islandOuterGlowMode: String,
         val islandOuterGlowColor: String?,
         val outEffectColor: String?,
+        val filterMode: String,
+        val whitelistKeywords: List<String>,
+        val blacklistKeywords: List<String>,
     )
 
     private val cachedRules = ConcurrentHashMap<String, ToastRule>()
@@ -139,6 +143,10 @@ object ToastUiInterceptHook : BaseHook() {
             return rule.blockOriginal
         }
 
+        if (!shouldForwardText(normalizedText, rule)) {
+            return true
+        }
+
         val dedupeKey = "$pkg|$normalizedText"
         val now = SystemClock.elapsedRealtime()
         val last = lastForwardAt[dedupeKey] ?: 0L
@@ -191,6 +199,7 @@ object ToastUiInterceptHook : BaseHook() {
             true,
         )
         val defaultFirstFloat = ConfigManager.getBoolean("pref_default_first_float", false)
+        val defaultEnableFloat = ConfigManager.getBoolean("pref_default_enable_float", false)
         val defaultDynamicHighlightColor = ConfigManager.getBoolean(
             "pref_default_dynamic_highlight_color",
             false,
@@ -201,6 +210,10 @@ object ToastUiInterceptHook : BaseHook() {
         val firstFloat = resolveTriOpt(
             ConfigManager.getString("pref_toast_first_float_$pkg", "default"),
             defaultFirstFloat,
+        )
+        val enableFloat = resolveTriOpt(
+            ConfigManager.getString("pref_toast_enable_float_$pkg", "default"),
+            defaultEnableFloat,
         )
         val clampedTimeout = ConfigManager.getString("pref_toast_timeout_$pkg", "5")
             .toIntOrNull()
@@ -242,12 +255,23 @@ object ToastUiInterceptHook : BaseHook() {
             .getString("pref_toast_island_outer_glow_color_$pkg", "")
             .trim()
             .ifBlank { null }
+        val filterMode = when (ConfigManager.getString("pref_toast_filter_mode_$pkg", "blacklist")) {
+            "whitelist" -> "whitelist"
+            else -> "blacklist"
+        }
+        val whitelistKeywords = parseKeywords(
+            ConfigManager.getString("pref_toast_filter_whitelist_keywords_$pkg", "")
+        )
+        val blacklistKeywords = parseKeywords(
+            ConfigManager.getString("pref_toast_filter_blacklist_keywords_$pkg", "")
+        )
         return ToastRule(
             forwardEnabled = forward,
             blockOriginal = block,
             showNotification = showNotification,
             showIslandIcon = showIslandIcon,
             firstFloat = firstFloat,
+            enableFloat = enableFloat,
             timeoutSecs = clampedTimeout,
             highlightColor = manualHighlightColor,
             dynamicHighlightMode = dynamicHighlightMode,
@@ -257,6 +281,9 @@ object ToastUiInterceptHook : BaseHook() {
             islandOuterGlowMode = islandOuterGlowMode,
             islandOuterGlowColor = islandOuterGlowColor,
             outEffectColor = outEffectColor,
+            filterMode = filterMode,
+            whitelistKeywords = whitelistKeywords,
+            blacklistKeywords = blacklistKeywords,
         ).also {
             cachedRules[pkg] = it
         }
@@ -275,6 +302,23 @@ object ToastUiInterceptHook : BaseHook() {
             "off" -> false
             else -> defaultValue
         }
+    }
+
+    private fun parseKeywords(raw: String): List<String> {
+        return raw.splitToSequence('\n', ',')
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .distinct()
+            .toList()
+    }
+
+    private fun shouldForwardText(text: String, rule: ToastRule): Boolean {
+        if (rule.whitelistKeywords.isEmpty() && rule.blacklistKeywords.isEmpty()) return true
+        if (rule.blacklistKeywords.any { text.contains(it, ignoreCase = true) }) return false
+        if (rule.filterMode == "whitelist") {
+            return rule.whitelistKeywords.any { text.contains(it, ignoreCase = true) }
+        }
+        return true
     }
 
     private fun resolveHighlightColor(
@@ -340,7 +384,7 @@ object ToastUiInterceptHook : BaseHook() {
                     icon = icon,
                     timeoutSecs = rule.timeoutSecs,
                     firstFloat = sceneDecision.applyToBoolean(rule.firstFloat),
-                    enableFloat = false,
+                    enableFloat = sceneDecision.applyToBoolean(rule.enableFloat),
                     showNotification = rule.showNotification,
                     showIslandIcon = rule.showIslandIcon,
                     preserveStatusBarSmallIcon = false,

@@ -222,29 +222,36 @@ object GenericProgressHook : BaseHook() {
     private fun handleSbn(sbn: StatusBarNotification, module: XposedModule, classLoader: ClassLoader) {
         try {
             val pkg = sbn.packageName ?: return
+            val notif = sbn.notification ?: return
+            val extras = notif.extras ?: return
+            val isHyperIslandProxy = extras.getString(EXTRA_OWNER) == OWNER_MARKER
 
             if (pkg == "com.android.systemui" &&
-                sbn.notification?.channelId == IslandDispatcher.CHANNEL_ID) return
+                notif.channelId == IslandDispatcher.CHANNEL_ID &&
+                !isHyperIslandProxy) return
 
         val context = HookUtils.getContext(classLoader) ?: return
 
-        val allowedChannels = loadWhitelist(module)[pkg] ?: return
-            val notif = sbn.notification ?: return
             val channelId = notif.channelId ?: ""
-            if (allowedChannels.isNotEmpty() && channelId !in allowedChannels) return
+            val sourcePkg = extras.getString("hyperisland_source_pkg") ?: pkg
+            val sourceChannelId = extras.getString("hyperisland_source_channel") ?: channelId
+            extras.putString("hyperisland_source_pkg", sourcePkg)
+            extras.putString("hyperisland_channel_id", sourceChannelId)
+            extras.putString(EXTRA_OWNER, OWNER_MARKER)
+            if (isHyperIslandProxy && extras.containsKey("miui.focus.param")) return
+
+            if (!isHyperIslandProxy) {
+                val allowedChannels = loadWhitelist(module)[pkg] ?: return
+                if (allowedChannels.isNotEmpty() && channelId !in allowedChannels) return
+            }
 
             val sceneDecision = SceneBehavior.resolve(
                 context = context,
                 surface = SceneBehavior.Surface.GENERIC_NOTIFICATION,
-                sourcePackage = pkg,
-                channelId = channelId,
+                sourcePackage = sourcePkg,
+                channelId = sourceChannelId,
             )
             if (sceneDecision.shouldSuppress) return
-
-            val extras = notif.extras ?: return
-            extras.putString("hyperisland_source_pkg", pkg)
-            extras.putString("hyperisland_channel_id", channelId)
-            extras.putString(EXTRA_OWNER, OWNER_MARKER)
 
             if (isMediaNotification(notif, extras)) {
                 handleMediaNotification(pkg, channelId, sbn.id, sbn.key, notif, extras, context, module, classLoader)

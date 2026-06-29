@@ -34,6 +34,7 @@ class ConfigIOController {
     'pref_toast_enable_float_',
     'pref_toast_preserve_small_icon_',
     'pref_toast_marquee_',
+    'pref_toast_marquee_auto_hide_',
     'pref_toast_timeout_',
     'pref_toast_highlight_color_',
     'pref_toast_dynamic_highlight_color_',
@@ -43,6 +44,9 @@ class ConfigIOController {
     'pref_toast_out_effect_color_',
     'pref_toast_island_outer_glow_',
     'pref_toast_island_outer_glow_color_',
+    'pref_toast_filter_mode_',
+    'pref_toast_filter_whitelist_keywords_',
+    'pref_toast_filter_blacklist_keywords_',
   ];
 
   static const _notificationAppPrefPrefixes = [
@@ -234,11 +238,9 @@ class ConfigIOController {
       settings[key] = prefs.get(key);
     }
     settings[kPrefConfigAppVersion] = appVersion;
-    return const JsonEncoder.withIndent('  ').convert({
-      'version': 1,
-      'appVersion': appVersion,
-      'settings': settings,
-    });
+    return const JsonEncoder.withIndent(
+      '  ',
+    ).convert({'version': 1, 'appVersion': appVersion, 'settings': settings});
   }
 
   /// 从 JSON 字符串恢复所有设置，返回写入的条目数。
