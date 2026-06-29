@@ -61,7 +61,7 @@ class _IslandOtherPageState extends State<IslandOtherPage> {
   String _fullscreenBehaviorLabel(AppLocalizations l10n, String value) {
     return switch (value) {
       'fallback' => l10n.fullscreenBehaviorFallback,
-      'expand' => l10n.fullscreenBehaviorExpand,
+      'expand' => l10n.autoExpandNotification,
       _ => l10n.fullscreenBehaviorOff,
     };
   }

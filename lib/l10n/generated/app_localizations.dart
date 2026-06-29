@@ -314,12 +314,6 @@ abstract class AppLocalizations {
   /// **'发送前先取消已有的超级岛通知'**
   String get clearPreviousNotificationSubtitle;
 
-  /// No description provided for @enableFloatNotification.
-  ///
-  /// In zh, this message translates to:
-  /// **'自动展开通知'**
-  String get enableFloatNotification;
-
   /// No description provided for @enableFloatNotificationSubtitle.
   ///
   /// In zh, this message translates to:
@@ -602,12 +596,6 @@ abstract class AppLocalizations {
   /// **'消息滚动达到指定次数后隐藏当前岛'**
   String get marqueeAutoHideSubtitle;
 
-  /// No description provided for @marqueeAutoHideOff.
-  ///
-  /// In zh, this message translates to:
-  /// **'关'**
-  String get marqueeAutoHideOff;
-
   /// No description provided for @marqueeAutoHideOnce.
   ///
   /// In zh, this message translates to:
@@ -638,23 +626,11 @@ abstract class AppLocalizations {
   /// **'最大宽度'**
   String get bigIslandMaxWidthTitle;
 
-  /// No description provided for @bigIslandMaxWidthLabel.
-  ///
-  /// In zh, this message translates to:
-  /// **'{width} dp'**
-  String bigIslandMaxWidthLabel(int width);
-
   /// No description provided for @bigIslandMinWidthTitle.
   ///
   /// In zh, this message translates to:
   /// **'最小宽度'**
   String get bigIslandMinWidthTitle;
-
-  /// No description provided for @bigIslandMinWidthLabel.
-  ///
-  /// In zh, this message translates to:
-  /// **'{width} dp'**
-  String bigIslandMinWidthLabel(int width);
 
   /// No description provided for @testNotifTooltip.
   ///
@@ -1952,12 +1928,6 @@ abstract class AppLocalizations {
   /// **'回退普通通知'**
   String get fullscreenBehaviorFallback;
 
-  /// No description provided for @fullscreenBehaviorExpand.
-  ///
-  /// In zh, this message translates to:
-  /// **'自动展开通知'**
-  String get fullscreenBehaviorExpand;
-
   /// No description provided for @filterRulesTitle.
   ///
   /// In zh, this message translates to:
@@ -2396,12 +2366,6 @@ abstract class AppLocalizations {
   /// **'AI 返回为空，需要包含 left 和 right 字段的 JSON'**
   String get aiEmptyJsonError;
 
-  /// No description provided for @aiNotificationTestSection.
-  ///
-  /// In zh, this message translates to:
-  /// **'通知测试'**
-  String get aiNotificationTestSection;
-
   /// No description provided for @aiNotificationContentLabel.
   ///
   /// In zh, this message translates to:
@@ -2618,12 +2582,6 @@ abstract class AppLocalizations {
   /// **'（共 {total} 个，已匹配 {matched} 个）'**
   String importChannelsPartialSuffix(int total, int matched);
 
-  /// No description provided for @importChannelsFailed.
-  ///
-  /// In zh, this message translates to:
-  /// **'导入失败：{error}'**
-  String importChannelsFailed(String error);
-
   /// No description provided for @importErrorEmptyClipboard.
   ///
   /// In zh, this message translates to:
@@ -2738,35 +2696,17 @@ abstract class AppLocalizations {
   /// **'小岛背景图'**
   String get islandBgSmallTitle;
 
-  /// No description provided for @islandBgSmallSubtitle.
-  ///
-  /// In zh, this message translates to:
-  /// **'点击选择图片'**
-  String get islandBgSmallSubtitle;
-
   /// No description provided for @islandBgBigTitle.
   ///
   /// In zh, this message translates to:
   /// **'大岛背景图'**
   String get islandBgBigTitle;
 
-  /// No description provided for @islandBgBigSubtitle.
-  ///
-  /// In zh, this message translates to:
-  /// **'点击选择图片'**
-  String get islandBgBigSubtitle;
-
   /// No description provided for @islandBgExpandTitle.
   ///
   /// In zh, this message translates to:
   /// **'焦点通知背景图'**
   String get islandBgExpandTitle;
-
-  /// No description provided for @islandBgExpandSubtitle.
-  ///
-  /// In zh, this message translates to:
-  /// **'点击选择图片'**
-  String get islandBgExpandSubtitle;
 
   /// No description provided for @islandBgNotSet.
   ///
@@ -2827,12 +2767,6 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'不透明度'**
   String get islandBgOpacityLabel;
-
-  /// No description provided for @islandBgOff.
-  ///
-  /// In zh, this message translates to:
-  /// **'关'**
-  String get islandBgOff;
 
   /// No description provided for @islandBgDefault.
   ///
@@ -3296,12 +3230,6 @@ abstract class AppLocalizations {
   /// **'自定义时长'**
   String get chargeIslandDurationSecondsTitle;
 
-  /// No description provided for @chargeIslandDurationSecondsUnit.
-  ///
-  /// In zh, this message translates to:
-  /// **'秒'**
-  String get chargeIslandDurationSecondsUnit;
-
   /// No description provided for @chargeIslandOuterGlowSubtitle.
   ///
   /// In zh, this message translates to:
@@ -3517,6 +3445,30 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'通知栏展开或下滑过渡时隐藏超级岛'**
   String get hideBehaviorNotificationCenterSubtitle;
+
+  /// No description provided for @off.
+  ///
+  /// In zh, this message translates to:
+  /// **'关闭'**
+  String get off;
+
+  /// No description provided for @tapToSelectImage.
+  ///
+  /// In zh, this message translates to:
+  /// **'点击选择图片'**
+  String get tapToSelectImage;
+
+  /// No description provided for @autoExpandNotification.
+  ///
+  /// In zh, this message translates to:
+  /// **'自动展开通知'**
+  String get autoExpandNotification;
+
+  /// No description provided for @widthDpLabel.
+  ///
+  /// In zh, this message translates to:
+  /// **'{width} dp'**
+  String widthDpLabel(int width);
 }
 
 class _AppLocalizationsDelegate

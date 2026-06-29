@@ -126,10 +126,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Отменить существующее уведомление острова перед отправкой';
 
   @override
-  String get enableFloatNotification =>
-      'Автоматически разворачивать уведомление';
-
-  @override
   String get enableFloatNotificationSubtitle =>
       'Автоматически разворачивать как уведомление в фокусе при получении';
 
@@ -297,9 +293,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get marqueeAutoHideSubtitle => '消息滚动达到指定次数后隐藏当前岛';
 
   @override
-  String get marqueeAutoHideOff => '关';
-
-  @override
   String get marqueeAutoHideOnce => '滚动1次';
 
   @override
@@ -317,17 +310,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bigIslandMaxWidthTitle => 'Максимальная ширина';
 
   @override
-  String bigIslandMaxWidthLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
   String get bigIslandMinWidthTitle => 'Минимальная ширина';
-
-  @override
-  String bigIslandMinWidthLabel(int width) {
-    return '$width dp';
-  }
 
   @override
   String get testNotifTooltip => 'Отправить тестовое уведомление';
@@ -1060,10 +1043,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get fullscreenBehaviorFallback => 'Откат к обычному уведомлению';
 
   @override
-  String get fullscreenBehaviorExpand =>
-      'Автоматически разворачивать уведомление';
-
-  @override
   String get filterRulesTitle => 'Правила фильтрации';
 
   @override
@@ -1301,9 +1280,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get aiEmptyJsonError => 'AI 返回为空，需要包含 left 和 right 字段的 JSON';
 
   @override
-  String get aiNotificationTestSection => '通知测试';
-
-  @override
   String get aiNotificationContentLabel => '通知内容';
 
   @override
@@ -1425,11 +1401,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String importChannelsFailed(String error) {
-    return 'Ошибка импорта: $error';
-  }
-
-  @override
   String get importErrorEmptyClipboard =>
       'Буфер обмена пуст. Сначала скопируйте настройки каналов';
 
@@ -1494,19 +1465,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get islandBgSmallTitle => 'Фон малого Острова';
 
   @override
-  String get islandBgSmallSubtitle => 'Нажмите, чтобы выбрать изображение';
-
-  @override
   String get islandBgBigTitle => 'Фон большого Острова';
 
   @override
-  String get islandBgBigSubtitle => 'Нажмите, чтобы выбрать изображение';
-
-  @override
   String get islandBgExpandTitle => 'Фон уведомления в фокусе';
-
-  @override
-  String get islandBgExpandSubtitle => 'Нажмите, чтобы выбрать изображение';
 
   @override
   String get islandBgNotSet => 'Не задано';
@@ -1539,9 +1501,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get islandBgOpacityLabel => 'Непрозрачность';
-
-  @override
-  String get islandBgOff => 'Выкл';
 
   @override
   String get islandBgDefault => 'По умолчанию';
@@ -1797,9 +1756,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chargeIslandDurationSecondsTitle => '自定义时长';
 
   @override
-  String get chargeIslandDurationSecondsUnit => '秒';
-
-  @override
   String get chargeIslandOuterGlowSubtitle => '控制充电超级岛的外圈光效';
 
   @override
@@ -1924,4 +1880,19 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get hideBehaviorNotificationCenterSubtitle =>
       'Скрывать Остров, пока шторка уведомлений разворачивается или переходит';
+
+  @override
+  String get off => 'Выкл';
+
+  @override
+  String get tapToSelectImage => 'Нажмите, чтобы выбрать изображение';
+
+  @override
+  String get autoExpandNotification =>
+      'Автоматически разворачивать уведомление';
+
+  @override
+  String widthDpLabel(int width) {
+    return '$width dp';
+  }
 }

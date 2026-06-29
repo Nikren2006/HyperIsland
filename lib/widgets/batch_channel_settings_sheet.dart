@@ -249,6 +249,15 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
   late final TextEditingController _outEffectColorController;
 
   bool get _isSingle => widget.mode is SingleChannelMode;
+  bool get _marqueeAutoHideEnabled {
+    return switch (_marquee) {
+      kTriOptOn => true,
+      kTriOptOff => false,
+      kTriOptDefault => _ctrl.defaultMarquee,
+      _ => true,
+    };
+  }
+
   bool get _dynamicHighlightEnabled => resolvesDynamicColorMode(
     _dynamicHighlightColor,
     _ctrl.defaultDynamicHighlightColor,
@@ -285,7 +294,8 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
     return switch (value) {
       '1' => isZh ? '滚动1次' : 'Scroll once',
       '2' => isZh ? '滚动2次' : 'Scroll twice',
-      kTriOptDefault => '${l10n.optDefault}（${_marqueeAutoHideLabel(context, _ctrl.defaultMarqueeAutoHide)}）',
+      kTriOptDefault =>
+        '${l10n.optDefault}（${_marqueeAutoHideLabel(context, _ctrl.defaultMarqueeAutoHide)}）',
       _ => offLabel,
     };
   }
@@ -1401,31 +1411,36 @@ class _BatchChannelSettingsSheetState extends State<BatchChannelSettingsSheet> {
                         onChanged: (v) => setState(() => _marquee = v),
                       ),
                       SizedBox(height: rowGap),
-                      _BatchSettingRow(
-                        label: _marqueeAutoHideTitle(context),
-                        value: _marqueeAutoHide,
-                        showNotChange: !_isSingle,
-                        items: [
-                          DropdownMenuItem(
-                            value: kTriOptDefault,
-                            child: Text(
-                              _marqueeAutoHideLabel(context, kTriOptDefault),
+                      Opacity(
+                        opacity: _marqueeAutoHideEnabled ? 1 : 0.45,
+                        child: _BatchSettingRow(
+                          label: _marqueeAutoHideTitle(context),
+                          value: _marqueeAutoHide,
+                          showNotChange: !_isSingle,
+                          items: [
+                            DropdownMenuItem(
+                              value: kTriOptDefault,
+                              child: Text(
+                                _marqueeAutoHideLabel(context, kTriOptDefault),
+                              ),
                             ),
-                          ),
-                          DropdownMenuItem(
-                            value: kTriOptOff,
-                            child: Text(l10n.optOff),
-                          ),
-                          DropdownMenuItem(
-                            value: '1',
-                            child: Text(_marqueeAutoHideLabel(context, '1')),
-                          ),
-                          DropdownMenuItem(
-                            value: '2',
-                            child: Text(_marqueeAutoHideLabel(context, '2')),
-                          ),
-                        ],
-                        onChanged: (v) => setState(() => _marqueeAutoHide = v),
+                            DropdownMenuItem(
+                              value: kTriOptOff,
+                              child: Text(l10n.optOff),
+                            ),
+                            DropdownMenuItem(
+                              value: '1',
+                              child: Text(_marqueeAutoHideLabel(context, '1')),
+                            ),
+                            DropdownMenuItem(
+                              value: '2',
+                              child: Text(_marqueeAutoHideLabel(context, '2')),
+                            ),
+                          ],
+                          onChanged: _marqueeAutoHideEnabled
+                              ? (v) => setState(() => _marqueeAutoHide = v)
+                              : null,
+                        ),
                       ),
                       SizedBox(height: rowGap),
                       _SettingField(

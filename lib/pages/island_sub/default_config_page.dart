@@ -61,17 +61,6 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
         : 'Hide the current Island after the message scrolls the selected number of times';
   }
 
-  String _marqueeAutoHideOff(BuildContext context) {
-    return _isZh(context) ? '关' : 'Off';
-  }
-
-  String _marqueeAutoHideOnce(BuildContext context) {
-    return _isZh(context) ? '滚动1次' : 'Scroll once';
-  }
-
-  String _marqueeAutoHideTwice(BuildContext context) {
-    return _isZh(context) ? '滚动2次' : 'Scroll twice';
-  }
 
   InputDecoration _dialogFieldDecoration(
     BuildContext context, {
@@ -279,6 +268,7 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final marqueeAutoHideEnabled = _ctrl.defaultMarquee;
     final l10n = AppLocalizations.of(context)!;
     final titleStyle = Theme.of(context).textTheme.titleMedium;
     final dropdownWidth = (MediaQuery.sizeOf(context).width * 0.288).clamp(
@@ -369,51 +359,75 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                         ),
                         title: Text(
                           _marqueeAutoHideTitle(context),
-                          style: titleStyle,
+                          style: titleStyle?.copyWith(
+                            color: marqueeAutoHideEnabled
+                                ? null
+                                : cs.onSurface.withValues(alpha: 0.38),
+                          ),
                         ),
-                        subtitle: Text(_marqueeAutoHideSubtitle(context)),
+                        subtitle: Text(
+                          _marqueeAutoHideSubtitle(context),
+                          style: marqueeAutoHideEnabled
+                              ? null
+                              : TextStyle(
+                                  color: cs.onSurface.withValues(alpha: 0.38),
+                                ),
+                        ),
                         trailing: DropdownButtonHideUnderline(
-                          child: SizedBox(
-                            width: dropdownWidth,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                color: cs.surfaceContainerHigh,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: cs.outlineVariant),
-                              ),
-                              child: DropdownButton<String>(
-                                value: _ctrl.defaultMarqueeAutoHide,
-                                isExpanded: true,
-                                alignment: Alignment.center,
-                                borderRadius: BorderRadius.circular(16),
-                                items: [
-                                  DropdownMenuItem(
-                                    value: kTriOptOff,
-                                    child: Center(
-                                      child: Text(_marqueeAutoHideOff(context)),
+                          child: Opacity(
+                            opacity: marqueeAutoHideEnabled ? 1 : 0.45,
+                            child: SizedBox(
+                              width: dropdownWidth,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: cs.surfaceContainerHigh,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: cs.outlineVariant),
+                                ),
+                                child: DropdownButton<String>(
+                                  value: _ctrl.defaultMarqueeAutoHide,
+                                  isExpanded: true,
+                                  alignment: Alignment.center,
+                                  borderRadius: BorderRadius.circular(16),
+                                  items: [
+                                    DropdownMenuItem(
+                                      value: kTriOptOff,
+                                      child: Center(
+                                        child: Text(
+                                          l10n.off,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: '1',
-                                    child: Center(
-                                      child: Text(_marqueeAutoHideOnce(context)),
+                                    DropdownMenuItem(
+                                      value: '1',
+                                      child: Center(
+                                        child: Text(
+                                          l10n.marqueeAutoHideOnce,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: '2',
-                                    child: Center(
-                                      child: Text(_marqueeAutoHideTwice(context)),
+                                    DropdownMenuItem(
+                                      value: '2',
+                                      child: Center(
+                                        child: Text(
+                                          l10n.marqueeAutoHideTwice,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    _ctrl.setDefaultMarqueeAutoHide(value);
-                                  }
-                                },
+                                  ],
+                                  onChanged: marqueeAutoHideEnabled
+                                      ? (value) {
+                                          if (value != null) {
+                                            _ctrl.setDefaultMarqueeAutoHide(
+                                              value,
+                                            );
+                                          }
+                                        }
+                                      : null,
+                                ),
                               ),
                             ),
                           ),

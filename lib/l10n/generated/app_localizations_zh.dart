@@ -120,9 +120,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get clearPreviousNotificationSubtitle => '发送前先取消已有的超级岛通知';
 
   @override
-  String get enableFloatNotification => '自动展开通知';
-
-  @override
   String get enableFloatNotificationSubtitle => '收到通知后自动展开为焦点通知';
 
   @override
@@ -270,9 +267,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get marqueeAutoHideSubtitle => '消息滚动达到指定次数后隐藏当前岛';
 
   @override
-  String get marqueeAutoHideOff => '关';
-
-  @override
   String get marqueeAutoHideOnce => '滚动1次';
 
   @override
@@ -290,17 +284,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bigIslandMaxWidthTitle => '最大宽度';
 
   @override
-  String bigIslandMaxWidthLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
   String get bigIslandMinWidthTitle => '最小宽度';
-
-  @override
-  String bigIslandMinWidthLabel(int width) {
-    return '$width dp';
-  }
 
   @override
   String get testNotifTooltip => '发送测试通知';
@@ -996,9 +980,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fullscreenBehaviorFallback => '回退普通通知';
 
   @override
-  String get fullscreenBehaviorExpand => '自动展开通知';
-
-  @override
   String get filterRulesTitle => '过滤规则';
 
   @override
@@ -1224,9 +1205,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aiEmptyJsonError => 'AI 返回为空，需要包含 left 和 right 字段的 JSON';
 
   @override
-  String get aiNotificationTestSection => '通知测试';
-
-  @override
   String get aiNotificationContentLabel => '通知内容';
 
   @override
@@ -1341,11 +1319,6 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String importChannelsFailed(String error) {
-    return '导入失败：$error';
-  }
-
-  @override
   String get importErrorEmptyClipboard => '剪贴板为空，请先复制渠道设置数据';
 
   @override
@@ -1403,19 +1376,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get islandBgSmallTitle => '小岛背景图';
 
   @override
-  String get islandBgSmallSubtitle => '点击选择图片';
-
-  @override
   String get islandBgBigTitle => '大岛背景图';
 
   @override
-  String get islandBgBigSubtitle => '点击选择图片';
-
-  @override
   String get islandBgExpandTitle => '焦点通知背景图';
-
-  @override
-  String get islandBgExpandSubtitle => '点击选择图片';
 
   @override
   String get islandBgNotSet => '未设置';
@@ -1448,9 +1412,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get islandBgOpacityLabel => '不透明度';
-
-  @override
-  String get islandBgOff => '关';
 
   @override
   String get islandBgDefault => '默认';
@@ -1691,9 +1652,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get chargeIslandDurationSecondsTitle => '自定义时长';
 
   @override
-  String get chargeIslandDurationSecondsUnit => '秒';
-
-  @override
   String get chargeIslandOuterGlowSubtitle => '控制充电超级岛的外圈光效';
 
   @override
@@ -1804,4 +1762,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hideBehaviorNotificationCenterSubtitle => '通知栏展开或下滑过渡时隐藏超级岛';
+
+  @override
+  String get off => '关闭';
+
+  @override
+  String get tapToSelectImage => '点击选择图片';
+
+  @override
+  String get autoExpandNotification => '自动展开通知';
+
+  @override
+  String widthDpLabel(int width) {
+    return '$width dp';
+  }
 }

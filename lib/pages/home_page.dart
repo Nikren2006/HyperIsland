@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                 contentPadding: EdgeInsets.zero,
               ),
               CheckboxListTile(
-                title: Text(l10n.enableFloatNotification),
+                title: Text(l10n.autoExpandNotification),
                 subtitle: Text(l10n.enableFloatNotificationSubtitle),
                 value: enableFloat,
                 onChanged: (v) => setDialogState(() => enableFloat = v ?? true),

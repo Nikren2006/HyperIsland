@@ -77,6 +77,14 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
             _ctrl.defaultIslandOuterGlow == kTriOptFollowDynamic);
   }
 
+  bool get _marqueeAutoHideEnabled {
+    return switch (_marquee) {
+      kTriOptOn => true,
+      kTriOptOff => false,
+      _ => _ctrl.defaultMarquee,
+    };
+  }
+
   @override
   void initState() {
     super.initState();
@@ -359,7 +367,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
       '2' => l10n.marqueeAutoHideTwice,
       kTriOptDefault =>
         '${l10n.optDefault} (${_marqueeAutoHideLabel(context, _ctrl.defaultMarqueeAutoHide)})',
-      _ => l10n.marqueeAutoHideOff,
+      _ => l10n.off,
     };
   }
 
@@ -446,39 +454,44 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    ToastSettingField(
-                      label:
-                          '${l10n.marqueeAutoHideTitle}\n${l10n.marqueeAutoHideSubtitle}',
-                      child: DropdownButtonFormField<String>(
-                        key: ValueKey(_marqueeAutoHide),
-                        initialValue: _marqueeAutoHide,
-                        isExpanded: true,
-                        decoration: toastFieldDecoration(context),
-                        items: [
-                          DropdownMenuItem(
-                            value: kTriOptDefault,
-                            child: Text(
-                              _marqueeAutoHideLabel(context, kTriOptDefault),
+                    Opacity(
+                      opacity: controlsEnabled && _marqueeAutoHideEnabled
+                          ? 1
+                          : 0.45,
+                      child: ToastSettingField(
+                        label:
+                            '${l10n.marqueeAutoHideTitle}\n${l10n.marqueeAutoHideSubtitle}',
+                        child: DropdownButtonFormField<String>(
+                          key: ValueKey(_marqueeAutoHide),
+                          initialValue: _marqueeAutoHide,
+                          isExpanded: true,
+                          decoration: toastFieldDecoration(context),
+                          items: [
+                            DropdownMenuItem(
+                              value: kTriOptDefault,
+                              child: Text(
+                                _marqueeAutoHideLabel(context, kTriOptDefault),
+                              ),
                             ),
-                          ),
-                          DropdownMenuItem(
-                            value: kTriOptOff,
-                            child: Text(l10n.marqueeAutoHideOff),
-                          ),
-                          DropdownMenuItem(
-                            value: '1',
-                            child: Text(l10n.marqueeAutoHideOnce),
-                          ),
-                          DropdownMenuItem(
-                            value: '2',
-                            child: Text(l10n.marqueeAutoHideTwice),
-                          ),
-                        ],
-                        onChanged: controlsEnabled
-                            ? (v) {
-                                if (v != null) _setMarqueeAutoHide(v);
-                              }
-                            : null,
+                            DropdownMenuItem(
+                              value: kTriOptOff,
+                              child: Text(l10n.off),
+                            ),
+                            DropdownMenuItem(
+                              value: '1',
+                              child: Text(l10n.marqueeAutoHideOnce),
+                            ),
+                            DropdownMenuItem(
+                              value: '2',
+                              child: Text(l10n.marqueeAutoHideTwice),
+                            ),
+                          ],
+                          onChanged: controlsEnabled && _marqueeAutoHideEnabled
+                              ? (v) {
+                                  if (v != null) _setMarqueeAutoHide(v);
+                                }
+                              : null,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),

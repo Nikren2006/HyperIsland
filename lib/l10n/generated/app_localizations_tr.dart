@@ -124,9 +124,6 @@ class AppLocalizationsTr extends AppLocalizations {
       'Göndermeden önce mevcut ada bildirimini iptal et';
 
   @override
-  String get enableFloatNotification => 'Bildirimi otomatik genişlet';
-
-  @override
   String get enableFloatNotificationSubtitle =>
       'Bildirim alındığında odak bildirimi olarak otomatik genişlet';
 
@@ -292,9 +289,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get marqueeAutoHideSubtitle => '消息滚动达到指定次数后隐藏当前岛';
 
   @override
-  String get marqueeAutoHideOff => '关';
-
-  @override
   String get marqueeAutoHideOnce => '滚动1次';
 
   @override
@@ -312,17 +306,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bigIslandMaxWidthTitle => '最大宽度';
 
   @override
-  String bigIslandMaxWidthLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
   String get bigIslandMinWidthTitle => '最小宽度';
-
-  @override
-  String bigIslandMinWidthLabel(int width) {
-    return '$width dp';
-  }
 
   @override
   String get testNotifTooltip => '发送测试通知';
@@ -1050,9 +1034,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get fullscreenBehaviorFallback => 'Normal bildirime dön';
 
   @override
-  String get fullscreenBehaviorExpand => 'Bildirimi otomatik genişlet';
-
-  @override
   String get filterRulesTitle => 'Filtre kuralları';
 
   @override
@@ -1288,9 +1269,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get aiEmptyJsonError => 'AI 返回为空，需要包含 left 和 right 字段的 JSON';
 
   @override
-  String get aiNotificationTestSection => '通知测试';
-
-  @override
   String get aiNotificationContentLabel => '通知内容';
 
   @override
@@ -1408,11 +1386,6 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String importChannelsFailed(String error) {
-    return '导入失败：$error';
-  }
-
-  @override
   String get importErrorEmptyClipboard => '剪贴板为空，请先复制渠道设置数据';
 
   @override
@@ -1472,19 +1445,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get islandBgSmallTitle => 'Küçük Ada Arka Planı';
 
   @override
-  String get islandBgSmallSubtitle => 'Görsel seçmek için dokunun';
-
-  @override
   String get islandBgBigTitle => 'Büyük Ada Arka Planı';
 
   @override
-  String get islandBgBigSubtitle => 'Görsel seçmek için dokunun';
-
-  @override
   String get islandBgExpandTitle => 'Odak Bildirimi Arka Planı';
-
-  @override
-  String get islandBgExpandSubtitle => 'Görsel seçmek için dokunun';
 
   @override
   String get islandBgNotSet => 'Ayarlanmamış';
@@ -1517,9 +1481,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get islandBgOpacityLabel => 'Opaklık';
-
-  @override
-  String get islandBgOff => 'Kapalı';
 
   @override
   String get islandBgDefault => 'Varsayılan';
@@ -1775,9 +1736,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get chargeIslandDurationSecondsTitle => 'Özel Süre';
 
   @override
-  String get chargeIslandDurationSecondsUnit => 'sn';
-
-  @override
   String get chargeIslandOuterGlowSubtitle => '控制充电超级岛的外圈光效';
 
   @override
@@ -1895,4 +1853,18 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get hideBehaviorNotificationCenterSubtitle =>
       'Hide the island while the notification shade expands or transitions';
+
+  @override
+  String get off => 'Kapalı';
+
+  @override
+  String get tapToSelectImage => 'Görsel seçmek için dokunun';
+
+  @override
+  String get autoExpandNotification => 'Bildirimi otomatik genişlet';
+
+  @override
+  String widthDpLabel(int width) {
+    return '$width dp';
+  }
 }

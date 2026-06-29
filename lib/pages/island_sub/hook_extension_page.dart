@@ -601,7 +601,7 @@ class _ChargeIslandSettingsDialogState
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                   labelText: l10n.chargeIslandDurationSecondsTitle,
-                  suffixText: l10n.chargeIslandDurationSecondsUnit,
+                  suffixText: l10n.seconds,
                   border: const OutlineInputBorder(),
                   isDense: true,
                 ),

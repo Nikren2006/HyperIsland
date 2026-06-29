@@ -123,9 +123,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cancel existing island notification before sending';
 
   @override
-  String get enableFloatNotification => 'Auto expand notification';
-
-  @override
   String get enableFloatNotificationSubtitle =>
       'Automatically expand as focus notification when received';
 
@@ -291,9 +288,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hide the current Island after the message scrolls the selected number of times';
 
   @override
-  String get marqueeAutoHideOff => 'Off';
-
-  @override
   String get marqueeAutoHideOnce => 'Scroll once';
 
   @override
@@ -311,17 +305,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bigIslandMaxWidthTitle => 'Max Width';
 
   @override
-  String bigIslandMaxWidthLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
   String get bigIslandMinWidthTitle => 'Min Width';
-
-  @override
-  String bigIslandMinWidthLabel(int width) {
-    return '$width dp';
-  }
 
   @override
   String get testNotifTooltip => 'Send test notification';
@@ -1045,9 +1029,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fullscreenBehaviorFallback => 'Fallback to normal notification';
 
   @override
-  String get fullscreenBehaviorExpand => 'Auto expand notification';
-
-  @override
   String get filterRulesTitle => 'Filter rules';
 
   @override
@@ -1288,9 +1269,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'AI response is empty. JSON with left and right fields is required';
 
   @override
-  String get aiNotificationTestSection => 'Notification Test';
-
-  @override
   String get aiNotificationContentLabel => 'Notification Content';
 
   @override
@@ -1411,11 +1389,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String importChannelsFailed(String error) {
-    return 'Import failed: $error';
-  }
-
-  @override
   String get importErrorEmptyClipboard =>
       'Clipboard is empty. Please copy channel settings first';
 
@@ -1478,19 +1451,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get islandBgSmallTitle => 'Small Island Background';
 
   @override
-  String get islandBgSmallSubtitle => 'Tap to select image';
-
-  @override
   String get islandBgBigTitle => 'Large Island Background';
 
   @override
-  String get islandBgBigSubtitle => 'Tap to select image';
-
-  @override
   String get islandBgExpandTitle => 'Focus Notification Background';
-
-  @override
-  String get islandBgExpandSubtitle => 'Tap to select image';
 
   @override
   String get islandBgNotSet => 'Not set';
@@ -1523,9 +1487,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get islandBgOpacityLabel => 'Opacity';
-
-  @override
-  String get islandBgOff => 'Off';
 
   @override
   String get islandBgDefault => 'Default';
@@ -1780,9 +1741,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chargeIslandDurationSecondsTitle => 'Custom Duration';
 
   @override
-  String get chargeIslandDurationSecondsUnit => 's';
-
-  @override
   String get chargeIslandOuterGlowSubtitle =>
       'Control the outer glow effect of Charging Island';
 
@@ -1906,4 +1864,18 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get hideBehaviorNotificationCenterSubtitle =>
       'Hide the island while the notification shade expands or transitions';
+
+  @override
+  String get off => 'Off';
+
+  @override
+  String get tapToSelectImage => 'Tap to select image';
+
+  @override
+  String get autoExpandNotification => 'Auto expand notification';
+
+  @override
+  String widthDpLabel(int width) {
+    return '$width dp';
+  }
 }

@@ -1,34 +1,37 @@
 {
   "@@locale": "en",
-
   "navHome": "Home",
   "navIsland": "Island",
   "navApps": "Apps",
   "navSettings": "Settings",
-
   "cancel": "Cancel",
   "confirm": "Confirm",
   "ok": "OK",
   "apply": "Apply",
   "noChange": "No change",
-
   "newVersionFound": "New Version Available",
   "currentVersion": "Current version: {version}",
   "@currentVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "latestVersion": "Latest version: {version}",
   "@latestVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "lsposedApiVersion": "LSPosed API Version: {version}",
   "@lsposedApiVersion": {
     "placeholders": {
-      "version": { "type": "int" }
+      "version": {
+        "type": "int"
+      }
     }
   },
   "later": "Later",
@@ -40,7 +43,9 @@
   "versionUpdatedTitle": "Updated to {version}",
   "@versionUpdatedTitle": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "versionUpdatedContent": "Please restart the scope apps after updating",
@@ -59,7 +64,6 @@
   "customTestContentHint": "Leave empty for default content",
   "clearPreviousNotification": "Clear previous notification",
   "clearPreviousNotificationSubtitle": "Cancel existing island notification before sending",
-  "enableFloatNotification": "Auto expand notification",
   "enableFloatNotificationSubtitle": "Automatically expand as focus notification when received",
   "notes": "Notes",
   "detectingModuleStatus": "Detecting module status...",
@@ -73,7 +77,9 @@
   "systemNotSupportedSubtitle": "Current system does not support Dynamic Island (protocol version {version}, requires version 3)",
   "@systemNotSupportedSubtitle": {
     "placeholders": {
-      "version": { "type": "int" }
+      "version": {
+        "type": "int"
+      }
     }
   },
   "restartFailed": "Restart failed: {message}",
@@ -83,7 +89,6 @@
   "note3": "3. After activating in LSPosed Manager, you must restart the related scope apps",
   "note4": "4. This page is only for testing Dynamic Island and glow effect support, not actual effects",
   "note5": "5. For download island, please manually enable \"Download Manager\" scope; the \"Download\" template is recommended",
-
   "behaviorSection": "Behavior",
   "defaultConfigSection": "Default Channel Settings",
   "appearanceSection": "Appearance",
@@ -107,36 +112,24 @@
   "interactionHapticsSubtitle": "Enable Hyper custom haptic feedback for switches, sliders, and buttons",
   "checkUpdate": "Check for updates",
   "alreadyLatest": "Already on the latest version",
-  
   "roundIconTitle": "Round icon corners",
   "roundIconSubtitle": "Add rounded corners to notification icons",
   "marqueeChannelTitle": "Text Scrolling Island",
   "marqueeAutoHideTitle": "Hide Island after scrolling",
   "marqueeAutoHideSubtitle": "Hide the current Island after the message scrolls the selected number of times",
-  "marqueeAutoHideOff": "Off",
   "marqueeAutoHideOnce": "Scroll once",
   "marqueeAutoHideTwice": "Scroll twice",
   "marqueeSpeedTitle": "Speed",
   "marqueeSpeedLabel": "{speed} px/s",
   "@marqueeSpeedLabel": {
     "placeholders": {
-      "speed": { "type": "int" }
+      "speed": {
+        "type": "int"
+      }
     }
   },
   "bigIslandMaxWidthTitle": "Max Width",
-  "bigIslandMaxWidthLabel": "{width} dp",
-  "@bigIslandMaxWidthLabel": {
-    "placeholders": {
-      "width": { "type": "int" }
-    }
-  },
   "bigIslandMinWidthTitle": "Min Width",
-  "bigIslandMinWidthLabel": "{width} dp",
-  "@bigIslandMinWidthLabel": {
-    "placeholders": {
-      "width": { "type": "int" }
-    }
-  },
   "testNotifTooltip": "Send test notification",
   "themeModeTitle": "Color mode",
   "themeModeSystem": "Follow system",
@@ -169,7 +162,6 @@
   "configCopied": "Configuration copied to clipboard",
   "importSuccess": "Import successful, {count} items, please restart the app",
   "importFailed": "Import failed: {error}",
-
   "appAdaptation": "App Adaptation",
   "toastAdaptation": "Toast Adaptation",
   "adaptationModeNotification": "Notification",
@@ -198,7 +190,6 @@
   "applyingConfig": "Applying configuration...",
   "progressApps": "Progress: {done} / {total}",
   "batchApplied": "Batch applied to {count} apps",
-
   "cannotReadChannels": "Cannot Read Notification Channels",
   "rootRequiredMessage": "Reading notification channels requires ROOT permission.\nPlease confirm ROOT permission is granted and try again.",
   "enableAllChannels": "Enable all channels",
@@ -227,13 +218,11 @@
   "importanceUnknown": "Unknown",
   "applyToEnabledChannels": "Will apply to {count} enabled channels",
   "applyToAllChannels": "Will apply to all {count} channels",
-
   "templateDownloadName": "Download",
   "templateNotificationIslandName": "Notification Island",
   "templateNotificationIslandLiteName": "Notification Island|Lite",
   "templateDownloadLiteName": "Download|Lite",
   "islandSection": "Island",
-
   "template": "Template",
   "rendererLabel": "Style",
   "rendererImageTextWithButtons4Name": "Image+Text+Bottom Text Buttons",
@@ -336,13 +325,11 @@
   "optDefaultOff": "Default (Off)",
   "optOn": "On",
   "optOff": "Off",
-
   "errorInvalidFormat": "Invalid configuration format",
   "errorNoStorageDir": "Cannot get storage directory",
   "errorNoFileSelected": "No file selected",
   "errorNoFilePath": "Cannot get file path",
   "errorEmptyClipboard": "Clipboard is empty",
-
   "navBlacklist": "Focus Blacklist",
   "navBlacklistSubtitle": "Block focus notification float or hide for specific apps",
   "presetGamesTitle": "Quick Filter Popular Games",
@@ -356,17 +343,14 @@
   },
   "blacklistedAppsCount": "Blocked focus notifications for {count} apps",
   "blacklistedAppsCountWithSystem": "Blocked focus notifications for {count} apps (including system apps)",
-
   "firstFloatLabelSubtitle": "Whether to expand as focus notification when Island receives notification for the first time",
   "updateFloatLabelSubtitle": "Whether to expand notification when Island updates",
   "marqueeChannelTitleSubtitle": "Whether to scroll long messages on Island",
   "focusNotificationLabelSubtitle": "Replace notification with focus notification (shows original notification when disabled)",
-  "preserveStatusBarSmallIconLabelSubtitle": "Whether to force keep status bar icon when focus notification is displayed",
   "fullscreenBehaviorTitle": "Fullscreen behavior",
   "fullscreenBehaviorSubtitle": "Notification strategy when landscape/fullscreen is detected",
   "fullscreenBehaviorOff": "Default",
   "fullscreenBehaviorFallback": "Fallback to normal notification",
-  "fullscreenBehaviorExpand": "Auto expand notification",
   "filterRulesTitle": "Filter rules",
   "filterRulesOrderTitle": "First matching rule wins",
   "filterRuleDnd": "DND",
@@ -379,7 +363,6 @@
   "behaviorPreviewSuppress": "Fallback to normal notification when matched",
   "behaviorPreviewSmallOnly": "Show small island only; do not auto expand",
   "behaviorPreviewExpand": "Auto expand notification when matched",
-
   "aiConfigSection": "AI Enhancement",
   "aiConfigTitle": "AI Notification Summary",
   "aiConfigSubtitleEnabled": "Enabled · Tap to configure AI parameters",
@@ -430,7 +413,9 @@
   "aiTimeoutLabel": "{seconds}s",
   "@aiTimeoutLabel": {
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
   "aiTemperatureTitle": "Sampling Temperature",
@@ -443,7 +428,9 @@
   "aiNotificationUserContent": "App package: com.example.app\nTitle: Test notification\nBody: {content}",
   "@aiNotificationUserContent": {
     "placeholders": {
-      "content": { "type": "String" }
+      "content": {
+        "type": "String"
+      }
     }
   },
   "aiJsonOnlyInstruction": "Return only the following JSON. Do not include any other text or code block:",
@@ -451,20 +438,16 @@
   "aiJsonRightDescription": "right text (summary)",
   "aiInvalidJsonError": "Invalid AI response format. JSON with left and right fields is required",
   "aiEmptyJsonError": "AI response is empty. JSON with left and right fields is required",
-  "aiNotificationTestSection": "Notification Test",
   "aiNotificationContentLabel": "Notification Content",
   "aiTestNotificationTitle": "Test Notification",
   "aiNotificationSent": "Notification sent",
   "aiAiNotificationSent": "AI notification sent",
   "aiSendNotificationButton": "Send Notification",
   "aiSendAiNotificationButton": "Send AI Notification",
-
   "hideDesktopIconTitle": "Hide Desktop Icon",
   "hideDesktopIconSubtitle": "Hide the app icon from launcher. Open via LSPosed Manager after hiding",
-
   "restoreLockscreenTitle": "Restore Lockscreen Notification",
   "restoreLockscreenSubtitle": "Skip focus notification processing on lockscreen, keep original privacy behavior",
-
   "filterRulesSection": "Filter Rules",
   "foregroundRulesTab": "Foreground Rules",
   "foregroundExclusionsTab": "Excluded Apps",
@@ -495,7 +478,6 @@
   "keywordHint": "Enter keyword",
   "removeKeyword": "Remove",
   "keywordFilterPriority": "Whitelist takes priority: only whitelist-matched notifications are shown, but blacklist can still veto",
-
   "exportChannelsToClipboard": "Export Channel Settings",
   "importChannelsFromClipboard": "Import Channel Settings",
   "exportChannelsSuccess": "Channel settings copied to clipboard",
@@ -518,43 +500,27 @@
       }
     }
   },
-  "importChannelsFailed": "Import failed: {error}",
-  "@importChannelsFailed": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
-
   "importErrorEmptyClipboard": "Clipboard is empty. Please copy channel settings first",
   "importErrorNotJson": "Clipboard content is not valid JSON",
   "importErrorMissingChannels": "Invalid data format: missing channel list",
   "importErrorNoMatch": "No channels matched the current app. Please verify the data source",
   "importErrorUnknown": "Import failed. Please check clipboard data",
-
   "mediaNotificationTitle": "Media notification",
   "mediaNotificationDisabledSubtitle": "Delete the entire media notification when disabled",
   "normalNotificationTitle": "Normal notification",
   "normalNotificationSubtitle": "Remove media fields and handle it as a normal notification when enabled",
   "channelSettingsUnmodified": "Not modified",
   "restoreDefault": "Restore default",
-
   "islandDimenSection": "Island Dimensions",
   "islandDimenHeight": "Island Height",
   "islandTopOffset": "Distance from Top of Screen",
   "followSystem": "Follow system",
   "islandDimenMiniY": "Vertical Position",
   "islandDimenMiniYHint": "0=follow system",
-
-
   "islandBgSection": "Island Background",
   "islandBgSmallTitle": "Small Island Background",
-  "islandBgSmallSubtitle": "Tap to select image",
   "islandBgBigTitle": "Large Island Background",
-  "islandBgBigSubtitle": "Tap to select image",
   "islandBgExpandTitle": "Focus Notification Background",
-  "islandBgExpandSubtitle": "Tap to select image",
   "islandBgNotSet": "Not set",
   "islandBgCornerRadius": "Corner Radius",
   "islandBgCornerRadiusHint": "0=system default",
@@ -572,7 +538,6 @@
   "islandBgBlurLabel": "Blur",
   "islandBgBrightnessLabel": "Brightness",
   "islandBgOpacityLabel": "Opacity",
-  "islandBgOff": "Off",
   "islandBgDefault": "Default",
   "keepIslandTitle": "Keep Island Visible",
   "keepIslandSubtitle": "Post a blank notification to keep the island always visible",
@@ -582,7 +547,6 @@
   "keepIslandHideLandscapeSubtitle": "Hide the keep island in landscape, then restore in portrait when no real notification is active",
   "keepIslandHighlightColorTitle": "Highlight Color",
   "keepIslandHighlightColorSubtitle": "Customize the highlight text color for the keep island",
-
   "islandOtherSection": "Other",
   "miscSection": "Misc",
   "onboardingEntryTitle": "Open Onboarding",
@@ -640,7 +604,9 @@
   "bluetoothIslandSubtitle": "{status} · Listen for Bluetooth device connections and disconnections, then forward the island through System UI",
   "@bluetoothIslandSubtitle": {
     "placeholders": {
-      "status": { "type": "String" }
+      "status": {
+        "type": "String"
+      }
     }
   },
   "bluetoothIslandSettingsTitle": "Bluetooth Island Settings",
@@ -652,7 +618,9 @@
   "chargeIslandSubtitle": "{status} · Replace the power or battery segment in Charging Island",
   "@chargeIslandSubtitle": {
     "placeholders": {
-      "status": { "type": "String" }
+      "status": {
+        "type": "String"
+      }
     }
   },
   "chargeIslandSettingsTitle": "Charging Island Settings",
@@ -671,14 +639,12 @@
   "chargeIslandDurationCustom": "Custom",
   "chargeIslandDurationPersistent": "Persistent",
   "chargeIslandDurationSecondsTitle": "Custom Duration",
-  "chargeIslandDurationSecondsUnit": "s",
   "chargeIslandOuterGlowSubtitle": "Control the outer glow effect of Charging Island",
   "outerGlowTitle": "Outer Glow",
   "bluetoothIslandOuterGlowSubtitle": "Control the outer glow effect of Bluetooth Island",
   "outerGlowColorTitle": "Outer Glow Color",
   "hookScopeXMSF": "Xiaomi Service Framework (XMSF)",
   "downloadManagerSection": "Download Manager",
-
   "themePageTitle": "Theme",
   "themeSeedColorTitle": "Theme Color",
   "themeSeedColorSubtitle": "Customize the app accent color",
@@ -686,14 +652,15 @@
   "themeResetColor": "Reset to Default",
   "blurBarsTitle": "Frosted Glass",
   "blurBarsSubtitle": "Add blur transparency effect to top and bottom bars",
-
   "bluetoothIslandWhitelistTitle": "Device Whitelist",
   "bluetoothIslandWhitelistSubtitle": "Only show the island for whitelisted Bluetooth devices",
   "bluetoothIslandWhitelistButton": "Manage Whitelist",
   "bluetoothIslandWhitelistButtonSubtitle": "{count} device(s) selected",
   "@bluetoothIslandWhitelistButtonSubtitle": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "bluetoothIslandWhitelistDialogTitle": "Select Bluetooth Devices",
@@ -714,5 +681,16 @@
   "hideBehaviorScreenLocked": "Lock screen",
   "hideBehaviorScreenLockedSubtitle": "Hide the island during lock screen or screen-off flows",
   "hideBehaviorNotificationCenter": "Notification center",
-  "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions"
+  "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
+  "off": "Off",
+  "tapToSelectImage": "Tap to select image",
+  "autoExpandNotification": "Auto expand notification",
+  "widthDpLabel": "{width} dp",
+  "@widthDpLabel": {
+    "placeholders": {
+      "width": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1,34 +1,37 @@
 {
   "@@locale": "tr",
-
   "navHome": "Ana Sayfa",
   "navIsland": "Ada",
   "navApps": "Uygulamalar",
   "navSettings": "Ayarlar",
-
   "cancel": "İptal",
   "confirm": "Onayla",
   "ok": "Tamam",
   "apply": "Uygula",
   "noChange": "Değiştirme",
-
   "newVersionFound": "Yeni Sürüm Bulundu",
   "currentVersion": "Mevcut sürüm: {version}",
   "@currentVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "latestVersion": "En son sürüm: {version}",
   "@latestVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "lsposedApiVersion": "LSPosed API Sürümü: {version}",
   "@lsposedApiVersion": {
     "placeholders": {
-      "version": { "type": "int" }
+      "version": {
+        "type": "int"
+      }
     }
   },
   "later": "Daha Sonra",
@@ -40,7 +43,9 @@
   "versionUpdatedTitle": "{version} sürümüne güncellendi",
   "@versionUpdatedTitle": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "versionUpdatedContent": "Güncellemeden sonra lütfen etki alanını yeniden başlatın",
@@ -59,7 +64,6 @@
   "customTestContentHint": "Varsayılan içerik için boş bırakın",
   "clearPreviousNotification": "Önceki bildirimi temizle",
   "clearPreviousNotificationSubtitle": "Göndermeden önce mevcut ada bildirimini iptal et",
-  "enableFloatNotification": "Bildirimi otomatik genişlet",
   "enableFloatNotificationSubtitle": "Bildirim alındığında odak bildirimi olarak otomatik genişlet",
   "notes": "Notlar",
   "detectingModuleStatus": "Modül durumu algılanıyor...",
@@ -73,13 +77,17 @@
   "systemNotSupportedSubtitle": "Mevcut sistem Dynamic Island özelliğini desteklemiyor (protokol sürümü {version}, gereken sürüm: 3)",
   "@systemNotSupportedSubtitle": {
     "placeholders": {
-      "version": { "type": "int" }
+      "version": {
+        "type": "int"
+      }
     }
   },
   "restartFailed": "Yeniden başlatma başarısız: {message}",
   "@restartFailed": {
     "placeholders": {
-      "message": { "type": "String" }
+      "message": {
+        "type": "String"
+      }
     }
   },
   "restartRootRequired": "Lütfen bu uygulamaya root izni verildiğini doğrulayın",
@@ -88,7 +96,6 @@
   "note3": "3. LSPosed Manager'da etkinleştirdikten sonra ilgili etki alanındaki uygulamaları yeniden başlatmanız gerekir",
   "note4": "4. Bu sayfa yalnızca Dynamic Island ve dış parlama desteğini test etmek içindir; gerçek görünümü yansıtmaz",
   "note5": "5. İndirme adası için lütfen \"İndirme Yöneticisi\" kapsamını manuel olarak etkinleştirin; \"İndirme\" şablonu önerilir",
-
   "behaviorSection": "Davranış",
   "defaultConfigSection": "Uygulama Kanal Ayarları Varsayılanları",
   "appearanceSection": "Görünüm",
@@ -112,7 +119,6 @@
   "interactionHapticsSubtitle": "Anahtarlar, kaydırıcılar ve düğmeler için Hyper özel dokunsal geri bildirimi etkinleştir",
   "checkUpdate": "Güncellemeleri Denetle",
   "alreadyLatest": "Zaten en güncel sürümdesiniz",
-  
   "roundIconTitle": "Simge Köşelerini Yuvarla",
   "roundIconSubtitle": "Bildirim simgelerine yuvarlatılmış köşe uygular.",
   "marqueeChannelTitle": "Ada Metnini Kaydır",
@@ -120,7 +126,9 @@
   "marqueeSpeedLabel": "{speed} px/sn",
   "@marqueeSpeedLabel": {
     "placeholders": {
-      "speed": { "type": "int" }
+      "speed": {
+        "type": "int"
+      }
     }
   },
   "themeModeTitle": "Tema",
@@ -152,34 +160,43 @@
   "exportedTo": "Dışa aktarıldı: {path}",
   "@exportedTo": {
     "placeholders": {
-      "path": { "type": "String" }
+      "path": {
+        "type": "String"
+      }
     }
   },
   "exportFailed": "Dışa aktarma başarısız: {error}",
   "@exportFailed": {
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
   "configCopied": "Yapılandırma panoya kopyalandı",
   "importSuccess": "İçe aktarma başarılı, toplam {count} öğe yüklendi. Lütfen uygulamayı yeniden başlatın.",
   "@importSuccess": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "importFailed": "İçe aktarma başarısız: {error}",
   "@importFailed": {
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-
   "appAdaptation": "Uygulama Listesi",
   "selectedAppsCount": "{count} uygulama seçildi",
   "@selectedAppsCount": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "cancelSelection": "Seçimi İptal Et",
@@ -197,13 +214,17 @@
   "enabledAppsCount": "Dynamic Island, {count} uygulama için etkin",
   "@enabledAppsCount": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "enabledAppsCountWithSystem": "Dynamic Island, {count} uygulama için etkin (sistem uygulamaları dahil)",
   "@enabledAppsCountWithSystem": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "searchApps": "Uygulama adında veya paket adında ara",
@@ -212,24 +233,31 @@
   "applyToSelectedAppsChannels": "Seçili {count} uygulamanın etkin kanallarına uygulanacak",
   "@applyToSelectedAppsChannels": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "applyingConfig": "Yapılandırma uygulanıyor...",
   "progressApps": "{done} / {total} uygulama",
   "@progressApps": {
     "placeholders": {
-      "done": { "type": "int" },
-      "total": { "type": "int" }
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "batchApplied": "Toplu ayar {count} uygulamaya uygulandı",
   "@batchApplied": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "cannotReadChannels": "Bildirim Kanalları Okunamıyor",
   "rootRequiredMessage": "Bildirim kanallarını okumak için root izni gerekir.\nLütfen bu uygulamaya root izni verdiğinizi doğrulayıp tekrar deneyin.",
   "enableAllChannels": "Tüm Kanalları Etkinleştir",
@@ -238,28 +266,40 @@
   "allChannelsActive": "Tüm {count} kanal için geçerli",
   "@allChannelsActive": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "selectedChannels": "{selected} / {total} kanal seçildi",
   "@selectedChannels": {
     "placeholders": {
-      "selected": { "type": "int" },
-      "total": { "type": "int" }
+      "selected": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "allChannelsDisabled": "Tüm {count} kanal (devre dışı)",
   "@allChannelsDisabled": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "appDisabledBanner": "Uygulama devre dışı; aşağıdaki kanal ayarları etkisizdir",
   "channelImportance": "Önem: {importance}  ·  {id}",
   "@channelImportance": {
     "placeholders": {
-      "importance": { "type": "String" },
-      "id": { "type": "String" }
+      "importance": {
+        "type": "String"
+      },
+      "id": {
+        "type": "String"
+      }
     }
   },
   "channelSettings": "Kanal Ayarları",
@@ -281,22 +321,24 @@
   "applyToEnabledChannels": "Etkin olan {count} kanala uygulanacak",
   "@applyToEnabledChannels": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "applyToAllChannels": "Tüm {count} kanala uygulanacak",
   "@applyToAllChannels": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "templateDownloadName": "İndirme",
   "templateNotificationIslandName": "Bildirim Süper Ada",
   "templateNotificationIslandLiteName": "Bildirim Süper Ada|Lite",
   "templateDownloadLiteName": "İndirme|Lite",
   "islandSection": "Ada",
-
   "template": "Şablon",
   "rendererLabel": "Stil",
   "rendererImageTextWithButtons4Name": "Görsel + Metin + Alt Metin Düğmeleri",
@@ -352,8 +394,12 @@
   "enabledChannelsCount": "{enabled} / {total} kanal etkin",
   "@enabledChannelsCount": {
     "placeholders": {
-      "enabled": { "type": "int" },
-      "total": { "type": "int" }
+      "enabled": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "iconModeAuto": "Otomatik",
@@ -365,13 +411,11 @@
   "optDefaultOff": "Varsayılan (Kapalı)",
   "optOn": "Açık",
   "optOff": "Kapalı",
-
   "errorInvalidFormat": "Geçersiz yapılandırma biçimi",
   "errorNoStorageDir": "Depolama dizinine erişilemiyor",
   "errorNoFileSelected": "Dosya seçilmedi",
   "errorNoFilePath": "Dosya yolu alınamıyor",
   "errorEmptyClipboard": "Pano boş",
-
   "navBlacklist": "Bildirim Kara Listesi",
   "navBlacklistSubtitle": "Kara listedeki bir uygulama açıldığında odak bildiriminin otomatik genişletilmesi devre dışı kalır",
   "presetGamesTitle": "Popüler Oyunları Tek Dokunuşla Filtrele",
@@ -386,16 +430,19 @@
   "blacklistedAppsCount": "{count} uygulamanın odak bildirimi engellendi",
   "@blacklistedAppsCount": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "blacklistedAppsCountWithSystem": "{count} uygulamanın odak bildirimi engellendi (sistem uygulamaları dahil)",
   "@blacklistedAppsCountWithSystem": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-
   "firstFloatLabelSubtitle": "Bu ayar açık olduğunda ilk bildirim geldiğinde Ada genişler.",
   "updateFloatLabelSubtitle": "Bu ayar açık olduğunda bildirim güncellendiğinde Ada yeniden genişler.",
   "marqueeChannelTitleSubtitle": "Bu ayar açık olduğunda uzun metin Ada üzerinde kayarak gösterilir.",
@@ -405,7 +452,6 @@
   "fullscreenBehaviorSubtitle": "Yatay/tam ekran algılandığında bildirim stratejisi",
   "fullscreenBehaviorOff": "Varsayılan",
   "fullscreenBehaviorFallback": "Normal bildirime dön",
-  "fullscreenBehaviorExpand": "Bildirimi otomatik genişlet",
   "filterRulesSection": "Filtre Kuralları",
   "foregroundRulesTab": "Ön plan kuralları",
   "foregroundExclusionsTab": "Hariç tutulan uygulamalar",
@@ -437,7 +483,6 @@
   "behaviorPreviewSuppress": "Eşleşince normal bildirime dön",
   "behaviorPreviewSmallOnly": "Eşleşince yalnızca küçük Ada göster, otomatik genişletme",
   "behaviorPreviewExpand": "Eşleşince bildirimi otomatik genişlet",
-
   "aiConfigSection": "AI Geliştirmeleri",
   "aiConfigTitle": "AI Bildirim Özeti",
   "aiConfigSubtitleEnabled": "Etkin · AI parametrelerini yapılandırmak için dokunun",
@@ -488,7 +533,9 @@
   "aiTimeoutLabel": "AI Yanıt Zaman Aşımı",
   "@aiTimeoutLabel": {
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
   "aiTemperatureTitle": "Örnekleme Sıcaklığı",
@@ -498,96 +545,87 @@
   "aiDefaultPromptFull": "Boş bırakırsanız varsayılan prompt kullanılır: Bildirimden ana bilgiyi çıkarın; sol ve sağ taraf için en fazla 6 kelime veya 12 karakter",
   "hideDesktopIconTitle": "Ana Ekran Simgesini Gizle",
   "hideDesktopIconSubtitle": "Uygulama simgesini başlatıcıdan gizler. Gizledikten sonra LSPosed Manager üzerinden açın",
-
-"restoreLockscreenTitle": "Kilit Ekranı Bildirimini Geri Yükle",
-"restoreLockscreenSubtitle": "Kilit ekranında odak bildirimi işlemini atlayın, özgün gizlilik davranışını koruyun",
-
-"islandDimenSection": "Ada Boyutları",
-"islandDimenHeight": "Ada Yüksekliği",
-"islandTopOffset": "Ekranın Üstünden Uzaklık",
-"followSystem": "Sistem varsayılanı",
-"islandDimenMiniY": "Dikey Konum",
-"islandDimenMiniYHint": "0=sistem varsayılanı",
-
-
-"islandBgSection": "Ada Arka Planı",
-"islandBgSmallTitle": "Küçük Ada Arka Planı",
-"islandBgSmallSubtitle": "Görsel seçmek için dokunun",
-"islandBgBigTitle": "Büyük Ada Arka Planı",
-"islandBgBigSubtitle": "Görsel seçmek için dokunun",
-"islandBgExpandTitle": "Odak Bildirimi Arka Planı",
-"islandBgExpandSubtitle": "Görsel seçmek için dokunun",
-"islandBgNotSet": "Ayarlanmamış",
-"islandBgCornerRadius": "Köşe Yarıçapı",
-"islandBgCornerRadiusHint": "0=sistem varsayılanı",
-"islandBgImageSelected": "Arka plan görseli kaydedildi",
-"islandBgImageDeleted": "Arka plan görseli silindi",
-"islandBgDeleteFailed": "Silme başarısız",
-"islandBgEditTitle": "{type} Arka Planını Düzenle",
-"@islandBgEditTitle": {
-  "placeholders": {
-    "type": {
-      "type": "String"
+  "restoreLockscreenTitle": "Kilit Ekranı Bildirimini Geri Yükle",
+  "restoreLockscreenSubtitle": "Kilit ekranında odak bildirimi işlemini atlayın, özgün gizlilik davranışını koruyun",
+  "islandDimenSection": "Ada Boyutları",
+  "islandDimenHeight": "Ada Yüksekliği",
+  "islandTopOffset": "Ekranın Üstünden Uzaklık",
+  "followSystem": "Sistem varsayılanı",
+  "islandDimenMiniY": "Dikey Konum",
+  "islandDimenMiniYHint": "0=sistem varsayılanı",
+  "islandBgSection": "Ada Arka Planı",
+  "islandBgSmallTitle": "Küçük Ada Arka Planı",
+  "islandBgBigTitle": "Büyük Ada Arka Planı",
+  "islandBgExpandTitle": "Odak Bildirimi Arka Planı",
+  "islandBgNotSet": "Ayarlanmamış",
+  "islandBgCornerRadius": "Köşe Yarıçapı",
+  "islandBgCornerRadiusHint": "0=sistem varsayılanı",
+  "islandBgImageSelected": "Arka plan görseli kaydedildi",
+  "islandBgImageDeleted": "Arka plan görseli silindi",
+  "islandBgDeleteFailed": "Silme başarısız",
+  "islandBgEditTitle": "{type} Arka Planını Düzenle",
+  "@islandBgEditTitle": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
     }
-  }
-},
-"islandBgBlurLabel": "Bulanıklık",
-"islandBgBrightnessLabel": "Parlaklık",
-"islandBgOpacityLabel": "Opaklık",
-"islandBgOff": "Kapalı",
-"islandBgDefault": "Varsayılan",
-"keepIslandTitle": "Adayı Sürekli Göster",
-"keepIslandSubtitle": "Adayı sürekli görünür tutmak için boş bir bildirim gönder",
-"keepIslandAutoHideTitle": "Otomatik Gizle",
-"keepIslandAutoHideSubtitle": "Gerçek bildirim geldiğinde boş adayı otomatik gizle, bildirim kalktığında geri yükle",
-"keepIslandHideLandscapeTitle": "Yatayda Gizle",
-"keepIslandHideLandscapeSubtitle": "Yatay ekranda sürekli adayı gizle, dikeye dönünce gerçek bildirim yoksa geri yükle",
-"keepIslandHighlightColorTitle": "Vurgu Rengi",
-"keepIslandHighlightColorSubtitle": "Sürekli adanın vurgu metin rengini özelleştir",
-
-"islandOtherSection": "Diğer",
-"miscSection": "Çeşitli",
-"onboardingEntryTitle": "İlk Kurulumu Aç",
-"onboardingEntrySubtitle": "Karşılama ve hızlı başlangıç akışını tekrar görüntüle",
-"onboardingAppName": "HyperIsland",
-"onboardingWelcomeTitle": "HyperIsland'a Hoş Geldiniz",
-"onboardingWelcomeSubtitle": "Ada deneyiminizi hızlı ve sade şekilde yapılandırın",
-"onboardingEnvironmentTitle": "Ortam Denetimi",
-"onboardingEnvironmentSubtitle": "Modül izin durumunu kontrol edin",
-"onboardingNotificationStyleTitle": "Bildirim Stilini Seç",
-"onboardingNotificationStyleSubtitle": "Varsayılan bildirim görünümünü seçin",
-"onboardingOriginalNotificationLabel": "Orijinal bildirim",
-"onboardingFinishTitle": "Her Şey Hazır",
-"onboardingFinishSubtitle": "Kurulumdan sonra ayrıntıları Ayarlar'dan düzenlemeye devam edebilirsiniz",
-"onboardingStepLabel": "Adım {current} / {total}",
-"@onboardingStepLabel": {
-  "placeholders": {
-    "current": {
-      "type": "int"
-    },
-    "total": {
-      "type": "int"
+  },
+  "islandBgBlurLabel": "Bulanıklık",
+  "islandBgBrightnessLabel": "Parlaklık",
+  "islandBgOpacityLabel": "Opaklık",
+  "islandBgDefault": "Varsayılan",
+  "keepIslandTitle": "Adayı Sürekli Göster",
+  "keepIslandSubtitle": "Adayı sürekli görünür tutmak için boş bir bildirim gönder",
+  "keepIslandAutoHideTitle": "Otomatik Gizle",
+  "keepIslandAutoHideSubtitle": "Gerçek bildirim geldiğinde boş adayı otomatik gizle, bildirim kalktığında geri yükle",
+  "keepIslandHideLandscapeTitle": "Yatayda Gizle",
+  "keepIslandHideLandscapeSubtitle": "Yatay ekranda sürekli adayı gizle, dikeye dönünce gerçek bildirim yoksa geri yükle",
+  "keepIslandHighlightColorTitle": "Vurgu Rengi",
+  "keepIslandHighlightColorSubtitle": "Sürekli adanın vurgu metin rengini özelleştir",
+  "islandOtherSection": "Diğer",
+  "miscSection": "Çeşitli",
+  "onboardingEntryTitle": "İlk Kurulumu Aç",
+  "onboardingEntrySubtitle": "Karşılama ve hızlı başlangıç akışını tekrar görüntüle",
+  "onboardingAppName": "HyperIsland",
+  "onboardingWelcomeTitle": "HyperIsland'a Hoş Geldiniz",
+  "onboardingWelcomeSubtitle": "Ada deneyiminizi hızlı ve sade şekilde yapılandırın",
+  "onboardingEnvironmentTitle": "Ortam Denetimi",
+  "onboardingEnvironmentSubtitle": "Modül izin durumunu kontrol edin",
+  "onboardingNotificationStyleTitle": "Bildirim Stilini Seç",
+  "onboardingNotificationStyleSubtitle": "Varsayılan bildirim görünümünü seçin",
+  "onboardingOriginalNotificationLabel": "Orijinal bildirim",
+  "onboardingFinishTitle": "Her Şey Hazır",
+  "onboardingFinishSubtitle": "Kurulumdan sonra ayrıntıları Ayarlar'dan düzenlemeye devam edebilirsiniz",
+  "onboardingStepLabel": "Adım {current} / {total}",
+  "@onboardingStepLabel": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
-  }
-},
-"onboardingPrevious": "Önceki",
-"onboardingNext": "Sonraki",
-"onboardingDone": "Başla",
-"onboardingStatusTitle": "Durum Denetimi",
-"onboardingRetry": "Yeniden dene",
-"onboardingLsposedStatus": "LSPosed Etkinleştirme Durumu",
-"onboardingRootStatus": "Root İzni",
-"onboardingAppListStatus": "Uygulama listesi izni",
-"onboardingProtocolStatus": "Sistem Protokol Sürümü",
-"onboardingAndroidStatus": "Android Sürümü",
-"onboardingUnsupportedSystem": "Mevcut sistem desteklenmiyor",
-"onboardingAndroid15Limited": "Android 15 desteği sınırlıdır",
-"onboardingMissingPermissionTitle": "Gerekli İzin Eksik",
-"onboardingMissingPermissionMessage": "Modül düzgün çalışmayabilir",
-"onboardingDialogClose": "Kapat",
-"onboardingDialogContinue": "Devam et",
-"backupRestoreSection": "Yedekleme ve Geri Yükleme",
-"hookExtensionSection": "Hook Uzantısı",
+  },
+  "onboardingPrevious": "Önceki",
+  "onboardingNext": "Sonraki",
+  "onboardingDone": "Başla",
+  "onboardingStatusTitle": "Durum Denetimi",
+  "onboardingRetry": "Yeniden dene",
+  "onboardingLsposedStatus": "LSPosed Etkinleştirme Durumu",
+  "onboardingRootStatus": "Root İzni",
+  "onboardingAppListStatus": "Uygulama listesi izni",
+  "onboardingProtocolStatus": "Sistem Protokol Sürümü",
+  "onboardingAndroidStatus": "Android Sürümü",
+  "onboardingUnsupportedSystem": "Mevcut sistem desteklenmiyor",
+  "onboardingAndroid15Limited": "Android 15 desteği sınırlıdır",
+  "onboardingMissingPermissionTitle": "Gerekli İzin Eksik",
+  "onboardingMissingPermissionMessage": "Modül düzgün çalışmayabilir",
+  "onboardingDialogClose": "Kapat",
+  "onboardingDialogContinue": "Devam et",
+  "backupRestoreSection": "Yedekleme ve Geri Yükleme",
+  "hookExtensionSection": "Hook Uzantısı",
   "hookScopeSettings": "Sistem Ayarları",
   "settingsHomeEntryTitle": "Sistem Ayarları girişi",
   "settingsHomeEntrySubtitle": "Sistem Ayarları ana sayfasında HyperIsland girişini göster",
@@ -602,7 +640,9 @@
   "bluetoothIslandSubtitle": "{status} · Bluetooth cihaz bağlantılarını ve kopmalarını dinler, ardından adayı Sistem UI üzerinden iletir",
   "@bluetoothIslandSubtitle": {
     "placeholders": {
-      "status": { "type": "String" }
+      "status": {
+        "type": "String"
+      }
     }
   },
   "bluetoothIslandSettingsTitle": "Bluetooth Adası Ayarları",
@@ -614,7 +654,9 @@
   "chargeIslandSubtitle": "{status} · Şarj Adasındaki güç veya pil bölümünü değiştirir",
   "@chargeIslandSubtitle": {
     "placeholders": {
-      "status": { "type": "String" }
+      "status": {
+        "type": "String"
+      }
     }
   },
   "chargeIslandSettingsTitle": "Şarj Adası Ayarları",
@@ -633,13 +675,11 @@
   "chargeIslandDurationCustom": "Özel",
   "chargeIslandDurationPersistent": "Kalıcı",
   "chargeIslandDurationSecondsTitle": "Özel Süre",
-  "chargeIslandDurationSecondsUnit": "sn",
   "outerGlowTitle": "Dış Parlama",
   "bluetoothIslandOuterGlowSubtitle": "Bluetooth Adasının dış parlama efektini kontrol eder",
   "outerGlowColorTitle": "Dış Parlama Rengi",
   "hookScopeXMSF": "Xiaomi Servis Çerçevesi (XMSF)",
   "downloadManagerSection": "İndirme Yöneticisi",
-
   "themePageTitle": "Tema",
   "themeSeedColorTitle": "Tema Rengi",
   "themeSeedColorSubtitle": "Uygulama vurgu rengini özelleştir",
@@ -677,5 +717,8 @@
   "hideBehaviorScreenLocked": "Lock screen",
   "hideBehaviorScreenLockedSubtitle": "Hide the island during lock screen or screen-off flows",
   "hideBehaviorNotificationCenter": "Notification center",
-  "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions"
+  "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
+  "tapToSelectImage": "Görsel seçmek için dokunun",
+  "autoExpandNotification": "Bildirimi otomatik genişlet",
+  "off": "Kapalı"
 }

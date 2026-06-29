@@ -756,7 +756,7 @@ class _AiConfigPageState extends State<AiConfigPage> {
                 ),
                 const SizedBox(height: 16),
 
-                SectionLabel(l10n.aiNotificationTestSection),
+                SectionLabel(l10n.notificationTest),
                 const SizedBox(height: 8),
                 Card(
                   elevation: 0,

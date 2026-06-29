@@ -222,7 +222,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                             ),
                             Text(
                               _bigIslandMaxWidthDraft > 0
-                                  ? l10n.bigIslandMaxWidthLabel(
+                                  ? l10n.widthDpLabel(
                                       _bigIslandMaxWidthDraft,
                                     )
                                   : l10n.followSystem,
@@ -291,7 +291,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                             ),
                             Text(
                               _bigIslandMinWidthDraft > 0
-                                  ? l10n.bigIslandMinWidthLabel(
+                                  ? l10n.widthDpLabel(
                                       _bigIslandMinWidthDraft,
                                     )
                                   : l10n.followSystem,
@@ -360,7 +360,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                     children: [
                       _IslandBgTile(
                         title: l10n.islandBgSmallTitle,
-                        subtitle: l10n.islandBgSmallSubtitle,
+                        subtitle: l10n.tapToSelectImage,
                         icon: Icons.panorama_vertical,
                         imagePath: _ctrl.islandBgSmallPath,
                         onTap: () => _pickIslandBackground(IslandBgType.small),
@@ -372,7 +372,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                       const Divider(height: 1, indent: 16, endIndent: 16),
                       _IslandBgTile(
                         title: l10n.islandBgBigTitle,
-                        subtitle: l10n.islandBgBigSubtitle,
+                        subtitle: l10n.tapToSelectImage,
                         icon: Icons.panorama_vertical,
                         imagePath: _ctrl.islandBgBigPath,
                         onTap: () => _pickIslandBackground(IslandBgType.big),
@@ -383,7 +383,7 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                       const Divider(height: 1, indent: 16, endIndent: 16),
                       _IslandBgTile(
                         title: l10n.islandBgExpandTitle,
-                        subtitle: l10n.islandBgExpandSubtitle,
+                        subtitle: l10n.tapToSelectImage,
                         icon: Icons.panorama_vertical,
                         imagePath: _ctrl.islandBgExpandPath,
                         onTap: () => _pickIslandBackground(IslandBgType.expand),

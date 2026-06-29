@@ -740,6 +740,15 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
   List<String> _whitelistKeywords = [];
   List<String> _blacklistKeywords = [];
 
+  bool get _marqueeAutoHideEnabled {
+    return switch (_marquee) {
+      kTriOptOn => true,
+      kTriOptOff => false,
+      kTriOptDefault => SettingsController.instance.defaultMarquee,
+      _ => true,
+    };
+  }
+
   @override
   void dispose() {
     _timeoutController.dispose();
@@ -824,34 +833,39 @@ class _BatchToastSettingsSheetState extends State<_BatchToastSettingsSheet> {
                 onChanged: (v) => setState(() => _marquee = v),
               ),
               const SizedBox(height: 10),
-              _BatchField(
-                label: l10n.marqueeAutoHideTitle,
-                child: DropdownButtonFormField<String?>(
-                  initialValue: _marqueeAutoHide,
-                  decoration: _batchFieldDecoration(context),
-                  items: [
-                    DropdownMenuItem<String?>(
-                      value: null,
-                      child: Text(l10n.noChange),
-                    ),
-                    DropdownMenuItem<String?>(
-                      value: kTriOptDefault,
-                      child: Text(l10n.optDefault),
-                    ),
-                    DropdownMenuItem<String?>(
-                      value: kTriOptOff,
-                      child: Text(l10n.marqueeAutoHideOff),
-                    ),
-                    DropdownMenuItem<String?>(
-                      value: '1',
-                      child: Text(l10n.marqueeAutoHideOnce),
-                    ),
-                    DropdownMenuItem<String?>(
-                      value: '2',
-                      child: Text(l10n.marqueeAutoHideTwice),
-                    ),
-                  ],
-                  onChanged: (v) => setState(() => _marqueeAutoHide = v),
+              Opacity(
+                opacity: _marqueeAutoHideEnabled ? 1 : 0.45,
+                child: _BatchField(
+                  label: l10n.marqueeAutoHideTitle,
+                  child: DropdownButtonFormField<String?>(
+                    initialValue: _marqueeAutoHide,
+                    decoration: _batchFieldDecoration(context),
+                    items: [
+                      DropdownMenuItem<String?>(
+                        value: null,
+                        child: Text(l10n.noChange),
+                      ),
+                      DropdownMenuItem<String?>(
+                        value: kTriOptDefault,
+                        child: Text(l10n.optDefault),
+                      ),
+                      DropdownMenuItem<String?>(
+                        value: kTriOptOff,
+                        child: Text(l10n.off),
+                      ),
+                      DropdownMenuItem<String?>(
+                        value: '1',
+                        child: Text(l10n.marqueeAutoHideOnce),
+                      ),
+                      DropdownMenuItem<String?>(
+                        value: '2',
+                        child: Text(l10n.marqueeAutoHideTwice),
+                      ),
+                    ],
+                    onChanged: _marqueeAutoHideEnabled
+                        ? (v) => setState(() => _marqueeAutoHide = v)
+                        : null,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),

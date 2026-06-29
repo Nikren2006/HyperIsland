@@ -1,17 +1,14 @@
 {
   "@@locale": "zh",
-
   "navHome": "主页",
   "navIsland": "岛",
   "navApps": "应用",
   "navSettings": "设置",
-
   "cancel": "取消",
   "confirm": "确认",
   "ok": "确定",
   "apply": "应用",
-  "noChange": "不更改"
-  ,
+  "noChange": "不更改",
   "newVersionFound": "发现新版本",
   "currentVersion": "当前版本：{version}",
   "@currentVersion": {
@@ -59,7 +56,6 @@
   "customTestContentHint": "留空使用默认内容",
   "clearPreviousNotification": "清除之前通知",
   "clearPreviousNotificationSubtitle": "发送前先取消已有的超级岛通知",
-  "enableFloatNotification": "自动展开通知",
   "enableFloatNotificationSubtitle": "收到通知后自动展开为焦点通知",
   "notes": "注意事项",
   "detectingModuleStatus": "正在检测模块状态...",
@@ -99,8 +95,7 @@
   "note2": "2.大部分配置支持热重载，如遇异常请重启作用域",
   "note3": "3.LSPosed 管理器中激活后，必须重启相关作用域软件",
   "note4": "4.此页面仅用于测试是否支持超级岛及光效，并不代表实际效果",
-  "note5": "5.下载上岛请手动启用\u201c下载管理程序\u201d，推荐《下载》模板",
-
+  "note5": "5.下载上岛请手动启用“下载管理程序”，推荐《下载》模板",
   "behaviorSection": "行为",
   "defaultConfigSection": "默认配置",
   "appearanceSection": "外观",
@@ -124,13 +119,11 @@
   "interactionHapticsSubtitle": "为开关、滑块和按钮启用 Hyper 定制震感反馈",
   "checkUpdate": "检查更新",
   "alreadyLatest": "已是最新版本",
-  
   "roundIconTitle": "图标圆角",
   "roundIconSubtitle": "为通知图标添加圆角效果",
   "marqueeChannelTitle": "消息滚动",
   "marqueeAutoHideTitle": "滚动后隐藏岛",
   "marqueeAutoHideSubtitle": "消息滚动达到指定次数后隐藏当前岛",
-  "marqueeAutoHideOff": "关",
   "marqueeAutoHideOnce": "滚动1次",
   "marqueeAutoHideTwice": "滚动2次",
   "marqueeSpeedTitle": "滚动速度",
@@ -143,23 +136,7 @@
     }
   },
   "bigIslandMaxWidthTitle": "最大宽度",
-  "bigIslandMaxWidthLabel": "{width} dp",
-  "@bigIslandMaxWidthLabel": {
-    "placeholders": {
-      "width": {
-        "type": "int"
-      }
-    }
-  },
   "bigIslandMinWidthTitle": "最小宽度",
-  "bigIslandMinWidthLabel": "{width} dp",
-  "@bigIslandMinWidthLabel": {
-    "placeholders": {
-      "width": {
-        "type": "int"
-      }
-    }
-  },
   "testNotifTooltip": "发送测试通知",
   "themeModeTitle": "颜色模式",
   "themeModeSystem": "跟随系统",
@@ -220,7 +197,6 @@
       }
     }
   },
-
   "appAdaptation": "应用适配",
   "toastAdaptation": "Toast 适配",
   "adaptationModeNotification": "通知",
@@ -294,7 +270,6 @@
       }
     }
   },
-
   "cannotReadChannels": "无法读取通知渠道",
   "rootRequiredMessage": "读取通知渠道需要 ROOT 权限。\n请确认已授予本应用 ROOT 权限后重试。",
   "enableAllChannels": "启用全部渠道",
@@ -371,14 +346,12 @@
       }
     }
   },
-
   "templateDownloadName": "下载",
   "templateNotificationIslandName": "通知超级岛",
   "templateNotificationIslandLiteName": "通知超级岛 | 精简",
   "templateDownloadLiteName": "下载|Lite",
   "islandSection": "岛",
   "template": "模板",
-
   "rendererLabel": "样式",
   "rendererImageTextWithButtons4Name": "新图文组件 + 底部文本按钮",
   "rendererCoverInfoName": "封面组件 + 自动换行",
@@ -491,13 +464,11 @@
   "optDefaultOff": "默认（关闭）",
   "optOn": "开启",
   "optOff": "关闭",
-
   "errorInvalidFormat": "配置格式无效",
   "errorNoStorageDir": "无法获取存储目录",
   "errorNoFileSelected": "未选择文件",
   "errorNoFilePath": "无法获取文件路径",
   "errorEmptyClipboard": "剪贴板为空",
-
   "navBlacklist": "通知黑名单",
   "navBlacklistSubtitle": "启动黑名单应用时，停用焦点通知的自动展开功能",
   "presetGamesTitle": "一键过滤热门游戏",
@@ -525,7 +496,6 @@
       }
     }
   },
-
   "firstFloatLabelSubtitle": "超级岛初次收到通知后是否展开为焦点通知",
   "updateFloatLabelSubtitle": "超级岛更新后是否展开通知",
   "marqueeChannelTitleSubtitle": "超级岛消息过长是否滚动显示",
@@ -535,7 +505,6 @@
   "fullscreenBehaviorSubtitle": "检测到横屏/全屏时的通知处理策略",
   "fullscreenBehaviorOff": "默认",
   "fullscreenBehaviorFallback": "回退普通通知",
-  "fullscreenBehaviorExpand": "自动展开通知",
   "filterRulesTitle": "过滤规则",
   "filterRulesOrderTitle": "按顺序命中第一条规则",
   "filterRuleDnd": "勿扰",
@@ -548,7 +517,6 @@
   "behaviorPreviewSuppress": "命中时回退为普通通知",
   "behaviorPreviewSmallOnly": "命中时只显示小岛，不自动展开",
   "behaviorPreviewExpand": "命中时自动展开通知",
-
   "aiConfigSection": "AI 增强",
   "aiConfigTitle": "AI 通知摘要",
   "aiConfigSubtitleEnabled": "已启用 · 点击配置 AI 参数",
@@ -624,17 +592,14 @@
   "aiJsonRightDescription": "右侧文本（总结）",
   "aiInvalidJsonError": "AI 返回格式错误，需要包含 left 和 right 字段的 JSON",
   "aiEmptyJsonError": "AI 返回为空，需要包含 left 和 right 字段的 JSON",
-  "aiNotificationTestSection": "通知测试",
   "aiNotificationContentLabel": "通知内容",
   "aiTestNotificationTitle": "测试通知",
   "aiNotificationSent": "通知已发送",
   "aiAiNotificationSent": "AI 通知已发送",
   "aiSendNotificationButton": "发送通知",
   "aiSendAiNotificationButton": "发送 AI 通知",
-
   "hideDesktopIconTitle": "隐藏桌面图标",
   "hideDesktopIconSubtitle": "隐藏启动器中的应用图标，隐藏后可通过 LSPosed 管理器打开",
-
   "filterRulesSection": "过滤规则",
   "foregroundRulesTab": "前台规则",
   "foregroundExclusionsTab": "排除应用",
@@ -665,7 +630,6 @@
   "keywordHint": "输入关键词",
   "removeKeyword": "移除",
   "keywordFilterPriority": "白名单优先：仅白名单匹配的通知显示，但黑名单仍可否决",
-
   "exportChannelsToClipboard": "导出渠道设置",
   "importChannelsFromClipboard": "导入渠道设置",
   "exportChannelsSuccess": "渠道设置已复制到剪贴板",
@@ -688,43 +652,27 @@
       }
     }
   },
-  "importChannelsFailed": "导入失败：{error}",
-  "@importChannelsFailed": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
-
   "importErrorEmptyClipboard": "剪贴板为空，请先复制渠道设置数据",
   "importErrorNotJson": "剪贴板内容不是有效的 JSON 数据",
   "importErrorMissingChannels": "数据格式不正确，缺少渠道列表",
   "importErrorNoMatch": "没有与当前应用匹配的渠道，请确认数据来源正确",
   "importErrorUnknown": "导入失败，请检查剪贴板数据是否正确",
-
   "mediaNotificationTitle": "媒体通知",
   "mediaNotificationDisabledSubtitle": "关闭后直接删除整条媒体通知",
   "normalNotificationTitle": "普通通知",
   "normalNotificationSubtitle": "开启后移除媒体字段，按普通通知处理",
   "channelSettingsUnmodified": "未修改",
   "restoreDefault": "恢复默认",
-
   "islandDimenSection": "岛尺寸设置",
   "islandDimenHeight": "岛高度",
   "islandTopOffset": "距屏幕顶部",
   "followSystem": "跟随系统",
   "islandDimenMiniY": "垂直位置",
   "islandDimenMiniYHint": "0=跟随系统",
-
-
   "islandBgSection": "岛背景设置",
   "islandBgSmallTitle": "小岛背景图",
-  "islandBgSmallSubtitle": "点击选择图片",
   "islandBgBigTitle": "大岛背景图",
-  "islandBgBigSubtitle": "点击选择图片",
   "islandBgExpandTitle": "焦点通知背景图",
-  "islandBgExpandSubtitle": "点击选择图片",
   "islandBgNotSet": "未设置",
   "islandBgCornerRadius": "圆角半径",
   "islandBgCornerRadiusHint": "0=跟随系统",
@@ -742,7 +690,6 @@
   "islandBgBlurLabel": "模糊",
   "islandBgBrightnessLabel": "亮度",
   "islandBgOpacityLabel": "不透明度",
-  "islandBgOff": "关",
   "islandBgDefault": "默认",
   "keepIslandTitle": "常驻超级岛",
   "keepIslandSubtitle": "显示一条空白通知使岛始终可见",
@@ -752,7 +699,6 @@
   "keepIslandHideLandscapeSubtitle": "横屏时自动隐藏常驻岛，回到竖屏时恢复",
   "keepIslandHighlightColorTitle": "高亮颜色",
   "keepIslandHighlightColorSubtitle": "自定义常驻岛的高亮文字颜色",
-
   "islandOtherSection": "其他",
   "miscSection": "杂项",
   "onboardingEntryTitle": "打开初始引导",
@@ -845,14 +791,12 @@
   "chargeIslandDurationCustom": "自定义",
   "chargeIslandDurationPersistent": "常驻",
   "chargeIslandDurationSecondsTitle": "自定义时长",
-  "chargeIslandDurationSecondsUnit": "秒",
   "chargeIslandOuterGlowSubtitle": "控制充电超级岛的外圈光效",
   "outerGlowTitle": "外圈光效",
   "bluetoothIslandOuterGlowSubtitle": "控制蓝牙超级岛的外圈光效",
   "outerGlowColorTitle": "外圈光效颜色",
   "hookScopeXMSF": "小米服务框架",
   "downloadManagerSection": "下载管理程序",
-
   "themePageTitle": "主题",
   "themeSeedColorTitle": "主题色",
   "themeSeedColorSubtitle": "自定义应用强调色",
@@ -860,14 +804,15 @@
   "themeResetColor": "恢复默认",
   "blurBarsTitle": "毛玻璃效果",
   "blurBarsSubtitle": "为顶栏和底栏添加模糊透明效果",
-
   "bluetoothIslandWhitelistTitle": "设备白名单",
   "bluetoothIslandWhitelistSubtitle": "仅对白名单中的蓝牙设备显示超级岛",
   "bluetoothIslandWhitelistButton": "管理白名单设备",
   "bluetoothIslandWhitelistButtonSubtitle": "已选择 {count} 个设备",
   "@bluetoothIslandWhitelistButtonSubtitle": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "bluetoothIslandWhitelistDialogTitle": "选择蓝牙设备",
@@ -888,5 +833,16 @@
   "hideBehaviorScreenLocked": "锁屏",
   "hideBehaviorScreenLockedSubtitle": "锁屏或息屏流程中隐藏超级岛",
   "hideBehaviorNotificationCenter": "通知中心",
-  "hideBehaviorNotificationCenterSubtitle": "通知栏展开或下滑过渡时隐藏超级岛"
+  "hideBehaviorNotificationCenterSubtitle": "通知栏展开或下滑过渡时隐藏超级岛",
+  "off": "关闭",
+  "tapToSelectImage": "点击选择图片",
+  "autoExpandNotification": "自动展开通知",
+  "widthDpLabel": "{width} dp",
+  "@widthDpLabel": {
+    "placeholders": {
+      "width": {
+        "type": "int"
+      }
+    }
+  }
 }

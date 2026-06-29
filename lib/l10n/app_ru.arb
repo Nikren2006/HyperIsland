@@ -1,34 +1,37 @@
 {
   "@@locale": "ru",
-
   "navHome": "Главная",
   "navIsland": "Остров",
   "navApps": "Приложения",
   "navSettings": "Настройки",
-
   "cancel": "Отмена",
   "confirm": "Подтвердить",
   "ok": "ОК",
   "apply": "Применить",
   "noChange": "Без изменений",
-
   "newVersionFound": "Доступна новая версия",
   "currentVersion": "Текущая версия: {version}",
   "@currentVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "latestVersion": "Последняя версия: {version}",
   "@latestVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "lsposedApiVersion": "Версия LSPosed API: {version}",
   "@lsposedApiVersion": {
     "placeholders": {
-      "version": { "type": "int" }
+      "version": {
+        "type": "int"
+      }
     }
   },
   "later": "Позже",
@@ -40,7 +43,9 @@
   "versionUpdatedTitle": "Обновлено до {version}",
   "@versionUpdatedTitle": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "versionUpdatedContent": "Пожалуйста, перезапустите приложения в области после обновления",
@@ -59,7 +64,6 @@
   "customTestContentHint": "Оставьте пустым для содержимого по умолчанию",
   "clearPreviousNotification": "Очистить предыдущее уведомление",
   "clearPreviousNotificationSubtitle": "Отменить существующее уведомление острова перед отправкой",
-  "enableFloatNotification": "Автоматически разворачивать уведомление",
   "enableFloatNotificationSubtitle": "Автоматически разворачивать как уведомление в фокусе при получении",
   "notes": "Примечания",
   "detectingModuleStatus": "Определение статуса модуля...",
@@ -73,7 +77,9 @@
   "systemNotSupportedSubtitle": "Текущая система не поддерживает Динамический остров (версия протокола {version}, требуется версия 3)",
   "@systemNotSupportedSubtitle": {
     "placeholders": {
-      "version": { "type": "int" }
+      "version": {
+        "type": "int"
+      }
     }
   },
   "restartFailed": "Ошибка перезапуска: {message}",
@@ -83,7 +89,6 @@
   "note3": "3. После активации в LSPosed Manager необходимо перезапустить связанные приложения в области",
   "note4": "4. Эта страница предназначена только для тестирования поддержки Динамического острова и эффекта свечения, а не для фактических эффектов",
   "note5": "5. Для острова загрузок вручную включите область \"Менеджер загрузок\"; рекомендуется шаблон \"Загрузка\"",
-
   "behaviorSection": "Поведение",
   "defaultConfigSection": "Настройки канала по умолчанию",
   "appearanceSection": "Внешний вид",
@@ -98,7 +103,7 @@
   "checkUpdateOnLaunchTitle": "Проверять обновления при запуске",
   "checkUpdateOnLaunchSubtitle": "Автоматически проверять наличие новых версий при запуске приложения",
   "debugLogTitle": "Показывать журналы отладки",
-"debugLogSubtitle": "Если включено, выводятся журналы отладки Hook; если выключено, сохраняются только журналы предупреждений и ошибок",
+  "debugLogSubtitle": "Если включено, выводятся журналы отладки Hook; если выключено, сохраняются только журналы предупреждений и ошибок",
   "showWelcomeTitle": "Показывать приветственное сообщение при запуске",
   "showWelcomeSubtitle": "Отображать приветственную информацию на Острове при запуске приложения",
   "openOnboardingTitle": "Открыть онбординг",
@@ -107,7 +112,6 @@
   "interactionHapticsSubtitle": "Включить пользовательский тактильный отклик Hyper для переключателей, ползунков и кнопок",
   "checkUpdate": "Проверить обновления",
   "alreadyLatest": "Уже установлена последняя версия",
-  
   "roundIconTitle": "Скругленные углы иконок",
   "roundIconSubtitle": "Добавить скругленные углы к иконкам уведомлений",
   "marqueeChannelTitle": "Бегущая строка на Острове",
@@ -115,23 +119,13 @@
   "marqueeSpeedLabel": "{speed} пкс/с",
   "@marqueeSpeedLabel": {
     "placeholders": {
-      "speed": { "type": "int" }
+      "speed": {
+        "type": "int"
+      }
     }
   },
   "bigIslandMaxWidthTitle": "Максимальная ширина",
-  "bigIslandMaxWidthLabel": "{width} dp",
-  "@bigIslandMaxWidthLabel": {
-    "placeholders": {
-      "width": { "type": "int" }
-    }
-  },
   "bigIslandMinWidthTitle": "Минимальная ширина",
-  "bigIslandMinWidthLabel": "{width} dp",
-  "@bigIslandMinWidthLabel": {
-    "placeholders": {
-      "width": { "type": "int" }
-    }
-  },
   "testNotifTooltip": "Отправить тестовое уведомление",
   "themeModeTitle": "Цветовая тема",
   "themeModeSystem": "Как в системе",
@@ -149,7 +143,7 @@
   "exportToClipboard": "Экспорт в буфер обмена",
   "exportToClipboardSubtitle": "Скопировать конфигурацию в виде JSON-текста",
   "importFromFile": "Импорт из файла",
- "importFromFileSubtitle": "Восстановить конфигурацию из JSON-файла",
+  "importFromFileSubtitle": "Восстановить конфигурацию из JSON-файла",
   "importFromClipboard": "Импорт из буфера обмена",
   "importFromClipboardSubtitle": "Восстановить конфигурацию из JSON-текста в буфере обмена",
   "exportConfig": "Экспорт конфигурации",
@@ -164,7 +158,6 @@
   "configCopied": "Конфигурация скопирована в буфер обмена",
   "importSuccess": "Импорт успешно завершен, {count} элементов, пожалуйста, перезапустите приложение",
   "importFailed": "Ошибка импорта: {error}",
-
   "appAdaptation": "Адаптация приложений",
   "toastAdaptation": "Адаптация Toast",
   "adaptationModeNotification": "Уведомление",
@@ -193,7 +186,6 @@
   "applyingConfig": "Применение конфигурации...",
   "progressApps": "Прогресс: {done} / {total}",
   "batchApplied": "Пакетно применено к {count} приложениям",
-
   "cannotReadChannels": "Не удалось прочитать каналы уведомлений",
   "rootRequiredMessage": "Для чтения каналов уведомлений требуются ROOT-права.\nПожалуйста, подтвердите предоставление ROOT-прав и повторите попытку.",
   "enableAllChannels": "Включить все каналы",
@@ -221,13 +213,11 @@
   "importanceUnknown": "Неизвестно",
   "applyToEnabledChannels": "Будет применено к {count} включенным каналам",
   "applyToAllChannels": "Будет применено ко всем {count} каналам",
-
   "templateDownloadName": "Загрузка",
   "templateNotificationIslandName": "Остров уведомлений",
   "templateNotificationIslandLiteName": "Остров уведомлений|Lite",
   "templateDownloadLiteName": "Загрузка|Lite",
   "islandSection": "Остров",
-
   "template": "Шаблон",
   "rendererLabel": "Стиль",
   "rendererImageTextWithButtons4Name": "Изображение+Текст+Текстовые кнопки внизу",
@@ -248,7 +238,7 @@
   "focusIconSourceLabel": "Источник иконки фокуса",
   "focusPicProfileSourceLabel": "Источник иконки профиля",
   "focusAppIconPkgLabel": "Пакет иконки приложения",
-"focusSecondaryIconSourceLabel": "Источник вторичной иконки",
+  "focusSecondaryIconSourceLabel": "Источник вторичной иконки",
   "chatTitleColorLabel": "Цвет заголовка чата",
   "chatTitleColorDarkLabel": "Цвет заголовка чата (темная тема)",
   "chatContentColorLabel": "Цвет содержимого чата",
@@ -299,7 +289,7 @@
   "highlightColorHint": "Формат #RRGGBB, оставьте пустым для значения по умолчанию",
   "actionBgColorLabel": "Цвет фона действия",
   "actionBgColorDarkLabel": "Цвет фона действия (темная тема)",
- "actionTitleColorLabel": "Цвет заголовка действия",
+  "actionTitleColorLabel": "Цвет заголовка действия",
   "actionTitleColorDarkLabel": "Цвет заголовка действия (темная тема)",
   "action1BgColorLabel": "Цвет фона действия 1",
   "action1BgColorDarkLabel": "Цвет фона действия 1 (темная тема)",
@@ -330,13 +320,11 @@
   "optDefaultOff": "По умолчанию (Выкл)",
   "optOn": "Вкл",
   "optOff": "Выкл",
-
   "errorInvalidFormat": "Неверный формат конфигурации",
   "errorNoStorageDir": "Не удалось получить директорию хранилища",
   "errorNoFileSelected": "Файл не выбран",
   "errorNoFilePath": "Не удалось получить путь к файлу",
   "errorEmptyClipboard": "Буфер обмена пуст",
-
   "navBlacklist": "Черный список фокуса",
   "navBlacklistSubtitle": "Блокировать всплытие уведомления в фокусе или скрывать его для определенных приложений",
   "presetGamesTitle": "Быстрый фильтр популярных игр",
@@ -349,18 +337,15 @@
     }
   },
   "blacklistedAppsCount": "Заблокированы уведомления в фокусе для {count} приложений",
- "blacklistedAppsCountWithSystem": "Заблокированы уведомления в фокусе для {count} приложений (включая системные)",
-
+  "blacklistedAppsCountWithSystem": "Заблокированы уведомления в фокусе для {count} приложений (включая системные)",
   "firstFloatLabelSubtitle": "Разворачивать ли как уведомление в фокусе, когда Остров впервые получает уведомление",
   "updateFloatLabelSubtitle": "Разворачивать ли уведомление при обновлении Острова",
   "marqueeChannelTitleSubtitle": "Прокручивать ли длинные сообщения на Острове",
   "focusNotificationLabelSubtitle": "Заменять уведомление уведомлением в фокусе (при отключении показывается оригинальное уведомление)",
-  "preserveStatusBarSmallIconLabelSubtitle": "Принудительно сохранять иконку в строке состояния при отображении уведомления в фокусе",
   "fullscreenBehaviorTitle": "Поведение в полноэкранном режиме",
   "fullscreenBehaviorSubtitle": "Стратегия уведомлений при обнаружении альбомной ориентации или полноэкранного режима",
   "fullscreenBehaviorOff": "По умолчанию",
   "fullscreenBehaviorFallback": "Откат к обычному уведомлению",
-  "fullscreenBehaviorExpand": "Автоматически разворачивать уведомление",
   "filterRulesTitle": "Правила фильтрации",
   "filterRulesOrderTitle": "Применяется первое совпавшее правило",
   "filterRuleDnd": "Не беспокоить",
@@ -373,7 +358,6 @@
   "behaviorPreviewSuppress": "Откат к обычному уведомлению при совпадении",
   "behaviorPreviewSmallOnly": "Показывать только малый остров; не разворачивать автоматически",
   "behaviorPreviewExpand": "Автоматически разворачивать уведомление при совпадении",
-
   "aiConfigSection": "Улучшение с помощью ИИ",
   "aiConfigTitle": "Сводка уведомлений с помощью ИИ",
   "aiConfigSubtitleEnabled": "Включено · Нажмите для настройки параметров ИИ",
@@ -424,7 +408,9 @@
   "aiTimeoutLabel": "Тайм-аут ответа ИИ",
   "@aiTimeoutLabel": {
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
   "aiTemperatureTitle": "Температура выборки",
@@ -432,13 +418,10 @@
   "aiMaxTokensTitle": "Максимум токенов",
   "aiMaxTokensSubtitle": "Ограничить максимальную длину ответов, генерируемых ИИ",
   "aiDefaultPromptFull": "Оставьте пустым для использования промпта по умолчанию: Извлечь ключевую информацию из уведомления, не более 6 слов или 12 символов для левой и правой сторон",
-
   "hideDesktopIconTitle": "Скрыть иконку на рабочем столе",
   "hideDesktopIconSubtitle": "Скрыть иконку приложения из лаунчера. Открывайте через LSPosed Manager после скрытия",
-
   "restoreLockscreenTitle": "Восстановить уведомление на экране блокировки",
   "restoreLockscreenSubtitle": "Пропускать обработку уведомления в фокусе на экране блокировки, сохранить оригинальное поведение конфиденциальности",
-
   "filterRulesSection": "Правила фильтрации",
   "foregroundRulesTab": "Правила переднего плана",
   "foregroundExclusionsTab": "Исключенные приложения",
@@ -469,7 +452,6 @@
   "keywordHint": "Введите ключевое слово",
   "removeKeyword": "Удалить",
   "keywordFilterPriority": "Белый список имеет приоритет: показываются только уведомления, совпадающие с белым списком, но черный список все равно может заблокировать",
-
   "exportChannelsToClipboard": "Экспорт настроек каналов",
   "importChannelsFromClipboard": "Импорт настроек каналов",
   "exportChannelsSuccess": "Настройки каналов скопированы в буфер обмена",
@@ -492,43 +474,27 @@
       }
     }
   },
-  "importChannelsFailed": "Ошибка импорта: {error}",
-  "@importChannelsFailed": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
-
   "importErrorEmptyClipboard": "Буфер обмена пуст. Сначала скопируйте настройки каналов",
   "importErrorNotJson": "Содержимое буфера обмена не является валидным JSON",
   "importErrorMissingChannels": "Неверный формат данных: отсутствует список каналов",
   "importErrorNoMatch": "Ни один канал не совпал с текущим приложением. Пожалуйста, проверьте источник данных",
   "importErrorUnknown": "Ошибка импорта. Пожалуйста, проверьте данные в буфере обмена",
-
   "mediaNotificationTitle": "Медиа-уведомление",
   "mediaNotificationDisabledSubtitle": "Удалять все медиа-уведомление при отключении",
   "normalNotificationTitle": "Обычное уведомление",
   "normalNotificationSubtitle": "Удалять медиа-поля и обрабатывать как обычное уведомление при включении",
   "channelSettingsUnmodified": "Не изменено",
   "restoreDefault": "Восстановить по умолчанию",
-
   "islandDimenSection": "Размеры Острова",
   "islandDimenHeight": "Высота Острова",
   "islandTopOffset": "Расстояние от верха экрана",
   "followSystem": "Как в системе",
   "islandDimenMiniY": "Вертикальное положение",
   "islandDimenMiniYHint": "0=как в системе",
-
-
   "islandBgSection": "Фон Острова",
   "islandBgSmallTitle": "Фон малого Острова",
-  "islandBgSmallSubtitle": "Нажмите, чтобы выбрать изображение",
   "islandBgBigTitle": "Фон большого Острова",
-  "islandBgBigSubtitle": "Нажмите, чтобы выбрать изображение",
   "islandBgExpandTitle": "Фон уведомления в фокусе",
-  "islandBgExpandSubtitle": "Нажмите, чтобы выбрать изображение",
   "islandBgNotSet": "Не задано",
   "islandBgCornerRadius": "Радиус скругления углов",
   "islandBgCornerRadiusHint": "0=системный по умолчанию",
@@ -546,7 +512,6 @@
   "islandBgBlurLabel": "Размытие",
   "islandBgBrightnessLabel": "Яркость",
   "islandBgOpacityLabel": "Непрозрачность",
-  "islandBgOff": "Выкл",
   "islandBgDefault": "По умолчанию",
   "keepIslandTitle": "Держать Остров видимым",
   "keepIslandSubtitle": "Отправлять пустое уведомление, чтобы Остров всегда был виден",
@@ -556,7 +521,6 @@
   "keepIslandHideLandscapeSubtitle": "Скрывать постоянный Остров в альбомной ориентации и восстанавливать в портретной, если нет реального уведомления",
   "keepIslandHighlightColorTitle": "Цвет подсветки",
   "keepIslandHighlightColorSubtitle": "Настроить цвет текста подсветки для режима удержания Острова",
-
   "islandOtherSection": "Прочее",
   "miscSection": "Разное",
   "onboardingEntryTitle": "Открыть онбординг",
@@ -614,7 +578,9 @@
   "bluetoothIslandSubtitle": "{status} · Отслеживать подключения и отключения Bluetooth-устройств, затем передавать Остров через Системный UI",
   "@bluetoothIslandSubtitle": {
     "placeholders": {
-      "status": { "type": "String" }
+      "status": {
+        "type": "String"
+      }
     }
   },
   "bluetoothIslandSettingsTitle": "Настройки Bluetooth Острова",
@@ -627,7 +593,6 @@
   "outerGlowColorTitle": "Цвет внешнего свечения",
   "hookScopeXMSF": "Xiaomi Service Framework (XMSF)",
   "downloadManagerSection": "Менеджер загрузок",
-
   "themePageTitle": "Тема",
   "themeSeedColorTitle": "Цвет темы",
   "themeSeedColorSubtitle": "Настроить акцентный цвет приложения",
@@ -635,14 +600,15 @@
   "themeResetColor": "Сбросить до значений по умолчанию",
   "blurBarsTitle": "Матовое стекло",
   "blurBarsSubtitle": "Добавить эффект размытия и прозрачности к верхней и нижней панелям",
-
   "bluetoothIslandWhitelistTitle": "Белый список устройств",
   "bluetoothIslandWhitelistSubtitle": "Показывать Остров только для Bluetooth-устройств из белого списка",
   "bluetoothIslandWhitelistButton": "Управление белым списком",
   "bluetoothIslandWhitelistButtonSubtitle": "Выбрано устройств: {count}",
   "@bluetoothIslandWhitelistButtonSubtitle": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "bluetoothIslandWhitelistDialogTitle": "Выберите Bluetooth-устройства",
@@ -663,5 +629,16 @@
   "hideBehaviorScreenLocked": "Экран блокировки",
   "hideBehaviorScreenLockedSubtitle": "Скрывать Остров во время работы экрана блокировки или выключения экрана",
   "hideBehaviorNotificationCenter": "Центр уведомлений",
-  "hideBehaviorNotificationCenterSubtitle": "Скрывать Остров, пока шторка уведомлений разворачивается или переходит"
+  "hideBehaviorNotificationCenterSubtitle": "Скрывать Остров, пока шторка уведомлений разворачивается или переходит",
+  "tapToSelectImage": "Нажмите, чтобы выбрать изображение",
+  "autoExpandNotification": "Автоматически разворачивать уведомление",
+  "widthDpLabel": "{width} dp",
+  "@widthDpLabel": {
+    "placeholders": {
+      "width": {
+        "type": "int"
+      }
+    }
+  },
+  "off": "Выкл"
 }

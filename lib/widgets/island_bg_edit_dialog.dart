@@ -301,7 +301,7 @@ class _IslandBgEditDialogState extends State<_IslandBgEditDialog> {
                     min: 0,
                     max: 5,
                     displayText: _blur <= 0
-                        ? l10n.islandBgOff
+                        ? l10n.off
                         : _blur.toStringAsFixed(1),
                     onChanged: _processing
                         ? null

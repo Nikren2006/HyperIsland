@@ -13,19 +13,25 @@
   "currentVersion": "現在のバージョン: {version}",
   "@currentVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "latestVersion": "最新のバージョン: {version}",
   "@latestVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "lsposedApiVersion": "LSPosed API バージョン: {version}",
   "@lsposedApiVersion": {
     "placeholders": {
-      "version": { "type": "int" }
+      "version": {
+        "type": "int"
+      }
     }
   },
   "later": "後で",
@@ -37,7 +43,9 @@
   "versionUpdatedTitle": "{version} に更新されました",
   "@versionUpdatedTitle": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "versionUpdatedContent": "更新後にスコープを再起動してください",
@@ -56,7 +64,6 @@
   "customTestContentHint": "空欄でデフォルト内容",
   "clearPreviousNotification": "前の通知をクリア",
   "clearPreviousNotificationSubtitle": "送信前に既存の Island 通知をキャンセル",
-  "enableFloatNotification": "通知を自動展開",
   "enableFloatNotificationSubtitle": "通知を受信時にフォーカス通知として自動展開",
   "notes": "説明",
   "detectingModuleStatus": "モジュールの状態を検出中...",
@@ -105,7 +112,6 @@
   "interactionHapticsSubtitle": "スイッチ、スライダー、ボタンに Hyper カスタム振動フィードバックを有効にします",
   "checkUpdate": "更新を確認",
   "alreadyLatest": "最新のバージョンを使用しています",
-  
   "roundIconTitle": "アイコンの角を丸める",
   "roundIconSubtitle": "通知アイコンの角を丸めます",
   "marqueeChannelTitle": "Island のテキストをスクロール",
@@ -299,7 +305,6 @@
   "fullscreenBehaviorSubtitle": "横画面/全画面を検出したときの通知処理方式",
   "fullscreenBehaviorOff": "デフォルト",
   "fullscreenBehaviorFallback": "通常通知へフォールバック",
-  "fullscreenBehaviorExpand": "通知を自動展開",
   "filterRulesTitle": "フィルタールール",
   "filterRulesSection": "フィルタールール",
   "foregroundRulesTab": "前面ルール",
@@ -381,7 +386,9 @@
   "aiTimeoutLabel": "AI レスポンスのタイムアウト",
   "@aiTimeoutLabel": {
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
   "aiTemperatureTitle": "サンプリング温度",
@@ -391,95 +398,87 @@
   "aiDefaultPromptFull": "空欄でデフォルトを使用：通知から重要な情報を抽出します。左右それぞれ 6 漢字 12 文字以内とします。",
   "hideDesktopIconTitle": "デスクトップアイコンを非表示にする",
   "hideDesktopIconSubtitle": "アプリのアイコンをランチャーから非表示にします。非表示後は、LSPosed Manager 経由で開くことができます。",
-"restoreLockscreenTitle": "ロック画面の通知を復元する",
-"restoreLockscreenSubtitle": "ロック画面でのフォーカス通知処理をスキップし、元のプライバシーに適切な動作を保持します",
-
-"islandDimenSection": "アイランドサイズ設定",
-"islandDimenHeight": "島の高さ",
-"islandTopOffset": "画面上端からの距離",
-"followSystem": "システムに従う",
-"islandDimenMiniY": "垂直位置",
-"islandDimenMiniYHint": "0=システムに従う",
-
-
-"islandBgSection": "アイランド背景設定",
-"islandBgSmallTitle": "スモールアイランド背景",
-"islandBgSmallSubtitle": "タップして画像を選択",
-"islandBgBigTitle": "ラージアイランド背景",
-"islandBgBigSubtitle": "タップして画像を選択",
-"islandBgExpandTitle": "フォーカス通知背景",
-"islandBgExpandSubtitle": "タップして画像を選択",
-"islandBgNotSet": "未設定",
-"islandBgCornerRadius": "角丸半径",
-"islandBgCornerRadiusHint": "0=システムデフォルト",
-"islandBgImageSelected": "背景画像を保存しました",
-"islandBgImageDeleted": "背景画像を削除しました",
-"islandBgDeleteFailed": "削除に失敗しました",
-"islandBgEditTitle": "{type}の背景を編集",
-"@islandBgEditTitle": {
-  "placeholders": {
-    "type": {
-      "type": "String"
+  "restoreLockscreenTitle": "ロック画面の通知を復元する",
+  "restoreLockscreenSubtitle": "ロック画面でのフォーカス通知処理をスキップし、元のプライバシーに適切な動作を保持します",
+  "islandDimenSection": "アイランドサイズ設定",
+  "islandDimenHeight": "島の高さ",
+  "islandTopOffset": "画面上端からの距離",
+  "followSystem": "システムに従う",
+  "islandDimenMiniY": "垂直位置",
+  "islandDimenMiniYHint": "0=システムに従う",
+  "islandBgSection": "アイランド背景設定",
+  "islandBgSmallTitle": "スモールアイランド背景",
+  "islandBgBigTitle": "ラージアイランド背景",
+  "islandBgExpandTitle": "フォーカス通知背景",
+  "islandBgNotSet": "未設定",
+  "islandBgCornerRadius": "角丸半径",
+  "islandBgCornerRadiusHint": "0=システムデフォルト",
+  "islandBgImageSelected": "背景画像を保存しました",
+  "islandBgImageDeleted": "背景画像を削除しました",
+  "islandBgDeleteFailed": "削除に失敗しました",
+  "islandBgEditTitle": "{type}の背景を編集",
+  "@islandBgEditTitle": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
     }
-  }
-},
-"islandBgBlurLabel": "ぼかし",
-"islandBgBrightnessLabel": "明るさ",
-"islandBgOpacityLabel": "不透明度",
-"islandBgOff": "オフ",
-"islandBgDefault": "デフォルト",
-"keepIslandTitle": "常時ダイナミックアイランド",
-"keepIslandSubtitle": "空白通知を投稿してアイランドを常に表示",
-"keepIslandAutoHideTitle": "自動非表示",
-"keepIslandAutoHideSubtitle": "リアル通知が来た時に空白アイランドを自動的に隠し、通知が消えた後に自動的に復元",
-"keepIslandHideLandscapeTitle": "横画面で非表示",
-"keepIslandHideLandscapeSubtitle": "横画面では常時アイランドを隠し、縦画面に戻りリアル通知がない時に復元します",
-"keepIslandHighlightColorTitle": "ハイライトカラー",
-"keepIslandHighlightColorSubtitle": "常時アイランドのハイライトテキストカラーをカスタマイズ",
-
-"islandOtherSection": "その他",
-"miscSection": "その他の設定",
-"onboardingEntryTitle": "初期ガイドを開く",
-"onboardingEntrySubtitle": "ようこそ画面とクイックスタートをもう一度確認",
-"onboardingAppName": "HyperIsland",
-"onboardingWelcomeTitle": "HyperIsland へようこそ",
-"onboardingWelcomeSubtitle": "アイランド体験をすばやくシンプルに設定します",
-"onboardingEnvironmentTitle": "環境チェック",
-"onboardingEnvironmentSubtitle": "モジュールの権限状態を確認します",
-"onboardingNotificationStyleTitle": "通知スタイルを選択",
-"onboardingNotificationStyleSubtitle": "既定の通知表示方法を選択します",
-"onboardingOriginalNotificationLabel": "通常の通知",
-"onboardingFinishTitle": "準備完了",
-"onboardingFinishSubtitle": "ガイド完了後も、設定から細部を調整できます",
-"onboardingStepLabel": "{total}ステップ中 {current}ステップ目",
-"@onboardingStepLabel": {
-  "placeholders": {
-    "current": {
-      "type": "int"
-    },
-    "total": {
-      "type": "int"
+  },
+  "islandBgBlurLabel": "ぼかし",
+  "islandBgBrightnessLabel": "明るさ",
+  "islandBgOpacityLabel": "不透明度",
+  "islandBgDefault": "デフォルト",
+  "keepIslandTitle": "常時ダイナミックアイランド",
+  "keepIslandSubtitle": "空白通知を投稿してアイランドを常に表示",
+  "keepIslandAutoHideTitle": "自動非表示",
+  "keepIslandAutoHideSubtitle": "リアル通知が来た時に空白アイランドを自動的に隠し、通知が消えた後に自動的に復元",
+  "keepIslandHideLandscapeTitle": "横画面で非表示",
+  "keepIslandHideLandscapeSubtitle": "横画面では常時アイランドを隠し、縦画面に戻りリアル通知がない時に復元します",
+  "keepIslandHighlightColorTitle": "ハイライトカラー",
+  "keepIslandHighlightColorSubtitle": "常時アイランドのハイライトテキストカラーをカスタマイズ",
+  "islandOtherSection": "その他",
+  "miscSection": "その他の設定",
+  "onboardingEntryTitle": "初期ガイドを開く",
+  "onboardingEntrySubtitle": "ようこそ画面とクイックスタートをもう一度確認",
+  "onboardingAppName": "HyperIsland",
+  "onboardingWelcomeTitle": "HyperIsland へようこそ",
+  "onboardingWelcomeSubtitle": "アイランド体験をすばやくシンプルに設定します",
+  "onboardingEnvironmentTitle": "環境チェック",
+  "onboardingEnvironmentSubtitle": "モジュールの権限状態を確認します",
+  "onboardingNotificationStyleTitle": "通知スタイルを選択",
+  "onboardingNotificationStyleSubtitle": "既定の通知表示方法を選択します",
+  "onboardingOriginalNotificationLabel": "通常の通知",
+  "onboardingFinishTitle": "準備完了",
+  "onboardingFinishSubtitle": "ガイド完了後も、設定から細部を調整できます",
+  "onboardingStepLabel": "{total}ステップ中 {current}ステップ目",
+  "@onboardingStepLabel": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
-  }
-},
-"onboardingPrevious": "前へ",
-"onboardingNext": "次へ",
-"onboardingDone": "開始",
-"onboardingStatusTitle": "状態チェック",
-"onboardingRetry": "再試行",
-"onboardingLsposedStatus": "LSPosed 有効化状態",
-"onboardingRootStatus": "Root 権限",
-"onboardingAppListStatus": "アプリ一覧権限",
-"onboardingProtocolStatus": "システムプロトコルバージョン",
-"onboardingAndroidStatus": "Android バージョン",
-"onboardingUnsupportedSystem": "現在のシステムはサポートされていません",
-"onboardingAndroid15Limited": "Android 15 のサポートは限定的です",
-"onboardingMissingPermissionTitle": "必要な権限がありません",
-"onboardingMissingPermissionMessage": "モジュールが正常に動作しない可能性があります",
-"onboardingDialogClose": "閉じる",
-"onboardingDialogContinue": "続行",
-"backupRestoreSection": "バックアップと復元",
-"hookExtensionSection": "Hook拡張",
+  },
+  "onboardingPrevious": "前へ",
+  "onboardingNext": "次へ",
+  "onboardingDone": "開始",
+  "onboardingStatusTitle": "状態チェック",
+  "onboardingRetry": "再試行",
+  "onboardingLsposedStatus": "LSPosed 有効化状態",
+  "onboardingRootStatus": "Root 権限",
+  "onboardingAppListStatus": "アプリ一覧権限",
+  "onboardingProtocolStatus": "システムプロトコルバージョン",
+  "onboardingAndroidStatus": "Android バージョン",
+  "onboardingUnsupportedSystem": "現在のシステムはサポートされていません",
+  "onboardingAndroid15Limited": "Android 15 のサポートは限定的です",
+  "onboardingMissingPermissionTitle": "必要な権限がありません",
+  "onboardingMissingPermissionMessage": "モジュールが正常に動作しない可能性があります",
+  "onboardingDialogClose": "閉じる",
+  "onboardingDialogContinue": "続行",
+  "backupRestoreSection": "バックアップと復元",
+  "hookExtensionSection": "Hook拡張",
   "hookScopeSettings": "システム設定",
   "settingsHomeEntryTitle": "システム設定の入口",
   "settingsHomeEntrySubtitle": "システム設定のホーム画面に HyperIsland の入口を表示します",
@@ -529,13 +528,11 @@
   "chargeIslandDurationCustom": "カスタム",
   "chargeIslandDurationPersistent": "常駐",
   "chargeIslandDurationSecondsTitle": "カスタム時間",
-  "chargeIslandDurationSecondsUnit": "秒",
   "outerGlowTitle": "外側のグロー",
   "bluetoothIslandOuterGlowSubtitle": "Bluetooth Island の外側のグロー効果を制御します",
   "outerGlowColorTitle": "外側のグローの色",
   "hookScopeXMSF": "Xiaomiサービスフレームワーク (XMSF)",
   "downloadManagerSection": "ダウンロードマネージャー",
-
   "themePageTitle": "テーマ",
   "themeSeedColorTitle": "テーマカラー",
   "themeSeedColorSubtitle": "アプリのアクセントカラーをカスタマイズ",
@@ -573,5 +570,8 @@
   "hideBehaviorScreenLocked": "Lock screen",
   "hideBehaviorScreenLockedSubtitle": "Hide the island during lock screen or screen-off flows",
   "hideBehaviorNotificationCenter": "Notification center",
-  "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions"
+  "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
+  "tapToSelectImage": "タップして画像を選択",
+  "autoExpandNotification": "通知を自動展開",
+  "off": "オフ"
 }

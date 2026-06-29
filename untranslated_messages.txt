@@ -2,13 +2,10 @@
   "ja": [
     "marqueeAutoHideTitle",
     "marqueeAutoHideSubtitle",
-    "marqueeAutoHideOff",
     "marqueeAutoHideOnce",
     "marqueeAutoHideTwice",
     "bigIslandMaxWidthTitle",
-    "bigIslandMaxWidthLabel",
     "bigIslandMinWidthTitle",
-    "bigIslandMinWidthLabel",
     "testNotifTooltip",
     "rendererImageTextWithProgressName",
     "focusExpressionCustomizationSection",
@@ -57,7 +54,6 @@
     "aiJsonRightDescription",
     "aiInvalidJsonError",
     "aiEmptyJsonError",
-    "aiNotificationTestSection",
     "aiNotificationContentLabel",
     "aiTestNotificationTitle",
     "aiNotificationSent",
@@ -79,7 +75,6 @@
     "importChannelsFromClipboard",
     "exportChannelsSuccess",
     "importChannelsSuccess",
-    "importChannelsFailed",
     "importErrorEmptyClipboard",
     "importErrorNotJson",
     "importErrorMissingChannels",
@@ -94,13 +89,13 @@
     "bluetoothIslandWhitelistEmpty",
     "bluetoothIslandWhitelistAllHint",
     "bluetoothIslandLoadDevicesFailed",
-    "bluetoothIslandNeedBtPermission"
+    "bluetoothIslandNeedBtPermission",
+    "widthDpLabel"
   ],
 
   "ru": [
     "marqueeAutoHideTitle",
     "marqueeAutoHideSubtitle",
-    "marqueeAutoHideOff",
     "marqueeAutoHideOnce",
     "marqueeAutoHideTwice",
     "noChannelsFoundSubtitle",
@@ -112,7 +107,6 @@
     "aiJsonRightDescription",
     "aiInvalidJsonError",
     "aiEmptyJsonError",
-    "aiNotificationTestSection",
     "aiNotificationContentLabel",
     "aiTestNotificationTitle",
     "aiNotificationSent",
@@ -137,20 +131,16 @@
     "chargeIslandDurationCustom",
     "chargeIslandDurationPersistent",
     "chargeIslandDurationSecondsTitle",
-    "chargeIslandDurationSecondsUnit",
     "chargeIslandOuterGlowSubtitle"
   ],
 
   "tr": [
     "marqueeAutoHideTitle",
     "marqueeAutoHideSubtitle",
-    "marqueeAutoHideOff",
     "marqueeAutoHideOnce",
     "marqueeAutoHideTwice",
     "bigIslandMaxWidthTitle",
-    "bigIslandMaxWidthLabel",
     "bigIslandMinWidthTitle",
-    "bigIslandMinWidthLabel",
     "testNotifTooltip",
     "toastAdaptation",
     "adaptationModeNotification",
@@ -204,7 +194,6 @@
     "aiJsonRightDescription",
     "aiInvalidJsonError",
     "aiEmptyJsonError",
-    "aiNotificationTestSection",
     "aiNotificationContentLabel",
     "aiTestNotificationTitle",
     "aiNotificationSent",
@@ -226,7 +215,6 @@
     "importChannelsFromClipboard",
     "exportChannelsSuccess",
     "importChannelsSuccess",
-    "importChannelsFailed",
     "importErrorEmptyClipboard",
     "importErrorNotJson",
     "importErrorMissingChannels",
@@ -241,6 +229,7 @@
     "bluetoothIslandWhitelistEmpty",
     "bluetoothIslandWhitelistAllHint",
     "bluetoothIslandLoadDevicesFailed",
-    "bluetoothIslandNeedBtPermission"
+    "bluetoothIslandNeedBtPermission",
+    "widthDpLabel"
   ]
 }

@@ -120,9 +120,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clearPreviousNotificationSubtitle => '送信前に既存の Island 通知をキャンセル';
 
   @override
-  String get enableFloatNotification => '通知を自動展開';
-
-  @override
   String get enableFloatNotificationSubtitle => '通知を受信時にフォーカス通知として自動展開';
 
   @override
@@ -275,9 +272,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get marqueeAutoHideSubtitle => '消息滚动达到指定次数后隐藏当前岛';
 
   @override
-  String get marqueeAutoHideOff => '关';
-
-  @override
   String get marqueeAutoHideOnce => '滚动1次';
 
   @override
@@ -295,17 +289,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get bigIslandMaxWidthTitle => '最大宽度';
 
   @override
-  String bigIslandMaxWidthLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
   String get bigIslandMinWidthTitle => '最小宽度';
-
-  @override
-  String bigIslandMinWidthLabel(int width) {
-    return '$width dp';
-  }
 
   @override
   String get testNotifTooltip => '发送测试通知';
@@ -1008,9 +992,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fullscreenBehaviorFallback => '通常通知へフォールバック';
 
   @override
-  String get fullscreenBehaviorExpand => '通知を自動展開';
-
-  @override
   String get filterRulesTitle => 'フィルタールール';
 
   @override
@@ -1239,9 +1220,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aiEmptyJsonError => 'AI 返回为空，需要包含 left 和 right 字段的 JSON';
 
   @override
-  String get aiNotificationTestSection => '通知测试';
-
-  @override
   String get aiNotificationContentLabel => '通知内容';
 
   @override
@@ -1357,11 +1335,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String importChannelsFailed(String error) {
-    return '导入失败：$error';
-  }
-
-  @override
   String get importErrorEmptyClipboard => '剪贴板为空，请先复制渠道设置数据';
 
   @override
@@ -1419,19 +1392,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get islandBgSmallTitle => 'スモールアイランド背景';
 
   @override
-  String get islandBgSmallSubtitle => 'タップして画像を選択';
-
-  @override
   String get islandBgBigTitle => 'ラージアイランド背景';
 
   @override
-  String get islandBgBigSubtitle => 'タップして画像を選択';
-
-  @override
   String get islandBgExpandTitle => 'フォーカス通知背景';
-
-  @override
-  String get islandBgExpandSubtitle => 'タップして画像を選択';
 
   @override
   String get islandBgNotSet => '未設定';
@@ -1464,9 +1428,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get islandBgOpacityLabel => '不透明度';
-
-  @override
-  String get islandBgOff => 'オフ';
 
   @override
   String get islandBgDefault => 'デフォルト';
@@ -1713,9 +1674,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get chargeIslandDurationSecondsTitle => 'カスタム時間';
 
   @override
-  String get chargeIslandDurationSecondsUnit => '秒';
-
-  @override
   String get chargeIslandOuterGlowSubtitle => '控制充电超级岛的外圈光效';
 
   @override
@@ -1832,4 +1790,18 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get hideBehaviorNotificationCenterSubtitle =>
       'Hide the island while the notification shade expands or transitions';
+
+  @override
+  String get off => 'オフ';
+
+  @override
+  String get tapToSelectImage => 'タップして画像を選択';
+
+  @override
+  String get autoExpandNotification => '通知を自動展開';
+
+  @override
+  String widthDpLabel(int width) {
+    return '$width dp';
+  }
 }
