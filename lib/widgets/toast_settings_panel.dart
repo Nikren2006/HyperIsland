@@ -84,43 +84,50 @@ class ToastSettingsSection extends StatelessWidget {
     required this.title,
     required this.children,
     this.icon,
+    this.initiallyExpanded = true,
   });
 
   final String title;
   final IconData? icon;
   final List<Widget> children;
+  final bool initiallyExpanded;
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerHighest,
+    return ExpansionTile(
+      initiallyExpanded: initiallyExpanded,
+      tilePadding: const EdgeInsets.fromLTRB(16, 2, 8, 2),
+      childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      collapsedShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      backgroundColor: cs.surfaceContainerHighest,
+      collapsedBackgroundColor: cs.surfaceContainerHighest,
+      iconColor: cs.onSurfaceVariant,
+      collapsedIconColor: cs.onSurfaceVariant,
+      title: Row(
         children: [
-          Row(
-            children: [
-              if (icon != null) ...[
-                Icon(icon, color: cs.primary, size: 20),
-                const SizedBox(width: 10),
-              ],
-              Expanded(
-                child: Text(
-                  title,
-                  style: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-                ),
-              ),
-            ],
+          if (icon != null) ...[
+            Icon(icon, color: cs.primary, size: 20),
+            const SizedBox(width: 10),
+          ],
+          Expanded(
+            child: Text(
+              title,
+              style: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
           ),
-          const SizedBox(height: 12),
-          ...children,
         ],
       ),
+      children: [
+        const SizedBox(height: 8),
+        ...children,
+      ],
     );
   }
 }

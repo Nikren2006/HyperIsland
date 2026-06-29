@@ -199,13 +199,6 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
       widget.app.packageName,
       value,
     );
-    if (!value && _blockOriginal) {
-      setState(() => _blockOriginal = false);
-      await widget.controller.setToastBlockOriginal(
-        widget.app.packageName,
-        false,
-      );
-    }
   }
 
   Future<void> _setBlockOriginal(bool value) async {
@@ -377,7 +370,8 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final cs = Theme.of(context).colorScheme;
-    final controlsEnabled = _forwardEnabled;
+    final islandEnabled = _forwardEnabled;
+    final filterEnabled = _forwardEnabled || _blockOriginal;
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -400,12 +394,13 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                 ToastSettingsSection(
                   title: l10n.islandSection,
                   icon: Icons.smart_display_rounded,
+                  initiallyExpanded: false,
                   children: [
                     ToastTriOptDropdown(
                       label: l10n.islandIconLabel,
                       subtitle: l10n.islandIconLabelSubtitle,
                       value: _showIslandIcon ? kTriOptOn : kTriOptOff,
-                      enabled: controlsEnabled,
+                      enabled: islandEnabled,
                       defaultLabel: l10n.optDefault,
                       onChanged: (v) {
                         if (v != null) _setShowIslandIcon(v != kTriOptOff);
@@ -416,7 +411,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                       label: l10n.firstFloatLabel,
                       subtitle: l10n.firstFloatLabelSubtitle,
                       value: _firstFloat,
-                      enabled: controlsEnabled,
+                      enabled: islandEnabled,
                       defaultLabel: _defaultLabel(
                         context,
                         _ctrl.defaultFirstFloat,
@@ -430,7 +425,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                       label: l10n.updateFloatLabel,
                       subtitle: l10n.updateFloatLabelSubtitle,
                       value: _enableFloat,
-                      enabled: controlsEnabled,
+                      enabled: islandEnabled,
                       defaultLabel: _defaultLabel(
                         context,
                         _ctrl.defaultEnableFloat,
@@ -444,7 +439,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                       label: l10n.marqueeChannelTitle,
                       subtitle: l10n.marqueeChannelTitleSubtitle,
                       value: _marquee,
-                      enabled: controlsEnabled,
+                      enabled: islandEnabled,
                       defaultLabel: _defaultLabel(
                         context,
                         _ctrl.defaultMarquee,
@@ -455,7 +450,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                     ),
                     const SizedBox(height: 10),
                     Opacity(
-                      opacity: controlsEnabled && _marqueeAutoHideEnabled
+                      opacity: islandEnabled && _marqueeAutoHideEnabled
                           ? 1
                           : 0.45,
                       child: ToastSettingField(
@@ -486,7 +481,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                               child: Text(l10n.marqueeAutoHideTwice),
                             ),
                           ],
-                          onChanged: controlsEnabled && _marqueeAutoHideEnabled
+                          onChanged: islandEnabled && _marqueeAutoHideEnabled
                               ? (v) {
                                   if (v != null) _setMarqueeAutoHide(v);
                                 }
@@ -499,7 +494,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                       label: l10n.autoDisappear,
                       child: TextFormField(
                         controller: _timeoutController,
-                        enabled: controlsEnabled,
+                        enabled: islandEnabled,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
@@ -522,12 +517,13 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                 ToastSettingsSection(
                   title: l10n.highlightColorLabel,
                   icon: Icons.palette_rounded,
+                  initiallyExpanded: false,
                   children: [
                     ToastSettingField(
                       label: l10n.highlightColorLabel,
                       child: ColorValueField(
                         controller: _highlightColorController,
-                        enabled: controlsEnabled && !_dynamicHighlightEnabled,
+                        enabled: islandEnabled && !_dynamicHighlightEnabled,
                         readOnly: _dynamicHighlightEnabled,
                         decoration: toastFieldDecoration(
                           context,
@@ -588,7 +584,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                             child: Text(l10n.dynamicHighlightModeDarker),
                           ),
                         ],
-                        onChanged: controlsEnabled
+                        onChanged: islandEnabled
                             ? (v) {
                                 if (v != null) {
                                   _setDynamicHighlightColor(v);
@@ -610,7 +606,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                               ),
                               title: Text(l10n.showLeftHighlightShort),
                               value: _showLeftHighlight,
-                              onChanged: controlsEnabled && _hasHighlightSource
+                              onChanged: islandEnabled && _hasHighlightSource
                                   ? _setShowLeftHighlight
                                   : null,
                             ),
@@ -624,7 +620,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                               ),
                               title: Text(l10n.showRightHighlightShort),
                               value: _showRightHighlight,
-                              onChanged: controlsEnabled && _hasHighlightSource
+                              onChanged: islandEnabled && _hasHighlightSource
                                   ? _setShowRightHighlight
                                   : null,
                             ),
@@ -638,11 +634,12 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                 ToastSettingsSection(
                   title: l10n.outerGlowLabel,
                   icon: Icons.flare_rounded,
+                  initiallyExpanded: false,
                   children: [
                     ToastTriOptDropdown(
                       label: l10n.outerGlowLabel,
                       value: _outerGlow,
-                      enabled: controlsEnabled,
+                      enabled: islandEnabled,
                       defaultLabel: _outerGlowDefaultLabel(
                         context,
                         _ctrl.defaultOuterGlow,
@@ -657,7 +654,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                       label: l10n.outEffectColorLabel,
                       child: ColorValueField(
                         controller: _outEffectColorController,
-                        enabled: controlsEnabled && !_outerGlowFollowDynamic,
+                        enabled: islandEnabled && !_outerGlowFollowDynamic,
                         readOnly: _outerGlowFollowDynamic,
                         decoration: toastFieldDecoration(
                           context,
@@ -690,11 +687,12 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                 ToastSettingsSection(
                   title: '${l10n.outerGlowLabel} (${l10n.islandSection})',
                   icon: Icons.blur_on_rounded,
+                  initiallyExpanded: false,
                   children: [
                     ToastTriOptDropdown(
                       label: '${l10n.outerGlowLabel} (${l10n.islandSection})',
                       value: _islandOuterGlow,
-                      enabled: controlsEnabled,
+                      enabled: islandEnabled,
                       defaultLabel: _outerGlowDefaultLabel(
                         context,
                         _ctrl.defaultIslandOuterGlow,
@@ -710,8 +708,8 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                           '${l10n.outEffectColorLabel} (${l10n.islandSection})',
                       child: ColorValueField(
                         controller: _islandOuterGlowColorController,
-                        enabled:
-                            controlsEnabled && !_islandOuterGlowFollowDynamic,
+                            enabled:
+                            islandEnabled && !_islandOuterGlowFollowDynamic,
                         readOnly: _islandOuterGlowFollowDynamic,
                         decoration: toastFieldDecoration(
                           context,
@@ -745,6 +743,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                 ToastSettingsSection(
                   title: l10n.filterRulesSection,
                   icon: Icons.filter_list_rounded,
+                  initiallyExpanded: false,
                   children: [
                     ToastSettingField(
                       label: l10n.filterModeLabel,
@@ -763,7 +762,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                             child: Text(l10n.filterModeWhitelist),
                           ),
                         ],
-                        onChanged: controlsEnabled
+                        onChanged: filterEnabled
                             ? (v) {
                                 if (v != null) _setFilterMode(v);
                               }
@@ -774,7 +773,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                     ToastKeywordListEditor(
                       label: l10n.whitelistKeywordsLabel,
                       keywords: _whitelistKeywords,
-                      enabled: controlsEnabled && _filterMode == 'whitelist',
+                      enabled: filterEnabled && _filterMode == 'whitelist',
                       hintText: l10n.addKeyword,
                       onAdd: (kw) =>
                           _setWhitelistKeywords([..._whitelistKeywords, kw]),
@@ -786,7 +785,7 @@ class _ToastAppSettingsPageState extends State<ToastAppSettingsPage> {
                     ToastKeywordListEditor(
                       label: l10n.blacklistKeywordsLabel,
                       keywords: _blacklistKeywords,
-                      enabled: controlsEnabled,
+                      enabled: filterEnabled,
                       hintText: l10n.addKeyword,
                       onAdd: (kw) =>
                           _setBlacklistKeywords([..._blacklistKeywords, kw]),
