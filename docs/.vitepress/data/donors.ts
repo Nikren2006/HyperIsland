@@ -168,4 +168,10 @@ export const donors: DonorItem[] = [
     date: '2026-06-29',
     message: ''
   },
+  {
+    name: "魔煜桦聒",
+    amount: '0.66',
+    date: '2026-06-30',
+    message: '爱了爱了~感谢大佬~'
+  },
 ]
