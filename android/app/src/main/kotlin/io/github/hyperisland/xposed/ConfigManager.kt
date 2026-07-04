@@ -2,6 +2,7 @@ package io.github.hyperisland.xposed
 
 import android.content.SharedPreferences
 import io.github.libxposed.api.XposedModule
+import org.json.JSONObject
 
 /**
  * 基于 RemotePreferences 的配置管理器。RemotePreferences 打开时会初始化整组数据，
@@ -63,11 +64,11 @@ object ConfigManager {
     // ── 类型化读取 ──────────────────────────────────────────────────────────────
 
     fun getBoolean(key: String, default: Boolean): Boolean =
-        try { prefsForKey(key)?.getBoolean(fk(key), default) ?: default }
+        try { appConfigBoolean(key) ?: prefsForKey(key)?.getBoolean(fk(key), default) ?: default }
         catch (_: ClassCastException) { default }
 
     fun getString(key: String, default: String = ""): String =
-        try { prefsForKey(key)?.getString(fk(key), default) ?: default }
+        try { appConfigString(key) ?: prefsForKey(key)?.getString(fk(key), default) ?: default }
         catch (_: ClassCastException) { default }
 
     /**
@@ -126,6 +127,78 @@ object ConfigManager {
 
     private fun fk(key: String) = "$FLUTTER_KEY_PREFIX$key"
 
+    private fun appConfigBoolean(key: String): Boolean? {
+        val value = appConfigValue(key) ?: return null
+        return when (value) {
+            is Boolean -> value
+            is String -> value.equals("true", ignoreCase = true)
+            else -> null
+        }
+    }
+
+    private fun appConfigString(key: String): String? {
+        val value = appConfigValue(key) ?: return null
+        return value.toString()
+    }
+
+    private fun appConfigValue(key: String): Any? {
+        parseAppField(key, TOAST_FIELDS)?.let { field ->
+            return appConfigSection(field.pkg, "toast")?.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+        }
+        parseAppField(key, NOTIFICATION_FIELDS)?.let { field ->
+            return appConfigSection(field.pkg, "notification")?.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+        }
+        if (key.startsWith("pref_channels_")) {
+            val pkg = key.removePrefix("pref_channels_")
+            val enabled = appConfigSection(pkg, "channels")?.optJSONArray("enabled") ?: return null
+            return (0 until enabled.length()).joinToString(",") { enabled.optString(it) }
+        }
+        parseChannelField(key)?.let { field ->
+            val settings = appConfigSection(field.pkg, "channels")
+                ?.optJSONObject("settings")
+                ?.optJSONObject(field.channelId)
+                ?: return null
+            return settings.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+        }
+        return null
+    }
+
+    private fun appConfigSection(pkg: String, section: String): JSONObject? {
+        val raw = try {
+            prefsForKey("pref_app_config_$pkg")?.getString(fk("pref_app_config_$pkg"), null)
+        } catch (_: Throwable) {
+            null
+        } ?: return null
+        return try { JSONObject(raw).optJSONObject(section) } catch (_: Throwable) { null }
+    }
+
+    private fun parseAppField(key: String, fields: Map<String, String>): AppField? {
+        for ((prefix, name) in fields) {
+            if (key.startsWith(prefix)) return AppField(key.removePrefix(prefix), name)
+        }
+        return null
+    }
+
+    private fun parseChannelField(key: String): ChannelField? {
+        for ((prefix, name) in CHANNEL_FIELDS) {
+            if (!key.startsWith(prefix)) continue
+            val rest = key.removePrefix(prefix)
+            val pkg = appPackages()
+                .filter { rest == it || rest.startsWith("${it}_") }
+                .maxByOrNull { it.length }
+                ?: return null
+            if (rest.length <= pkg.length + 1) return null
+            return ChannelField(pkg, rest.substring(pkg.length + 1), name)
+        }
+        return null
+    }
+
+    private fun appPackages(): Set<String> {
+        val csv = try { prefsForKey("pref_generic_whitelist")?.getString(fk("pref_generic_whitelist"), "") }
+        catch (_: Throwable) { "" }
+        return csv.orEmpty().split(',').map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+    }
+
     private fun prefsForKey(key: String): SharedPreferences? {
         if (isCoreKey(key)) return corePrefs
         val index = shardForKey(fk(key))
@@ -157,6 +230,74 @@ object ConfigManager {
         val ls = synchronized(this) { changeListeners.toList() }
         ls.forEach { runCatching { it() } }
     }
+
+    private data class AppField(val pkg: String, val name: String)
+    private data class ChannelField(val pkg: String, val channelId: String, val name: String)
+
+    private val TOAST_FIELDS = linkedMapOf(
+        "pref_toast_forward_" to "forward",
+        "pref_toast_block_" to "block",
+        "pref_toast_show_notification_" to "show_notification",
+        "pref_toast_show_island_icon_" to "show_island_icon",
+        "pref_toast_first_float_" to "first_float",
+        "pref_toast_enable_float_" to "enable_float",
+        "pref_toast_preserve_small_icon_" to "preserve_small_icon",
+        "pref_toast_marquee_" to "marquee",
+        "pref_toast_marquee_auto_hide_" to "marquee_auto_hide",
+        "pref_toast_timeout_" to "timeout",
+        "pref_toast_highlight_color_" to "highlight_color",
+        "pref_toast_dynamic_highlight_color_" to "dynamic_highlight_color",
+        "pref_toast_show_left_highlight_" to "show_left_highlight",
+        "pref_toast_show_right_highlight_" to "show_right_highlight",
+        "pref_toast_outer_glow_" to "outer_glow",
+        "pref_toast_out_effect_color_" to "out_effect_color",
+        "pref_toast_island_outer_glow_" to "island_outer_glow",
+        "pref_toast_island_outer_glow_color_" to "island_outer_glow_color",
+        "pref_toast_filter_mode_" to "filter_mode",
+        "pref_toast_filter_whitelist_keywords_" to "whitelist_keywords",
+        "pref_toast_filter_blacklist_keywords_" to "blacklist_keywords"
+    )
+
+    private val NOTIFICATION_FIELDS = linkedMapOf(
+        "pref_media_island_enabled_" to "enabled",
+        "pref_media_island_normal_notification_" to "normal_notification",
+        "pref_media_island_outer_glow_" to "island_outer_glow",
+        "pref_media_island_outer_glow_color_" to "island_outer_glow_color"
+    )
+
+    private val CHANNEL_FIELDS = linkedMapOf(
+        "pref_channel_template_" to "template",
+        "pref_channel_renderer_" to "renderer",
+        "pref_channel_icon_" to "icon",
+        "pref_channel_focus_" to "focus",
+        "pref_channel_show_notification_" to "show_notification",
+        "pref_channel_preserve_small_icon_" to "preserve_small_icon",
+        "pref_channel_show_island_icon_" to "show_island_icon",
+        "pref_channel_first_float_" to "first_float",
+        "pref_channel_enable_float_" to "enable_float",
+        "pref_channel_timeout_" to "timeout",
+        "pref_channel_marquee_" to "marquee",
+        "pref_channel_marquee_auto_hide_" to "marquee_auto_hide",
+        "pref_channel_restore_lockscreen_" to "restore_lockscreen",
+        "pref_channel_highlight_color_" to "highlight_color",
+        "pref_channel_dynamic_highlight_color_" to "dynamic_highlight_color",
+        "pref_channel_show_left_highlight_" to "show_left_highlight",
+        "pref_channel_show_right_highlight_" to "show_right_highlight",
+        "pref_channel_show_left_narrow_font_" to "show_left_narrow_font",
+        "pref_channel_show_right_narrow_font_" to "show_right_narrow_font",
+        "pref_channel_outer_glow_" to "outer_glow",
+        "pref_channel_island_outer_glow_" to "island_outer_glow",
+        "pref_channel_island_outer_glow_color_" to "island_outer_glow_color",
+        "pref_channel_out_effect_color_" to "out_effect_color",
+        "pref_channel_focus_custom_" to "focus_custom",
+        "pref_channel_island_custom_" to "island_custom",
+        "pref_channel_aod_text_" to "aod_text",
+        "pref_channel_aod_custom_" to "aod_custom",
+        "pref_channel_filter_mode_" to "filter_mode",
+        "pref_channel_filter_whitelist_keywords_" to "whitelist_keywords",
+        "pref_channel_filter_blacklist_keywords_" to "blacklist_keywords",
+        "pref_channel_island_enabled_" to "island_enabled"
+    )
 
     private val CORE_PREF_KEYS = setOf(
         "pref_show_welcome",

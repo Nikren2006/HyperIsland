@@ -79,7 +79,10 @@ class _BackupRestorePageState extends State<BackupRestorePage> {
   Future<void> _importFromFile() async {
     final l10n = AppLocalizations.of(context)!;
     try {
-      final count = await ConfigIOController.importFromFile();
+      final count = await _runWithBlockingDialog(
+        '正在导入并迁移配置...',
+        ConfigIOController.importFromFile,
+      );
       _showSnack(l10n.importSuccess(count));
     } on ConfigIOException catch (e) {
       _showSnack(l10n.importFailed(_localizeConfigIOError(l10n, e.error)));
@@ -91,12 +94,47 @@ class _BackupRestorePageState extends State<BackupRestorePage> {
   Future<void> _importFromClipboard() async {
     final l10n = AppLocalizations.of(context)!;
     try {
-      final count = await ConfigIOController.importFromClipboard();
+      final count = await _runWithBlockingDialog(
+        '正在导入并迁移配置...',
+        ConfigIOController.importFromClipboard,
+      );
       _showSnack(l10n.importSuccess(count));
     } on ConfigIOException catch (e) {
       _showSnack(l10n.importFailed(_localizeConfigIOError(l10n, e.error)));
     } catch (e) {
       _showSnack(l10n.importFailed(e.toString()));
+    }
+  }
+
+  Future<T> _runWithBlockingDialog<T>(
+    String message,
+    Future<T> Function() action,
+  ) async {
+    if (!mounted) return action();
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => PopScope(
+        canPop: false,
+        child: AlertDialog(
+          content: Row(
+            children: [
+              const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2.5),
+              ),
+              const SizedBox(width: 16),
+              Expanded(child: Text(message)),
+            ],
+          ),
+        ),
+      ),
+    );
+    try {
+      return await action();
+    } finally {
+      if (mounted) Navigator.of(context, rootNavigator: true).pop();
     }
   }
 

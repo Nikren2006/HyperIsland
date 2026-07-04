@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/app_cache_service.dart';
+import '../services/app_config_store.dart';
 import '../services/app_info_service.dart';
 import 'settings_controller.dart';
 import 'whitelist_controller.dart';
@@ -92,10 +93,23 @@ class ConfigIOController {
   ];
 
   static bool _matchesPackage(String value, List<String> packageNames) {
+    return _matchedPackage(value, packageNames) != null;
+  }
+
+  static String? _matchedPackage(String value, List<String> packageNames) {
     for (final packageName in packageNames) {
       if (value == packageName || value.startsWith('${packageName}_')) {
-        return true;
+        return packageName;
       }
+    }
+    return null;
+  }
+
+  static bool _isDefaultChannelConfig(String key, Object? value) {
+    if (value != 'default') return false;
+    for (final prefix in _channelPrefPrefixes) {
+      if (prefix == 'pref_channels_') continue;
+      if (key.startsWith(prefix)) return true;
     }
     return false;
   }
@@ -127,6 +141,7 @@ class ConfigIOController {
     String key,
     List<String> enabledPackages,
     List<String> toastEnabledPackages,
+    Map<String, Set<String>> enabledChannelIdsByPackage,
   ) {
     final toastPrefPrefixes = _toastPrefPrefixes.toList()
       ..sort((a, b) => b.length.compareTo(a.length));
@@ -146,7 +161,16 @@ class ConfigIOController {
     for (final prefix in channelPrefPrefixes) {
       if (!key.startsWith(prefix)) continue;
       final rest = key.substring(prefix.length);
-      return _matchesPackage(rest, enabledPackages);
+      if (prefix == 'pref_channels_') {
+        return enabledPackages.contains(rest);
+      }
+      final packageName = _matchedPackage(rest, enabledPackages);
+      if (packageName == null || rest.length == packageName.length) {
+        return false;
+      }
+      final channelId = rest.substring(packageName.length + 1);
+      final enabledChannelIds = enabledChannelIdsByPackage[packageName];
+      return enabledChannelIds == null || enabledChannelIds.contains(channelId);
     }
     return true;
   }
@@ -173,6 +197,7 @@ class ConfigIOController {
   }
 
   static Future<int> cleanUninstalledAppConfig() async {
+    await AppConfigStore.ensureMigrated();
     final apps = await AppCacheService.instance.getApps(forceRefresh: true);
     final installedPackages = apps.map((app) => app.packageName).toSet();
     final prefs = await SharedPreferences.getInstance();
@@ -182,7 +207,8 @@ class ConfigIOController {
         .toSet();
     final nextEnabledPackages = enabledPackages.intersection(installedPackages);
 
-    var count = await _removeAppConfigExcept(installedPackages);
+    var count = await AppConfigStore.removeAppConfigsExcept(installedPackages);
+    count += await _removeAppConfigExcept(installedPackages);
     if (nextEnabledPackages.length != enabledPackages.length) {
       await prefs.setString(
         kPrefGenericWhitelist,
@@ -194,11 +220,13 @@ class ConfigIOController {
   }
 
   static Future<int> cleanDisabledAppConfig() async {
+    await AppConfigStore.ensureMigrated();
     final prefs = await SharedPreferences.getInstance();
     final enabledPackages = (prefs.getString(kPrefGenericWhitelist) ?? '')
         .split(',')
         .where((pkg) => pkg.isNotEmpty)
         .toSet();
+    var count = await AppConfigStore.cleanDisabledConfigs(enabledPackages);
     final sortedEnabledPackages = enabledPackages.toList()
       ..sort((a, b) => b.length.compareTo(a.length));
     final toastEnabledPackages = <String>{};
@@ -210,19 +238,32 @@ class ConfigIOController {
     }
     final sortedToastEnabledPackages = toastEnabledPackages.toList()
       ..sort((a, b) => b.length.compareTo(a.length));
+    final enabledChannelIdsByPackage = <String, Set<String>>{};
+    for (final packageName in enabledPackages) {
+      final csv = prefs.getString('pref_channels_$packageName') ?? '';
+      if (csv.isEmpty) continue;
+      enabledChannelIdsByPackage[packageName] = csv
+          .split(',')
+          .where((channelId) => channelId.isNotEmpty)
+          .toSet();
+    }
     final keysToRemove = <String>[];
     for (final key in prefs.getKeys()) {
       if (key == kPrefGenericWhitelist) continue;
+      if (_isDefaultChannelConfig(key, prefs.get(key))) {
+        keysToRemove.add(key);
+        continue;
+      }
       if (!_shouldKeepEnabledAppConfig(
         key,
         sortedEnabledPackages,
         sortedToastEnabledPackages,
+        enabledChannelIdsByPackage,
       )) {
         keysToRemove.add(key);
       }
     }
 
-    var count = 0;
     for (final key in keysToRemove) {
       if (await prefs.remove(key)) count++;
     }
@@ -231,6 +272,7 @@ class ConfigIOController {
 
   /// 将所有 pref_ 开头的设置序列化为 JSON 字符串。
   static Future<String> exportToJson() async {
+    await AppConfigStore.ensureMigrated();
     final prefs = await SharedPreferences.getInstance();
     final appVersion = await AppInfoService.getVersion();
     final keys = prefs.getKeys().where((k) => k.startsWith('pref_'));
@@ -239,9 +281,12 @@ class ConfigIOController {
       settings[key] = prefs.get(key);
     }
     settings[kPrefConfigAppVersion] = appVersion;
-    return const JsonEncoder.withIndent(
-      '  ',
-    ).convert({'version': 1, 'appVersion': appVersion, 'settings': settings});
+    settings[kPrefConfigSchemaVersion] = kConfigSchemaVersion;
+    return const JsonEncoder.withIndent('  ').convert({
+      'version': kConfigSchemaVersion,
+      'appVersion': appVersion,
+      'settings': settings,
+    });
   }
 
   /// 从 JSON 字符串恢复所有设置，返回写入的条目数。
@@ -255,6 +300,7 @@ class ConfigIOController {
       throw const ConfigIOException(ConfigIOError.invalidFormat);
     }
     final prefs = await SharedPreferences.getInstance();
+    final version = decoded['version'] is int ? decoded['version'] as int : 1;
     final appVersion = decoded['appVersion'];
     if (appVersion is String && appVersion.trim().isNotEmpty) {
       await prefs.setString(kPrefConfigAppVersion, appVersion.trim());
@@ -273,6 +319,11 @@ class ConfigIOController {
         await prefs.setString(key, value);
       }
       count++;
+    }
+    if (version < kConfigSchemaVersion) {
+      count += await AppConfigStore.migrateLegacyPrefs(prefs);
+    } else {
+      await prefs.setInt(kPrefConfigSchemaVersion, kConfigSchemaVersion);
     }
     return count;
   }
