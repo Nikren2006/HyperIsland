@@ -64,11 +64,25 @@ object ConfigManager {
     // ── 类型化读取 ──────────────────────────────────────────────────────────────
 
     fun getBoolean(key: String, default: Boolean): Boolean =
-        try { appConfigBoolean(key) ?: prefsForKey(key)?.getBoolean(fk(key), default) ?: default }
+        try {
+            when (val value = appConfigValue(key)) {
+                AppConfigMissing -> default
+                null -> prefsForKey(key)?.getBoolean(fk(key), default) ?: default
+                is Boolean -> value
+                is String -> value.equals("true", ignoreCase = true)
+                else -> default
+            }
+        }
         catch (_: ClassCastException) { default }
 
     fun getString(key: String, default: String = ""): String =
-        try { appConfigString(key) ?: prefsForKey(key)?.getString(fk(key), default) ?: default }
+        try {
+            when (val value = appConfigValue(key)) {
+                AppConfigMissing -> default
+                null -> prefsForKey(key)?.getString(fk(key), default) ?: default
+                else -> value.toString()
+            }
+        }
         catch (_: ClassCastException) { default }
 
     /**
@@ -127,49 +141,42 @@ object ConfigManager {
 
     private fun fk(key: String) = "$FLUTTER_KEY_PREFIX$key"
 
-    private fun appConfigBoolean(key: String): Boolean? {
-        val value = appConfigValue(key) ?: return null
-        return when (value) {
-            is Boolean -> value
-            is String -> value.equals("true", ignoreCase = true)
-            else -> null
-        }
-    }
-
-    private fun appConfigString(key: String): String? {
-        val value = appConfigValue(key) ?: return null
-        return value.toString()
-    }
-
     private fun appConfigValue(key: String): Any? {
         parseAppField(key, TOAST_FIELDS)?.let { field ->
-            return appConfigSection(field.pkg, "toast")?.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+            val config = appConfigJson(field.pkg) ?: return null
+            return config.optJSONObject("toast")?.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+                ?: AppConfigMissing
         }
         parseAppField(key, NOTIFICATION_FIELDS)?.let { field ->
-            return appConfigSection(field.pkg, "notification")?.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+            val config = appConfigJson(field.pkg) ?: return null
+            return config.optJSONObject("notification")?.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+                ?: AppConfigMissing
         }
         if (key.startsWith("pref_channels_")) {
             val pkg = key.removePrefix("pref_channels_")
-            val enabled = appConfigSection(pkg, "channels")?.optJSONArray("enabled") ?: return null
+            val config = appConfigJson(pkg) ?: return null
+            val enabled = config.optJSONObject("channels")?.optJSONArray("enabled")
+                ?: return AppConfigMissing
             return (0 until enabled.length()).joinToString(",") { enabled.optString(it) }
         }
         parseChannelField(key)?.let { field ->
-            val settings = appConfigSection(field.pkg, "channels")
+            val config = appConfigJson(field.pkg) ?: return null
+            val settings = config.optJSONObject("channels")
                 ?.optJSONObject("settings")
                 ?.optJSONObject(field.channelId)
-                ?: return null
-            return settings.opt(field.name)?.takeUnless { it == JSONObject.NULL }
+                ?: return AppConfigMissing
+            return settings.opt(field.name)?.takeUnless { it == JSONObject.NULL } ?: AppConfigMissing
         }
         return null
     }
 
-    private fun appConfigSection(pkg: String, section: String): JSONObject? {
+    private fun appConfigJson(pkg: String): JSONObject? {
         val raw = try {
             prefsForKey("pref_app_config_$pkg")?.getString(fk("pref_app_config_$pkg"), null)
         } catch (_: Throwable) {
             null
         } ?: return null
-        return try { JSONObject(raw).optJSONObject(section) } catch (_: Throwable) { null }
+        return try { JSONObject(raw) } catch (_: Throwable) { null }
     }
 
     private fun parseAppField(key: String, fields: Map<String, String>): AppField? {
@@ -233,6 +240,7 @@ object ConfigManager {
 
     private data class AppField(val pkg: String, val name: String)
     private data class ChannelField(val pkg: String, val channelId: String, val name: String)
+    private object AppConfigMissing
 
     private val TOAST_FIELDS = linkedMapOf(
         "pref_toast_forward_" to "forward",

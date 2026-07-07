@@ -20,6 +20,16 @@ class AppConfigStore {
   static String packageNameFromAppConfigKey(String key) =>
       key.substring(kPrefAppConfigPrefix.length);
 
+  static bool isValidAppConfigKey(String key) {
+    if (!isAppConfigKey(key)) return false;
+    return _isValidPackageName(packageNameFromAppConfigKey(key));
+  }
+
+  static bool _isValidPackageName(String packageName) {
+    if (packageName.isEmpty) return false;
+    return RegExp(r'^[A-Za-z0-9._]+$').hasMatch(packageName);
+  }
+
   static Map<String, dynamic> _emptyConfig() => <String, dynamic>{};
 
   static Map<String, dynamic> _readConfig(
@@ -42,6 +52,7 @@ class AppConfigStore {
     String packageName,
     Map<String, dynamic> config,
   ) {
+    if (config.isEmpty) return prefs.remove(appConfigKey(packageName));
     return prefs.setString(appConfigKey(packageName), jsonEncode(config));
   }
 
@@ -68,17 +79,41 @@ class AppConfigStore {
     await migrateLegacyPrefs(prefs);
   }
 
-  static Future<int> migrateLegacyPrefs(SharedPreferences prefs) async {
+  static Future<int> migrateLegacyPrefs(
+    SharedPreferences prefs, {
+    bool force = false,
+  }) async {
     final current = prefs.getInt(kPrefConfigSchemaVersion) ?? 1;
-    if (current >= kConfigSchemaVersion) return 0;
+    if (!force && current >= kConfigSchemaVersion) return 0;
 
     final packages = <String>{};
+    final whitelistCsv = prefs.getString(kPrefGenericWhitelist) ?? '';
+    packages.addAll(
+      whitelistCsv.split(',').where((packageName) => packageName.isNotEmpty),
+    );
     for (final key in prefs.getKeys()) {
+      if (isAppConfigKey(key)) {
+        final packageName = packageNameFromAppConfigKey(key);
+        if (packageName.isNotEmpty) packages.add(packageName);
+        continue;
+      }
       final packageName = _legacyPackageNameFromKey(key);
       if (packageName != null && packageName.isNotEmpty) {
         packages.add(packageName);
       }
     }
+    final sortedPackages = packages.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+    for (final key in prefs.getKeys()) {
+      final packageName = _legacyPackageNameFromChannelKey(key, sortedPackages);
+      if (packageName != null && packageName.isNotEmpty) {
+        packages.add(packageName);
+      }
+    }
+    sortedPackages
+      ..clear()
+      ..addAll(packages)
+      ..sort((a, b) => b.length.compareTo(a.length));
 
     var count = 0;
     for (final packageName in packages) {
@@ -403,11 +438,20 @@ class AppConfigStore {
     for (final key in prefs.getKeys()) {
       if (!isAppConfigKey(key)) continue;
       final packageName = packageNameFromAppConfigKey(key);
+      final config = _readConfig(prefs, packageName);
+
+      final toast = _section(config, 'toast');
+      if (toast['forward'] != true && config.remove('toast') != null) {
+        count++;
+      }
+
       if (!enabledPackages.contains(packageName)) {
-        if (await prefs.remove(key)) count++;
+        if (config.remove('notification') != null) count++;
+        if (config.remove('channels') != null) count++;
+        await _writeConfig(prefs, packageName, config);
         continue;
       }
-      final config = _readConfig(prefs, packageName);
+
       final channels = _channels(config);
       final enabled = channels['enabled'];
       final settings = _channelSettings(channels);
@@ -425,6 +469,19 @@ class AppConfigStore {
           await _writeConfig(prefs, packageName, config);
           count += before - settings.length;
         }
+      }
+      await _writeConfig(prefs, packageName, config);
+    }
+    return count;
+  }
+
+  static bool isLegacyAppConfigKey(String key) => _isLegacyAppConfigKey(key);
+
+  static Future<int> clearImportedAppConfigKeys(SharedPreferences prefs) async {
+    var count = 0;
+    for (final key in prefs.getKeys()) {
+      if (isAppConfigKey(key) || _isLegacyAppConfigKey(key)) {
+        if (await prefs.remove(key)) count++;
       }
     }
     return count;
@@ -454,18 +511,31 @@ class AppConfigStore {
     );
   }
 
+  static String? _legacyPackageNameFromChannelKey(
+    String key,
+    List<String> sortedPackageNames,
+  ) {
+    for (final field in _channelLegacyFields.values) {
+      if (!key.startsWith(field.prefix)) continue;
+      final rest = key.substring(field.prefix.length);
+      for (final packageName in sortedPackageNames) {
+        if (rest.startsWith('${packageName}_')) return packageName;
+      }
+    }
+    return null;
+  }
+
   static _ParsedChannelField? _channelLegacyFieldForKey(
     String key,
     String packageName,
   ) {
     for (final entry in _channelLegacyFields.entries) {
-      final restPrefix = '${entry.value.prefix}$packageName';
+      final restPrefix = '${entry.value.prefix}${packageName}_';
       if (!key.startsWith(restPrefix)) continue;
       final rest = key.substring(restPrefix.length);
-      if (!rest.startsWith('_') || rest.length == 1) continue;
       return _ParsedChannelField(
         entry.key,
-        rest.substring(1),
+        rest,
         entry.value.defaultValue as String,
       );
     }

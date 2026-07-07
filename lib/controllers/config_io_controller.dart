@@ -26,6 +26,8 @@ class ConfigIOException implements Exception {
 }
 
 class ConfigIOController {
+  static const _sensitiveExportKeys = {kPrefAiApiKey};
+
   static const _toastPrefPrefixes = [
     'pref_toast_forward_',
     'pref_toast_block_',
@@ -275,7 +277,9 @@ class ConfigIOController {
     await AppConfigStore.ensureMigrated();
     final prefs = await SharedPreferences.getInstance();
     final appVersion = await AppInfoService.getVersion();
-    final keys = prefs.getKeys().where((k) => k.startsWith('pref_'));
+    final keys = prefs.getKeys().where(
+      (k) => k.startsWith('pref_') && !_sensitiveExportKeys.contains(k),
+    );
     final Map<String, dynamic> settings = {};
     for (final key in keys) {
       settings[key] = prefs.get(key);
@@ -306,26 +310,46 @@ class ConfigIOController {
       await prefs.setString(kPrefConfigAppVersion, appVersion.trim());
     }
     int count = 0;
+    count += await AppConfigStore.clearImportedAppConfigKeys(prefs);
     for (final entry in settings.entries) {
       final key = entry.key as String;
       final value = entry.value;
+      if (!_isImportKeyValid(key, value)) {
+        throw const ConfigIOException(ConfigIOError.invalidFormat);
+      }
       if (value is bool) {
         await prefs.setBool(key, value);
+        count++;
       } else if (value is int) {
         await prefs.setInt(key, value);
+        count++;
       } else if (value is double) {
         await prefs.setDouble(key, value);
+        count++;
       } else if (value is String) {
         await prefs.setString(key, value);
+        count++;
       }
-      count++;
     }
     if (version < kConfigSchemaVersion) {
-      count += await AppConfigStore.migrateLegacyPrefs(prefs);
+      count += await AppConfigStore.migrateLegacyPrefs(prefs, force: true);
     } else {
       await prefs.setInt(kPrefConfigSchemaVersion, kConfigSchemaVersion);
     }
     return count;
+  }
+
+  static bool _isImportKeyValid(String key, Object? value) {
+    if (!AppConfigStore.isAppConfigKey(key)) return true;
+    if (!AppConfigStore.isValidAppConfigKey(key) || value is! String) {
+      return false;
+    }
+    try {
+      final decoded = jsonDecode(value);
+      return decoded is Map;
+    } catch (_) {
+      return false;
+    }
   }
 
   /// 导出到 app 外部存储目录，返回文件路径。
