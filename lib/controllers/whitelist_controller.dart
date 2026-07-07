@@ -3,59 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../services/app_cache_service.dart';
+import '../services/app_config_store.dart';
 
 const _channel = MethodChannel('io.github.hyperisland/test');
 const kPrefGenericWhitelist = 'pref_generic_whitelist';
-String _prefToastForwardKey(String packageName) =>
-    'pref_toast_forward_$packageName';
-String _prefToastBlockKey(String packageName) =>
-    'pref_toast_block_$packageName';
-String _prefToastShowNotificationKey(String packageName) =>
-    'pref_toast_show_notification_$packageName';
-String _prefToastShowIslandIconKey(String packageName) =>
-    'pref_toast_show_island_icon_$packageName';
-String _prefToastFirstFloatKey(String packageName) =>
-    'pref_toast_first_float_$packageName';
-String _prefToastEnableFloatKey(String packageName) =>
-    'pref_toast_enable_float_$packageName';
-String _prefToastPreserveSmallIconKey(String packageName) =>
-    'pref_toast_preserve_small_icon_$packageName';
-String _prefToastMarqueeKey(String packageName) =>
-    'pref_toast_marquee_$packageName';
-String _prefToastMarqueeAutoHideKey(String packageName) =>
-    'pref_toast_marquee_auto_hide_$packageName';
-String _prefToastTimeoutKey(String packageName) =>
-    'pref_toast_timeout_$packageName';
-String _prefToastHighlightColorKey(String packageName) =>
-    'pref_toast_highlight_color_$packageName';
-String _prefToastDynamicHighlightColorKey(String packageName) =>
-    'pref_toast_dynamic_highlight_color_$packageName';
-String _prefToastShowLeftHighlightKey(String packageName) =>
-    'pref_toast_show_left_highlight_$packageName';
-String _prefToastShowRightHighlightKey(String packageName) =>
-    'pref_toast_show_right_highlight_$packageName';
-String _prefToastOuterGlowKey(String packageName) =>
-    'pref_toast_outer_glow_$packageName';
-String _prefToastOutEffectColorKey(String packageName) =>
-    'pref_toast_out_effect_color_$packageName';
-String _prefToastIslandOuterGlowKey(String packageName) =>
-    'pref_toast_island_outer_glow_$packageName';
-String _prefToastIslandOuterGlowColorKey(String packageName) =>
-    'pref_toast_island_outer_glow_color_$packageName';
-String _prefToastFilterModeKey(String packageName) =>
-    'pref_toast_filter_mode_$packageName';
-String _prefToastFilterWhitelistKeywordsKey(String packageName) =>
-    'pref_toast_filter_whitelist_keywords_$packageName';
-String _prefToastFilterBlacklistKeywordsKey(String packageName) =>
-    'pref_toast_filter_blacklist_keywords_$packageName';
-String prefMediaIslandEnabledKey(String packageName) =>
-    'pref_media_island_enabled_$packageName';
-String prefMediaIslandNormalNotificationKey(String packageName) =>
-    'pref_media_island_normal_notification_$packageName';
-String prefMediaIslandOuterGlowKey(String packageName) =>
-    'pref_media_island_outer_glow_$packageName';
-String prefMediaIslandOuterGlowColorKey(String packageName) =>
-    'pref_media_island_outer_glow_color_$packageName';
 
 /// 可用的灵动岛通知模板标识符。
 const kTemplateGenericProgress = 'generic_progress';
@@ -108,6 +59,40 @@ class WhitelistController extends ChangeNotifier {
     }
   }
 
+  static const _channelSettingDefaults = <String, String>{
+    'template': kTemplateNotificationIsland,
+    'renderer': kRendererImageTextWithButtons4,
+    'icon': kIconModeAuto,
+    'focus': kTriOptDefault,
+    'show_notification': kTriOptOn,
+    'preserve_small_icon': kTriOptDefault,
+    'show_island_icon': kTriOptDefault,
+    'first_float': kTriOptDefault,
+    'enable_float': kTriOptDefault,
+    'timeout': '5',
+    'marquee': kTriOptDefault,
+    'marquee_auto_hide': kTriOptDefault,
+    'restore_lockscreen': kTriOptDefault,
+    'highlight_color': '',
+    'dynamic_highlight_color': kTriOptDefault,
+    'show_left_highlight': kTriOptOff,
+    'show_right_highlight': kTriOptOff,
+    'show_left_narrow_font': kTriOptOff,
+    'show_right_narrow_font': kTriOptOff,
+    'outer_glow': kTriOptDefault,
+    'island_outer_glow': kTriOptDefault,
+    'island_outer_glow_color': '',
+    'out_effect_color': '',
+    'focus_custom': '',
+    'island_custom': '',
+    'aod_text': kTriOptDefault,
+    'aod_custom': '',
+    'filter_mode': 'blacklist',
+    'whitelist_keywords': '',
+    'blacklist_keywords': '',
+    'island_enabled': 'true',
+  };
+
   List<AppInfo> _allApps = [];
   // 稳定列表：切换开关时不重排，仅 _resort() 时更新
   List<AppInfo> _sortedApps = [];
@@ -158,6 +143,7 @@ class WhitelistController extends ChangeNotifier {
 
     try {
       final prefs = await SharedPreferences.getInstance();
+      await AppConfigStore.migrateLegacyPrefs(prefs);
       final csv = prefs.getString(kPrefGenericWhitelist) ?? '';
       enabledPackages = csv.isEmpty
           ? {}
@@ -166,14 +152,14 @@ class WhitelistController extends ChangeNotifier {
       _allApps = await AppCacheService.instance.getApps(forceRefresh: true);
       _toastForwardEnabled
         ..clear()
-        ..addEntries(
-          _allApps.map(
-            (app) => MapEntry(
-              app.packageName,
-              prefs.getBool(_prefToastForwardKey(app.packageName)) ?? false,
-            ),
-          ),
+        ..addEntries(_allApps.map((app) => MapEntry(app.packageName, false)));
+      for (final app in _allApps) {
+        _toastForwardEnabled[app.packageName] = await AppConfigStore.getToast(
+          app.packageName,
+          'forward',
+          false,
         );
+      }
       _resort();
     } catch (e) {
       debugPrint('WhitelistController._load error: $e');
@@ -292,9 +278,7 @@ class WhitelistController extends ChangeNotifier {
 
   /// 读取已保存的启用渠道 ID 集合。空集合表示对全部渠道生效。
   Future<Set<String>> getEnabledChannels(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    final csv = prefs.getString('pref_channels_$packageName') ?? '';
-    return csv.isEmpty ? {} : csv.split(',').where((s) => s.isNotEmpty).toSet();
+    return AppConfigStore.getEnabledChannels(packageName);
   }
 
   /// 保存启用渠道 ID 集合。空集合表示对全部渠道生效。
@@ -302,15 +286,13 @@ class WhitelistController extends ChangeNotifier {
     String packageName,
     Set<String> channelIds,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('pref_channels_$packageName', channelIds.join(','));
+    await AppConfigStore.setEnabledChannels(packageName, channelIds);
   }
 
   Future<bool> getToastForwardEnabled(String packageName) async {
     final cached = _toastForwardEnabled[packageName];
     if (cached != null) return cached;
-    final prefs = await SharedPreferences.getInstance();
-    final value = prefs.getBool(_prefToastForwardKey(packageName)) ?? false;
+    final value = await AppConfigStore.getToast(packageName, 'forward', false);
     _toastForwardEnabled[packageName] = value;
     return value;
   }
@@ -321,8 +303,7 @@ class WhitelistController extends ChangeNotifier {
 
   Future<void> setToastForwardEnabled(String packageName, bool enabled) async {
     _toastForwardEnabled[packageName] = enabled;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefToastForwardKey(packageName), enabled);
+    await AppConfigStore.setToast(packageName, 'forward', enabled, false);
     notifyListeners();
   }
 
@@ -331,9 +312,8 @@ class WhitelistController extends ChangeNotifier {
     bool enabled,
   ) async {
     _toastForwardEnabled[packageName] = enabled;
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefToastForwardKey(packageName), enabled);
-    await prefs.setBool(_prefToastBlockKey(packageName), enabled);
+    await AppConfigStore.setToast(packageName, 'forward', enabled, false);
+    await AppConfigStore.setToast(packageName, 'block', enabled, false);
     notifyListeners();
   }
 
@@ -345,11 +325,10 @@ class WhitelistController extends ChangeNotifier {
 
   Future<void> setToastEnabledBatch(List<String> packages, bool enabled) async {
     if (packages.isEmpty) return;
-    final prefs = await SharedPreferences.getInstance();
     for (final pkg in packages) {
       _toastForwardEnabled[pkg] = enabled;
-      await prefs.setBool(_prefToastForwardKey(pkg), enabled);
-      await prefs.setBool(_prefToastBlockKey(pkg), enabled);
+      await AppConfigStore.setToast(pkg, 'forward', enabled, false);
+      await AppConfigStore.setToast(pkg, 'block', enabled, false);
     }
     notifyListeners();
   }
@@ -369,235 +348,264 @@ class WhitelistController extends ChangeNotifier {
   }
 
   Future<bool> getToastBlockOriginal(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_prefToastBlockKey(packageName)) ?? false;
+    return AppConfigStore.getToast(packageName, 'block', false);
   }
 
   Future<void> setToastBlockOriginal(String packageName, bool enabled) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefToastBlockKey(packageName), enabled);
+    await AppConfigStore.setToast(packageName, 'block', enabled, false);
   }
 
   Future<bool> getToastShowNotification(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_prefToastShowNotificationKey(packageName)) ?? false;
+    return AppConfigStore.getToast(packageName, 'show_notification', false);
   }
 
   Future<void> setToastShowNotification(
     String packageName,
     bool enabled,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefToastShowNotificationKey(packageName), enabled);
+    await AppConfigStore.setToast(
+      packageName,
+      'show_notification',
+      enabled,
+      false,
+    );
   }
 
   Future<bool> getToastShowIslandIcon(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_prefToastShowIslandIconKey(packageName)) ?? true;
+    return AppConfigStore.getToast(packageName, 'show_island_icon', true);
   }
 
   Future<void> setToastShowIslandIcon(String packageName, bool enabled) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_prefToastShowIslandIconKey(packageName), enabled);
+    await AppConfigStore.setToast(
+      packageName,
+      'show_island_icon',
+      enabled,
+      true,
+    );
   }
 
   Future<String> getToastFirstFloat(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastFirstFloatKey(packageName)) ??
-        kTriOptDefault;
+    return AppConfigStore.getToast(packageName, 'first_float', kTriOptDefault);
   }
 
   Future<void> setToastFirstFloat(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastFirstFloatKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'first_float',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<String> getToastEnableFloat(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastEnableFloatKey(packageName)) ??
-        kTriOptDefault;
+    return AppConfigStore.getToast(packageName, 'enable_float', kTriOptDefault);
   }
 
   Future<void> setToastEnableFloat(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastEnableFloatKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'enable_float',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<String> getToastPreserveSmallIcon(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastPreserveSmallIconKey(packageName)) ??
-        kTriOptDefault;
+    return AppConfigStore.getToast(
+      packageName,
+      'preserve_small_icon',
+      kTriOptDefault,
+    );
   }
 
   Future<void> setToastPreserveSmallIcon(
     String packageName,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastPreserveSmallIconKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'preserve_small_icon',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<String> getToastMarquee(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastMarqueeKey(packageName)) ?? kTriOptDefault;
+    return AppConfigStore.getToast(packageName, 'marquee', kTriOptDefault);
   }
 
   Future<void> setToastMarquee(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastMarqueeKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'marquee',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<String> getToastMarqueeAutoHide(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastMarqueeAutoHideKey(packageName)) ??
-        kTriOptDefault;
+    return AppConfigStore.getToast(
+      packageName,
+      'marquee_auto_hide',
+      kTriOptDefault,
+    );
   }
 
   Future<void> setToastMarqueeAutoHide(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastMarqueeAutoHideKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'marquee_auto_hide',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<String> getToastTimeout(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastTimeoutKey(packageName)) ?? '5';
+    return AppConfigStore.getToast(packageName, 'timeout', '5');
   }
 
   Future<void> setToastTimeout(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastTimeoutKey(packageName), value);
+    await AppConfigStore.setToast(packageName, 'timeout', value, '5');
   }
 
   Future<String> getToastHighlightColor(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastHighlightColorKey(packageName)) ?? '';
+    return AppConfigStore.getToast(packageName, 'highlight_color', '');
   }
 
   Future<void> setToastHighlightColor(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = _prefToastHighlightColorKey(packageName);
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await AppConfigStore.setToast(packageName, 'highlight_color', value, '');
   }
 
   Future<String> getToastDynamicHighlightColor(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastDynamicHighlightColorKey(packageName)) ??
-        kTriOptDefault;
+    return AppConfigStore.getToast(
+      packageName,
+      'dynamic_highlight_color',
+      kTriOptDefault,
+    );
   }
 
   Future<void> setToastDynamicHighlightColor(
     String packageName,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _prefToastDynamicHighlightColorKey(packageName),
+    await AppConfigStore.setToast(
+      packageName,
+      'dynamic_highlight_color',
       value,
+      kTriOptDefault,
     );
   }
 
   Future<String> getToastShowLeftHighlight(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastShowLeftHighlightKey(packageName)) ??
-        kTriOptOff;
+    return AppConfigStore.getToast(
+      packageName,
+      'show_left_highlight',
+      kTriOptOff,
+    );
   }
 
   Future<void> setToastShowLeftHighlight(
     String packageName,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastShowLeftHighlightKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'show_left_highlight',
+      value,
+      kTriOptOff,
+    );
   }
 
   Future<String> getToastShowRightHighlight(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastShowRightHighlightKey(packageName)) ??
-        kTriOptOff;
+    return AppConfigStore.getToast(
+      packageName,
+      'show_right_highlight',
+      kTriOptOff,
+    );
   }
 
   Future<void> setToastShowRightHighlight(
     String packageName,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastShowRightHighlightKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'show_right_highlight',
+      value,
+      kTriOptOff,
+    );
   }
 
   Future<String> getToastOuterGlow(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastOuterGlowKey(packageName)) ??
-        kTriOptDefault;
+    return AppConfigStore.getToast(packageName, 'outer_glow', kTriOptDefault);
   }
 
   Future<void> setToastOuterGlow(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastOuterGlowKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'outer_glow',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<String> getToastOutEffectColor(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastOutEffectColorKey(packageName)) ?? '';
+    return AppConfigStore.getToast(packageName, 'out_effect_color', '');
   }
 
   Future<void> setToastOutEffectColor(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = _prefToastOutEffectColorKey(packageName);
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await AppConfigStore.setToast(packageName, 'out_effect_color', value, '');
   }
 
   Future<String> getToastIslandOuterGlow(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastIslandOuterGlowKey(packageName)) ??
-        kTriOptDefault;
+    return AppConfigStore.getToast(
+      packageName,
+      'island_outer_glow',
+      kTriOptDefault,
+    );
   }
 
   Future<void> setToastIslandOuterGlow(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastIslandOuterGlowKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'island_outer_glow',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<String> getToastIslandOuterGlowColor(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastIslandOuterGlowColorKey(packageName)) ??
-        '';
+    return AppConfigStore.getToast(packageName, 'island_outer_glow_color', '');
   }
 
   Future<void> setToastIslandOuterGlowColor(
     String packageName,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = _prefToastIslandOuterGlowColorKey(packageName);
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await AppConfigStore.setToast(
+      packageName,
+      'island_outer_glow_color',
+      value,
+      '',
+    );
   }
 
   Future<String> getToastFilterMode(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_prefToastFilterModeKey(packageName)) ?? 'blacklist';
+    return AppConfigStore.getToast(packageName, 'filter_mode', 'blacklist');
   }
 
   Future<void> setToastFilterMode(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_prefToastFilterModeKey(packageName), value);
+    await AppConfigStore.setToast(
+      packageName,
+      'filter_mode',
+      value,
+      'blacklist',
+    );
   }
 
   Future<List<String>> getToastWhitelistKeywords(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
     return _decodeKeywordList(
-      prefs.getString(_prefToastFilterWhitelistKeywordsKey(packageName)) ?? '',
+      await AppConfigStore.getToast(packageName, 'whitelist_keywords', ''),
     );
   }
 
@@ -605,17 +613,17 @@ class WhitelistController extends ChangeNotifier {
     String packageName,
     List<String> keywords,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _prefToastFilterWhitelistKeywordsKey(packageName),
+    await AppConfigStore.setToast(
+      packageName,
+      'whitelist_keywords',
       _encodeKeywordList(keywords),
+      '',
     );
   }
 
   Future<List<String>> getToastBlacklistKeywords(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
     return _decodeKeywordList(
-      prefs.getString(_prefToastFilterBlacklistKeywordsKey(packageName)) ?? '',
+      await AppConfigStore.getToast(packageName, 'blacklist_keywords', ''),
     );
   }
 
@@ -623,10 +631,11 @@ class WhitelistController extends ChangeNotifier {
     String packageName,
     List<String> keywords,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _prefToastFilterBlacklistKeywordsKey(packageName),
+    await AppConfigStore.setToast(
+      packageName,
+      'blacklist_keywords',
       _encodeKeywordList(keywords),
+      '',
     );
   }
 
@@ -654,106 +663,146 @@ class WhitelistController extends ChangeNotifier {
     String? blacklistKeywords,
   }) async {
     if (packages.isEmpty) return;
-    final prefs = await SharedPreferences.getInstance();
     for (final pkg in packages) {
       if (forwardEnabled != null) {
         _toastForwardEnabled[pkg] = forwardEnabled;
-        await prefs.setBool(_prefToastForwardKey(pkg), forwardEnabled);
+        await AppConfigStore.setToast(pkg, 'forward', forwardEnabled, false);
       }
       if (blockOriginal != null) {
-        await prefs.setBool(_prefToastBlockKey(pkg), blockOriginal);
+        await AppConfigStore.setToast(pkg, 'block', blockOriginal, false);
       }
       if (showNotification != null) {
-        await prefs.setBool(
-          _prefToastShowNotificationKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'show_notification',
           showNotification,
+          false,
         );
       }
       if (showIslandIcon != null) {
-        await prefs.setBool(_prefToastShowIslandIconKey(pkg), showIslandIcon);
+        await AppConfigStore.setToast(
+          pkg,
+          'show_island_icon',
+          showIslandIcon,
+          true,
+        );
       }
       if (firstFloat != null) {
-        await prefs.setString(_prefToastFirstFloatKey(pkg), firstFloat);
+        await AppConfigStore.setToast(
+          pkg,
+          'first_float',
+          firstFloat,
+          kTriOptDefault,
+        );
       }
       if (enableFloat != null) {
-        await prefs.setString(_prefToastEnableFloatKey(pkg), enableFloat);
+        await AppConfigStore.setToast(
+          pkg,
+          'enable_float',
+          enableFloat,
+          kTriOptDefault,
+        );
       }
       if (marquee != null) {
-        await prefs.setString(_prefToastMarqueeKey(pkg), marquee);
+        await AppConfigStore.setToast(pkg, 'marquee', marquee, kTriOptDefault);
       }
       if (marqueeAutoHide != null) {
-        await prefs.setString(
-          _prefToastMarqueeAutoHideKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'marquee_auto_hide',
           marqueeAutoHide,
+          kTriOptDefault,
         );
       }
       if (timeout != null) {
-        await prefs.setString(_prefToastTimeoutKey(pkg), timeout);
+        await AppConfigStore.setToast(pkg, 'timeout', timeout, '5');
       }
       if (highlightColor != null) {
-        final key = _prefToastHighlightColorKey(pkg);
-        if (highlightColor.isEmpty) {
-          await prefs.remove(key);
-        } else {
-          await prefs.setString(key, highlightColor);
-        }
+        await AppConfigStore.setToast(
+          pkg,
+          'highlight_color',
+          highlightColor,
+          '',
+        );
       }
       if (dynamicHighlightColor != null) {
-        await prefs.setString(
-          _prefToastDynamicHighlightColorKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'dynamic_highlight_color',
           dynamicHighlightColor,
+          kTriOptDefault,
         );
       }
       if (showLeftHighlight != null) {
-        await prefs.setString(
-          _prefToastShowLeftHighlightKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'show_left_highlight',
           showLeftHighlight,
+          kTriOptOff,
         );
       }
       if (showRightHighlight != null) {
-        await prefs.setString(
-          _prefToastShowRightHighlightKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'show_right_highlight',
           showRightHighlight,
+          kTriOptOff,
         );
       }
       if (outerGlow != null) {
-        await prefs.setString(_prefToastOuterGlowKey(pkg), outerGlow);
+        await AppConfigStore.setToast(
+          pkg,
+          'outer_glow',
+          outerGlow,
+          kTriOptDefault,
+        );
       }
       if (outEffectColor != null) {
-        final key = _prefToastOutEffectColorKey(pkg);
-        if (outEffectColor.isEmpty) {
-          await prefs.remove(key);
-        } else {
-          await prefs.setString(key, outEffectColor);
-        }
+        await AppConfigStore.setToast(
+          pkg,
+          'out_effect_color',
+          outEffectColor,
+          '',
+        );
       }
       if (islandOuterGlow != null) {
-        await prefs.setString(
-          _prefToastIslandOuterGlowKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'island_outer_glow',
           islandOuterGlow,
+          kTriOptDefault,
         );
       }
       if (islandOuterGlowColor != null) {
-        final key = _prefToastIslandOuterGlowColorKey(pkg);
-        if (islandOuterGlowColor.isEmpty) {
-          await prefs.remove(key);
-        } else {
-          await prefs.setString(key, islandOuterGlowColor);
-        }
+        await AppConfigStore.setToast(
+          pkg,
+          'island_outer_glow_color',
+          islandOuterGlowColor,
+          '',
+        );
       }
       if (filterMode != null) {
-        await prefs.setString(_prefToastFilterModeKey(pkg), filterMode);
+        await AppConfigStore.setToast(
+          pkg,
+          'filter_mode',
+          filterMode,
+          'blacklist',
+        );
       }
       if (whitelistKeywords != null) {
-        await prefs.setString(
-          _prefToastFilterWhitelistKeywordsKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'whitelist_keywords',
           whitelistKeywords,
+          '',
         );
       }
       if (blacklistKeywords != null) {
-        await prefs.setString(
-          _prefToastFilterBlacklistKeywordsKey(pkg),
+        await AppConfigStore.setToast(
+          pkg,
+          'blacklist_keywords',
           blacklistKeywords,
+          '',
         );
       }
     }
@@ -783,15 +832,14 @@ class WhitelistController extends ChangeNotifier {
     String packageName,
     List<String> channelIds,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    return Map.fromEntries(
-      channelIds.map((id) {
-        final template =
-            prefs.getString('pref_channel_template_${packageName}_$id') ??
-            kTemplateNotificationIsland;
-        return MapEntry(id, _normalizeTemplateId(template));
-      }),
-    );
+    final result = <String, String>{};
+    for (final id in channelIds) {
+      final settings = await AppConfigStore.getChannelSettings(packageName, id);
+      result[id] = _normalizeTemplateId(
+        settings['template'] ?? kTemplateNotificationIsland,
+      );
+    }
+    return result;
   }
 
   /// 保存指定渠道的模板设置。
@@ -800,10 +848,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String template,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_template_${packageName}_$channelId',
+    await AppConfigStore.setChannelSetting(
+      packageName,
+      channelId,
+      'template',
       template,
+      kTemplateNotificationIsland,
     );
   }
 
@@ -814,131 +864,46 @@ class WhitelistController extends ChangeNotifier {
     String packageName,
     List<String> channelIds,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    return Map.fromEntries(
-      channelIds.map(
-        (id) => MapEntry(id, {
-          'icon':
-              prefs.getString('pref_channel_icon_${packageName}_$id') ??
-              kIconModeAuto,
-          'focus':
-              prefs.getString('pref_channel_focus_${packageName}_$id') ??
-              kTriOptDefault,
-          'show_notification':
-              prefs.getString(
-                'pref_channel_show_notification_${packageName}_$id',
-              ) ??
-              kTriOptOn,
-          'preserve_small_icon':
-              prefs.getString(
-                'pref_channel_preserve_small_icon_${packageName}_$id',
-              ) ??
-              kTriOptDefault,
-          'first_float':
-              prefs.getString('pref_channel_first_float_${packageName}_$id') ??
-              kTriOptDefault,
-          'enable_float':
-              prefs.getString('pref_channel_enable_float_${packageName}_$id') ??
-              kTriOptDefault,
-          'timeout':
-              prefs.getString('pref_channel_timeout_${packageName}_$id') ?? '5',
-          'marquee':
-              prefs.getString('pref_channel_marquee_${packageName}_$id') ??
-              kTriOptDefault,
-          'marquee_auto_hide':
-              prefs.getString(
-                'pref_channel_marquee_auto_hide_${packageName}_$id',
-              ) ??
-              kTriOptDefault,
-          'renderer':
-              prefs.getString('pref_channel_renderer_${packageName}_$id') ??
-              kRendererImageTextWithButtons4,
-          'restore_lockscreen':
-              prefs.getString(
-                'pref_channel_restore_lockscreen_${packageName}_$id',
-              ) ??
-              kTriOptDefault,
-          'highlight_color':
-              prefs.getString(
-                'pref_channel_highlight_color_${packageName}_$id',
-              ) ??
-              '',
-          'dynamic_highlight_color':
-              prefs.getString(
-                'pref_channel_dynamic_highlight_color_${packageName}_$id',
-              ) ??
-              kTriOptDefault,
-          'show_left_highlight':
-              prefs.getString(
-                'pref_channel_show_left_highlight_${packageName}_$id',
-              ) ??
-              kTriOptOff,
-          'show_right_highlight':
-              prefs.getString(
-                'pref_channel_show_right_highlight_${packageName}_$id',
-              ) ??
-              kTriOptOff,
-          'show_left_narrow_font':
-              prefs.getString(
-                'pref_channel_show_left_narrow_font_${packageName}_$id',
-              ) ??
-              kTriOptOff,
-          'show_right_narrow_font':
-              prefs.getString(
-                'pref_channel_show_right_narrow_font_${packageName}_$id',
-              ) ??
-              kTriOptOff,
-          'outer_glow':
-              prefs.getString('pref_channel_outer_glow_${packageName}_$id') ??
-              kTriOptDefault,
-          'island_outer_glow':
-              prefs.getString(
-                'pref_channel_island_outer_glow_${packageName}_$id',
-              ) ??
-              kTriOptDefault,
-          'island_outer_glow_color':
-              prefs.getString(
-                'pref_channel_island_outer_glow_color_${packageName}_$id',
-              ) ??
-              '',
-          'out_effect_color':
-              prefs.getString(
-                'pref_channel_out_effect_color_${packageName}_$id',
-              ) ??
-              '',
-          'focus_custom':
-              prefs.getString('pref_channel_focus_custom_${packageName}_$id') ??
-              '',
-          'island_custom':
-              prefs.getString(
-                'pref_channel_island_custom_${packageName}_$id',
-              ) ??
-              '',
-          'aod_text':
-              prefs.getString('pref_channel_aod_text_${packageName}_$id') ??
-              kTriOptDefault,
-          'aod_custom':
-              prefs.getString('pref_channel_aod_custom_${packageName}_$id') ??
-              '',
-          'filter_mode':
-              prefs.getString('pref_channel_filter_mode_${packageName}_$id') ??
-              'blacklist',
-          'whitelist_keywords':
-              prefs.getString(
-                'pref_channel_filter_whitelist_keywords_${packageName}_$id',
-              ) ??
-              '',
-          'blacklist_keywords':
-              prefs.getString(
-                'pref_channel_filter_blacklist_keywords_${packageName}_$id',
-              ) ??
-              '',
-          'island_enabled':
-              prefs.getString('pref_channel_island_enabled_${packageName}_$id') ??
-              'true',
-        }),
-      ),
-    );
+    final result = <String, Map<String, String>>{};
+    for (final id in channelIds) {
+      final settings = await AppConfigStore.getChannelSettings(packageName, id);
+      result[id] = {
+        'icon': settings['icon'] ?? kIconModeAuto,
+        'focus': settings['focus'] ?? kTriOptDefault,
+        'show_notification': settings['show_notification'] ?? kTriOptOn,
+        'preserve_small_icon':
+            settings['preserve_small_icon'] ?? kTriOptDefault,
+        'first_float': settings['first_float'] ?? kTriOptDefault,
+        'enable_float': settings['enable_float'] ?? kTriOptDefault,
+        'timeout': settings['timeout'] ?? '5',
+        'marquee': settings['marquee'] ?? kTriOptDefault,
+        'marquee_auto_hide': settings['marquee_auto_hide'] ?? kTriOptDefault,
+        'renderer': settings['renderer'] ?? kRendererImageTextWithButtons4,
+        'restore_lockscreen': settings['restore_lockscreen'] ?? kTriOptDefault,
+        'highlight_color': settings['highlight_color'] ?? '',
+        'dynamic_highlight_color':
+            settings['dynamic_highlight_color'] ?? kTriOptDefault,
+        'show_left_highlight': settings['show_left_highlight'] ?? kTriOptOff,
+        'show_right_highlight': settings['show_right_highlight'] ?? kTriOptOff,
+        'show_left_narrow_font':
+            settings['show_left_narrow_font'] ?? kTriOptOff,
+        'show_right_narrow_font':
+            settings['show_right_narrow_font'] ?? kTriOptOff,
+        'outer_glow': settings['outer_glow'] ?? kTriOptDefault,
+        'island_outer_glow': settings['island_outer_glow'] ?? kTriOptDefault,
+        'island_outer_glow_color': settings['island_outer_glow_color'] ?? '',
+        'out_effect_color': settings['out_effect_color'] ?? '',
+        'focus_custom': settings['focus_custom'] ?? '',
+        'island_custom': settings['island_custom'] ?? '',
+        'aod_text': settings['aod_text'] ?? kTriOptDefault,
+        'aod_custom': settings['aod_custom'] ?? '',
+        'filter_mode': settings['filter_mode'] ?? 'blacklist',
+        'whitelist_keywords': settings['whitelist_keywords'] ?? '',
+        'blacklist_keywords': settings['blacklist_keywords'] ?? '',
+        'island_enabled': settings['island_enabled'] ?? 'true',
+      };
+    }
+    return result;
   }
 
   Future<Map<String, dynamic>?> getFocusCustomizationSchema(
@@ -1042,13 +1007,34 @@ class WhitelistController extends ChangeNotifier {
     }
   }
 
+  Future<void> _setChannelSetting(
+    String packageName,
+    String channelId,
+    String field,
+    String value,
+    String defaultValue,
+  ) {
+    return AppConfigStore.setChannelSetting(
+      packageName,
+      channelId,
+      field,
+      value,
+      defaultValue,
+    );
+  }
+
   Future<void> setChannelIconMode(
     String packageName,
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('pref_channel_icon_${packageName}_$channelId', value);
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'icon',
+      value,
+      kIconModeAuto,
+    );
   }
 
   Future<void> setChannelFocusNotif(
@@ -1056,10 +1042,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_focus_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'focus',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1068,10 +1056,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_preserve_small_icon_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'preserve_small_icon',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1080,10 +1070,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_show_notification_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'show_notification',
       value,
+      kTriOptOn,
     );
   }
 
@@ -1092,10 +1084,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_first_float_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'first_float',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1104,10 +1098,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_enable_float_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'enable_float',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1116,11 +1112,7 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_timeout_${packageName}_$channelId',
-      value,
-    );
+    await _setChannelSetting(packageName, channelId, 'timeout', value, '5');
   }
 
   Future<void> setChannelMarquee(
@@ -1128,10 +1120,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_marquee_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'marquee',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1157,10 +1151,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_marquee_auto_hide_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'marquee_auto_hide',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1169,10 +1165,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_restore_lockscreen_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'restore_lockscreen',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1181,10 +1179,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_show_island_icon_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'show_island_icon',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1193,10 +1193,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_renderer_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'renderer',
       value,
+      kRendererImageTextWithButtons4,
     );
   }
 
@@ -1205,13 +1207,13 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_highlight_color_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'highlight_color',
+      value,
+      '',
+    );
   }
 
   Future<void> setChannelDynamicHighlightColor(
@@ -1219,10 +1221,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_dynamic_highlight_color_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'dynamic_highlight_color',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1231,10 +1235,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_show_left_highlight_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'show_left_highlight',
       value,
+      kTriOptOff,
     );
   }
 
@@ -1243,10 +1249,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_show_right_highlight_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'show_right_highlight',
       value,
+      kTriOptOff,
     );
   }
 
@@ -1255,10 +1263,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_show_left_narrow_font_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'show_left_narrow_font',
       value,
+      kTriOptOff,
     );
   }
 
@@ -1267,10 +1277,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_show_right_narrow_font_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'show_right_narrow_font',
       value,
+      kTriOptOff,
     );
   }
 
@@ -1279,10 +1291,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_outer_glow_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'outer_glow',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1291,10 +1305,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_island_outer_glow_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'island_outer_glow',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1303,13 +1319,13 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_out_effect_color_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'out_effect_color',
+      value,
+      '',
+    );
   }
 
   Future<void> setChannelIslandOuterGlowColor(
@@ -1317,67 +1333,79 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key =
-        'pref_channel_island_outer_glow_color_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'island_outer_glow_color',
+      value,
+      '',
+    );
   }
 
   Future<Map<String, String>> getMediaIslandSettings(String packageName) async {
-    final prefs = await SharedPreferences.getInstance();
     return {
-      'enabled': prefs.getBool(prefMediaIslandEnabledKey(packageName)) == false
+      'enabled':
+          await AppConfigStore.getNotification(packageName, 'enabled', true) ==
+              false
           ? kTriOptOff
           : kTriOptOn,
       'normal_notification':
-          prefs.getBool(prefMediaIslandNormalNotificationKey(packageName)) ==
+          await AppConfigStore.getNotification(
+                packageName,
+                'normal_notification',
+                false,
+              ) ==
               true
           ? kTriOptOn
           : kTriOptOff,
-      'island_outer_glow':
-          prefs.getString(prefMediaIslandOuterGlowKey(packageName)) ??
-          kTriOptDefault,
-      'island_outer_glow_color':
-          prefs.getString(prefMediaIslandOuterGlowColorKey(packageName)) ?? '',
+      'island_outer_glow': await AppConfigStore.getNotification(
+        packageName,
+        'island_outer_glow',
+        kTriOptDefault,
+      ),
+      'island_outer_glow_color': await AppConfigStore.getNotification(
+        packageName,
+        'island_outer_glow_color',
+        '',
+      ),
     };
   }
 
   Future<void> setMediaIslandEnabled(String packageName, bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(prefMediaIslandEnabledKey(packageName), value);
+    await AppConfigStore.setNotification(packageName, 'enabled', value, true);
   }
 
   Future<void> setMediaIslandNormalNotification(
     String packageName,
     bool value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(
-      prefMediaIslandNormalNotificationKey(packageName),
+    await AppConfigStore.setNotification(
+      packageName,
+      'normal_notification',
       value,
+      false,
     );
   }
 
   Future<void> setMediaIslandOuterGlow(String packageName, String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(prefMediaIslandOuterGlowKey(packageName), value);
+    await AppConfigStore.setNotification(
+      packageName,
+      'island_outer_glow',
+      value,
+      kTriOptDefault,
+    );
   }
 
   Future<void> setMediaIslandOuterGlowColor(
     String packageName,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = prefMediaIslandOuterGlowColorKey(packageName);
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await AppConfigStore.setNotification(
+      packageName,
+      'island_outer_glow_color',
+      value,
+      '',
+    );
   }
 
   Future<void> setChannelFocusCustomization(
@@ -1385,13 +1413,7 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_focus_custom_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(packageName, channelId, 'focus_custom', value, '');
   }
 
   Future<void> setChannelIslandCustomization(
@@ -1399,13 +1421,13 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_island_custom_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'island_custom',
+      value,
+      '',
+    );
   }
 
   Future<void> setChannelAodText(
@@ -1413,10 +1435,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_aod_text_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'aod_text',
       value,
+      kTriOptDefault,
     );
   }
 
@@ -1425,13 +1449,7 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_aod_custom_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(packageName, channelId, 'aod_custom', value, '');
   }
 
   Future<void> setChannelFilterMode(
@@ -1439,10 +1457,12 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'pref_channel_filter_mode_${packageName}_$channelId',
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'filter_mode',
       value,
+      'blacklist',
     );
   }
 
@@ -1451,14 +1471,13 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key =
-        'pref_channel_filter_whitelist_keywords_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'whitelist_keywords',
+      value,
+      '',
+    );
   }
 
   Future<void> setChannelBlacklistKeywords(
@@ -1466,14 +1485,13 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key =
-        'pref_channel_filter_blacklist_keywords_${packageName}_$channelId';
-    if (value.isEmpty) {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'blacklist_keywords',
+      value,
+      '',
+    );
   }
 
   Future<void> setChannelIslandEnabled(
@@ -1481,13 +1499,13 @@ class WhitelistController extends ChangeNotifier {
     String channelId,
     String value,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'pref_channel_island_enabled_${packageName}_$channelId';
-    if (value == 'true') {
-      await prefs.remove(key);
-    } else {
-      await prefs.setString(key, value);
-    }
+    await _setChannelSetting(
+      packageName,
+      channelId,
+      'island_enabled',
+      value,
+      'true',
+    );
   }
 
   /// 批量应用渠道配置到指定渠道列表。
@@ -1498,52 +1516,12 @@ class WhitelistController extends ChangeNotifier {
     Map<String, String?> settings,
   ) async {
     if (channelIds.isEmpty || settings.values.every((v) => v == null)) return;
-    final prefs = await SharedPreferences.getInstance();
-    const keyMap = {
-      'template': 'pref_channel_template',
-      'renderer': 'pref_channel_renderer',
-      'icon': 'pref_channel_icon',
-      'focus': 'pref_channel_focus',
-      'show_notification': 'pref_channel_show_notification',
-      'preserve_small_icon': 'pref_channel_preserve_small_icon',
-      'show_island_icon': 'pref_channel_show_island_icon',
-      'first_float': 'pref_channel_first_float',
-      'enable_float': 'pref_channel_enable_float',
-      'timeout': 'pref_channel_timeout',
-      'marquee': 'pref_channel_marquee',
-      'marquee_auto_hide': 'pref_channel_marquee_auto_hide',
-      'restore_lockscreen': 'pref_channel_restore_lockscreen',
-      'highlight_color': 'pref_channel_highlight_color',
-      'dynamic_highlight_color': 'pref_channel_dynamic_highlight_color',
-      'show_left_highlight': 'pref_channel_show_left_highlight',
-      'show_right_highlight': 'pref_channel_show_right_highlight',
-      'show_left_narrow_font': 'pref_channel_show_left_narrow_font',
-      'show_right_narrow_font': 'pref_channel_show_right_narrow_font',
-      'outer_glow': 'pref_channel_outer_glow',
-      'island_outer_glow': 'pref_channel_island_outer_glow',
-      'island_outer_glow_color': 'pref_channel_island_outer_glow_color',
-      'out_effect_color': 'pref_channel_out_effect_color',
-      'focus_custom': 'pref_channel_focus_custom',
-      'island_custom': 'pref_channel_island_custom',
-      'aod_text': 'pref_channel_aod_text',
-      'aod_custom': 'pref_channel_aod_custom',
-      'filter_mode': 'pref_channel_filter_mode',
-      'whitelist_keywords': 'pref_channel_filter_whitelist_keywords',
-      'blacklist_keywords': 'pref_channel_filter_blacklist_keywords',
-      'island_enabled': 'pref_channel_island_enabled',
-    };
-    final futures = <Future<bool>>[];
-    for (final id in channelIds) {
-      keyMap.forEach((settingKey, prefPrefix) {
-        final value = settings[settingKey];
-        if (value != null) {
-          futures.add(
-            prefs.setString('${prefPrefix}_${packageName}_$id', value),
-          );
-        }
-      });
-    }
-    await Future.wait(futures);
+    await AppConfigStore.mergeChannelSettings(
+      packageName,
+      channelIds,
+      settings,
+      _channelSettingDefaults,
+    );
   }
 
   /// 对全部已启用应用的所有渠道批量应用配置。

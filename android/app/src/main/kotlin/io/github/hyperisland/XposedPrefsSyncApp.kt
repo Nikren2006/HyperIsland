@@ -172,7 +172,8 @@ class XposedPrefsSyncApp : Application(), XposedServiceHelper.OnServiceListener 
         val rawKey = key.removePrefix(FLUTTER_KEY_PREFIX)
         if (!rawKey.startsWith("pref_")) return false
         return rawKey != "pref_onboarding_completed" &&
-            rawKey != "pref_config_app_version"
+            rawKey != "pref_config_app_version" &&
+            rawKey != "pref_config_schema_version"
     }
 
     private fun remotePrefsNameForKey(key: String): String {
