@@ -44,6 +44,7 @@
     "islandLeftExprLabel",
     "islandRightExprLabel",
     "aodTextSwitchLabel",
+    "aodTextSwitchSubtitle",
     "aodTextExprLabel",
     "aodIconSourceLabel",
     "aiDefaultNotificationText",
@@ -98,7 +99,8 @@
     "islandTextColorFollowStatusBar",
     "islandTextColorInvertStatusBar",
     "islandTextColorDefault",
-    "widthDpLabel"
+    "widthDpLabel",
+    "alwaysOnIsland"
   ],
 
   "ru": [
@@ -107,6 +109,7 @@
     "marqueeAutoHideOnce",
     "marqueeAutoHideTwice",
     "noChannelsFoundSubtitle",
+    "aodTextSwitchSubtitle",
     "aiDefaultNotificationText",
     "aiTestSampleUserContent",
     "aiNotificationUserContent",
@@ -147,7 +150,8 @@
     "islandTextColorInvertBackground",
     "islandTextColorFollowStatusBar",
     "islandTextColorInvertStatusBar",
-    "islandTextColorDefault"
+    "islandTextColorDefault",
+    "alwaysOnIsland"
   ],
 
   "tr": [
@@ -200,6 +204,7 @@
     "islandLeftExprLabel",
     "islandRightExprLabel",
     "aodTextSwitchLabel",
+    "aodTextSwitchSubtitle",
     "aodTextExprLabel",
     "aodIconSourceLabel",
     "aiDefaultNotificationText",
@@ -254,6 +259,7 @@
     "islandTextColorFollowStatusBar",
     "islandTextColorInvertStatusBar",
     "islandTextColorDefault",
-    "widthDpLabel"
+    "widthDpLabel",
+    "alwaysOnIsland"
   ]
 }

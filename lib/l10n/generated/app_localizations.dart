@@ -1472,6 +1472,12 @@ abstract class AppLocalizations {
   /// **'AOD文本开关'**
   String get aodTextSwitchLabel;
 
+  /// No description provided for @aodTextSwitchSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'开启后息屏显示显示通知文本'**
+  String get aodTextSwitchSubtitle;
+
   /// No description provided for @aodTextExprLabel.
   ///
   /// In zh, this message translates to:
@@ -2975,6 +2981,72 @@ abstract class AppLocalizations {
   /// **'确认模块权限状态'**
   String get onboardingEnvironmentSubtitle;
 
+  /// No description provided for @onboardingFocusUnlockTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'破解焦点白名单'**
+  String get onboardingFocusUnlockTitle;
+
+  /// No description provided for @onboardingFocusUnlockSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'解除焦点通知白名单和签名验证限制，让更多应用可使用焦点通知'**
+  String get onboardingFocusUnlockSubtitle;
+
+  /// No description provided for @onboardingFocusUnlockMethodHyperCeiler.
+  ///
+  /// In zh, this message translates to:
+  /// **'方式一：HyperCeiler 破解焦点白名单和签名验证'**
+  String get onboardingFocusUnlockMethodHyperCeiler;
+
+  /// No description provided for @onboardingFocusUnlockHyperCeilerSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'使用 HyperCeiler 开启相关破解功能，适合已安装 HyperCeiler 的用户。'**
+  String get onboardingFocusUnlockHyperCeilerSubtitle;
+
+  /// No description provided for @onboardingFocusUnlockViewTutorial.
+  ///
+  /// In zh, this message translates to:
+  /// **'点击查看教程'**
+  String get onboardingFocusUnlockViewTutorial;
+
+  /// No description provided for @onboardingFocusUnlockMethodEmbedded.
+  ///
+  /// In zh, this message translates to:
+  /// **'方式二：模块内嵌'**
+  String get onboardingFocusUnlockMethodEmbedded;
+
+  /// No description provided for @onboardingFocusUnlockEmbeddedSubtitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'一键开启模块内嵌的两个破解验证功能开关。'**
+  String get onboardingFocusUnlockEmbeddedSubtitle;
+
+  /// No description provided for @onboardingFocusUnlockEmbeddedEnabled.
+  ///
+  /// In zh, this message translates to:
+  /// **'两个破解验证功能开关已开启，请手动重启系统界面和小米服务框架。'**
+  String get onboardingFocusUnlockEmbeddedEnabled;
+
+  /// No description provided for @onboardingFocusUnlockEnableButton.
+  ///
+  /// In zh, this message translates to:
+  /// **'一键开启'**
+  String get onboardingFocusUnlockEnableButton;
+
+  /// No description provided for @onboardingFocusUnlockEnabledButton.
+  ///
+  /// In zh, this message translates to:
+  /// **'已开启'**
+  String get onboardingFocusUnlockEnabledButton;
+
+  /// No description provided for @onboardingFocusUnlockEnabled.
+  ///
+  /// In zh, this message translates to:
+  /// **'已开启，请手动重启系统界面和小米服务框架'**
+  String get onboardingFocusUnlockEnabled;
+
   /// No description provided for @onboardingNotificationStyleTitle.
   ///
   /// In zh, this message translates to:
@@ -3622,6 +3694,12 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'{width} dp'**
   String widthDpLabel(int width);
+
+  /// No description provided for @alwaysOnIsland.
+  ///
+  /// In zh, this message translates to:
+  /// **'常驻岛'**
+  String get alwaysOnIsland;
 }
 
 class _AppLocalizationsDelegate

@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/settings_controller.dart';
 import '../l10n/generated/app_localizations.dart';
@@ -31,6 +33,10 @@ class _OnboardingPageState extends State<OnboardingPage>
   int? _androidSdkVersion;
   bool _defaultFocusNotif = SettingsController.instance.defaultFocusNotif;
   bool _appListInitialized = false;
+  bool _enablingFocusUnlock = false;
+  Timer? _focusUnlockStayTimer;
+  DateTime? _focusUnlockStepEnteredAt;
+  int _focusUnlockRemainingSeconds = 0;
 
   @override
   void initState() {
@@ -44,9 +50,34 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   @override
   void dispose() {
+    _focusUnlockStayTimer?.cancel();
     _backgroundController.dispose();
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _startFocusUnlockStayTimer() {
+    _focusUnlockStayTimer?.cancel();
+    _focusUnlockStepEnteredAt = DateTime.now();
+    _updateFocusUnlockRemainingSeconds();
+    _focusUnlockStayTimer = Timer.periodic(
+      const Duration(milliseconds: 200),
+      (_) => _updateFocusUnlockRemainingSeconds(),
+    );
+  }
+
+  void _updateFocusUnlockRemainingSeconds() {
+    final enteredAt = _focusUnlockStepEnteredAt;
+    if (enteredAt == null) return;
+    final deadline = enteredAt.add(const Duration(seconds: 3));
+    final remainingMs = deadline.difference(DateTime.now()).inMilliseconds;
+    final remainingSeconds = remainingMs <= 0 ? 0 : (remainingMs / 1000).ceil();
+    if (remainingSeconds == 0) {
+      _focusUnlockStayTimer?.cancel();
+      _focusUnlockStayTimer = null;
+    }
+    if (!mounted || _focusUnlockRemainingSeconds == remainingSeconds) return;
+    setState(() => _focusUnlockRemainingSeconds = remainingSeconds);
   }
 
   Future<void> _refreshStatus() async {
@@ -122,6 +153,8 @@ class _OnboardingPageState extends State<OnboardingPage>
       return;
     }
 
+    if (_currentStep == 2 && _focusUnlockRemainingSeconds > 0) return;
+
     if (_currentStep == 1 &&
         (_lsposedActive != true ||
             _rootGranted != true ||
@@ -169,6 +202,58 @@ class _OnboardingPageState extends State<OnboardingPage>
     return result ?? false;
   }
 
+  Future<void> _openFocusUnlockTutorial() async {
+    await launchUrl(
+      Uri.parse(
+        'https://hyperisland.1812z.top/getting-started.html#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E5%9C%A8-hyperceiler-%E4%B8%AD%E5%BC%80%E5%90%AF%E3%80%8C%E7%A7%BB%E9%99%A4%E7%84%A6%E7%82%B9%E9%80%9A%E7%9F%A5%E7%99%BD%E5%90%8D%E5%8D%95%E3%80%8D%E5%92%8C%E3%80%8C%E8%A7%A3%E9%94%81%E7%84%A6%E7%82%B9%E9%80%9A%E7%9F%A5%E7%99%BD%E5%90%8D%E5%8D%95%E9%AA%8C%E8%AF%81%E3%80%8D',
+      ),
+      mode: LaunchMode.externalApplication,
+    );
+  }
+
+  Future<bool> _requestScopes(List<String> packages) async {
+    final fallbackMessage = AppLocalizations.of(
+      context,
+    )!.xposedScopeRequestFailed;
+    try {
+      await _channel.invokeMethod('requestXposedScope', {'packages': packages});
+      return true;
+    } on PlatformException catch (e) {
+      _showSnackBar(e.message ?? fallbackMessage);
+      return false;
+    } catch (_) {
+      _showSnackBar(fallbackMessage);
+      return false;
+    }
+  }
+
+  Future<void> _enableEmbeddedFocusUnlock() async {
+    if (_enablingFocusUnlock) return;
+    setState(() => _enablingFocusUnlock = true);
+    try {
+      if (!await _requestScopes(const [
+        'com.android.systemui',
+        'com.xiaomi.xmsf',
+      ])) {
+        return;
+      }
+      final ctrl = SettingsController.instance;
+      await ctrl.setUnlockAllFocus(true);
+      await ctrl.setUnlockFocusAuth(true);
+      if (!mounted) return;
+      _showSnackBar(AppLocalizations.of(context)!.onboardingFocusUnlockEnabled);
+    } finally {
+      if (mounted) setState(() => _enablingFocusUnlock = false);
+    }
+  }
+
+  void _showSnackBar(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), duration: const Duration(seconds: 4)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -184,6 +269,11 @@ class _OnboardingPageState extends State<OnboardingPage>
         icon: Icons.verified_outlined,
       ),
       _OnboardingStep(
+        title: l10n.onboardingFocusUnlockTitle,
+        subtitle: l10n.onboardingFocusUnlockSubtitle,
+        icon: Icons.lock_open_rounded,
+      ),
+      _OnboardingStep(
         title: l10n.onboardingNotificationStyleTitle,
         subtitle: l10n.onboardingNotificationStyleSubtitle,
         icon: Icons.notifications_active_outlined,
@@ -196,6 +286,10 @@ class _OnboardingPageState extends State<OnboardingPage>
     ];
     final isFirst = _currentStep == 0;
     final isLast = _currentStep == steps.length - 1;
+    final nextDisabled = _currentStep == 2 && _focusUnlockRemainingSeconds > 0;
+    final nextLabel = nextDisabled
+        ? '${l10n.onboardingNext} (${_focusUnlockRemainingSeconds}s)'
+        : l10n.onboardingNext;
 
     return Scaffold(
       body: Stack(
@@ -235,9 +329,11 @@ class _OnboardingPageState extends State<OnboardingPage>
                 Expanded(
                   child: PageView.builder(
                     controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: steps.length,
                     onPageChanged: (index) {
                       setState(() => _currentStep = index);
+                      if (index == 2) _startFocusUnlockStayTimer();
                       _initializeAppListIfFirstLaunch();
                     },
                     itemBuilder: (context, index) => _OnboardingStepView(
@@ -257,6 +353,17 @@ class _OnboardingPageState extends State<OnboardingPage>
                             )
                           : null,
                       contentPanel: index == 2
+                          ? _FocusUnlockPanel(
+                              l10n: l10n,
+                              unlockAllFocus:
+                                  SettingsController.instance.unlockAllFocus,
+                              unlockFocusAuth:
+                                  SettingsController.instance.unlockFocusAuth,
+                              enabling: _enablingFocusUnlock,
+                              onOpenTutorial: _openFocusUnlockTutorial,
+                              onEnableEmbedded: _enableEmbeddedFocusUnlock,
+                            )
+                          : index == 3
                           ? _NotificationStylePanel(
                               defaultFocusNotif: _defaultFocusNotif,
                               onChanged: (value) =>
@@ -281,8 +388,9 @@ class _OnboardingPageState extends State<OnboardingPage>
                   isFirst: isFirst,
                   isLast: isLast,
                   previousLabel: l10n.onboardingPrevious,
-                  nextLabel: l10n.onboardingNext,
+                  nextLabel: nextLabel,
                   doneLabel: l10n.onboardingDone,
+                  nextEnabled: !nextDisabled,
                   onPrevious: () => _goToStep(_currentStep - 1),
                   onNext: () => _handleNextStep(isLast),
                 ),
@@ -303,6 +411,7 @@ class _OnboardingFloatingControls extends StatelessWidget {
   final String previousLabel;
   final String nextLabel;
   final String doneLabel;
+  final bool nextEnabled;
   final VoidCallback onPrevious;
   final VoidCallback onNext;
 
@@ -314,6 +423,7 @@ class _OnboardingFloatingControls extends StatelessWidget {
     required this.previousLabel,
     required this.nextLabel,
     required this.doneLabel,
+    this.nextEnabled = true,
     required this.onPrevious,
     required this.onNext,
   });
@@ -367,7 +477,7 @@ class _OnboardingFloatingControls extends StatelessWidget {
             Expanded(
               flex: 2,
               child: FilledButton(
-                onPressed: onNext,
+                onPressed: nextEnabled ? onNext : null,
                 style: FilledButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: const Color(0xFF161031),
@@ -618,6 +728,151 @@ class _NotificationStylePanel extends StatelessWidget {
             selected: !defaultFocusNotif,
             onTap: () => onChanged(false),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FocusUnlockPanel extends StatelessWidget {
+  final AppLocalizations l10n;
+  final bool unlockAllFocus;
+  final bool unlockFocusAuth;
+  final bool enabling;
+  final VoidCallback onOpenTutorial;
+  final VoidCallback onEnableEmbedded;
+
+  const _FocusUnlockPanel({
+    required this.l10n,
+    required this.unlockAllFocus,
+    required this.unlockFocusAuth,
+    required this.enabling,
+    required this.onOpenTutorial,
+    required this.onEnableEmbedded,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final allEnabled = unlockAllFocus && unlockFocusAuth;
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 420),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: ColoredBox(
+          color: Colors.white.withValues(alpha: 0.1),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _FocusUnlockMethodCard(
+                  title: l10n.onboardingFocusUnlockMethodHyperCeiler,
+                  subtitle: l10n.onboardingFocusUnlockHyperCeilerSubtitle,
+                  icon: Icons.menu_book_outlined,
+                  action: OutlinedButton.icon(
+                    onPressed: onOpenTutorial,
+                    icon: const Icon(Icons.open_in_new_rounded, size: 18),
+                    label: Text(l10n.onboardingFocusUnlockViewTutorial),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      side: BorderSide(
+                        color: Colors.white.withValues(alpha: 0.32),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                _FocusUnlockMethodCard(
+                  title: l10n.onboardingFocusUnlockMethodEmbedded,
+                  subtitle: allEnabled
+                      ? l10n.onboardingFocusUnlockEmbeddedEnabled
+                      : l10n.onboardingFocusUnlockEmbeddedSubtitle,
+                  icon: Icons.extension_outlined,
+                  action: FilledButton.icon(
+                    onPressed: enabling || allEnabled ? null : onEnableEmbedded,
+                    icon: enabling
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Icon(
+                            allEnabled
+                                ? Icons.check_circle_rounded
+                                : Icons.flash_on_rounded,
+                            size: 18,
+                          ),
+                    label: Text(
+                      allEnabled
+                          ? l10n.onboardingFocusUnlockEnabledButton
+                          : l10n.onboardingFocusUnlockEnableButton,
+                    ),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF161031),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FocusUnlockMethodCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Widget action;
+
+  const _FocusUnlockMethodCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.action,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: const Color(0xFF9EEBFF)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            subtitle,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.7),
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Align(alignment: Alignment.centerRight, child: action),
         ],
       ),
     );

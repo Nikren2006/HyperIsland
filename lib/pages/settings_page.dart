@@ -222,7 +222,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         const Divider(height: 1, indent: 16, endIndent: 16),
                         _MenuTile(
                           icon: Icons.push_pin_outlined,
-                          title: '常驻岛',
+                          title: l10n.alwaysOnIsland,
                           onTap: InteractionHaptics.interceptButton(
                             () => Navigator.push(
                               context,

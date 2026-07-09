@@ -260,7 +260,7 @@ object IslandOuterGlowHook : BaseHook() {
                 module.hook(method).intercept { chain ->
                     val mode = resolveGlowModeFromGlowView(chain.thisObject)
                     if (method.name.startsWith("startGlowEffect")) {
-                        logGlowViewProbe(module, chain.thisObject, mode)
+                        //logGlowViewProbe(module, chain.thisObject, mode)
                         applyOwnedGlowColor(chain.thisObject, mode)
                         if (mode == GLOW_MODE_STATUS && isOwnedGlowActiveForMode(mode)) {
                             statusGlowShowing = true

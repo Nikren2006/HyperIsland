@@ -744,6 +744,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aodTextSwitchLabel => 'AOD文本开关';
 
   @override
+  String get aodTextSwitchSubtitle => '开启后息屏显示显示通知文本';
+
+  @override
   String get aodTextExprLabel => 'AOD文本表达式';
 
   @override
@@ -1525,6 +1528,42 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingEnvironmentSubtitle => '确认模块权限状态';
 
   @override
+  String get onboardingFocusUnlockTitle => '破解焦点白名单';
+
+  @override
+  String get onboardingFocusUnlockSubtitle => '解除焦点通知白名单和签名验证限制，让更多应用可使用焦点通知';
+
+  @override
+  String get onboardingFocusUnlockMethodHyperCeiler =>
+      '方式一：HyperCeiler 破解焦点白名单和签名验证';
+
+  @override
+  String get onboardingFocusUnlockHyperCeilerSubtitle =>
+      '使用 HyperCeiler 开启相关破解功能，适合已安装 HyperCeiler 的用户。';
+
+  @override
+  String get onboardingFocusUnlockViewTutorial => '点击查看教程';
+
+  @override
+  String get onboardingFocusUnlockMethodEmbedded => '方式二：模块内嵌';
+
+  @override
+  String get onboardingFocusUnlockEmbeddedSubtitle => '一键开启模块内嵌的两个破解验证功能开关。';
+
+  @override
+  String get onboardingFocusUnlockEmbeddedEnabled =>
+      '两个破解验证功能开关已开启，请手动重启系统界面和小米服务框架。';
+
+  @override
+  String get onboardingFocusUnlockEnableButton => '一键开启';
+
+  @override
+  String get onboardingFocusUnlockEnabledButton => '已开启';
+
+  @override
+  String get onboardingFocusUnlockEnabled => '已开启，请手动重启系统界面和小米服务框架';
+
+  @override
   String get onboardingNotificationStyleTitle => '选择通知样式';
 
   @override
@@ -1859,4 +1898,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String widthDpLabel(int width) {
     return '$width dp';
   }
+
+  @override
+  String get alwaysOnIsland => '常驻岛';
 }

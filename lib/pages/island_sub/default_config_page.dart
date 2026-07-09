@@ -302,7 +302,7 @@ class _DefaultConfigPageState extends State<DefaultConfigPage> {
                           vertical: 4,
                         ),
                         title: Text(l10n.aodTextSwitchLabel, style: titleStyle),
-                        subtitle: const Text('开启后息屏显示显示通知文本'),
+                        subtitle: Text(l10n.aodTextSwitchSubtitle),
                         value: _ctrl.defaultAodText,
                         onChanged: InteractionHaptics.interceptToggle(
                           (v) => _ctrl.setDefaultAodText(v),
