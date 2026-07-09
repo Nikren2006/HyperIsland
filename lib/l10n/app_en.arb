@@ -268,6 +268,7 @@
   "islandLeftExprLabel": "Island left expression",
   "islandRightExprLabel": "Island right expression",
   "aodTextSwitchLabel": "AOD text switch",
+  "aodTextSwitchSubtitle": "Show notification text on the AOD when enabled",
   "aodTextExprLabel": "AOD text expression",
   "aodIconSourceLabel": "AOD icon source",
   "focusNotificationLabel": "Focus notification",
@@ -599,6 +600,17 @@
   "onboardingWelcomeSubtitle": "Configure your island experience quickly and cleanly",
   "onboardingEnvironmentTitle": "Environment Check",
   "onboardingEnvironmentSubtitle": "Check module permission status",
+  "onboardingFocusUnlockTitle": "Unlock Focus Whitelist",
+  "onboardingFocusUnlockSubtitle": "Remove focus notification whitelist and signature verification limits so more apps can use focus notifications",
+  "onboardingFocusUnlockMethodHyperCeiler": "Method 1: Use HyperCeiler to unlock the whitelist and signature verification",
+  "onboardingFocusUnlockHyperCeilerSubtitle": "Enable the related unlock options in HyperCeiler. Recommended if HyperCeiler is already installed.",
+  "onboardingFocusUnlockViewTutorial": "View Tutorial",
+  "onboardingFocusUnlockMethodEmbedded": "Method 2: Built-in module",
+  "onboardingFocusUnlockEmbeddedSubtitle": "Enable the two built-in unlock verification switches in one tap.",
+  "onboardingFocusUnlockEmbeddedEnabled": "Both unlock verification switches are enabled. Please manually restart System UI and XMSF.",
+  "onboardingFocusUnlockEnableButton": "Enable Now",
+  "onboardingFocusUnlockEnabledButton": "Enabled",
+  "onboardingFocusUnlockEnabled": "Enabled. Please manually restart System UI and XMSF",
   "onboardingNotificationStyleTitle": "Choose Notification Style",
   "onboardingNotificationStyleSubtitle": "Pick your preferred default notification display",
   "onboardingOriginalNotificationLabel": "Original notification",
@@ -744,5 +756,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "alwaysOnIsland": "Always-on Island"
 }

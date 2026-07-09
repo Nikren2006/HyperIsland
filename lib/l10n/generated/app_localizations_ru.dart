@@ -790,6 +790,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get aodTextSwitchLabel => 'Переключатель текста AOD';
 
   @override
+  String get aodTextSwitchSubtitle => '开启后息屏显示显示通知文本';
+
+  @override
   String get aodTextExprLabel => 'Выражение текста AOD';
 
   @override
@@ -1621,6 +1624,45 @@ class AppLocalizationsRu extends AppLocalizations {
       'Проверить статус разрешений модуля';
 
   @override
+  String get onboardingFocusUnlockTitle => 'Unlock Focus Whitelist';
+
+  @override
+  String get onboardingFocusUnlockSubtitle =>
+      'Remove focus notification whitelist and signature verification limits so more apps can use focus notifications';
+
+  @override
+  String get onboardingFocusUnlockMethodHyperCeiler =>
+      'Method 1: Use HyperCeiler to unlock the whitelist and signature verification';
+
+  @override
+  String get onboardingFocusUnlockHyperCeilerSubtitle =>
+      'Enable the related unlock options in HyperCeiler. Recommended if HyperCeiler is already installed.';
+
+  @override
+  String get onboardingFocusUnlockViewTutorial => 'View Tutorial';
+
+  @override
+  String get onboardingFocusUnlockMethodEmbedded => 'Method 2: Built-in module';
+
+  @override
+  String get onboardingFocusUnlockEmbeddedSubtitle =>
+      'Enable the two built-in unlock verification switches in one tap.';
+
+  @override
+  String get onboardingFocusUnlockEmbeddedEnabled =>
+      'Both unlock verification switches are enabled. Please manually restart System UI and XMSF.';
+
+  @override
+  String get onboardingFocusUnlockEnableButton => 'Enable Now';
+
+  @override
+  String get onboardingFocusUnlockEnabledButton => 'Enabled';
+
+  @override
+  String get onboardingFocusUnlockEnabled =>
+      'Enabled. Please manually restart System UI and XMSF';
+
+  @override
   String get onboardingNotificationStyleTitle => 'Выберите стиль уведомлений';
 
   @override
@@ -1979,4 +2021,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String widthDpLabel(int width) {
     return '$width dp';
   }
+
+  @override
+  String get alwaysOnIsland => '常驻岛';
 }

@@ -398,6 +398,7 @@
   "islandLeftExprLabel": "超级岛左侧表达式",
   "islandRightExprLabel": "超级岛右侧表达式",
   "aodTextSwitchLabel": "AOD文本开关",
+  "aodTextSwitchSubtitle": "开启后息屏显示显示通知文本",
   "aodTextExprLabel": "AOD文本表达式",
   "aodIconSourceLabel": "AOD图标来源",
   "focusNotificationLabel": "焦点通知",
@@ -751,6 +752,17 @@
   "onboardingWelcomeSubtitle": "简洁、快速地配置你的超级岛体验",
   "onboardingEnvironmentTitle": "环境检测",
   "onboardingEnvironmentSubtitle": "确认模块权限状态",
+  "onboardingFocusUnlockTitle": "破解焦点白名单",
+  "onboardingFocusUnlockSubtitle": "解除焦点通知白名单和签名验证限制，让更多应用可使用焦点通知",
+  "onboardingFocusUnlockMethodHyperCeiler": "方式一：HyperCeiler 破解焦点白名单和签名验证",
+  "onboardingFocusUnlockHyperCeilerSubtitle": "使用 HyperCeiler 开启相关破解功能，适合已安装 HyperCeiler 的用户。",
+  "onboardingFocusUnlockViewTutorial": "点击查看教程",
+  "onboardingFocusUnlockMethodEmbedded": "方式二：模块内嵌",
+  "onboardingFocusUnlockEmbeddedSubtitle": "一键开启模块内嵌的两个破解验证功能开关。",
+  "onboardingFocusUnlockEmbeddedEnabled": "两个破解验证功能开关已开启，请手动重启系统界面和小米服务框架。",
+  "onboardingFocusUnlockEnableButton": "一键开启",
+  "onboardingFocusUnlockEnabledButton": "已开启",
+  "onboardingFocusUnlockEnabled": "已开启，请手动重启系统界面和小米服务框架",
   "onboardingNotificationStyleTitle": "选择通知样式",
   "onboardingNotificationStyleSubtitle": "选择你更喜欢的默认通知展示方式",
   "onboardingOriginalNotificationLabel": "普通通知",
@@ -896,5 +908,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "alwaysOnIsland": "常驻岛"
 }
