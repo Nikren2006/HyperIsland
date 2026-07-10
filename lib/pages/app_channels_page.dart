@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../controllers/settings_controller.dart';
@@ -10,6 +9,7 @@ import '../widgets/batch_channel_settings_sheet.dart';
 import '../widgets/app_list_widgets.dart';
 import '../widgets/color_picker_dialog.dart';
 import '../widgets/color_value_field.dart';
+import '../widgets/modern_slider.dart';
 import '../services/app_cache_service.dart';
 
 class AppChannelsPage extends StatefulWidget {
@@ -377,7 +377,12 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
             kTriOptOff ||
         (_mediaIslandSettings['island_outer_glow'] ?? kTriOptDefault) !=
             kTriOptDefault ||
-        (_mediaIslandSettings['island_outer_glow_color'] ?? '').isNotEmpty;
+        (_mediaIslandSettings['island_outer_glow_color'] ?? '').isNotEmpty ||
+        (_mediaIslandSettings['liquid_glass'] ?? kTriOptDefault) !=
+            kTriOptDefault ||
+        (_mediaIslandSettings['blur_intensity'] ?? '50') != '50' ||
+        (_mediaIslandSettings['show_album_art'] ?? kTriOptOn) != kTriOptOn ||
+        (_mediaIslandSettings['text_color_mode'] ?? 'default') != 'default';
   }
 
   bool _isFollowDynamicGlow(String mode, String defaultMode) {
@@ -419,6 +424,11 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
         _mediaIslandSettings['island_outer_glow'] ?? kTriOptDefault;
     var islandOuterGlowColor =
         _mediaIslandSettings['island_outer_glow_color'] ?? '';
+    var liquidGlass = _mediaIslandSettings['liquid_glass'] ?? kTriOptDefault;
+    var blurIntensity = _mediaIslandSettings['blur_intensity'] ?? '50';
+    var showAlbumArt =
+        (_mediaIslandSettings['show_album_art'] ?? kTriOptOn) == kTriOptOn;
+    var textColorMode = _mediaIslandSettings['text_color_mode'] ?? 'default';
     final colorController = TextEditingController(text: islandOuterGlowColor);
 
     final result = await showDialog<Map<String, String>>(
@@ -429,6 +439,7 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
             islandOuterGlow,
             ctrl.defaultIslandOuterGlow,
           );
+          final blurInt = int.tryParse(blurIntensity)?.clamp(0, 100) ?? 50;
           return AlertDialog(
             title: Row(
               children: [
@@ -441,6 +452,10 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                     normalNotification = false;
                     islandOuterGlow = kTriOptDefault;
                     islandOuterGlowColor = '';
+                    liquidGlass = kTriOptDefault;
+                    blurIntensity = '50';
+                    showAlbumArt = true;
+                    textColorMode = 'default';
                     colorController.clear();
                   }),
                 ),
@@ -472,12 +487,13 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                   Text(
                     l10n.outerGlowLabel,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: enabled
-                          ? null
-                          : Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.38),
-                    ),
+                          color: enabled
+                              ? null
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.38),
+                        ),
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
@@ -547,6 +563,136 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                       }
                     },
                   ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.mediaLiquidGlassTitle,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: enabled
+                              ? null
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.38),
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  DropdownButtonFormField<String>(
+                    initialValue: liquidGlass,
+                    isExpanded: true,
+                    decoration: _dialogFieldDecoration(context),
+                    items: const [
+                      DropdownMenuItem(
+                        value: kTriOptDefault,
+                        child: Text('Default'),
+                      ),
+                      DropdownMenuItem(
+                        value: kTriOptOn,
+                        child: Text('On'),
+                      ),
+                      DropdownMenuItem(
+                        value: kTriOptOff,
+                        child: Text('Off'),
+                      ),
+                    ],
+                    onChanged: enabled
+                        ? (value) {
+                            if (value != null) {
+                              setDialogState(() => liquidGlass = value);
+                            }
+                          }
+                        : null,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.mediaBlurIntensityTitle,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: enabled
+                              ? null
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.38),
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SliderTheme(
+                          data: ModernSliderTheme.theme(context),
+                          child: Slider(
+                            value: blurInt.toDouble(),
+                            min: 0,
+                            max: 100,
+                            divisions: 100,
+                            onChanged: enabled
+                                ? (v) => setDialogState(
+                                      () => blurIntensity = v.round().toString(),
+                                    )
+                                : null,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 48,
+                        child: Text(
+                          '$blurInt%',
+                          textAlign: TextAlign.end,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(l10n.mediaShowAlbumArtTitle),
+                    subtitle: Text(l10n.mediaShowAlbumArtSubtitle),
+                    value: showAlbumArt,
+                    onChanged: enabled
+                        ? (value) =>
+                              setDialogState(() => showAlbumArt = value)
+                        : null,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.mediaTextColorModeTitle,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: enabled
+                              ? null
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.38),
+                        ),
+                  ),
+                  const SizedBox(height: 8),
+                  DropdownButtonFormField<String>(
+                    initialValue: textColorMode,
+                    isExpanded: true,
+                    decoration: _dialogFieldDecoration(context),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'default',
+                        child: Text('Default'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'white',
+                        child: Text('White'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'black',
+                        child: Text('Black'),
+                      ),
+                    ],
+                    onChanged: enabled
+                        ? (value) {
+                            if (value != null) {
+                              setDialogState(() => textColorMode = value);
+                            }
+                          }
+                        : null,
+                  ),
                 ],
               ),
             ),
@@ -563,6 +709,10 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                       : kTriOptOff,
                   'island_outer_glow': islandOuterGlow,
                   'island_outer_glow_color': islandOuterGlowColor.trim(),
+                  'liquid_glass': liquidGlass,
+                  'blur_intensity': blurIntensity,
+                  'show_album_art': showAlbumArt ? kTriOptOn : kTriOptOff,
+                  'text_color_mode': textColorMode,
                 }),
                 child: Text(l10n.apply),
               ),
@@ -590,6 +740,22 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
       widget.controller.setMediaIslandOuterGlowColor(
         pkg,
         result['island_outer_glow_color'] ?? '',
+      ),
+      widget.controller.setMediaIslandLiquidGlass(
+        pkg,
+        result['liquid_glass'] ?? kTriOptDefault,
+      ),
+      widget.controller.setMediaIslandBlurIntensity(
+        pkg,
+        result['blur_intensity'] ?? '50',
+      ),
+      widget.controller.setMediaIslandShowAlbumArt(
+        pkg,
+        result['show_album_art'] == kTriOptOn,
+      ),
+      widget.controller.setMediaIslandTextColorMode(
+        pkg,
+        result['text_color_mode'] ?? 'default',
       ),
     ]);
     if (!mounted) return;
@@ -873,6 +1039,11 @@ class _AppChannelsPageState extends State<AppChannelsPage> {
                   outerGlow:
                       _mediaIslandSettings['island_outer_glow'] ??
                       kTriOptDefault,
+                  liquidGlass:
+                      _mediaIslandSettings['liquid_glass'] ??
+                      kTriOptDefault,
+                  blurIntensity:
+                      _mediaIslandSettings['blur_intensity'] ?? '50',
                   onTap: _appEnabled ? _openMediaIslandSettings : null,
                 ),
               ),
@@ -1095,6 +1266,8 @@ class _MediaIslandTile extends StatelessWidget {
     required this.normalNotification,
     required this.modified,
     required this.outerGlow,
+    required this.liquidGlass,
+    required this.blurIntensity,
     required this.onTap,
   });
 
@@ -1103,6 +1276,8 @@ class _MediaIslandTile extends StatelessWidget {
   final bool normalNotification;
   final bool modified;
   final String outerGlow;
+  final String liquidGlass;
+  final String blurIntensity;
   final VoidCallback? onTap;
 
   String _outerGlowText(AppLocalizations l10n) {
@@ -1110,6 +1285,14 @@ class _MediaIslandTile extends StatelessWidget {
       kTriOptOn => l10n.optOn,
       kTriOptOff => l10n.optOff,
       kTriOptFollowDynamic => l10n.followDynamicColorLabel,
+      _ => l10n.optDefault,
+    };
+  }
+
+  String _liquidGlassText(AppLocalizations l10n) {
+    return switch (liquidGlass) {
+      kTriOptOn => l10n.optOn,
+      kTriOptOff => l10n.optOff,
       _ => l10n.optDefault,
     };
   }
@@ -1159,7 +1342,7 @@ class _MediaIslandTile extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       modified
-                          ? '${enabled ? l10n.optOn : l10n.optOff} · ${l10n.normalNotificationTitle}: ${normalNotification ? l10n.optOn : l10n.optOff} · ${l10n.outerGlowLabel}: ${_outerGlowText(l10n)}'
+                          ? '${enabled ? l10n.optOn : l10n.optOff} · ${l10n.normalNotificationTitle}: ${normalNotification ? l10n.optOn : l10n.optOff} · ${l10n.outerGlowLabel}: ${_outerGlowText(l10n)} · Liquid Glass: ${_liquidGlassText(l10n)} · Blur: $blurIntensity%'
                           : l10n.channelSettingsUnmodified,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

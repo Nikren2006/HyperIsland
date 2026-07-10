@@ -628,5 +628,21 @@
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
   "tapToSelectImage": "タップして画像またはGIFを選択",
   "autoExpandNotification": "通知を自動展開",
-  "off": "オフ"
+  "off": "オフ",
+  "liquidGlassTitle": "Liquid Glass",
+  "liquidGlassSubtitle": "アイランドに Liquid Glass モーフィズム効果を追加",
+  "liquidGlassIntensityTitle": "Liquid Glass 強度",
+  "liquidGlassIntensityLabel": "{intensity}%",
+  "@liquidGlassIntensityLabel": {
+    "placeholders": {
+      "intensity": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaLiquidGlassTitle": "Liquid Glass",
+  "mediaBlurIntensityTitle": "Blur 強度",
+  "mediaShowAlbumArtTitle": "アルバムアートを表示",
+  "mediaShowAlbumArtSubtitle": "メディアイランドにアルバムアートワークを表示",
+  "mediaTextColorModeTitle": "メディアテキスト色"
 }

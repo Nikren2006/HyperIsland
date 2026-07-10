@@ -93,6 +93,8 @@ const kPrefTempHideScreenLocked = 'pref_temp_hide_screen_locked';
 const kPrefTempHideNotificationCenter = 'pref_temp_hide_notification_center';
 const kPrefThemeSeedColor = 'pref_theme_seed_color';
 const kPrefBlurBars = 'pref_blur_bars';
+const kPrefLiquidGlassEnabled = 'pref_liquid_glass_enabled';
+const kPrefLiquidGlassIntensity = 'pref_liquid_glass_intensity';
 const kPrefDebugLog = 'pref_debug_log';
 const kPrefOnboardingCompleted = 'pref_onboarding_completed';
 
@@ -253,6 +255,8 @@ class SettingsController extends ChangeNotifier {
   bool tempHideNotificationCenter = true;
   int themeSeedColor = 0xFF6750A4;
   bool blurBars = true;
+  bool liquidGlassEnabled = false;
+  double liquidGlassIntensity = 0.5;
   bool debugLog = false;
   bool onboardingCompleted = false;
   Locale? locale;
@@ -396,6 +400,8 @@ class SettingsController extends ChangeNotifier {
         prefs.getBool(kPrefTempHideNotificationCenter) ?? true;
     themeSeedColor = prefs.getInt(kPrefThemeSeedColor) ?? 0xFF6750A4;
     blurBars = prefs.getBool(kPrefBlurBars) ?? true;
+    liquidGlassEnabled = prefs.getBool(kPrefLiquidGlassEnabled) ?? false;
+    liquidGlassIntensity = prefs.getDouble(kPrefLiquidGlassIntensity) ?? 0.5;
     debugLog = prefs.getBool(kPrefDebugLog) ?? false;
     onboardingCompleted = prefs.getBool(kPrefOnboardingCompleted) ?? false;
     loading = false;
@@ -1254,6 +1260,23 @@ class SettingsController extends ChangeNotifier {
     final prefs = await _getPrefs();
     await prefs.setBool(kPrefBlurBars, value);
     blurBars = value;
+    notifyListeners();
+  }
+
+  Future<void> setLiquidGlassEnabled(bool value) async {
+    if (liquidGlassEnabled == value) return;
+    final prefs = await _getPrefs();
+    await prefs.setBool(kPrefLiquidGlassEnabled, value);
+    liquidGlassEnabled = value;
+    notifyListeners();
+  }
+
+  Future<void> setLiquidGlassIntensity(double value) async {
+    final clamped = value.clamp(0.0, 1.0).toDouble();
+    if (liquidGlassIntensity == clamped) return;
+    final prefs = await _getPrefs();
+    await prefs.setDouble(kPrefLiquidGlassIntensity, clamped);
+    liquidGlassIntensity = clamped;
     notifyListeners();
   }
 

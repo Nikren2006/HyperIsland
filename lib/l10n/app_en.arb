@@ -757,5 +757,21 @@
       }
     }
   },
-  "alwaysOnIsland": "Always-on Island"
+  "alwaysOnIsland": "Always-on Island",
+  "liquidGlassTitle": "Liquid Glass",
+  "liquidGlassSubtitle": "Add liquid glass morphism effect to the island",
+  "liquidGlassIntensityTitle": "Liquid Glass Intensity",
+  "liquidGlassIntensityLabel": "{intensity}%",
+  "@liquidGlassIntensityLabel": {
+    "placeholders": {
+      "intensity": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaLiquidGlassTitle": "Liquid Glass",
+  "mediaBlurIntensityTitle": "Blur Intensity",
+  "mediaShowAlbumArtTitle": "Show Album Art",
+  "mediaShowAlbumArtSubtitle": "Display album artwork in the media island",
+  "mediaTextColorModeTitle": "Media Text Color"
 }

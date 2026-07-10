@@ -1368,6 +1368,25 @@ class WhitelistController extends ChangeNotifier {
         'island_outer_glow_color',
         '',
       ),
+      'liquid_glass': await AppConfigStore.getNotification(
+        packageName,
+        'liquid_glass',
+        kTriOptDefault,
+      ),
+      'blur_intensity': await AppConfigStore.getNotification(
+        packageName,
+        'blur_intensity',
+        '50',
+      ),
+      'show_album_art':
+          await AppConfigStore.getNotification(packageName, 'show_album_art', true) == true
+          ? kTriOptOn
+          : kTriOptOff,
+      'text_color_mode': await AppConfigStore.getNotification(
+        packageName,
+        'text_color_mode',
+        'default',
+      ),
     };
   }
 
@@ -1405,6 +1424,54 @@ class WhitelistController extends ChangeNotifier {
       'island_outer_glow_color',
       value,
       '',
+    );
+  }
+
+  Future<void> setMediaIslandLiquidGlass(
+    String packageName,
+    String value,
+  ) async {
+    await AppConfigStore.setNotification(
+      packageName,
+      'liquid_glass',
+      value,
+      kTriOptDefault,
+    );
+  }
+
+  Future<void> setMediaIslandBlurIntensity(
+    String packageName,
+    String value,
+  ) async {
+    await AppConfigStore.setNotification(
+      packageName,
+      'blur_intensity',
+      value,
+      '50',
+    );
+  }
+
+  Future<void> setMediaIslandShowAlbumArt(
+    String packageName,
+    bool value,
+  ) async {
+    await AppConfigStore.setNotification(
+      packageName,
+      'show_album_art',
+      value,
+      true,
+    );
+  }
+
+  Future<void> setMediaIslandTextColorMode(
+    String packageName,
+    String value,
+  ) async {
+    await AppConfigStore.setNotification(
+      packageName,
+      'text_color_mode',
+      value,
+      'default',
     );
   }
 

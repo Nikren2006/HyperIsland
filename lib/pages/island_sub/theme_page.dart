@@ -4,6 +4,7 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../services/interaction_haptics.dart';
 import '../../widgets/blur_app_bar.dart';
 import '../../widgets/color_picker_dialog.dart';
+import '../../widgets/modern_slider.dart';
 
 class ThemePage extends StatefulWidget {
   const ThemePage({super.key});
@@ -37,6 +38,8 @@ class _ThemePageState extends State<ThemePage> {
         _ctrl.themeSeedColor,
         _ctrl.themeMode,
         _ctrl.blurBars,
+        _ctrl.liquidGlassEnabled,
+        _ctrl.liquidGlassIntensity,
       ]);
 
   void _onChanged() {
@@ -238,6 +241,69 @@ class _ThemePageState extends State<ThemePage> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 8),
+
+                  // --- Liquid Glass Card ---
+                  Card(
+                    elevation: 0,
+                    color: cs.surfaceContainerHighest,
+                    child: SwitchListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      secondary: const Icon(Icons.water_drop_rounded),
+                      title: Text(l10n.liquidGlassTitle, style: titleStyle),
+                      subtitle: Text(l10n.liquidGlassSubtitle),
+                      value: _ctrl.liquidGlassEnabled,
+                      onChanged: InteractionHaptics.interceptToggle(
+                        (value) => _ctrl.setLiquidGlassEnabled(value),
+                        force: true,
+                      ),
+                    ),
+                  ),
+                  if (_ctrl.liquidGlassEnabled)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  l10n.liquidGlassIntensityTitle,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(
+                                        color: cs.onSurfaceVariant,
+                                      ),
+                                ),
+                              ),
+                              Text(
+                                l10n.liquidGlassIntensityLabel(
+                                  (_ctrl.liquidGlassIntensity * 100).round(),
+                                ),
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(color: cs.onSurfaceVariant),
+                              ),
+                            ],
+                          ),
+                          SliderTheme(
+                            data: ModernSliderTheme.theme(context),
+                            child: Slider(
+                              value: _ctrl.liquidGlassIntensity,
+                              min: 0.0,
+                              max: 1.0,
+                              divisions: 100,
+                              onChanged: InteractionHaptics.interceptSlider(
+                                (v) => _ctrl.setLiquidGlassIntensity(v),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
                   const SizedBox(height: 8),
 

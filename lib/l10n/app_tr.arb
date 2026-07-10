@@ -775,5 +775,21 @@
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
   "tapToSelectImage": "Resim veya GIF seçmek için dokunun",
   "autoExpandNotification": "Bildirimi otomatik genişlet",
-  "off": "Kapalı"
+  "off": "Kapalı",
+  "liquidGlassTitle": "Liquid Glass",
+  "liquidGlassSubtitle": "Adaya sıvı cam görünümü efekti ekle",
+  "liquidGlassIntensityTitle": "Liquid Glass Yoğunluğu",
+  "liquidGlassIntensityLabel": "%{intensity}",
+  "@liquidGlassIntensityLabel": {
+    "placeholders": {
+      "intensity": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaLiquidGlassTitle": "Liquid Glass",
+  "mediaBlurIntensityTitle": "Bulanıklık Yoğunluğu",
+  "mediaShowAlbumArtTitle": "Albüm Kapağını Göster",
+  "mediaShowAlbumArtSubtitle": "Medya adasında albüm kapağını göster",
+  "mediaTextColorModeTitle": "Medya Metin Rengi"
 }

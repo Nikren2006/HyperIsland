@@ -909,5 +909,21 @@
       }
     }
   },
-  "alwaysOnIsland": "常驻岛"
+  "alwaysOnIsland": "常驻岛",
+  "liquidGlassTitle": "Liquid Glass",
+  "liquidGlassSubtitle": "为灵动岛添加液态玻璃拟态效果",
+  "liquidGlassIntensityTitle": "Liquid Glass 强度",
+  "liquidGlassIntensityLabel": "{intensity}%",
+  "@liquidGlassIntensityLabel": {
+    "placeholders": {
+      "intensity": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaLiquidGlassTitle": "Liquid Glass",
+  "mediaBlurIntensityTitle": "Blur 强度",
+  "mediaShowAlbumArtTitle": "显示专辑封面",
+  "mediaShowAlbumArtSubtitle": "在媒体岛中显示专辑封面",
+  "mediaTextColorModeTitle": "媒体文字颜色"
 }

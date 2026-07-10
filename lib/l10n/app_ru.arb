@@ -695,5 +695,21 @@
       }
     }
   },
-  "off": "Выкл"
+  "off": "Выкл",
+  "liquidGlassTitle": "Liquid Glass",
+  "liquidGlassSubtitle": "Добавить эффект жидкого стекла на остров",
+  "liquidGlassIntensityTitle": "Интенсивность Liquid Glass",
+  "liquidGlassIntensityLabel": "{intensity}%",
+  "@liquidGlassIntensityLabel": {
+    "placeholders": {
+      "intensity": {
+        "type": "int"
+      }
+    }
+  },
+  "mediaLiquidGlassTitle": "Liquid Glass",
+  "mediaBlurIntensityTitle": "Интенсивность размытия",
+  "mediaShowAlbumArtTitle": "Показывать обложку",
+  "mediaShowAlbumArtSubtitle": "Отображать обложку альбома в медиа-острове",
+  "mediaTextColorModeTitle": "Цвет текста медиа"
 }

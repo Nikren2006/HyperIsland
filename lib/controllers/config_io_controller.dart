@@ -57,6 +57,10 @@ class ConfigIOController {
     'pref_media_island_normal_notification_',
     'pref_media_island_outer_glow_',
     'pref_media_island_outer_glow_color_',
+    'pref_media_island_liquid_glass_',
+    'pref_media_island_blur_intensity_',
+    'pref_media_island_show_album_art_',
+    'pref_media_island_text_color_mode_',
   ];
 
   static const _channelPrefPrefixes = [

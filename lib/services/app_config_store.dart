@@ -607,6 +607,10 @@ class AppConfigStore {
       'pref_media_island_outer_glow_color_',
       '',
     ),
+    'liquid_glass': _LegacyField('pref_media_island_liquid_glass_', kTriOptDefault),
+    'blur_intensity': _LegacyField('pref_media_island_blur_intensity_', '50'),
+    'show_album_art': _LegacyField('pref_media_island_show_album_art_', true),
+    'text_color_mode': _LegacyField('pref_media_island_text_color_mode_', 'default'),
   };
 
   static const _channelLegacyFields = <String, _LegacyField>{
