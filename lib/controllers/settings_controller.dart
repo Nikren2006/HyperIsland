@@ -79,6 +79,8 @@ const kPrefIslandBgExpandPath = 'pref_island_bg_expand_path';
 const kPrefIslandHeight = 'pref_island_height';
 const kPrefIslandTopOffset = 'pref_island_top_offset';
 const kPrefIslandTextColorMode = 'pref_island_text_color_mode';
+const kPrefIslandLiquidGlass = 'pref_island_liquid_glass';
+const kPrefIslandLiquidGlassBlur = 'pref_island_liquid_glass_blur';
 const kPrefKeepIsland = 'pref_keep_island';
 const kPrefKeepIslandAutoHide = 'pref_keep_island_auto_hide';
 const kPrefKeepIslandHideLandscape = 'pref_keep_island_hide_landscape';
@@ -241,6 +243,8 @@ class SettingsController extends ChangeNotifier {
   double islandHeight = 0;
   double islandTopOffset = 0;
   String islandTextColorMode = kIslandTextColorDefault;
+  bool islandLiquidGlass = false;
+  int islandLiquidGlassBlur = 15;
   bool keepIsland = false;
   bool keepIslandAutoHide = true;
   bool keepIslandHideLandscape = false;
@@ -382,6 +386,8 @@ class SettingsController extends ChangeNotifier {
     islandTextColorMode = _normalizeIslandTextColorMode(
       prefs.getString(kPrefIslandTextColorMode),
     );
+    islandLiquidGlass = prefs.getBool(kPrefIslandLiquidGlass) ?? false;
+    islandLiquidGlassBlur = prefs.getInt(kPrefIslandLiquidGlassBlur) ?? 15;
     keepIsland = prefs.getBool(kPrefKeepIsland) ?? false;
     keepIslandAutoHide = prefs.getBool(kPrefKeepIslandAutoHide) ?? true;
     keepIslandHideLandscape =
@@ -1133,6 +1139,23 @@ class SettingsController extends ChangeNotifier {
       await prefs.setString(kPrefIslandTextColorMode, normalized);
     }
     islandTextColorMode = normalized;
+    notifyListeners();
+  }
+
+  Future<void> setIslandLiquidGlass(bool value) async {
+    if (islandLiquidGlass == value) return;
+    final prefs = await _getPrefs();
+    await prefs.setBool(kPrefIslandLiquidGlass, value);
+    islandLiquidGlass = value;
+    notifyListeners();
+  }
+
+  Future<void> setIslandLiquidGlassBlur(int value) async {
+    final clamped = value.clamp(0, 50);
+    if (islandLiquidGlassBlur == clamped) return;
+    final prefs = await _getPrefs();
+    await prefs.setInt(kPrefIslandLiquidGlassBlur, clamped);
+    islandLiquidGlassBlur = clamped;
     notifyListeners();
   }
 

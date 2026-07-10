@@ -3677,6 +3677,30 @@ abstract class AppLocalizations {
   /// **'默认'**
   String get islandTextColorDefault;
 
+  /// No description provided for @islandLiquidGlassTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Island Liquid Glass'**
+  String get islandLiquidGlassTitle;
+
+  /// No description provided for @islandLiquidGlassSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply frosted glass effect to the island background and content'**
+  String get islandLiquidGlassSubtitle;
+
+  /// No description provided for @islandLiquidGlassBlurTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blur Intensity'**
+  String get islandLiquidGlassBlurTitle;
+
+  /// No description provided for @blurDpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{blur} dp'**
+  String blurDpLabel(int blur);
+
   /// No description provided for @tapToSelectImage.
   ///
   /// In zh, this message translates to:

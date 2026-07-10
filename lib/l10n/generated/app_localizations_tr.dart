@@ -1984,6 +1984,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get islandTextColorDefault => '默认';
 
   @override
+  String get islandLiquidGlassTitle => 'Ada Sıvı Cam';
+
+  @override
+  String get islandLiquidGlassSubtitle => 'Ada arka planı ve içeriğine buğulu cam efekti uygula';
+
+  @override
+  String get islandLiquidGlassBlurTitle => 'Bulanıklık Yoğunluğu';
+
+  @override
+  String blurDpLabel(int blur) {
+    return '$blur dp';
+  }
+
+  @override
   String get tapToSelectImage => 'Resim veya GIF seçmek için dokunun';
 
   @override

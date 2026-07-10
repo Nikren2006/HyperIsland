@@ -1996,6 +1996,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get islandTextColorDefault => 'Default';
 
   @override
+  String get islandLiquidGlassTitle => 'Island Liquid Glass';
+
+  @override
+  String get islandLiquidGlassSubtitle =>
+      'Apply frosted glass effect to the island background and content';
+
+  @override
+  String get islandLiquidGlassBlurTitle => 'Blur Intensity';
+
+  @override
+  String blurDpLabel(int blur) {
+    return '$blur dp';
+  }
+
+  @override
   String get tapToSelectImage => 'Tap to select image or GIF';
 
   @override

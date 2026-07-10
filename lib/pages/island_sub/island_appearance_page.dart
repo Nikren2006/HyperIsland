@@ -35,6 +35,8 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
     _ctrl.islandBgBigPath,
     _ctrl.islandBgExpandPath,
     _ctrl.islandTextColorMode,
+    _ctrl.islandLiquidGlass,
+    _ctrl.islandLiquidGlassBlur,
   ]);
 
   @override
@@ -476,6 +478,67 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 8),
+                // --- Liquid Glass ---
+                _SectionLabel(l10n.islandLiquidGlassTitle),
+                const SizedBox(height: 8),
+                Card(
+                  elevation: 0,
+                  color: cs.surfaceContainerHighest,
+                  child: SwitchListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 4,
+                    ),
+                    secondary: const Icon(Icons.water_drop_rounded),
+                    title: Text(l10n.islandLiquidGlassTitle, style: titleStyle),
+                    subtitle: Text(l10n.islandLiquidGlassSubtitle),
+                    value: _ctrl.islandLiquidGlass,
+                    onChanged: InteractionHaptics.interceptToggle(
+                      (value) => _ctrl.setIslandLiquidGlass(value),
+                      force: true,
+                    ),
+                  ),
+                ),
+                if (_ctrl.islandLiquidGlass)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                l10n.islandLiquidGlassBlurTitle,
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      color: cs.onSurfaceVariant,
+                                    ),
+                              ),
+                            ),
+                            Text(
+                              l10n.blurDpLabel(_ctrl.islandLiquidGlassBlur),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: cs.onSurfaceVariant),
+                            ),
+                          ],
+                        ),
+                        SliderTheme(
+                          data: ModernSliderTheme.theme(context),
+                          child: Slider(
+                            value: _ctrl.islandLiquidGlassBlur.toDouble(),
+                            min: 0,
+                            max: 50,
+                            divisions: 50,
+                            onChanged: InteractionHaptics.interceptSlider(
+                              (v) => _ctrl.setIslandLiquidGlassBlur(v.round()),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 const SizedBox(height: 8),
                 // --- 图标圆角 ---
                 _SectionLabel(l10n.roundIconTitle),

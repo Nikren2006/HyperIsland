@@ -685,6 +685,17 @@
   "hideBehaviorScreenLockedSubtitle": "Скрывать Остров во время работы экрана блокировки или выключения экрана",
   "hideBehaviorNotificationCenter": "Центр уведомлений",
   "hideBehaviorNotificationCenterSubtitle": "Скрывать Остров, пока шторка уведомлений разворачивается или переходит",
+  "islandLiquidGlassTitle": "Жидкое стекло для острова",
+  "islandLiquidGlassSubtitle": "Применить эффект матового стекла к фону и содержимому острова",
+  "islandLiquidGlassBlurTitle": "Интенсивность размытия",
+  "blurDpLabel": "{blur} dp",
+  "@blurDpLabel": {
+    "placeholders": {
+      "blur": {
+        "type": "int"
+      }
+    }
+  },
   "tapToSelectImage": "Нажмите, чтобы выбрать изображение или GIF",
   "autoExpandNotification": "Автоматически разворачивать уведомление",
   "widthDpLabel": "{width} dp",

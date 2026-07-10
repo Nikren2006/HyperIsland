@@ -773,6 +773,17 @@
   "hideBehaviorScreenLockedSubtitle": "Hide the island during lock screen or screen-off flows",
   "hideBehaviorNotificationCenter": "Notification center",
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
+  "islandLiquidGlassTitle": "Island Liquid Glass",
+  "islandLiquidGlassSubtitle": "Apply frosted glass effect to the island background and content",
+  "islandLiquidGlassBlurTitle": "Blur Intensity",
+  "blurDpLabel": "{blur} dp",
+  "@blurDpLabel": {
+    "placeholders": {
+      "blur": {
+        "type": "int"
+      }
+    }
+  },
   "tapToSelectImage": "Resim veya GIF seçmek için dokunun",
   "autoExpandNotification": "Bildirimi otomatik genişlet",
   "off": "Kapalı",

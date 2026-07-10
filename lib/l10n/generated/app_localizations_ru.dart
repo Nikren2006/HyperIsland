@@ -2011,6 +2011,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get islandTextColorDefault => '默认';
 
   @override
+  String get islandLiquidGlassTitle => 'Жидкое стекло для острова';
+
+  @override
+  String get islandLiquidGlassSubtitle =>
+      'Применить эффект матового стекла к фону и содержимому острова';
+
+  @override
+  String get islandLiquidGlassBlurTitle => 'Интенсивность размытия';
+
+  @override
+  String blurDpLabel(int blur) {
+    return '$blur dp';
+  }
+
+  @override
   String get tapToSelectImage => 'Нажмите, чтобы выбрать изображение или GIF';
 
   @override

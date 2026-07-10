@@ -121,9 +121,16 @@ object IslandBackgroundHook : BaseHook() {
     @Volatile
     private var pendingRetryRunnable: Runnable? = null
 
+    @Volatile
+    private var moduleRef: XposedModule? = null
+
+    @Volatile
+    private var currentContentView: View? = null
+
     override fun getTag() = TAG
 
     override fun onInit(module: XposedModule, param: PackageLoadedParam) {
+        moduleRef = module
         hookDynamicClassLoaders(module)
     }
 
@@ -153,6 +160,7 @@ object IslandBackgroundHook : BaseHook() {
 
             hookSetDrawable(module, bgViewClass)
             hookAlphaAnimation(module, bgViewClass)
+            hookContentViewLifecycle(module)
 
             try {
                 val contentViewClass = classLoader.loadClass(
@@ -331,7 +339,7 @@ object IslandBackgroundHook : BaseHook() {
     /**
      * Hook DynamicIslandBackgroundView.alphaAnimation(float)。
      *
-     * ★ 仅当当前岛类型有自定义背景时设 alpha=1.0 并跳过 Folme 动画。
+     * ★ 自定义背景时设 alpha=1.0，Liquid Glass 时设 alpha≈0.85，否则跟随系统。
      */
     private fun hookAlphaAnimation(module: XposedModule, bgViewClass: Class<*>) {
         try {
@@ -339,17 +347,29 @@ object IslandBackgroundHook : BaseHook() {
 
             module.hook(alphaMethod).intercept { chain ->
                 val type = getCurrentIslandType()
+                val bgView = chain.thisObject
 
                 if (type != null && anyCustomBgConfigured()) {
-                    val bgView = chain.thisObject
                     try {
                         val alphaField = getCachedField(backgroundAlphaFieldCache, bgViewClass, "backgroundAlpha")
                         alphaField?.setFloat(bgView, 1.0f)
-
                         val scheduleMethod = getCachedMethod(scheduleUpdateMethodCache, bgViewClass, "scheduleUpdate")
                         scheduleMethod?.invoke(bgView)
                     } catch (e: Exception) {
                         logError(module, "alphaAnimation override failed: ${e.message}, falling back")
+                        chain.proceed()
+                    }
+                    return@intercept null
+                }
+
+                if (type != null && ConfigManager.getBoolean("pref_island_liquid_glass", false)) {
+                    try {
+                        val alphaField = getCachedField(backgroundAlphaFieldCache, bgViewClass, "backgroundAlpha")
+                        alphaField?.setFloat(bgView, 0.85f)
+                        val scheduleMethod = getCachedMethod(scheduleUpdateMethodCache, bgViewClass, "scheduleUpdate")
+                        scheduleMethod?.invoke(bgView)
+                    } catch (e: Exception) {
+                        logError(module, "liquid glass alpha set failed: ${e.message}, falling back")
                         chain.proceed()
                     }
                     return@intercept null
@@ -361,6 +381,62 @@ object IslandBackgroundHook : BaseHook() {
 
         } catch (e: Throwable) {
             logError(module, "Failed to hook alphaAnimation: ${e.message}")
+        }
+    }
+
+    private fun hookContentViewLifecycle(module: XposedModule) {
+        try {
+            val attachedMethod = View::class.java.getDeclaredMethod("onAttachedToWindow")
+            module.hook(attachedMethod).intercept { chain ->
+                val view = chain.thisObject as? View ?: return@intercept null
+                if (view.javaClass.name == "miui.systemui.dynamicisland.window.content.DynamicIslandBaseContentView") {
+                    if (ConfigManager.getBoolean("pref_island_liquid_glass", false)) {
+                        applyBlurToContentView(view, module)
+                    }
+                }
+                chain.proceed()
+                null
+            }
+        } catch (e: Throwable) {
+            logError(module, "Failed to hook contentView onAttachedToWindow: ${e.message}")
+        }
+
+        try {
+            val detachedMethod = View::class.java.getDeclaredMethod("onDetachedFromWindow")
+            module.hook(detachedMethod).intercept { chain ->
+                val view = chain.thisObject as? View ?: return@intercept null
+                if (view.javaClass.name == "miui.systemui.dynamicisland.window.content.DynamicIslandBaseContentView") {
+                    removeBlurFromContentView(view, module)
+                }
+                chain.proceed()
+                null
+            }
+        } catch (e: Throwable) {
+            logError(module, "Failed to hook contentView onDetachedFromWindow: ${e.message}")
+        }
+    }
+
+    private fun applyBlurToContentView(view: View, module: XposedModule) {
+        try {
+            currentContentView = view
+            val blurRadius = ConfigManager.getInt("pref_island_liquid_glass_blur", 15).coerceIn(0, 50).toFloat()
+            if (blurRadius > 0) {
+                val renderEffect = RenderEffect.createBlurEffect(blurRadius, blurRadius, Shader.TileMode.CLAMP)
+                view.setRenderEffect(renderEffect)
+            }
+        } catch (e: Exception) {
+            logError(module, "applyBlurToContentView failed: ${e.message}")
+        }
+    }
+
+    private fun removeBlurFromContentView(view: View, module: XposedModule) {
+        try {
+            if (currentContentView == view) {
+                currentContentView = null
+            }
+            view.setRenderEffect(null)
+        } catch (e: Exception) {
+            logError(module, "removeBlurFromContentView failed: ${e.message}")
         }
     }
 
@@ -904,13 +980,22 @@ object IslandBackgroundHook : BaseHook() {
             lastConfigPath.clear()
             cachedBlackBitmap = null
         }
-        // ★ 清除性能缓存，下次调用时重新计算
         cachedAnyCustomBg = null
         cachedCornerRadius = null
         stokeWidthFieldCache.clear()
         drawableFieldCache.clear()
         backgroundAlphaFieldCache.clear()
         scheduleUpdateMethodCache.clear()
+
+        val module = moduleRef
+        val view = currentContentView
+        if (module != null && view != null) {
+            if (ConfigManager.getBoolean("pref_island_liquid_glass", false)) {
+                applyBlurToContentView(view, module)
+            } else {
+                removeBlurFromContentView(view, module)
+            }
+        }
     }
 
     /**
