@@ -10,12 +10,25 @@ on:
     inputs:
       tag:
         description: 'Release tag to notify (e.g. v1.9.9)'
-        required: true
+        required: false
         type: string
+      test_mode:
+        description: 'Test mode - send test message without release'
+        required: false
+        type: boolean
+        default: false
+      test_message:
+        description: 'Custom test message (for test mode)'
+        required: false
+        type: string
+        default: '🔧 Testing Telegram bot integration...'
 
 jobs:
   telegram:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: |
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'release' && github.event.action == 'published') ||
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
@@ -24,14 +37,79 @@ jobs:
         with:
           ref: ${{ github.event.release.tag_name || github.event.workflow_run.head_sha || github.ref }}
 
-      - name: Validate Telegram topic config
+      - name: Validate Telegram config
         run: |
-          if [ -z "${{ secrets.TG_RELEASES_THREAD_ID }}" ]; then
-            echo "::error::TG_RELEASES_THREAD_ID is not set. Add the Releases topic message_thread_id as a repository secret."
+          if [ -z "${{ secrets.TG_BOT_TOKEN }}" ]; then
+            echo "::error::TG_BOT_TOKEN is not set. Add your Telegram bot token as a repository secret."
             exit 1
           fi
+          if [ -z "${{ secrets.TG_CHAT_ID }}" ]; then
+            echo "::error::TG_CHAT_ID is not set. Add your Telegram chat ID as a repository secret."
+            exit 1
+          fi
+          echo "✅ Telegram config validated"
+
+      - name: Send test message (manual trigger)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.test_mode == 'true'
+        run: |
+          MESSAGE="🔧 **Telegram Bot Test**%0A%0A"
+          MESSAGE="${MESSAGE}📅 Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')%0A"
+          MESSAGE="${MESSAGE}📂 Repository: ${{ github.repository }}%0A"
+          MESSAGE="${MESSAGE}👤 Triggered by: ${{ github.actor }}%0A%0A"
+          MESSAGE="${MESSAGE}📝 **Message:**%0A"
+          MESSAGE="${MESSAGE}${{ github.event.inputs.test_message }}%0A%0A"
+          MESSAGE="${MESSAGE}✅ Bot is working correctly!"
+          
+          echo "📤 Sending test message..."
+          
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+            -d parse_mode="Markdown" \
+            -d text="$MESSAGE")
+          
+          if echo "$RESPONSE" | grep -q '"ok":true'; then
+            echo "✅ Test message sent successfully!"
+          else
+            echo "❌ Failed to send test message: $RESPONSE"
+            exit 1
+          fi
+          
+          echo "📄 Creating test file..."
+          echo "This is a test file from GitHub Actions" > test.txt
+          echo "Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> test.txt
+          echo "Repository: ${{ github.repository }}" >> test.txt
+          
+          echo "📤 Sending test file..."
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+            -F "chat_id=${{ secrets.TG_CHAT_ID }}" \
+            -F "document=@test.txt" \
+            -F "caption=📄 **Test file**%0A✅ Bot can send files too!")
+          
+          if echo "$RESPONSE" | grep -q '"ok":true'; then
+            echo "✅ Test file sent successfully!"
+          else
+            echo "❌ Failed to send test file: $RESPONSE"
+          fi
+          
+          rm -f test.txt
+          echo "🎉 Test completed successfully!"
+
+      - name: Send quick test confirmation
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.test_mode == 'true'
+        run: |
+          MESSAGE="🔄 **Quick Test Completed!**%0A%0A"
+          MESSAGE="${MESSAGE}✅ Bot is online and responding.%0A"
+          MESSAGE="${MESSAGE}📊 All systems operational.%0A%0A"
+          MESSAGE="${MESSAGE}🔗 Repository: ${{ github.repository }}%0A"
+          MESSAGE="${MESSAGE}📅 Test time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+            -d parse_mode="Markdown" \
+            -d text="$MESSAGE"
 
       - name: Resolve release tag
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.test_mode != 'true'
         id: release
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -44,6 +122,13 @@ jobs:
             TAG="v$VERSION_NAME"
           fi
 
+          if [ -z "$TAG" ]; then
+            echo "::error::No tag specified and couldn't detect from pubspec.yaml"
+            exit 1
+          fi
+
+          echo "Checking release: $TAG"
+          
           if ! gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
             echo "::notice::No published release found for $TAG. Skipping Telegram notification."
             echo "found=false" >> $GITHUB_OUTPUT
@@ -56,70 +141,162 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Get release info
-        if: steps.release.outputs.found == 'true'
+        if: steps.release.outputs.found == 'true' && (github.event_name != 'workflow_dispatch' || github.event.inputs.test_mode != 'true')
         id: release_info
         run: |
           TAG="${{ steps.release.outputs.tag }}"
+          
           echo "tag_name=$TAG" >> $GITHUB_OUTPUT
-
-      - name: Download and send release assets
-        if: steps.release.outputs.found == 'true'
-        run: |
-          TAG="${{ steps.release_info.outputs.tag_name }}"
-          assets=$(gh release view "$TAG" --repo "${{ github.repository }}" --json assets -q '.assets | map({name, browser_download_url: .url})')
-          gh release view "$TAG" --repo "${{ github.repository }}" --json body -q .body > release-body.md
-
-          TAG="$TAG" python3 - <<'PY' > telegram-caption.html
-          import html
-          import os
-
-          tag = html.escape(os.environ["TAG"], quote=False)
-          with open("release-body.md", "r", encoding="utf-8") as file:
-            body = file.read()
-          prefix = f"🚀 <b>新版本发布</b>\n🏷 版本：<code>{tag}</code>\n📋 更新日志：\n<pre>"
-          suffix = "</pre>"
-          budget = 1024 - len(prefix) - len(suffix)
-          escaped = ""
-          truncated = False
-
-          for char in body:
-            value = html.escape(char, quote=False)
-            if len(escaped) + len(value) > budget:
-              truncated = True
-              break
-            escaped += value
-
-          if truncated and budget >= 3:
-            while len(escaped) + 3 > budget:
-              escaped = escaped[:-1]
-            escaped += "..."
-
-          print(prefix + escaped + suffix)
-          PY
-
-          caption_sent=false
-
-          echo "$assets" | jq -r '.[] | [.name, .browser_download_url] | @tsv' | while IFS=$'\t' read -r name url; do
-            echo "Downloading $name from $url"
-
-            curl -L -o "$name" "$url"
-
-            echo "Sending $name to Telegram"
-
-            if [ "$caption_sent" = false ]; then
-              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
-                -F "chat_id=${{ secrets.TG_CHAT_ID }}" \
-                -F "message_thread_id=${{ secrets.TG_RELEASES_THREAD_ID }}" \
-                -F "document=@$name" \
-                -F "parse_mode=HTML" \
-                -F "caption=<telegram-caption.html"
-              caption_sent=true
-            else
-              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
-                -F "chat_id=${{ secrets.TG_CHAT_ID }}" \
-                -F "message_thread_id=${{ secrets.TG_RELEASES_THREAD_ID }}" \
-                -F "document=@$name"
-            fi
-          done
+          
+          URL=$(gh release view "$TAG" --repo "${{ github.repository }}" --json url -q .url)
+          echo "html_url=$URL" >> $GITHUB_OUTPUT
+          
+          ASSETS=$(gh release view "$TAG" --repo "${{ github.repository }}" --json assets -q '.assets | map({name, browser_download_url: .url})')
+          ASSETS_CLEAN=$(echo "$ASSETS" | tr -d '\n\r')
+          echo "assets=$ASSETS_CLEAN" >> $GITHUB_OUTPUT
+          
+          # Используем heredoc для безопасной записи body
+          BODY=$(gh release view "$TAG" --repo "${{ github.repository }}" --json body -q .body)
+          {
+            echo 'body<<EOF'
+            echo "$BODY"
+            echo 'EOF'
+          } >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ github.token }}
+
+      - name: Send release notification to Telegram
+        if: steps.release.outputs.found == 'true' && (github.event_name != 'workflow_dispatch' || github.event.inputs.test_mode != 'true')
+        run: |
+          TAG="${{ steps.release_info.outputs.tag_name }}"
+          URL="${{ steps.release_info.outputs.html_url }}"
+          BODY="${{ steps.release_info.outputs.body }}"
+          
+          SHORT_BODY=$(echo "$BODY" | head -c 500)
+          if [ ${#BODY} -gt 500 ]; then
+            SHORT_BODY="${SHORT_BODY}..."
+          fi
+          
+          MESSAGE="🚀 **HyperIsland $TAG** released!%0A%0A"
+          MESSAGE="${MESSAGE}📦 **Download:** $URL%0A%0A"
+          
+          if [ -n "$SHORT_BODY" ]; then
+            MESSAGE="${MESSAGE}📋 **Changelog:**%0A"
+            MESSAGE="${MESSAGE}$SHORT_BODY%0A"
+          fi
+          
+          MESSAGE="${MESSAGE}%0A🤖 **Release by:** GitHub Actions"
+          
+          echo "📤 Sending release notification..."
+          
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+            -d parse_mode="Markdown" \
+            -d text="$MESSAGE")
+          
+          if echo "$RESPONSE" | grep -q '"ok":true'; then
+            echo "✅ Notification sent successfully"
+          else
+            echo "❌ Failed to send notification: $RESPONSE"
+            exit 1
+          fi
+
+      - name: Download and send release assets to Telegram
+        if: steps.release.outputs.found == 'true' && (github.event_name != 'workflow_dispatch' || github.event.inputs.test_mode != 'true')
+        run: |
+          assets='${{ steps.release_info.outputs.assets }}'
+          
+          if [ -z "$assets" ] || [ "$assets" = "null" ] || [ "$assets" = "" ]; then
+            echo "⚠️ No assets found for this release"
+            exit 0
+          fi
+          
+          echo "📦 Processing assets..."
+          
+          echo "$assets" | jq -r '.[] | [.name, .browser_download_url] | @tsv' 2>/dev/null | while IFS=$'\t' read -r name url; do
+            if [ -z "$name" ] || [ -z "$url" ]; then
+              continue
+            fi
+            
+            echo "📥 Downloading $name..."
+            
+            if ! curl -L -o "$name" "$url"; then
+              echo "❌ Failed to download $name"
+              continue
+            fi
+            
+            SIZE=$(du -h "$name" | cut -f1)
+            echo "📊 File size: $SIZE"
+            
+            ICON="📦"
+            if [[ "$name" == *.apk ]]; then
+              ICON="📱"
+            elif [[ "$name" == *.zip ]]; then
+              ICON="🗜️"
+            elif [[ "$name" == *.json ]]; then
+              ICON="📄"
+            elif [[ "$name" == *.png ]] || [[ "$name" == *.jpg ]]; then
+              ICON="🖼️"
+            fi
+            
+            echo "📤 Sending $name to Telegram..."
+            
+            RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              -F "chat_id=${{ secrets.TG_CHAT_ID }}" \
+              -F "document=@$name" \
+              -F "caption=${ICON} **$name**%0A📊 Size: $SIZE")
+            
+            if echo "$RESPONSE" | grep -q '"ok":true'; then
+              echo "✅ $name sent successfully"
+            else
+              echo "❌ Failed to send $name"
+            fi
+            
+            rm -f "$name"
+          done
+
+      - name: Send success summary
+        if: steps.release.outputs.found == 'true' && (github.event_name != 'workflow_dispatch' || github.event.inputs.test_mode != 'true')
+        run: |
+          TAG="${{ steps.release_info.outputs.tag_name }}"
+          
+          MESSAGE="✅ **Release $TAG completed successfully!**%0A%0A"
+          MESSAGE="${MESSAGE}🔗 View release: ${{ steps.release_info.outputs.html_url }}%0A"
+          MESSAGE="${MESSAGE}📅 Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')%0A"
+          MESSAGE="${MESSAGE}👤 Triggered by: ${{ github.actor }}"
+          
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+            -d parse_mode="Markdown" \
+            -d text="$MESSAGE"
+
+      - name: Send notification on skip
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.test_mode != 'true'
+        run: |
+          if [ "${{ steps.release.outputs.found }}" != "true" ]; then
+            MESSAGE="ℹ️ **No new release detected**%0A%0A"
+            MESSAGE="${MESSAGE}📂 Repository: ${{ github.repository }}%0A"
+            MESSAGE="${MESSAGE}📅 Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')%0A"
+            MESSAGE="${MESSAGE}🔄 No published release found for the current version.%0A"
+            MESSAGE="${MESSAGE}💡 Run with tag parameter to force notification."
+            
+            curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -d parse_mode="Markdown" \
+              -d text="$MESSAGE"
+          fi
+
+      - name: Notify on failure
+        if: failure() && (github.event_name != 'workflow_dispatch' || github.event.inputs.test_mode != 'true')
+        run: |
+          MESSAGE="❌ **Release notification failed!**%0A%0A"
+          MESSAGE="${MESSAGE}📂 Repository: ${{ github.repository }}%0A"
+          MESSAGE="${MESSAGE}🔗 Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}%0A"
+          MESSAGE="${MESSAGE}📅 Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')%0A"
+          MESSAGE="${MESSAGE}👤 Triggered by: ${{ github.actor }}%0A%0A"
+          MESSAGE="${MESSAGE}🔄 Please check the workflow logs for details."
+          
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+            -d parse_mode="Markdown" \
+            -d text="$MESSAGE"
