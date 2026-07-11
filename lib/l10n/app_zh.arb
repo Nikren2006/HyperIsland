@@ -909,7 +909,7 @@
       }
     }
   },
-  "alwaysOnIsland": "常驻岛"
+  "alwaysOnIsland": "常驻岛",
   "lgTitle": "液态玻璃",
   "lgEnable": "启用液态玻璃",
   "lgPreview": "预览",
@@ -922,5 +922,5 @@
   "lgCornerRadius": "圆角半径",
   "lgEdgeHighlight": "边缘高光",
   "lgHighlightSize": "高光大小",
-  "lgReset": "恢复默认",
+  "lgReset": "恢复默认"
 }

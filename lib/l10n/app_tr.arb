@@ -775,7 +775,7 @@
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
   "tapToSelectImage": "Resim veya GIF seçmek için dokunun",
   "autoExpandNotification": "Bildirimi otomatik genişlet",
-  "off": "Kapalı"
+  "off": "Kapalı",
   "lgTitle": "Sıvı Cam",
   "lgEnable": "Sıvı camı etkinleştir",
   "lgPreview": "Önizleme",
@@ -788,5 +788,5 @@
   "lgCornerRadius": "Köşe yarıçapı",
   "lgEdgeHighlight": "Kenar vurgusu",
   "lgHighlightSize": "Vurgu boyutu",
-  "lgReset": "Varsayılana sıfırla",
+  "lgReset": "Varsayılana sıfırla"
 }

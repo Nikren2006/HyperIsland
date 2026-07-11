@@ -628,7 +628,7 @@
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
   "tapToSelectImage": "タップして画像またはGIFを選択",
   "autoExpandNotification": "通知を自動展開",
-  "off": "オフ"
+  "off": "オフ",
   "lgTitle": "リキッドガラス",
   "lgEnable": "リキッドガラスを有効にする",
   "lgPreview": "プレビュー",
@@ -641,5 +641,5 @@
   "lgCornerRadius": "角の丸み",
   "lgEdgeHighlight": "エッジハイライト",
   "lgHighlightSize": "ハイライトサイズ",
-  "lgReset": "デフォルトに戻す",
+  "lgReset": "デフォルトに戻す"
 }

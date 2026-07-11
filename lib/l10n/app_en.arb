@@ -757,7 +757,7 @@
       }
     }
   },
-  "alwaysOnIsland": "Always-on Island"
+  "alwaysOnIsland": "Always-on Island",
   "lgTitle": "Liquid Glass",
   "lgEnable": "Enable liquid glass",
   "lgPreview": "Preview",
@@ -770,5 +770,5 @@
   "lgCornerRadius": "Corner radius",
   "lgEdgeHighlight": "Edge highlight",
   "lgHighlightSize": "Highlight size",
-  "lgReset": "Reset to defaults",
+  "lgReset": "Reset to defaults"
 }
