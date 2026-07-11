@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/customize_header_container"
+    android:focusable="false"
+    android:visibility="invisible"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:importantForAccessibility="no">
+    <miui.systemui.widget.ConstraintLayout
+        android:id="@+id/customize_header"
+        android:paddingBottom="@dimen/customize_header_inside_padding"
+        android:focusable="false"
+        android:clickable="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:paddingHorizontal="@dimen/customize_header_inside_padding">
+        <miui.systemui.widget.TextView
+            android:id="@+id/customize_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/qs_customize_header_title"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/complete_button"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextAppearance.Header.Title"/>
+        <miui.systemui.widget.ImageView
+            android:id="@+id/complete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_header_edit_mode_complete"
+            android:contentDescription="@string/qs_control_customize_save_text"
+            app:layout_constraintBottom_toBottomOf="@+id/customize_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/customize_title"/>
+    </miui.systemui.widget.ConstraintLayout>
+</miui.systemui.widget.FrameLayout>

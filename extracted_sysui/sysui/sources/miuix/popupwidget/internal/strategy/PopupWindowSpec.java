@@ -1,0 +1,74 @@
+package miuix.popupwidget.internal.strategy;
+
+import android.graphics.Rect;
+import androidx.annotation.NonNull;
+
+/* JADX INFO: loaded from: classes5.dex */
+public class PopupWindowSpec implements Cloneable {
+    public int layoutDirection;
+    public int mContentHeight;
+    public int mContentWidth;
+    public int mFinalPopupHeight;
+    public int mFinalPopupWidth;
+    public int[][] mItemViewBounds;
+    public int mMaxHeight;
+    public int mMaxWidth;
+    public int mMinHeight;
+    public int mMinWidth;
+    public boolean mOffsetXSet;
+    public boolean mOffsetYSet;
+    public Rect mSafeInsets;
+    public int mUserOffsetX;
+    public int mUserOffsetY;
+    public int mGravity = 8388693;
+    public Rect mContentViewBounds = new Rect();
+    public Rect mDecorViewBounds = new Rect();
+    public Rect mAnchorViewBounds = new Rect();
+
+    private static String convertItemViewBounds(int[][] iArr) {
+        if (iArr == null) {
+            return "null";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int[] iArr2 : iArr) {
+            sb.append(String.format("{%d, %d},", Integer.valueOf(iArr2[0]), Integer.valueOf(iArr2[1])));
+        }
+        return sb.toString();
+    }
+
+    public String toString() {
+        return "PopupWindowSpec{mMaxWidth=" + this.mMaxWidth + ", mMinWidth=" + this.mMinWidth + ", mMaxHeight=" + this.mMaxHeight + ", mMinHeight=" + this.mMinHeight + ", mContentWidth=" + this.mContentWidth + ", mContentHeight=" + this.mContentHeight + ", mFinalPopupWidth=" + this.mFinalPopupWidth + ", mFinalPopupHeight=" + this.mFinalPopupHeight + ", mGravity=" + this.mGravity + ", mUserOffsetX=" + this.mUserOffsetX + ", mUserOffsetY=" + this.mUserOffsetY + ", mOffsetXSet=" + this.mOffsetXSet + ", mOffsetYSet=" + this.mOffsetYSet + ", mItemViewBounds=" + convertItemViewBounds(this.mItemViewBounds) + ", mDecorViewBounds=" + this.mDecorViewBounds.flattenToString() + ", mAnchorViewBounds=" + this.mAnchorViewBounds.flattenToString() + ", mSafeInsets=" + this.mSafeInsets.flattenToString() + ", layoutDirection=" + this.layoutDirection + '}';
+    }
+
+    @NonNull
+    public PopupWindowSpec clone() {
+        try {
+            PopupWindowSpec popupWindowSpec = (PopupWindowSpec) super.clone();
+            popupWindowSpec.mMaxWidth = this.mMaxWidth;
+            popupWindowSpec.mMinWidth = this.mMinWidth;
+            popupWindowSpec.mMaxHeight = this.mMaxHeight;
+            popupWindowSpec.mMinHeight = this.mMinHeight;
+            popupWindowSpec.mContentWidth = this.mContentWidth;
+            popupWindowSpec.mContentHeight = this.mContentHeight;
+            popupWindowSpec.mFinalPopupWidth = this.mFinalPopupWidth;
+            popupWindowSpec.mFinalPopupHeight = this.mFinalPopupHeight;
+            popupWindowSpec.mGravity = this.mGravity;
+            popupWindowSpec.mUserOffsetX = this.mUserOffsetX;
+            popupWindowSpec.mUserOffsetY = this.mUserOffsetY;
+            popupWindowSpec.mOffsetXSet = this.mOffsetXSet;
+            popupWindowSpec.mOffsetYSet = this.mOffsetYSet;
+            popupWindowSpec.mItemViewBounds = this.mItemViewBounds;
+            Rect rect = this.mContentViewBounds;
+            popupWindowSpec.mContentViewBounds = new Rect(rect.left, rect.top, rect.right, rect.bottom);
+            Rect rect2 = this.mDecorViewBounds;
+            popupWindowSpec.mDecorViewBounds = new Rect(rect2.left, rect2.top, rect2.right, rect2.bottom);
+            Rect rect3 = this.mAnchorViewBounds;
+            popupWindowSpec.mAnchorViewBounds = new Rect(rect3.left, rect3.top, rect3.right, rect3.bottom);
+            popupWindowSpec.mSafeInsets = this.mSafeInsets;
+            popupWindowSpec.layoutDirection = this.layoutDirection;
+            return popupWindowSpec;
+        } catch (CloneNotSupportedException e2) {
+            throw new RuntimeException(e2);
+        }
+    }
+}

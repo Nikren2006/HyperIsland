@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.notification.focus.views.NotificationProgressDrawable xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:segPointGap="@dimen/notification_progress_segPoint_gap"
+    app:segSegGap="@dimen/notification_progress_segSeg_gap">
+    <segments
+        app:color="@color/fgProgressColor"
+        app:cornerRadius="@dimen/notification_progress_segments_corner_radius"
+        app:fadedColor="@color/multiprogressColor"
+        app:fadedHeight="8dp"
+        app:height="8dp"
+        app:minWidth="@dimen/notification_progress_segments_min_width"/>
+    <points
+        app:color="@color/fgProgressColor"
+        app:cornerRadius="@dimen/notification_progress_points_corner_radius"
+        app:fadedColor="@color/multiprogressColor"
+        app:innerRadius="@dimen/notification_progress_points_inner_radius"
+        app:inset="@dimen/notification_progress_points_inset"
+        app:outerRadius="@dimen/notification_progress_points_outer_radius"
+        app:radius="@dimen/notification_progress_points_radius"
+        app:strokeWidth="@dimen/notification_progress_points_stroke_width"/>
+</miui.systemui.notification.focus.views.NotificationProgressDrawable>

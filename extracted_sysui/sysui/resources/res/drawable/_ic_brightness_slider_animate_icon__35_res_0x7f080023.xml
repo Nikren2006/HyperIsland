@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_brightness_slider_animate_icon__36_res_0x7f080024"
+        android:duration="1000"
+        android:startOffset="0"
+        android:valueFrom="M3.86 -3.87 C1.73,-6 -1.73,-6 -3.87,-3.87 C-6,-1.74 -6,1.72 -3.87,3.86 C-1.73,5.99 1.73,5.99 3.86,3.86 C5.99,1.72 5.99,-1.74 3.86,-3.87c "
+        android:valueTo="M6.68 0.01 C6.68,-3.68 3.69,-6.67 0,-6.67 C-3.69,-6.67 -6.68,-3.68 -6.68,0.01 C-6.68,3.69 -3.69,6.69 0,6.69 C3.69,6.69 6.68,3.69 6.68,0.01c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+</set>

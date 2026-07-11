@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/focus_container_module_text_1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/focus_content"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/FocusNotifyDecoContentStyleV2"/>
+    <TextView
+        android:id="@+id/focus_sub_content"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/FocusNotifyDecoPortContentStyleV2"/>
+    <TextView
+        android:gravity="center_vertical"
+        android:id="@+id/focus_special_title"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:maxEms="12"
+        android:paddingHorizontal="3dp"
+        android:paddingVertical="1dp"
+        style="@style/FocusNotifyDecoSpecialTextStyleV2"/>
+    <TextView
+        android:id="@+id/focus_title"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/FocusNotifyDecoPortTitleStyleV2"/>
+</LinearLayout>

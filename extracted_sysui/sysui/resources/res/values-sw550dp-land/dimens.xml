@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="miui_super_volume_margin_top_collapsed">191dp</dimen>
+    <dimen name="miui_volume_background_height_cc">403dp</dimen>
+    <dimen name="miui_volume_background_margin_top">213.5dp</dimen>
+    <dimen name="miui_volume_background_margin_top_cc">192dp</dimen>
+    <dimen name="miui_volume_column_height_expanded_cc">195dp</dimen>
+    <dimen name="miui_volume_content_height_expanded_cc">195dp</dimen>
+    <dimen name="miui_volume_dialog_shadow_margin_top">180dp</dimen>
+    <dimen name="miui_volume_footer_margin_top_expanded_cc">24dp</dimen>
+    <dimen name="miui_volume_offset_top_collapsed">221dp</dimen>
+    <dimen name="miui_volume_ringer_btn_height_cc">60dp</dimen>
+    <dimen name="miui_volume_ringer_btn_width_cc">60dp</dimen>
+    <dimen name="miui_volume_timer_seekbar_height_cc">60dp</dimen>
+    <dimen name="miui_volume_timer_seekbar_width_cc">204dp</dimen>
+    <dimen name="o3_miui_ringer_btn_height_cc">60dp</dimen>
+    <dimen name="o3_miui_ringer_btn_width_cc">60dp</dimen>
+    <dimen name="o3_miui_volume_cc_height">195dp</dimen>
+    <dimen name="slider_margin_end">161dp</dimen>
+</resources>

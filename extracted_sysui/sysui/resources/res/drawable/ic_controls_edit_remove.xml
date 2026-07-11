@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="@dimen/miui_controls_edit_item_add_remove_button_size"
+    android:width="@dimen/miui_controls_edit_item_add_remove_button_size"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <path
+        android:fillColor="#ff3535"
+        android:pathData="M32,0C14.327,0 0,14.327 0,32C0,49.674 14.327,64 32,64C49.673,64 64,49.674 64,32C64,14.327 49.673,0 32,0Z"
+        android:fillType="evenOdd"/>
+    <path
+        android:fillColor="#ffffff"
+        android:pathData="M18.1905,28.89L46.0105,28.89A3.21,3.21 0,0 1,49.2205 32.1L49.2205,32.1A3.21,3.21 0,0 1,46.0105 35.31L18.1905,35.31A3.21,3.21 0,0 1,14.9805 32.1L14.9805,32.1A3.21,3.21 0,0 1,18.1905 28.89z"/>
+</vector>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:id="@+id/rl_edit_empty_guide"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/device_controls_empty_edit_item_height">
+    <TextView
+        android:textSize="@dimen/device_controls_subtitle_text_size"
+        android:textColor="@color/controls_subtitle_color"
+        android:gravity="center"
+        android:id="@+id/tv_guide_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/controls_edit_add_device_guide"/>
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/device_controls_empty_edit_text_space"
+        android:layout_below="@+id/tv_guide_text">
+        <TextView
+            android:textSize="@dimen/device_controls_header_text_size"
+            android:textColor="@color/controls_edit_goto_guide_color"
+            android:id="@+id/tv_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/controls_edit_go_to_app_guide"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_left_arrow_of_edit_empty_guide"
+            android:layout_marginStart="@dimen/device_controls_empty_edit_text_space"/>
+    </LinearLayout>
+</miui.systemui.widget.RelativeLayout>

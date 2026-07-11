@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="abc_action_bar_embed_tabs">true</bool>
+    <bool name="abc_action_bar_expanded_action_views_exclusive">true</bool>
+    <bool name="abc_config_actionMenuItemAllCaps">true</bool>
+    <bool name="abc_config_showMenuShortcutsWhenKeyboardPresent">false</bool>
+    <bool name="abc_split_action_bar_is_narrow">true</bool>
+    <bool name="action_bar_embed_tabs">true</bool>
+    <bool name="action_bar_tight_title">false</bool>
+    <bool name="check_widget_anim_enable">true</bool>
+    <bool name="collapse_smart_home">true</bool>
+    <bool name="config_materialPreferenceIconSpaceReserved">false</bool>
+    <bool name="config_play_ringtone_silent_mode_off">true</bool>
+    <bool name="config_qs_use_auto_rotate">false</bool>
+    <bool name="config_support_night_mode">true</bool>
+    <bool name="config_system_icons_clip_child">true</bool>
+    <bool name="expanded_status_bar_darkmode">false</bool>
+    <bool name="is_tablet">false</bool>
+    <bool name="long_click_to_detail">true</bool>
+    <bool name="miui_config_enableRingerRelieveSound">true</bool>
+    <bool name="miuix_appcompat_floating_window_is_translucent">false</bool>
+    <bool name="miuix_appcompat_window_floating">false</bool>
+    <bool name="miuix_theme_use_light_theme_in_dark">false</bool>
+    <bool name="miuix_theme_use_light_theme_in_light">true</bool>
+    <bool name="show_carrier_in_status_bar_header">false</bool>
+    <bool name="show_vowifi_first_dialog">false</bool>
+    <bool name="show_vowifi_qs">false</bool>
+    <bool name="spinner_popup_item_bg_enable_variablePadding">false</bool>
+    <bool name="switch_vowifi_during_call">false</bool>
+    <bool name="treat_as_land">false</bool>
+    <bool name="use_plugin_control_center">true</bool>
+</resources>

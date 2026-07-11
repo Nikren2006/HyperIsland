@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.controlcenter.panel.main.devicecenter.entry.DeviceCenterEntryFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/external_entry_background"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/control_center_universal_1_row_size"
+    android:layout_margin="@dimen/control_center_universal_margin">
+    <miui.systemui.controlcenter.panel.main.devicecenter.entry.DeviceCenterEntryRecyclerView
+        android:id="@+id/list"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:paddingHorizontal="@dimen/device_center_entry_padding_horizontal"
+        android:paddingVertical="@dimen/device_center_entry_padding_vertical"/>
+</miui.systemui.controlcenter.panel.main.devicecenter.entry.DeviceCenterEntryFrameLayout>

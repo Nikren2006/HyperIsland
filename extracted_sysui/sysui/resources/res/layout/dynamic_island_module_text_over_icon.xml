@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="end|center_vertical"
+    android:id="@+id/island_container_module_text_over_icon"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <include
+        android:layout_gravity="center"
+        android:id="@+id/island_container_module_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/dynamic_island_module_icon_1"/>
+    <miuix.colorful.texteffect.TimerTextEffectView
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/island_title"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/IslandTextOverIconStyle"/>
+</FrameLayout>

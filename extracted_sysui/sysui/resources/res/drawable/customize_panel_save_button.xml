@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="78dp"
+    android:width="170dp"
+    android:viewportWidth="170"
+    android:viewportHeight="78">
+    <path
+        android:fillColor="@color/customize_panel_save_button_background_color"
+        android:pathData="M170,39L170,39A39,39 0,0 1,131 78L39,78A39,39 0,0 1,0 39L0,39A39,39 0,0 1,39 0L131,0A39,39 0,0 1,170 39z"
+        android:strokeAlpha="0.8"
+        android:fillAlpha="0.8"/>
+</vector>

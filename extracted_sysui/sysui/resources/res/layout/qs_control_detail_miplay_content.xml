@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.systemui.QSControlMiPlayDetailContent xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="no">
+    <include
+        android:id="@+id/qs_control_detail_miplay_header"
+        layout="@layout/qs_control_detail_miplay_header"/>
+    <miuix.recyclerview.widget.RecyclerView
+        android:scrollbarSize="@dimen/miplay_detail_thumb_width"
+        android:scrollbarThumbVertical="@drawable/miplay_recycler_view_thumb"
+        android:scrollbarStyle="outsideOverlay"
+        android:id="@+id/list"
+        android:paddingBottom="@dimen/miplay_detail_recycler_padding_bottom"
+        android:scrollbars="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/miplay_detail_recycler_only_vertical_margin_top"
+        android:fadeScrollbars="false"
+        android:paddingStart="@dimen/miplay_detail_recycler_margin_start_end"
+        android:paddingEnd="@dimen/miplay_detail_recycler_margin_start_end"/>
+</com.android.systemui.QSControlMiPlayDetailContent>

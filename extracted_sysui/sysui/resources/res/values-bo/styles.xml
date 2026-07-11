@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DecoLandStyleV2" parent="">
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyAODTitleStyleV2" parent="">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyAccessoryStyleV2" parent="">
+        <item name="android:textSize">@dimen/focus_notify_content_text_size</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyButtonPrimaryDecoStyleV3" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyButtonPrimaryTinyStyleV3" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyButtonTitleStyleV2" parent="">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/contentColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyButtonTitleStyleV3" parent="">
+        <item name="android:textSize">@dimen/focus_notify_action_text_size</item>
+        <item name="android:textColor">@color/contentColorV3</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">4</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyButtonTitleTinyStyleV3" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyCmStyle" parent="">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyContentChronometerStyleV2" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyContentDecoStyleV3" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyContentStyle" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/contentColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyContentStyleV2" parent="">
+        <item name="android:textSize">@dimen/focus_notify_content_text_size_v2</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoContentChronometerStyleV2" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/chronometerColorDecoV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoContentStyle" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentDecoColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoContentStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+    </style>
+    <style name="FocusNotifyDecoImContentStyleV2" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:fallbackLineSpacing">true</item>
+        <item name="maxLines">2</item>
+    </style>
+    <style name="FocusNotifyDecoLandAccessoryStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">@dimen/focus_notify_deco_content_text_size</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+    </style>
+    <style name="FocusNotifyDecoLandButtonTitleStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentColor</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+    </style>
+    <style name="FocusNotifyDecoLandHighlightChronometerStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="FocusNotifyDecoLandHighlightStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:fontFamily">mipro-medium</item>
+    </style>
+    <style name="FocusNotifyDecoLandSmallChronometerStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+    <style name="FocusNotifyDecoLandSmallTitleStyleV2" parent="">
+        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/decoSmallTitleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoPortButton3TitleStyleV2" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/decoContentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoPortContentStyle" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentDecoColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoPortContentStyleV2" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoPortTitleStyle" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/titleDecoColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoPortTitleStyleV2" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/decoTitleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoSpecialTextStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoTitleStyle" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/titleDecoColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyDecoTitleStyleV2" parent="@style/DecoLandStyleV2">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/decoTitleColor</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+    </style>
+    <style name="FocusNotifyDescStyle" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/descColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyFrontStyleV2" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/frontContentV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyHighLightTinyStyleV3" parent="">
+        <item name="android:textSize">11dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyHighlightChronometerStyleV2" parent="">
+        <item name="android:textSize">34dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyHighlightStyleV2" parent="">
+        <item name="android:textSize">34dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyRevertTitleStyle" parent="">
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifySampleSmallTitleStyleV2" parent="">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifySecondaryTinyStyleV3" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifySmallChronometerStyleV2" parent="">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifySmallTitleStyleV2" parent="">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifySpecialStyleV2" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifySpecialTextStyleV2" parent="">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTimeDecoStyleV3" parent="">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTimeTinyStyleV3" parent="">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyAccessoryStyleV2" parent="">
+        <item name="android:textSize">@dimen/focus_notify_tiny_content_text_size</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyContentChronometerStyleV2" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/chronometerColorDecoV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyContentStyleV2" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyHighlightChronometerStyleV2" parent="">
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyHighlightChronometerTimerStyleV2" parent="">
+        <item name="android:textSize">19dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyHighlightStyleV2" parent="">
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyHighlightTimerStyleV2" parent="">
+        <item name="android:textSize">19dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyProgressContentStyle" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/contentColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyProgressTitleStyle" parent="">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyRevertContentStyle" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/contentColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-regular</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyRevertTitleStyle" parent="">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinySampleSmallTitleStyleV2" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/contentColorV2</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinySmallChronometerStyleV2" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinySmallTitleStyleV2" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-medium</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinySpecialTextStyleV2" parent="">
+        <item name="android:textSize">11dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyTitleStyle" parent="">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTinyTitleStyleV2" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTitleDecoStyleV3" parent="">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTitleStyle" parent="">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTitleStyleV2" parent="">
+        <item name="android:textSize">@dimen/focus_notify_title_text_size</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTitleStyleV3" parent="">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+    <style name="FocusNotifyTitleTinyStyleV3" parent="">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/titleColor</item>
+        <item name="android:ellipsize">3</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">mipro-demibold</item>
+        <item name="android:textAlignment">5</item>
+        <item name="android:fallbackLineSpacing">true</item>
+    </style>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/device_center_empty_item_height">
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/device_center_entry_icon_size"
+        android:layout_height="@dimen/device_center_entry_icon_size"
+        android:src="@drawable/ic_device_center_logo"
+        android:importantForAccessibility="no"
+        android:layout_marginStart="@dimen/device_center_entry_icon_margin_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/title"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:textAppearance="@style/TextAppearance.DeviceCenter.Title"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mi_smart_hub_entry_title"
+        android:layout_marginStart="@dimen/device_center_entry_title_text_margin_start"
+        android:layout_marginEnd="@dimen/device_center_entry_title_text_margin_end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="parent"/>
+</miui.systemui.widget.ConstraintLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:height="24dp"
+    android:width="19dp"
+    android:viewportWidth="19"
+    android:viewportHeight="24">
+    <group android:name="_R_G">
+        <group
+            android:name="_R_G_L_2_G"
+            android:translateX="9.5"
+            android:translateY="12">
+            <path
+                android:name="_R_G_L_2_G_D_0_P_0"
+                android:fillColor="#66ffffff"
+                android:pathData=" M2.5 -9.5 C2.5,-9.5 2.5,9.5 2.5,9.5 C2.5,10.88 1.38,12 0,12 C-1.38,12 -2.5,10.88 -2.5,9.5 C-2.5,9.5 -2.5,-9.5 -2.5,-9.5 C-2.5,-10.88 -1.38,-12 0,-12 C1.38,-12 2.5,-10.88 2.5,-9.5c "
+                android:fillAlpha="1"
+                android:fillType="nonZero"/>
+        </group>
+        <group
+            android:name="_R_G_L_1_G"
+            android:translateX="16.5"
+            android:translateY="12">
+            <path
+                android:name="_R_G_L_1_G_D_0_P_0"
+                android:fillColor="#66ffffff"
+                android:pathData=" M2.5 7 C2.5,7 2.5,9.5 2.5,9.5 C2.5,10.88 1.38,12 0,12 C-1.38,12 -2.5,10.88 -2.5,9.5 C-2.5,9.5 -2.5,7 -2.5,7 C-2.5,5.62 -1.38,4.5 0,4.5 C1.38,4.5 2.5,5.62 2.5,7c "
+                android:fillAlpha="1"
+                android:fillType="nonZero"/>
+        </group>
+        <group
+            android:name="_R_G_L_0_G"
+            android:translateX="2.563"
+            android:translateY="12">
+            <path
+                android:name="_R_G_L_0_G_D_0_P_0"
+                android:fillColor="#66ffffff"
+                android:pathData=" M2.5 -9.5 C2.5,-9.5 2.5,9.5 2.5,9.5 C2.5,10.88 1.38,12 0,12 C-1.38,12 -2.5,10.88 -2.5,9.5 C-2.5,9.5 -2.5,-9.5 -2.5,-9.5 C-2.5,-10.88 -1.38,-12 0,-12 C1.38,-12 2.5,-10.88 2.5,-9.5c "
+                android:fillAlpha="1"
+                android:fillType="nonZero"/>
+        </group>
+    </group>
+    <group android:name="time_group"/>
+</vector>

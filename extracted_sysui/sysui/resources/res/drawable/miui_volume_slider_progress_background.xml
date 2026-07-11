@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners
+        android:topRightRadius="@dimen/miui_volume_seekbar_progress_radius"
+        android:bottomRightRadius="@dimen/miui_volume_seekbar_progress_radius"/>
+    <solid android:color="@color/miui_volume_color_accent"/>
+</shape>

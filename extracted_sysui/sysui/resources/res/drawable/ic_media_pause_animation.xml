@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:drawable="@drawable/_ic_media_pause_animation__0_res_0x7f080154">
+    <target
+        android:name="_R_G_L_1_G_D_0_P_0"
+        android:animation="@drawable/_ic_media_pause_animation__1_res_0x7f080155"/>
+    <target
+        android:name="_R_G_L_1_G_D_0_P_0_G_0_T_0"
+        android:animation="@drawable/_ic_media_pause_animation__4_res_0x7f080166"/>
+    <target
+        android:name="_R_G_L_1_G_D_0_P_1"
+        android:animation="@drawable/_ic_media_pause_animation__9_res_0x7f08016b"/>
+    <target
+        android:name="_R_G_L_1_G_D_0_P_1_G_0_T_0"
+        android:animation="@drawable/_ic_media_pause_animation__12_res_0x7f080158"/>
+    <target
+        android:name="_R_G_L_0_G_D_0_P_0"
+        android:animation="@drawable/_ic_media_pause_animation__17_res_0x7f08015d"/>
+    <target
+        android:name="_R_G_L_0_G_D_0_P_0_G_0_T_0"
+        android:animation="@drawable/_ic_media_pause_animation__20_res_0x7f080161"/>
+    <target
+        android:name="time_group"
+        android:animation="@drawable/_ic_media_pause_animation__23_res_0x7f080164"/>
+</animated-vector>

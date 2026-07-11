@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miplay_volume_media_animate_icon__42_res_0x7f0801ca"
+        android:duration="250"
+        android:startOffset="0"
+        android:propertyName="translateXY"
+        android:pathData="M 0,0C -0.052,0 -1.3330000000000002,0 -4,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miplay_volume_media_animate_icon__43_res_0x7f0801cb"
+        android:duration="750"
+        android:startOffset="250"
+        android:propertyName="translateXY"
+        android:pathData="M -4,0C -4,0 -4,0 -4,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miplay_volume_media_animate_icon__44_res_0x7f0801cc"
+        android:duration="417"
+        android:startOffset="1000"
+        android:propertyName="translateXY"
+        android:pathData="M -4,0C -4,0 -8,0 -8,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miplay_volume_media_animate_icon__45_res_0x7f0801cd"
+        android:duration="583"
+        android:startOffset="1417"
+        android:propertyName="translateXY"
+        android:pathData="M -8,0C -8,0 -8,0 -8,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miplay_volume_media_animate_icon__46_res_0x7f0801ce"
+        android:duration="417"
+        android:startOffset="2000"
+        android:propertyName="translateXY"
+        android:pathData="M -8,0C -8,0 -13,0 -13,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+</set>

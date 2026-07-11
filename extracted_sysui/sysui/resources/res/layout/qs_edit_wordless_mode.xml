@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/wordless_mode_text"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="@dimen/qs_wordless_mode_minHeight"
+    android:paddingVertical="@dimen/wordless_mode_text_padding_vertical">
+    <miui.systemui.widget.TextView
+        android:textAppearance="@style/TextAppearance.QS.WordlessModeTitle"
+        android:id="@+id/wordless_mode_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/wordless_mode_title_text"
+        android:singleLine="false"
+        android:textAlignment="viewStart"
+        android:layout_marginEnd="@dimen/wordless_mode_text_padding_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/toggle"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_default="wrap"/>
+    <miui.systemui.controlcenter.widget.SlidingButton
+        android:id="@+id/toggle"
+        android:focusable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/qs_wordless_mode_minWidth"
+        android:importantForAccessibility="no"
+        android:layout_marginStart="@dimen/wordless_mode_text_padding_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/wordless_mode_title"
+        app:layout_constraintTop_toTopOf="parent"/>
+</miui.systemui.widget.ConstraintLayout>

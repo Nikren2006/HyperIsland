@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.systemui.QSControlMiPlayDetailContentSupportLand xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:importantForAccessibility="no">
+    <include
+        android:id="@+id/qs_control_detail_miplay_header"
+        layout="@layout/qs_control_detail_miplay_header_support_land"/>
+    <View
+        android:id="@+id/spilt_screen_divider"
+        android:background="@color/miplay_detail_header_bottom_divider_line_color"
+        android:visibility="gone"
+        android:layout_width="@dimen/miplay_detail_header_bottom_divider_line_height"
+        android:layout_height="match_parent"/>
+    <miuix.recyclerview.widget.RecyclerView
+        android:scrollbarSize="@dimen/miplay_detail_thumb_width"
+        android:scrollbarThumbVertical="@drawable/miplay_recycler_view_thumb"
+        android:scrollbarStyle="outsideOverlay"
+        android:id="@+id/list"
+        android:paddingTop="@dimen/miplay_detail_recycler_padding_top"
+        android:paddingBottom="@dimen/miplay_detail_recycler_padding_bottom"
+        android:scrollbars="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="@dimen/miplay_detail_header_width"
+        android:layout_height="@dimen/miplay_detail_header_height"
+        android:layout_marginTop="@dimen/miplay_detail_recycler_margin_top"
+        android:fadeScrollbars="false"/>
+</com.android.systemui.QSControlMiPlayDetailContentSupportLand>

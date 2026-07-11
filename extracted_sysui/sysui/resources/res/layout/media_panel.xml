@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.controlcenter.widget.MaxHeightFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/media_container"
+    android:visibility="gone"
+    android:clipChildren="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipToOutline="false">
+    <miui.systemui.widget.FrameLayout
+        android:id="@+id/media_panel_bg"
+        android:background="@drawable/secondary_panel_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <miui.systemui.widget.LinearLayout
+        android:id="@+id/media_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</miui.systemui.controlcenter.widget.MaxHeightFrameLayout>

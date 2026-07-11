@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="window_card_by_radius">25.6dp</dimen>
+    <dimen name="window_card_ml_device_icon_margin_start">-2.4dp</dimen>
+    <dimen name="window_card_ml_device_icon_width">56dp</dimen>
+    <dimen name="window_card_ml_device_name_margin_left_right">54.4dp</dimen>
+    <dimen name="window_card_ml_device_name_text_size">12.8sp</dimen>
+    <dimen name="window_card_ml_find_null_margin_bottom">54.4dp</dimen>
+    <dimen name="window_card_ml_find_null_margin_top">78.4dp</dimen>
+    <dimen name="window_card_ml_find_null_text_size">10.4sp</dimen>
+    <dimen name="window_card_ml_find_progress_margin_bottom">20.4dp</dimen>
+    <dimen name="window_card_ml_find_progress_margin_top">81.2dp</dimen>
+    <dimen name="window_card_ml_find_progress_size">22.4dp</dimen>
+    <dimen name="window_card_ml_status_fl_padding">12.8dp</dimen>
+    <dimen name="window_card_ml_status_fl_width">262.3984dp</dimen>
+    <dimen name="window_card_ml_title_height">56dp</dimen>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/miplay_detail_header_icon_bg"/>
+    <corners android:radius="@dimen/miplay_detail_header_tv_controller_icon_bg_radius"/>
+</shape>

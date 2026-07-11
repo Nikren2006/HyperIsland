@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="emergency_call_center_margin_left">65dp</dimen>
+    <dimen name="emergency_call_height">36dp</dimen>
+    <dimen name="emergency_call_text_margin_bottom">30dp</dimen>
+    <dimen name="emergency_call_text_margin_slider">24.4dp</dimen>
+    <dimen name="point_margin_top">64dp</dimen>
+    <dimen name="reboot_shutdown_text_margin">12dp</dimen>
+    <dimen name="slider_height">271.5938dp</dimen>
+    <dimen name="slider_margin_bottom_with_emergency">30dp</dimen>
+    <dimen name="slider_margin_end">96dp</dimen>
+</resources>

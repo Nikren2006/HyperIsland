@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/focus_container_module_mark"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/focus_mark_small_icon"
+        android:background="@drawable/shape_icon_border"
+        android:layout_width="@dimen/focus_notify_deco_port_mark1_icon_size"
+        android:layout_height="@dimen/focus_notify_deco_port_mark1_icon_size"
+        android:layout_marginTop="@dimen/focus_notify_module_tiny_mark_margin_horizontal"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="2dp"/>
+</FrameLayout>

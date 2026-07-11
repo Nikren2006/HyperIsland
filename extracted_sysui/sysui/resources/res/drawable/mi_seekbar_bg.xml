@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:height="128dp"
+    android:width="7dp"
+    android:viewportWidth="7"
+    android:viewportHeight="128">
+    <path
+        android:fillColor="@drawable/_mi_seekbar_bg__0_res_0x7f0802d3"
+        android:pathData="M3.5,0L3.5,0A3.5,3.5 0,0 1,7 3.5L7,124.5A3.5,3.5 0,0 1,3.5 128L3.5,128A3.5,3.5 0,0 1,0 124.5L0,3.5A3.5,3.5 0,0 1,3.5 0z"/>
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M3.5,0.21L3.5,0.21A3.29,3.29 0,0 1,6.79 3.5L6.79,124.5A3.29,3.29 0,0 1,3.5 127.79L3.5,127.79A3.29,3.29 0,0 1,0.21 124.5L0.21,3.5A3.29,3.29 0,0 1,3.5 0.21z"
+        android:strokeColor="@drawable/_mi_seekbar_bg__1_res_0x7f0802d4"
+        android:strokeWidth="0.4106"
+        android:strokeAlpha="0.13"/>
+</vector>

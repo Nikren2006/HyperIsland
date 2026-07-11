@@ -1,0 +1,20 @@
+package miui.systemui.controlcenter.panel.secondary.brightness;
+
+import com.android.systemui.plugins.qs.QSTile;
+import java.util.HashMap;
+import kotlin.jvm.functions.Function0;
+import kotlin.jvm.internal.o;
+
+/* JADX INFO: loaded from: classes.dex */
+public final class BrightnessPanelTilesDelegate$tiles$2 extends o implements Function0 {
+    public static final BrightnessPanelTilesDelegate$tiles$2 INSTANCE = new BrightnessPanelTilesDelegate$tiles$2();
+
+    public BrightnessPanelTilesDelegate$tiles$2() {
+        super(0);
+    }
+
+    @Override // kotlin.jvm.functions.Function0
+    public final HashMap<String, QSTile> invoke() {
+        return new HashMap<>();
+    }
+}

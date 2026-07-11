@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_silent_mode_on_collpased__14_res_0x7f08021e"
+        android:duration="17"
+        android:startOffset="0"
+        android:valueFrom="M-52.71 -25.49 C-52.71,-25.49 32.41,64.63 32.41,64.63 C32.41,64.63 55.41,37.13 55.41,37.13 C55.41,37.13 -32.59,-46.12 -32.59,-46.12 C-32.59,-46.12 -52.71,-25.49 -52.71,-25.49c "
+        android:valueTo="M-52.71 -25.49 C-52.71,-25.49 32.41,64.63 32.41,64.63 C32.41,64.63 55.41,37.13 55.41,37.13 C55.41,37.13 -32.59,-46.12 -32.59,-46.12 C-32.59,-46.12 -52.71,-25.49 -52.71,-25.49c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_silent_mode_on_collpased__15_res_0x7f08021f"
+        android:duration="200"
+        android:startOffset="17"
+        android:valueFrom="M-52.71 -25.49 C-52.71,-25.49 32.41,64.63 32.41,64.63 C32.41,64.63 55.41,37.13 55.41,37.13 C55.41,37.13 -32.59,-46.12 -32.59,-46.12 C-32.59,-46.12 -52.71,-25.49 -52.71,-25.49c "
+        android:valueTo="M24.66 51.89 C24.66,51.89 32.41,64.63 32.41,64.63 C32.41,64.63 55.41,37.13 55.41,37.13 C55.41,37.13 44.78,31.26 44.78,31.26 C44.78,31.26 24.66,51.89 24.66,51.89c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+</set>

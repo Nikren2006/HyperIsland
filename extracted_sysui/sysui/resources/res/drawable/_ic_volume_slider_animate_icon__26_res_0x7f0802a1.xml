@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_volume_slider_animate_icon__27_res_0x7f0802a2"
+        android:duration="333"
+        android:startOffset="0"
+        android:propertyName="translateXY"
+        android:pathData="M 3,0C 4.5,0 10.5,0 12,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_volume_slider_animate_icon__28_res_0x7f0802a3"
+        android:duration="167"
+        android:startOffset="333"
+        android:propertyName="translateXY"
+        android:pathData="M 12,0C 12,0 12,0 12,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_volume_slider_animate_icon__29_res_0x7f0802a4"
+        android:duration="300"
+        android:startOffset="500"
+        android:propertyName="translateXY"
+        android:pathData="M 12,0C 11.46,0 3,0 3,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_volume_slider_animate_icon__30_res_0x7f0802a6"
+        android:duration="200"
+        android:startOffset="800"
+        android:propertyName="translateXY"
+        android:pathData="M 3,0C 3,0 3,0 3,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_volume_slider_animate_icon__31_res_0x7f0802a7"
+        android:duration="300"
+        android:startOffset="1000"
+        android:propertyName="translateXY"
+        android:pathData="M 3,0C 3,0 -2,0 -3,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+</set>

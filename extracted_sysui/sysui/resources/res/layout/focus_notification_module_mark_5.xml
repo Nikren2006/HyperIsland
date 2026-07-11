@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/focus_button_container"
+    android:background="@drawable/focus_button_background_v2"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/focus_button_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/focus_notify_action_max_width"
+        android:minWidth="@dimen/focus_notify_action_min_width"
+        android:text="@string/focus_title"
+        android:layout_marginHorizontal="@dimen/focus_notify_button_without_icon_margin_start_v2"
+        android:layout_marginVertical="@dimen/focus_notify_template_margin_inner"
+        style="@style/FocusNotifyButtonTitleStyleV3"/>
+</FrameLayout>

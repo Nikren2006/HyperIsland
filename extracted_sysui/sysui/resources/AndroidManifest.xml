@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sharedUserId="android.uid.system"
+    android:versionCode="165037600"
+    android:versionName="16.5.3.76.0"
+    android:directBootAware="true"
+    android:compileSdkVersion="35"
+    android:compileSdkVersionCodename="15"
+    package="miui.systemui.plugin"
+    platformBuildVersionCode="35"
+    platformBuildVersionName="15">
+    <uses-sdk
+        android:minSdkVersion="34"
+        android:targetSdkVersion="35"/>
+    <permission
+        android:name="android.permission.BIND_CONTROLS"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.android.systemui.permission.PLUGIN"/>
+    <uses-permission android:name="com.miui.permission.CONTROL_PC_MODE"/>
+    <uses-permission android:name="com.miui.permission.CONTROL_PC_LAUNCHER"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.CREATE_USERS"/>
+    <uses-permission android:name="android.permission.MANAGE_USERS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SUBSCRIBE_TO_KEYGUARD_LOCKED_STATE"/>
+    <uses-permission android:name="com.miui.circulate.device.PERSIST"/>
+    <permission
+        android:name="miui.systemui.permission.CONTROL_CENTER_STATE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="android.permission.BIND_CONTROLS"/>
+    <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_PROFILES"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <permission android:name="com.xiaomi.miui.mi_play.permission.DETAIL"/>
+    <uses-permission android:name="miui.permission.USE_CTA_VERIFICATION"/>
+    <uses-permission android:name="com.miui.permission.MANAGE_BOOT_TIME"/>
+    <meta-data
+        android:name="miui.supportFlipFullScreen"
+        android:value="0"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA"/>
+    <uses-permission android:name="com.miui.notes.permission.ACCESS_NOTE"/>
+    <uses-permission android:name="miui.personalallistant.ACCESS_PROVIDER"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.xiaomi.miplay.permission.SMARTPLAY_VIDEO"/>
+    <uses-permission android:name="com.xiaomi.cast.ACCESS_MY_SERVICE"/>
+    <queries>
+        <intent>
+            <action android:name="android.media.browse.MediaBrowserService"/>
+        </intent>
+        <package android:name="com.xiaomi.smarthome"/>
+    </queries>
+    <permission
+        android:name="miui.systemui.plugin.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="miui.systemui.plugin.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
+    <uses-permission android:name="com.miui.bugreport.permission.DUMP_CACHED_LOG"/>
+    <uses-permission android:name="android.permission.STATUS_BAR_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW"/>
+    <uses-permission android:name="android.Manifest.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.miui.permission.REGION_SAMPLING"/>
+    <application
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:name="miui.systemui.PluginApplication"
+        android:allowBackup="false"
+        android:supportsRtl="true"
+        android:extractNativeLibs="false"
+        android:resizeableActivity="false"
+        android:directBootAware="true"
+        android:appComponentFactory="miui.systemui.PluginAppComponentFactory">
+        <meta-data
+            android:name="miui.systemui.plugin.new_device_center_enabled"
+            android:value="true"/>
+        <meta-data
+            android:name="miui.systemui.plugin.new_device_control_enabled"
+            android:value="true"/>
+        <meta-data
+            android:name="miui.systemui.plugin.international_world_less_enabled"
+            android:value="true"/>
+        <meta-data
+            android:name="miui.systemui.plugin.theme_adapter_os_version"
+            android:value="2"/>
+        <activity
+            android:name="miui.systemui.MainActivity"
+            android:exported="false"/>
+        <service
+            android:name="miui.systemui.quicksettings.LocalMiuiQSTilePlugin"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_MIUI_QS_TILE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="miui.systemui.miplay.MiPlayPluginImpl"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_MIPLAY"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="miui.systemui.globalactions.GlobalActionsPlugin"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_GLOBAL_ACTIONS"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="miui.systemui.volume.VolumeDialogPlugin"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_VOLUME"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="miui.systemui.notification.unimportant.UnimportantSdkPluginImpl"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="miui.notification.action.PLUGIN_SDK_UNIMPORTANT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="miui.systemui.controlcenter.MiuiControlCenter"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_MIUI_CONTROL_CENTER"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="miui.systemui.notification.FocusNotificationPluginImpl"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_NOTIFICATION_ASSISTANT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="miui.systemui.notification.NotificationDynamicIslandPluginImpl"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.PLUGIN_MIUI_DYNAMIC_ISLAND"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="miLink.cardFrame.service.package"
+            android:value="com.milink.service"/>
+        <activity
+            android:theme="@style/Theme.QSFlipSettings"
+            android:label="@string/qs_flip_tile_setting_label"
+            android:name="miui.systemui.controlcenter.flipQs.QSFlipQuickSettingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|navigation|keyboardHidden|keyboard|mnc|mcc"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_QS_FLIP"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="miui_device_control"
+            android:resource="@integer/miui_device_control_version"/>
+        <activity
+            android:theme="@style/Theme.WirelessDialogActivity"
+            android:name="miui.systemui.quicksettings.wireless.WirelessChargingConfirmActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_WIRELESS_CHG_CONFIRM"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.WirelessDialogActivity"
+            android:name="miui.systemui.quicksettings.wireless.WirelessChargingWarningActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_WIRELESS_CHG_WARNING"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.WirelessDialogActivity"
+            android:name="miui.systemui.quicksettings.wireless.WirelessChargingDailogActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_WIRELESS_CHG_DIALOG"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.HearingAssistDialogActivity"
+            android:name="miui.systemui.quicksettings.hearingassist.HearingAssistConfirmActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:finishOnCloseSystemDialogs="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_HEARING_ASSIST_CONFIRM"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="com.xiaomi.systemui.version_code"
+            android:value="2.0.0"/>
+        <meta-data
+            android:name="com.xiaomi.systemui.version_name"
+            android:value="2.0.0"/>
+        <activity
+            android:theme="@style/Theme.MiPlayDetail"
+            android:name="miui.systemui.miplay.MiPlayDetailActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:finishOnCloseSystemDialogs="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_MIPLAY_DETAIL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.MONKEY"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.BluetoothShareDialogStyleActivity"
+            android:name="com.android.systemui.activity.BluetoothAudioShareActivity"
+            android:exported="true"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"
+            android:finishOnCloseSystemDialogs="true"
+            android:showForAllUsers="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_MIPLAY_BLUETOOTH_SHARE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme.BluetoothShareDialogStyleActivity"
+            android:name="com.android.systemui.activity.MiplayInvisibleModeActivityDialog"
+            android:exported="true"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"
+            android:finishOnCloseSystemDialogs="true"
+            android:showForAllUsers="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_MIPLAY_INVISIBLE_MODE_DIALOG"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="miui.supportFlipFullScreen"
+            android:value="1"/>
+        <activity
+            android:theme="@style/Theme.SafeWarningDialogActivity"
+            android:name="com.android.systemui.miui.volume.SafeWarningActivity"
+            android:exported="true"
+            android:clearTaskOnLaunch="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"
+            android:finishOnCloseSystemDialogs="true"
+            android:showForAllUsers="true">
+            <intent-filter>
+                <action android:name="miui.intent.action.ACTIVITY_VOLUME_SAFETY_DIALOG"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="miui.systemui.notification.NotificationStatPluginImpl"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="miui.notification.action.PLUGIN_NOTIFICATION_STAT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="miui_keyguard_shortcuts"
+            android:resource="@xml/miui_keyguard_shortcuts"/>
+        <activity
+            android:theme="@style/TransparentActivityTheme"
+            android:name="miui.systemui.flashlight.MiFlashlightActivity"
+            android:exported="true"
+            android:process=":flashlight"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation"
+            android:hardwareAccelerated="true"
+            android:showWhenLocked="true">
+            <intent-filter>
+                <action android:name="miui.systemui.action.ACTION_SHOW_FLASHLIGHT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <property
+                android:name="miui.window.DOT_ENABLED"
+                android:value="false"/>
+        </activity>
+        <receiver
+            android:name="miui.systemui.flashlight.MiFlashlightReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":flashlight">
+            <intent-filter>
+                <action android:name="miui.systemui.action.ACTION_SHOW_FLASHLIGHT"/>
+                <action android:name="miui.systemui.action.ACTION_CLOSE_FLASHLIGHT"/>
+                <action android:name="miui.systemui.action.ACTION_TOGGLE_FLASHLIGHT"/>
+                <action android:name="miui.systemui.action.ACTION_SYSTEMUI_RESTART"/>
+                <action android:name="sys.action.lowbattery.control"/>
+                <action android:name="action_temp_state_change"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="miui.systemui.flashlight.MiFlashlightNotificationService"
+            android:exported="false"
+            android:process=":flashlight"
+            android:foregroundServiceType="camera"/>
+        <service
+            android:name="miui.systemui.nfcphonecase.MiuiNfcPhoneCaseService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="miui.systemui.action.SERVICE_NFC_PHONE_SHELL"/>
+            </intent-filter>
+        </service>
+        <property
+            android:name="android.view.PROPERTY_MIUI_SMOOTH_CORNER_ENABLED"
+            android:value="true"/>
+        <meta-data
+            android:name="colorful-texteffect"
+            android:value="1"/>
+        <meta-data
+            android:name="appcompat"
+            android:value="3.1"/>
+        <meta-data
+            android:name="os_private_label"
+            android:value="PRIVATE_OS030"/>
+        <meta-data
+            android:name="miuixbasewidget"
+            android:value="1"/>
+        <meta-data
+            android:name="com.miui.maml.sdk"
+            android:value="true"/>
+        <meta-data
+            android:name="popupwidget"
+            android:value="1"/>
+        <meta-data
+            android:name="androidbasewidget"
+            android:value="1"/>
+        <meta-data
+            android:name="miuixstretchablewidget"
+            android:value="1"/>
+        <meta-data
+            android:name="pickerwidget"
+            android:value="1"/>
+        <meta-data
+            android:name="slidingwidget"
+            android:value="1"/>
+        <meta-data
+            android:name="viewpager2"
+            android:value="2"/>
+        <meta-data
+            android:name="recyclerview"
+            android:value="2"/>
+        <meta-data
+            android:name="recyclerview_animator"
+            android:value="2"/>
+        <meta-data
+            android:name="springback"
+            android:value="3.1"/>
+        <meta-data
+            android:name="theme"
+            android:value="1"/>
+        <meta-data
+            android:name="transition"
+            android:value="1"/>
+        <meta-data
+            android:name="viewpager"
+            android:value="2"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="miui.systemui.plugin.androidx-startup">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <meta-data
+            android:name="graphics"
+            android:value="2"/>
+        <meta-data
+            android:name="nest"
+            android:value="2"/>
+        <meta-data
+            android:name="haptic"
+            android:value="1"/>
+        <meta-data
+            android:name="smooth"
+            android:value="1"/>
+        <meta-data
+            android:name="core"
+            android:value="2"/>
+        <meta-data
+            android:name="spring"
+            android:value="1"/>
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false"/>
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false"/>
+        <meta-data
+            android:name="dynamicoverscroller"
+            android:value="2"/>
+        <meta-data
+            android:name="folme"
+            android:value="2"/>
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION"/>
+            </intent-filter>
+        </receiver>
+        <meta-data
+            android:name="animation"
+            android:value="1"/>
+        <meta-data
+            android:name="com.miui.bugreport.DEFAULT_LOG_DIR"
+            android:resource="@xml/default_log_paths"/>
+        <provider
+            android:name="com.miui.bugreport.logprovider.DumpLogProvider"
+            android:permission="com.miui.bugreport.permission.DUMP_CACHED_LOG"
+            android:exported="true"
+            android:authorities="miui.systemui.plugin.provider.bugreport">
+            <intent-filter>
+                <action android:name="com.miui.bugreport.intent.ACTION_DUMP_CACHED_LOG"/>
+            </intent-filter>
+        </provider>
+        <meta-data
+            android:name="devicebaseinfo"
+            android:value="1"/>
+    </application>
+</manifest>

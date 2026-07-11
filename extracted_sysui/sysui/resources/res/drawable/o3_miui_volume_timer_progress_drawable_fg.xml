@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/miui_volume_timer_progress_normal">
+        <clip
+            android:gravity="start"
+            android:clipOrientation="horizontal">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/miui_volume_color_accent"/>
+            </shape>
+        </clip>
+    </item>
+    <item
+        android:id="@+id/miui_volume_timer_progress_dragging"
+        android:drawable="@drawable/o3_miui_volume_timer_progress_drawable_dragging"/>
+</layer-list>

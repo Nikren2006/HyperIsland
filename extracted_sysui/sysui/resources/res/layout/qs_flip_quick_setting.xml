@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <miuix.springback.view.SpringBackLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/qs_flip_spring_back_padding_horizontal"
+        app:scrollableView="@+id/flip_qs_recycler_view">
+        <miuix.recyclerview.widget.RecyclerView
+            android:id="@+id/flip_qs_recycler_view"
+            android:background="?attr/flip_qs_card_color"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:paddingHorizontal="@dimen/qs_flip_recycle_view_padding_horizontal"/>
+    </miuix.springback.view.SpringBackLayout>
+</FrameLayout>

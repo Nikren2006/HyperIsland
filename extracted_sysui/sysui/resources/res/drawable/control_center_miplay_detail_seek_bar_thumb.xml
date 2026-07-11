@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
+    <size
+        android:height="@dimen/miplay_detail_header_seek_bar_thumb_size"
+        android:width="@dimen/miplay_detail_header_seek_bar_thumb_size"/>
+    <solid android:color="@color/miplay_detail_header_seekbar_thumb"/>
+</shape>

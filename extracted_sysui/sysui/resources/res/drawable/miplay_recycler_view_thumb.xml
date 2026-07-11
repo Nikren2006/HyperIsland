@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android" android:insetRight="@dimen/miplay_detail_thumb_margin_right">
+    <shape>
+        <solid android:color="@color/miplay_recycler_view_thumb_color"/>
+        <corners android:radius="@dimen/miplay_detail_thumb_corner"/>
+        <size android:width="@dimen/miplay_detail_thumb_width"/>
+    </shape>
+</inset>

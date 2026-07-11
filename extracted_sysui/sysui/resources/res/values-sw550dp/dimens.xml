@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="miui_volume_background_margin_top">127dp</dimen>
+    <dimen name="miui_volume_background_margin_top_cc">198dp</dimen>
+    <dimen name="miui_volume_offset_end">18dp</dimen>
+    <dimen name="miui_volume_offset_end_cc">32dp</dimen>
+    <dimen name="miui_volume_offset_end_expand">18dp</dimen>
+    <dimen name="o3_miui_volume_background_margin_top">143dp</dimen>
+    <dimen name="o3_miui_volume_background_margin_top_expanded">127dp</dimen>
+    <dimen name="reboot_shutdown_text_margin">11.75dp</dimen>
+    <dimen name="slider_margin_end">138dp</dimen>
+</resources>

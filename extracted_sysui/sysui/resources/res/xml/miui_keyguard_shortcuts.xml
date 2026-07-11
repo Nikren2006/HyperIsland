@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:android="http://schemas.android.com/apk/res/android">
+    <intent
+        android:icon="@drawable/mi_keyguard_flashlight_icon"
+        android:name="@string/flashlight_notification_content_title"
+        android:targetPackage="miui.systemui.plugin"
+        android:action="android.intent.action.VIEW"
+        android:targetClass="miui.systemui.flashlight.MiFlashlightActivity"
+        android:tag="FLASHLIGHT_SET"/>
+</config>

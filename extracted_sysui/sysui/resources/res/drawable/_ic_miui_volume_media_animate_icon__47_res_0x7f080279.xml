@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_media_animate_icon__48_res_0x7f08027a"
+        android:duration="200"
+        android:startOffset="0"
+        android:valueFrom="M22.44 45.23 C22.44,45.23 34.19,66.47 34.19,66.47 C34.19,66.47 67.94,27.97 67.94,27.97 C67.94,27.97 53.31,13.6 53.31,13.6 C53.31,13.6 22.44,45.23 22.44,45.23c "
+        android:valueTo="M-55.71 -14.49 C-55.71,-14.49 22.16,62.63 22.16,62.63 C22.16,62.63 67.41,24.63 67.41,24.63 C67.41,24.63 -13.34,-45.62 -13.34,-45.62 C-13.34,-45.62 -55.71,-14.49 -55.71,-14.49c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+</set>

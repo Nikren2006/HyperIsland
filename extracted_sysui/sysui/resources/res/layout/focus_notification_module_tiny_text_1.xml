@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/focus_container_module_text_1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp">
+    <include layout="@layout/focus_notification_tiny_view_content_container"/>
+    <include layout="@layout/focus_notification_tiny_view_title_container"/>
+</LinearLayout>

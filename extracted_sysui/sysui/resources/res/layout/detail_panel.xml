@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.controlcenter.widget.MaxHeightLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/detail_container"
+    android:background="@drawable/secondary_panel_background"
+    android:visibility="gone"
+    android:clipChildren="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipToOutline="true">
+    <miui.systemui.widget.LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/scale_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/detail_header"
+            layout="@layout/detail_header"/>
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <miui.systemui.controlcenter.widget.DetailPanelMoreButtonView
+            android:textAppearance="@style/TextAppearance.Detail.Button"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/more_button"
+            android:background="@drawable/detail_panel_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_panel_more_button_height"
+            android:layout_marginBottom="@dimen/detail_panel_padding_vertical"
+            android:text="@string/quick_settings_more_settings"
+            android:layout_marginHorizontal="@dimen/detail_panel_padding_vertical"/>
+    </miui.systemui.widget.LinearLayout>
+</miui.systemui.controlcenter.widget.MaxHeightLinearLayout>

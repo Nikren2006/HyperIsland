@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="mask_size">65.62dp</dimen>
+    <dimen name="mask_size_big">74.18dp</dimen>
+    <dimen name="miuix_appcompat_window_extra_padding_horizontal_huge">56dp</dimen>
+    <dimen name="miuix_appcompat_window_extra_padding_horizontal_large">36dp</dimen>
+    <dimen name="miuix_appcompat_window_extra_padding_horizontal_small">0dp</dimen>
+    <dimen name="moveicon_height">24.43dp</dimen>
+    <dimen name="moveicon_width">15.72dp</dimen>
+    <dimen name="point_interval">8.34dp</dimen>
+    <dimen name="point_size">4.28dp</dimen>
+    <dimen name="reboot_icon_margin_top">22.9dp</dimen>
+    <dimen name="reboot_shutdown_icon_size_big">29.01dp</dimen>
+    <dimen name="reboot_shutdown_icon_size_small">24.72dp</dimen>
+    <dimen name="reboot_shutdown_text_height">22.82dp</dimen>
+    <dimen name="reboot_shutdown_text_margin">14.26dp</dimen>
+    <dimen name="reboot_shutdown_text_width">34.24dp</dimen>
+    <dimen name="text_size">16px</dimen>
+</resources>

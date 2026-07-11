@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_dnd_on_collpased__4_res_0x7f080249"
+        android:duration="67"
+        android:startOffset="0"
+        android:valueFrom="1"
+        android:valueTo="1"
+        android:valueType="floatType"
+        android:propertyName="trimPathEnd"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_dnd_on_collpased__5_res_0x7f08024a"
+        android:duration="517"
+        android:startOffset="67"
+        android:valueFrom="1"
+        android:valueTo="0"
+        android:valueType="floatType"
+        android:propertyName="trimPathEnd"/>
+</set>

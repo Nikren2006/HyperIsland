@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="?attr/flip_qs_background"
+    android:focusable="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:id="@+id/footer_divider"
+        android:background="?attr/flip_qs_card_bottom_corner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/qs_flip_tile_footer_item_padding_horizontal"
+        android:importantForAccessibility="no"/>
+    <TextView
+        android:textSize="@dimen/qs_flip_tile_footer_item_tv_title_text_size"
+        android:textColor="@color/flip_qs_setting_footer_color"
+        android:gravity="start"
+        android:id="@+id/tv_footer_title"
+        android:background="?attr/flip_qs_background"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/qs_flip_item_tile_added"
+        android:contentDescription="@string/qs_flip_item_tile_added"
+        android:fontFamily="sans-serif"
+        android:paddingHorizontal="@dimen/qs_flip_tile_footer_item_padding_horizontal"
+        android:paddingVertical="@dimen/qs_flip_tile_footer_item_padding_vertical"/>
+    <View
+        android:background="?attr/flip_qs_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/qs_flip_tile_footer_item_bottom_view_height"/>
+</LinearLayout>

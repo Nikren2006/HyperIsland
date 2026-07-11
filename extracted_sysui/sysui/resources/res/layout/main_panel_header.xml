@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_panel_header"
+    android:focusable="false"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/new_header_height"
+    android:importantForAccessibility="no"/>

@@ -1,0 +1,55 @@
+package systemui.plugin.eventtracking.events;
+
+/* JADX INFO: loaded from: classes5.dex */
+public final class MiPlayEventsKt {
+    public static final String DEVICE_IF_CACHE_FALSE = "0";
+    public static final String DEVICE_IF_CACHE_NULL = "-1";
+    public static final String DEVICE_IF_CACHE_TRUE = "1";
+    public static final String DEVICE_TYPE_BT = "蓝牙";
+    public static final String DEVICE_TYPE_IDM = "IDM";
+    public static final String DEVICE_TYPE_LYRA = "天琴";
+    public static final String EVENT_ENTERTAINMENT_DAU = "entertainment_dau";
+    public static final String EVENT_KEY_FIND_DEVICE_CONNECT_TYPE = "connect_type";
+    public static final String EVENT_KEY_FIND_DEVICE_DEVICE_MODEL = "device_model";
+    public static final String EVENT_KEY_FIND_DEVICE_FIND_RANK = "find_rank";
+    public static final String EVENT_KEY_FIND_DEVICE_FIND_TIME = "find_time";
+    public static final String EVENT_KEY_FIND_DEVICE_IF_CACHE = "if_cache";
+    public static final String EVENT_KEY_FIND_DEVICE_MILINK_VERSION_CODE = "milink_version_code";
+    public static final String EVENT_KEY_FIND_DEVICE_PEER_MODEL = "peer_model";
+    public static final String EVENT_KEY_FIND_DEVICE_PEER_ROM_VERSION = "peer_rom_version";
+    public static final String EVENT_KEY_FIND_DEVICE_PROTOCOL = "protocol";
+    private static final String EVENT_MIPLAY_SYSTEMUI_BLUETOOTH_CONNECT = "bluetooth_connect";
+    private static final String EVENT_MIPLAY_SYSTEMUI_CLICK = "event_miplay_systemui_click";
+    private static final String EVENT_MIPLAY_SYSTEMUI_CONNECT_PEER_VOICE_TIME = "connect_peer_voice_time";
+    private static final String EVENT_MIPLAY_SYSTEMUI_DEVICE_EXPOSE = "event_miplay_device_expose";
+    private static final String EVENT_MIPLAY_SYSTEMUI_EXPOSE = "event_miplay_systemui_expose";
+    private static final String EVENT_MIPLAY_SYSTEMUI_FIND_DEVICE_SYSTEM_UI = "find_device_system_ui";
+    public static final String EVENT_MIPLAY_SYSTEMUI_SELECT_DEVICE = "event_miplay_systemui_select_device";
+    private static final String EVENT_MI_PLAY_EXPOSE_TIP = "178.1.1.1.18767";
+    private static final String EXPOSE = "event_miplay_expose";
+    public static final String PAGE_CONTROLCENTER_CARD = "controlcenter_card";
+    public static final String PAGE_MIPLAY_CARD = "miplay_card";
+    public static final String PAGE_MIPLAY_SELECT_TRACK = "_mipLay_select_track";
+    public static final String POSITION_CARD = "card";
+    public static final String POSITION_CAST = "cast";
+    public static final String POSITION_COVER = "cover";
+    public static final String POSITION_FAST_FORWARD = "快进";
+    public static final String POSITION_NEXT = "next";
+    public static final String POSITION_NOT_PLAY_TITLE = "not_play_title";
+    public static final String POSITION_PAUSE = "pause";
+    public static final String POSITION_PLAY = "play";
+    public static final String POSITION_PREV = "prev";
+    public static final String POSITION_REWIND = "快退";
+    public static final String POSITION_SEEK_BAR = "seek_bar";
+    public static final String POSITION_SPEEDS = "times";
+    public static final String POSITION_SUBTITLE = "subtitle";
+    public static final String POSITION_TITLE = "title";
+    public static final String POSITION_TV_CONTROLLER = "control";
+    public static final String POSITION_VOLUME_BAR = "volume_bar";
+    public static final String START_PLAYING_DEVICE_ID = "uuid";
+    public static final String START_PLAYING_DEVICE_TYPE = "deviceType";
+    public static final String VALUE_CANCEL_SELECT = "cancelselect";
+    public static final String VALUE_RESULT_FAIL = "失败";
+    public static final String VALUE_RESULT_SUCCESS = "成功";
+    public static final String VALUE_SELECT = "select";
+}

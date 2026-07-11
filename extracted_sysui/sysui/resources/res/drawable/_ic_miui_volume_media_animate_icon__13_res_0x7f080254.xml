@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_media_animate_icon__14_res_0x7f080255"
+        android:duration="1000"
+        android:startOffset="0"
+        android:propertyName="translateXY"
+        android:pathData="M -6,0C -6,0 -5.833,0 -6,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_media_animate_icon__15_res_0x7f080256"
+        android:duration="417"
+        android:startOffset="1000"
+        android:propertyName="translateXY"
+        android:pathData="M -6,0C -6,0 0.167,0 0,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_media_animate_icon__16_res_0x7f080257"
+        android:duration="583"
+        android:startOffset="1417"
+        android:propertyName="translateXY"
+        android:pathData="M 0,0C -0.063,0 0.112,0 0,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_media_animate_icon__17_res_0x7f080258"
+        android:duration="417"
+        android:startOffset="2000"
+        android:propertyName="translateXY"
+        android:pathData="M 0,0C -0.167,0 -6.275,0 -7,0"
+        android:propertyXName="translateX"
+        android:propertyYName="translateY"/>
+</set>

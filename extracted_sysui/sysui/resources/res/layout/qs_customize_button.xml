@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:id="@+id/qs_customize_button"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/qs_customize_button_margin_top"
+    android:importantForAccessibility="no">
+    <miui.systemui.widget.LinearLayout
+        android:gravity="center"
+        android:id="@+id/touch_container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="yes"
+        android:paddingHorizontal="@dimen/qs_customize_button_touch_padding">
+        <TextView
+            android:ellipsize="end"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/text"
+            android:background="@drawable/qs_customize_button_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qs_customize_entry_button_text"
+            android:maxLines="1"
+            android:importantForAccessibility="no"
+            android:outlineProvider="background"
+            android:paddingHorizontal="@dimen/qs_customize_button_padding_horizontal"
+            android:paddingVertical="@dimen/qs_customize_button_padding_vertical"
+            android:clipToOutline="true"
+            style="@style/TextAppearance.QS.CustomizeButton"/>
+    </miui.systemui.widget.LinearLayout>
+</LinearLayout>

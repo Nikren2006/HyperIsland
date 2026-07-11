@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="@dimen/isLand_drag_card_shadow_margin_left_and_right"
+        android:right="@dimen/isLand_drag_card_shadow_margin_left_and_right">
+        <nine-patch
+            android:src="@drawable/dynamic_island_share_card_shadow"
+            android:dither="true"
+            android:alpha="@dimen/isLand_drag_card_shadow_alpha"/>
+    </item>
+    <item
+        android:left="@dimen/isLand_drag_card_bg_margin"
+        android:top="@dimen/isLand_drag_card_bg_margin"
+        android:right="@dimen/isLand_drag_card_bg_margin"
+        android:bottom="@dimen/isLand_drag_card_bg_margin">
+        <shape>
+            <solid android:color="@color/island_share_card_background"/>
+            <corners android:radius="@dimen/isLand_drag_card_bg_radius"/>
+        </shape>
+    </item>
+</layer-list>

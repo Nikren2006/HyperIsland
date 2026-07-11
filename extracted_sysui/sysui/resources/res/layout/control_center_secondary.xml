@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/control_center_secondary"
+    android:focusable="false"
+    android:visibility="visible"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:importantForAccessibility="no">
+    <miui.systemui.controlcenter.widget.NonTouchableFrameLayout
+        android:id="@+id/fake_container"
+        android:focusable="false"
+        android:visibility="gone"
+        android:clickable="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"/>
+    <include
+        android:id="@+id/detail_panel"
+        layout="@layout/detail_panel"/>
+    <include
+        android:id="@+id/media_panel"
+        layout="@layout/media_panel"/>
+    <include
+        android:id="@+id/brightness_panel"
+        layout="@layout/brightness_panel"/>
+    <include
+        android:id="@+id/volume_panel"
+        layout="@layout/volume_panel"/>
+</miui.systemui.widget.ConstraintLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/focus_container_module_mark"
+    android:visibility="gone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <miuix.colorful.texteffect.HyperChronometer
+        android:layout_gravity="center_vertical"
+        android:id="@+id/focus_title"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxEms="6"
+        style="@style/FocusNotifyTinyTitleStyleMarkText"/>
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/focus_mark_small_icon"
+        android:visibility="gone"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="3dp"/>
+</LinearLayout>

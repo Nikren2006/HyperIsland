@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:drawable="@drawable/_ic_device_lock_on_anim__0_res_0x7f0800d1">
+    <target
+        android:name="_R_G_L_2_G_D_0_P_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__1_res_0x7f0800d2"/>
+    <target
+        android:name="_R_G_L_2_G_N_1_T_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__3_res_0x7f0800de"/>
+    <target
+        android:name="_R_G_L_1_C_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__6_res_0x7f0800e1"/>
+    <target
+        android:name="_R_G_L_1_G_N_1_T_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__8_res_0x7f0800e3"/>
+    <target
+        android:name="_R_G_L_1_G_N_1_T_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__11_res_0x7f0800d4"/>
+    <target
+        android:name="_R_G_L_0_G_G_0_D_0_P_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__12_res_0x7f0800d5"/>
+    <target
+        android:name="_R_G_L_0_G_N_1_T_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__15_res_0x7f0800d8"/>
+    <target
+        android:name="_R_G_L_0_G_N_1_T_0"
+        android:animation="@drawable/_ic_device_lock_on_anim__18_res_0x7f0800db"/>
+    <target
+        android:name="time_group"
+        android:animation="@drawable/_ic_device_lock_on_anim__19_res_0x7f0800dc"/>
+</animated-vector>

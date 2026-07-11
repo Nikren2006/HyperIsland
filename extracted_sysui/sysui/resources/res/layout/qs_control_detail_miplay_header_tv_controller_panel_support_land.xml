@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/miplay_detail_item_tv_control_panel_height">
+    <TextView
+        android:textSize="@dimen/miplay_detail_item_tv_control_panel_speed_text_size"
+        android:textColor="@color/miplay_detail_item_tv_control_panel_speed_text_color"
+        android:gravity="center"
+        android:id="@+id/speed"
+        android:background="@drawable/miplay_detail_header_tv_controller_icon_bg"
+        android:layout_width="@dimen/miplay_detail_item_tv_control_panel_icon_width_land"
+        android:layout_height="@dimen/miplay_detail_item_tv_control_panel_icon_height_land"
+        android:fontFamily="MiSans"
+        android:textFontWeight="600"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/open_remote_tv_view"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:id="@+id/open_remote_tv_view"
+        android:background="@drawable/miplay_detail_header_tv_controller_icon_bg"
+        android:layout_width="@dimen/miplay_detail_item_tv_control_panel_tv_icon_width_land"
+        android:layout_height="@dimen/miplay_detail_item_tv_control_panel_icon_height_land"
+        android:src="@drawable/miplay_tv_controller_icon"
+        android:scaleType="center"
+        android:contentDescription="@string/miplay_tv_remote_control"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/video_next"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/speed"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:id="@+id/video_next"
+        android:background="@drawable/miplay_detail_header_tv_controller_icon_bg"
+        android:layout_width="@dimen/miplay_detail_item_tv_control_panel_icon_width_land"
+        android:layout_height="@dimen/miplay_detail_item_tv_control_panel_icon_height_land"
+        android:src="@drawable/miplay_fast_forward_icon"
+        android:scaleType="center"
+        android:contentDescription="@string/miplay_next_video"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/open_remote_tv_view"
+        app:layout_constraintTop_toTopOf="parent"/>
+</miui.systemui.widget.ConstraintLayout>

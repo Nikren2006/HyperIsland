@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/focus_container_module_button_5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="@dimen/focus_notify_module_margin_horizontal">
+    <FrameLayout
+        android:id="@+id/line"
+        android:background="@color/lineColor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/focus_title_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp">
+        <miuix.colorful.texteffect.TimerTextEffectView
+            android:id="@+id/focus_primary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxEms="6"
+            style="@style/FocusNotifyButtonPrimaryDecoStyleV3"/>
+        <include
+            android:id="@+id/focus_button_container_action"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            layout="@layout/focus_notification_module_tiny_mark_4_v3"/>
+    </LinearLayout>
+</RelativeLayout>

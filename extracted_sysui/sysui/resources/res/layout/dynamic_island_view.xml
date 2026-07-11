@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.dynamicisland.DynamicIslandBackgroundView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/island_container"
+    android:background="@color/transparent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <miui.systemui.dynamicisland.window.content.DynamicIslandContentView
+        android:id="@+id/island_content"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <include layout="@layout/dynamic_island_child_view"/>
+    </miui.systemui.dynamicisland.window.content.DynamicIslandContentView>
+</miui.systemui.dynamicisland.DynamicIslandBackgroundView>

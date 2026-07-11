@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miuix.androidbasewidget.internal.view.SeekBarBackGroundShapeDrawable xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/miplay_item_volume_bar_bg_color"/>
+    <corners android:radius="@dimen/miplay_seekbar_progress_bg_corner_radiu"/>
+</miuix.androidbasewidget.internal.view.SeekBarBackGroundShapeDrawable>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:drawable="@drawable/_ic_miui_volume_dnd_on_collpased__0_res_0x7f080234">
+    <target
+        android:name="_R_G_L_3_G_D_0_P_0"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__1_res_0x7f080235"/>
+    <target
+        android:name="_R_G_L_3_G_D_0_P_0"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__3_res_0x7f080248"/>
+    <target
+        android:name="_R_G_L_2_G_D_0_P_0"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__6_res_0x7f08024b"/>
+    <target
+        android:name="_R_G_L_2_G_D_0_P_0_G_0_T_0"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__9_res_0x7f08024e"/>
+    <target
+        android:name="_R_G_L_1_G_D_0_P_0"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__14_res_0x7f08023a"/>
+    <target
+        android:name="_R_G_L_1_G_D_0_P_0_G_0_T_0"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__17_res_0x7f08023d"/>
+    <target
+        android:name="_R_G_L_0_G_D_0_P_0_G_0_T_0"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__22_res_0x7f080243"/>
+    <target
+        android:name="time_group"
+        android:animation="@drawable/_ic_miui_volume_dnd_on_collpased__26_res_0x7f080247"/>
+</animated-vector>

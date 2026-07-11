@@ -1,0 +1,611 @@
+package miuix.pickerwidget.widget;
+
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Locale;
+import miuix.pickerwidget.R;
+import miuix.pickerwidget.date.Calendar;
+import miuix.pickerwidget.date.CalendarFormatSymbols;
+import miuix.pickerwidget.date.DateUtils;
+import miuix.pickerwidget.widget.NumberPicker;
+
+/* JADX INFO: loaded from: classes5.dex */
+public class DatePicker extends FrameLayout {
+    private static final String DATE_FORMAT = "MM/dd/yyyy";
+    private static final boolean DEFAULT_CALENDAR_VIEW_SHOWN = false;
+    private static final boolean DEFAULT_ENABLED_STATE = true;
+    private static final int DEFAULT_END_YEAR = 2100;
+    private static final int DEFAULT_HOUR = 12;
+    private static final int DEFAULT_MILLIS = 0;
+    private static final int DEFAULT_MINUTE = 0;
+    private static final int DEFAULT_SECOND = 0;
+    private static final boolean DEFAULT_SPINNERS_SHOWN = true;
+    private static final int DEFAULT_START_YEAR = 1900;
+    private static final String LOG_TAG = "DatePicker";
+    private static String[] sChineseDays;
+    private static String sChineseLeapMonthMark;
+    private static String[] sChineseLeapYearMonths;
+    private static String[] sChineseMonths;
+    private Calendar mCurrentDate;
+    private Locale mCurrentLocale;
+    private final DateFormat mDateFormat;
+    private char[] mDateFormatOrder;
+    private final NumberPicker mDaySpinner;
+    private boolean mIsEnabled;
+    private boolean mIsLunarMode;
+    private Calendar mMaxDate;
+    private Calendar mMinDate;
+    private final NumberPicker mMonthSpinner;
+    private int mNumberOfMonths;
+    private OnDateChangedListener mOnDateChangedListener;
+    private String[] mShortMonths;
+    private final LinearLayout mSpinners;
+    private Calendar mTempDate;
+    private final NumberPicker mYearSpinner;
+
+    public interface OnDateChangedListener {
+        void onDateChanged(DatePicker datePicker, int i2, int i3, int i4, boolean z2);
+    }
+
+    public DatePicker(Context context) {
+        this(context, null);
+    }
+
+    private int getMonthDisplayValueIndex(Calendar calendar, boolean z2) {
+        if (!z2) {
+            return calendar.get(5);
+        }
+        int i2 = calendar.get(6);
+        int chineseLeapMonth = calendar.getChineseLeapMonth();
+        return chineseLeapMonth >= 0 ? (calendar.isChineseLeapMonth() || i2 > chineseLeapMonth) ? i2 + 1 : i2 : i2;
+    }
+
+    private void initChineseDaysIfNeeded() {
+        String[] strArr;
+        if (sChineseDays == null) {
+            sChineseDays = CalendarFormatSymbols.getOrCreate(getContext()).getChineseDays();
+        }
+        if (sChineseMonths == null) {
+            sChineseMonths = CalendarFormatSymbols.getOrCreate(getContext()).getChineseMonths();
+            Resources resources = getContext().getResources();
+            int i2 = 0;
+            while (true) {
+                strArr = sChineseMonths;
+                if (i2 >= strArr.length) {
+                    break;
+                }
+                StringBuilder sb = new StringBuilder();
+                String[] strArr2 = sChineseMonths;
+                sb.append(strArr2[i2]);
+                sb.append(resources.getString(R.string.chinese_month));
+                strArr2[i2] = sb.toString();
+                i2++;
+            }
+            sChineseLeapYearMonths = new String[strArr.length + 1];
+        }
+        if (sChineseLeapMonthMark == null) {
+            sChineseLeapMonthMark = CalendarFormatSymbols.getOrCreate(getContext()).getChineseLeapMonths()[1];
+        }
+    }
+
+    private boolean isNewDate(int i2, int i3, int i4) {
+        return (this.mCurrentDate.get(1) == i2 && this.mCurrentDate.get(5) == i4 && this.mCurrentDate.get(9) == i3) ? false : true;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void notifyDateChanged() {
+        sendAccessibilityEvent(4);
+        OnDateChangedListener onDateChangedListener = this.mOnDateChangedListener;
+        if (onDateChangedListener != null) {
+            onDateChangedListener.onDateChanged(this, getYear(), getMonth(), getDayOfMonth(), this.mIsLunarMode);
+        }
+    }
+
+    private boolean parseDate(String str, Calendar calendar) {
+        try {
+            calendar.setSafeTimeInMillis(this.mDateFormat.parse(str).getTime(), this.mIsLunarMode);
+            return true;
+        } catch (ParseException unused) {
+            Log.w(LOG_TAG, "Date: " + str + " not in format: " + DATE_FORMAT);
+            return false;
+        }
+    }
+
+    private void reorderSpinners() {
+        this.mSpinners.removeAllViews();
+        char[] dateFormatOrder = this.mDateFormatOrder;
+        if (dateFormatOrder == null) {
+            dateFormatOrder = android.text.format.DateFormat.getDateFormatOrder(getContext());
+        }
+        int length = dateFormatOrder.length;
+        for (int i2 = 0; i2 < length; i2++) {
+            char c2 = dateFormatOrder[i2];
+            if (c2 == 'M') {
+                this.mSpinners.addView(this.mMonthSpinner);
+                setImeOptions(this.mMonthSpinner, length, i2);
+            } else if (c2 == 'd') {
+                this.mSpinners.addView(this.mDaySpinner);
+                setImeOptions(this.mDaySpinner, length, i2);
+            } else {
+                if (c2 != 'y') {
+                    throw new IllegalArgumentException();
+                }
+                this.mSpinners.addView(this.mYearSpinner);
+                setImeOptions(this.mYearSpinner, length, i2);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void resetMonthsDisplayedValues() {
+        int i2 = 0;
+        if (this.mIsLunarMode) {
+            int chineseLeapMonth = this.mCurrentDate.getChineseLeapMonth();
+            if (chineseLeapMonth < 0) {
+                this.mShortMonths = sChineseMonths;
+                return;
+            }
+            String[] strArr = sChineseLeapYearMonths;
+            this.mShortMonths = strArr;
+            int i3 = chineseLeapMonth + 1;
+            System.arraycopy(sChineseMonths, 0, strArr, 0, i3);
+            String[] strArr2 = sChineseMonths;
+            System.arraycopy(strArr2, chineseLeapMonth, this.mShortMonths, i3, strArr2.length - chineseLeapMonth);
+            this.mShortMonths[i3] = sChineseLeapMonthMark + this.mShortMonths[i3];
+            return;
+        }
+        if ("en".equals(this.mCurrentLocale.getLanguage().toLowerCase())) {
+            this.mShortMonths = CalendarFormatSymbols.getOrCreate(getContext()).getShortMonths();
+            return;
+        }
+        this.mShortMonths = new String[12];
+        while (true) {
+            String[] strArr3 = this.mShortMonths;
+            if (i2 >= strArr3.length) {
+                return;
+            }
+            int i4 = i2 + 1;
+            strArr3[i2] = NumberPicker.TWO_DIGIT_FORMATTER.format(i4);
+            i2 = i4;
+        }
+    }
+
+    private void setCurrentLocale(Locale locale) {
+        if (locale.equals(this.mCurrentLocale)) {
+            return;
+        }
+        this.mCurrentLocale = locale;
+        this.mNumberOfMonths = this.mTempDate.getActualMaximum(5) + 1;
+        resetMonthsDisplayedValues();
+        updateFormatters();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void setDate(int i2, int i3, int i4) {
+        this.mCurrentDate.set(i2, i3, i4, 12, 0, 0, 0);
+        if (this.mCurrentDate.before(this.mMinDate)) {
+            this.mCurrentDate.setSafeTimeInMillis(this.mMinDate.getTimeInMillis(), this.mIsLunarMode);
+        } else if (this.mCurrentDate.after(this.mMaxDate)) {
+            this.mCurrentDate.setSafeTimeInMillis(this.mMaxDate.getTimeInMillis(), this.mIsLunarMode);
+        }
+    }
+
+    private void setImeOptions(NumberPicker numberPicker, int i2, int i3) {
+        ((TextView) numberPicker.findViewById(R.id.number_picker_input)).setImeOptions(i3 < i2 + (-1) ? 5 : 6);
+    }
+
+    private void updateFormatters() {
+        NumberPicker numberPicker = this.mDaySpinner;
+        if (numberPicker == null || this.mYearSpinner == null) {
+            return;
+        }
+        numberPicker.setFormatter(NumberPicker.TWO_DIGIT_FORMATTER);
+        this.mYearSpinner.setFormatter(new NumberPicker.NumberFormatter());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateSpinners() {
+        if (this.mIsLunarMode) {
+            this.mDaySpinner.setLabel(null);
+            this.mMonthSpinner.setLabel(null);
+            this.mYearSpinner.setLabel(null);
+        } else {
+            this.mDaySpinner.setLabel(getContext().getString(R.string.date_picker_label_day));
+            this.mMonthSpinner.setLabel(getContext().getString(R.string.date_picker_label_month));
+            this.mYearSpinner.setLabel(getContext().getString(R.string.date_picker_label_year));
+        }
+        this.mDaySpinner.setDisplayedValues(null);
+        this.mDaySpinner.setMinValue(1);
+        this.mDaySpinner.setMaxValue(this.mIsLunarMode ? this.mCurrentDate.getActualMaximum(10) : this.mCurrentDate.getActualMaximum(9));
+        this.mDaySpinner.setWrapSelectorWheel(true);
+        this.mMonthSpinner.setDisplayedValues(null);
+        this.mMonthSpinner.setMinValue(0);
+        NumberPicker numberPicker = this.mMonthSpinner;
+        int i2 = 11;
+        if (this.mIsLunarMode && this.mCurrentDate.getChineseLeapMonth() >= 0) {
+            i2 = 12;
+        }
+        numberPicker.setMaxValue(i2);
+        this.mMonthSpinner.setWrapSelectorWheel(true);
+        int i3 = this.mIsLunarMode ? 2 : 1;
+        if (this.mCurrentDate.get(i3) == this.mMinDate.get(i3)) {
+            this.mMonthSpinner.setMinValue(getMonthDisplayValueIndex(this.mMinDate, this.mIsLunarMode));
+            this.mMonthSpinner.setWrapSelectorWheel(false);
+            int i4 = this.mIsLunarMode ? 6 : 5;
+            if (this.mCurrentDate.get(i4) == this.mMinDate.get(i4)) {
+                this.mDaySpinner.setMinValue(this.mIsLunarMode ? this.mMinDate.get(10) : this.mMinDate.get(9));
+                this.mDaySpinner.setWrapSelectorWheel(false);
+            }
+        }
+        if (this.mCurrentDate.get(i3) == this.mMaxDate.get(i3)) {
+            this.mMonthSpinner.setMaxValue(getMonthDisplayValueIndex(this.mMaxDate, this.mIsLunarMode));
+            this.mMonthSpinner.setWrapSelectorWheel(false);
+            this.mMonthSpinner.setDisplayedValues(null);
+            int i5 = this.mIsLunarMode ? 6 : 5;
+            if (this.mCurrentDate.get(i5) == this.mMaxDate.get(i5)) {
+                this.mDaySpinner.setMaxValue(this.mIsLunarMode ? this.mMaxDate.get(10) : this.mMaxDate.get(9));
+                this.mDaySpinner.setWrapSelectorWheel(false);
+            }
+        }
+        this.mMonthSpinner.setDisplayedValues((String[]) Arrays.copyOfRange(this.mShortMonths, this.mMonthSpinner.getMinValue(), this.mShortMonths.length));
+        if (this.mIsLunarMode) {
+            this.mDaySpinner.setDisplayedValues((String[]) Arrays.copyOfRange(sChineseDays, this.mDaySpinner.getMinValue() - 1, sChineseDays.length));
+        }
+        int i6 = isLunarMode() ? 2 : 1;
+        this.mYearSpinner.setMinValue(this.mMinDate.get(i6));
+        this.mYearSpinner.setMaxValue(this.mMaxDate.get(i6));
+        this.mYearSpinner.setWrapSelectorWheel(false);
+        if (this.mIsLunarMode) {
+            this.mYearSpinner.setValue(this.mCurrentDate.get(2));
+            this.mMonthSpinner.setValue(getMonthDisplayValueIndex(this.mCurrentDate, true));
+            this.mDaySpinner.setValue(this.mCurrentDate.get(10));
+        } else {
+            this.mYearSpinner.setValue(this.mCurrentDate.get(1));
+            this.mMonthSpinner.setValue(this.mCurrentDate.get(5));
+            this.mDaySpinner.setValue(this.mCurrentDate.get(9));
+        }
+    }
+
+    @Override // android.view.View
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        onPopulateAccessibilityEvent(accessibilityEvent);
+        return true;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public void dispatchRestoreInstanceState(SparseArray<Parcelable> sparseArray) {
+        dispatchThawSelfOnly(sparseArray);
+    }
+
+    public int getDayOfMonth() {
+        return this.mCurrentDate.get(this.mIsLunarMode ? 10 : 9);
+    }
+
+    public long getMaxDate() {
+        return this.mMaxDate.getTimeInMillis();
+    }
+
+    public long getMinDate() {
+        return this.mMinDate.getTimeInMillis();
+    }
+
+    public int getMonth() {
+        return this.mIsLunarMode ? this.mCurrentDate.isChineseLeapMonth() ? this.mCurrentDate.get(6) + 12 : this.mCurrentDate.get(6) : this.mCurrentDate.get(5);
+    }
+
+    public boolean getSpinnersShown() {
+        return this.mSpinners.isShown();
+    }
+
+    public int getYear() {
+        return this.mCurrentDate.get(this.mIsLunarMode ? 2 : 1);
+    }
+
+    public void init(int i2, int i3, int i4, OnDateChangedListener onDateChangedListener) {
+        setDate(i2, i3, i4);
+        updateSpinners();
+        this.mOnDateChangedListener = onDateChangedListener;
+    }
+
+    @Override // android.view.View
+    public boolean isEnabled() {
+        return this.mIsEnabled;
+    }
+
+    public boolean isLunarMode() {
+        return this.mIsLunarMode;
+    }
+
+    @Override // android.view.View
+    public void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        setCurrentLocale(configuration.locale);
+    }
+
+    @Override // android.view.View
+    public void onInitializeAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        super.onInitializeAccessibilityEvent(accessibilityEvent);
+        accessibilityEvent.setClassName(DatePicker.class.getName());
+    }
+
+    @Override // android.view.View
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
+        accessibilityNodeInfo.setClassName(DatePicker.class.getName());
+    }
+
+    @Override // android.view.View
+    public void onPopulateAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        super.onPopulateAccessibilityEvent(accessibilityEvent);
+        accessibilityEvent.getText().add(DateUtils.formatDateTime(getContext(), this.mCurrentDate.getTimeInMillis(), 896));
+    }
+
+    @Override // android.view.View
+    public void onRestoreInstanceState(Parcelable parcelable) {
+        SavedState savedState = (SavedState) parcelable;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        setDate(savedState.mYear, savedState.mMonth, savedState.mDay);
+        if (this.mIsLunarMode != savedState.mIsLunar) {
+            this.mIsLunarMode = savedState.mIsLunar;
+            resetMonthsDisplayedValues();
+        }
+        updateSpinners();
+    }
+
+    @Override // android.view.View
+    public Parcelable onSaveInstanceState() {
+        return new SavedState(super.onSaveInstanceState(), this.mCurrentDate.get(1), this.mCurrentDate.get(5), this.mCurrentDate.get(9), this.mIsLunarMode);
+    }
+
+    public void setDateFormatOrder(char[] cArr) {
+        this.mDateFormatOrder = cArr;
+        reorderSpinners();
+    }
+
+    @Override // android.view.View
+    public void setEnabled(boolean z2) {
+        if (this.mIsEnabled == z2) {
+            return;
+        }
+        super.setEnabled(z2);
+        this.mDaySpinner.setEnabled(z2);
+        this.mMonthSpinner.setEnabled(z2);
+        this.mYearSpinner.setEnabled(z2);
+        this.mIsEnabled = z2;
+    }
+
+    public void setLunarMode(boolean z2) {
+        if (z2 != this.mIsLunarMode) {
+            this.mIsLunarMode = z2;
+            resetMonthsDisplayedValues();
+            updateSpinners();
+        }
+    }
+
+    public void setMaxDate(long j2) {
+        this.mTempDate.setSafeTimeInMillis(j2, this.mIsLunarMode);
+        if (this.mTempDate.get(1) == this.mMaxDate.get(1) && this.mTempDate.get(12) == this.mMaxDate.get(12)) {
+            return;
+        }
+        this.mMaxDate.setSafeTimeInMillis(j2, this.mIsLunarMode);
+        if (this.mCurrentDate.after(this.mMaxDate)) {
+            this.mCurrentDate.setSafeTimeInMillis(this.mMaxDate.getTimeInMillis(), this.mIsLunarMode);
+            resetMonthsDisplayedValues();
+        }
+        updateSpinners();
+    }
+
+    public void setMinDate(long j2) {
+        this.mTempDate.setSafeTimeInMillis(j2, this.mIsLunarMode);
+        if (this.mTempDate.get(1) == this.mMinDate.get(1) && this.mTempDate.get(12) == this.mMinDate.get(12)) {
+            return;
+        }
+        this.mMinDate.setSafeTimeInMillis(j2, this.mIsLunarMode);
+        if (this.mCurrentDate.before(this.mMinDate)) {
+            this.mCurrentDate.setSafeTimeInMillis(this.mMinDate.getTimeInMillis(), this.mIsLunarMode);
+            resetMonthsDisplayedValues();
+        }
+        updateSpinners();
+    }
+
+    public void setSpinnersShown(boolean z2) {
+        this.mSpinners.setVisibility(z2 ? 0 : 8);
+    }
+
+    public void showDayPicker(boolean z2) {
+        this.mDaySpinner.setVisibility(z2 ? 0 : 8);
+    }
+
+    public void showMonthPicker(boolean z2) {
+        this.mMonthSpinner.setVisibility(z2 ? 0 : 8);
+    }
+
+    public void showYearPicker(boolean z2) {
+        this.mYearSpinner.setVisibility(z2 ? 0 : 8);
+    }
+
+    public void updateDate(int i2, int i3, int i4) {
+        if (isNewDate(i2, i3, i4)) {
+            setDate(i2, i3, i4);
+            updateSpinners();
+            notifyDateChanged();
+        }
+    }
+
+    public static class SavedState extends View.BaseSavedState {
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() { // from class: miuix.pickerwidget.widget.DatePicker.SavedState.1
+            @Override // android.os.Parcelable.Creator
+            public SavedState createFromParcel(Parcel parcel) {
+                return new SavedState(parcel);
+            }
+
+            @Override // android.os.Parcelable.Creator
+            public SavedState[] newArray(int i2) {
+                return new SavedState[i2];
+            }
+        };
+        private final int mDay;
+        private final boolean mIsLunar;
+        private final int mMonth;
+        private final int mYear;
+
+        @Override // android.view.View.BaseSavedState, android.view.AbsSavedState, android.os.Parcelable
+        public void writeToParcel(Parcel parcel, int i2) {
+            super.writeToParcel(parcel, i2);
+            parcel.writeInt(this.mYear);
+            parcel.writeInt(this.mMonth);
+            parcel.writeInt(this.mDay);
+            parcel.writeInt(this.mIsLunar ? 1 : 0);
+        }
+
+        private SavedState(Parcelable parcelable, int i2, int i3, int i4, boolean z2) {
+            super(parcelable);
+            this.mYear = i2;
+            this.mMonth = i3;
+            this.mDay = i4;
+            this.mIsLunar = z2;
+        }
+
+        private SavedState(Parcel parcel) {
+            super(parcel);
+            this.mYear = parcel.readInt();
+            this.mMonth = parcel.readInt();
+            this.mDay = parcel.readInt();
+            this.mIsLunar = parcel.readInt() == 1;
+        }
+    }
+
+    public DatePicker(Context context, AttributeSet attributeSet) {
+        this(context, attributeSet, R.attr.datePickerStyle);
+    }
+
+    public DatePicker(Context context, AttributeSet attributeSet, int i2) {
+        int i3;
+        String str;
+        super(context, attributeSet, i2);
+        this.mDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        this.mIsEnabled = true;
+        this.mIsLunarMode = false;
+        initChineseDaysIfNeeded();
+        this.mTempDate = new Calendar();
+        this.mMinDate = new Calendar();
+        this.mMaxDate = new Calendar();
+        this.mCurrentDate = new Calendar();
+        TypedArray typedArrayObtainStyledAttributes = context.obtainStyledAttributes(attributeSet, R.styleable.DatePicker, i2, R.style.Widget_DatePicker);
+        boolean z2 = typedArrayObtainStyledAttributes.getBoolean(R.styleable.DatePicker_spinnersShown, true);
+        int i4 = typedArrayObtainStyledAttributes.getInt(R.styleable.DatePicker_startYear, DEFAULT_START_YEAR);
+        int i5 = typedArrayObtainStyledAttributes.getInt(R.styleable.DatePicker_endYear, DEFAULT_END_YEAR);
+        String string = typedArrayObtainStyledAttributes.getString(R.styleable.DatePicker_minDate);
+        String string2 = typedArrayObtainStyledAttributes.getString(R.styleable.DatePicker_maxDate);
+        int i6 = R.layout.miuix_appcompat_date_picker;
+        this.mIsLunarMode = typedArrayObtainStyledAttributes.getBoolean(R.styleable.DatePicker_lunarCalendar, false);
+        boolean z3 = typedArrayObtainStyledAttributes.getBoolean(R.styleable.DatePicker_showYear, true);
+        boolean z4 = typedArrayObtainStyledAttributes.getBoolean(R.styleable.DatePicker_showMonth, true);
+        boolean z5 = typedArrayObtainStyledAttributes.getBoolean(R.styleable.DatePicker_showDay, true);
+        typedArrayObtainStyledAttributes.recycle();
+        setCurrentLocale(Locale.getDefault());
+        ((LayoutInflater) context.getSystemService("layout_inflater")).inflate(i6, (ViewGroup) this, true);
+        NumberPicker.OnValueChangeListener onValueChangeListener = new NumberPicker.OnValueChangeListener() { // from class: miuix.pickerwidget.widget.DatePicker.1
+            @Override // miuix.pickerwidget.widget.NumberPicker.OnValueChangeListener
+            public void onValueChange(NumberPicker numberPicker, int i7, int i8) {
+                DatePicker.this.mTempDate.setSafeTimeInMillis(DatePicker.this.mCurrentDate.getTimeInMillis(), DatePicker.this.mIsLunarMode);
+                if (numberPicker == DatePicker.this.mDaySpinner) {
+                    DatePicker.this.mTempDate.add(DatePicker.this.mIsLunarMode ? 10 : 9, i8 - i7);
+                } else if (numberPicker == DatePicker.this.mMonthSpinner) {
+                    DatePicker.this.mTempDate.add(DatePicker.this.mIsLunarMode ? 6 : 5, i8 - i7);
+                } else {
+                    if (numberPicker != DatePicker.this.mYearSpinner) {
+                        throw new IllegalArgumentException();
+                    }
+                    DatePicker.this.mTempDate.set(DatePicker.this.mIsLunarMode ? 2 : 1, i8);
+                }
+                DatePicker datePicker = DatePicker.this;
+                datePicker.setDate(datePicker.mTempDate.get(1), DatePicker.this.mTempDate.get(5), DatePicker.this.mTempDate.get(9));
+                if (numberPicker == DatePicker.this.mYearSpinner) {
+                    DatePicker.this.resetMonthsDisplayedValues();
+                }
+                DatePicker.this.updateSpinners();
+                DatePicker.this.notifyDateChanged();
+            }
+        };
+        this.mSpinners = (LinearLayout) findViewById(R.id.pickers);
+        NumberPicker numberPicker = (NumberPicker) findViewById(R.id.day);
+        this.mDaySpinner = numberPicker;
+        numberPicker.setOnLongPressUpdateInterval(100L);
+        numberPicker.setOnValueChangedListener(onValueChangeListener);
+        if (!z5) {
+            numberPicker.setVisibility(8);
+        }
+        NumberPicker numberPicker2 = (NumberPicker) findViewById(R.id.month);
+        this.mMonthSpinner = numberPicker2;
+        numberPicker2.setMinValue(0);
+        numberPicker2.setMaxValue(this.mNumberOfMonths - 1);
+        numberPicker2.setDisplayedValues(this.mShortMonths);
+        numberPicker2.setOnLongPressUpdateInterval(200L);
+        numberPicker2.setOnValueChangedListener(onValueChangeListener);
+        if (!z4) {
+            numberPicker2.setVisibility(8);
+        }
+        NumberPicker numberPicker3 = (NumberPicker) findViewById(R.id.year);
+        this.mYearSpinner = numberPicker3;
+        numberPicker3.setOnLongPressUpdateInterval(100L);
+        numberPicker3.setOnValueChangedListener(onValueChangeListener);
+        if (!z3) {
+            numberPicker3.setVisibility(8);
+        }
+        updateFormatters();
+        if (!z2) {
+            i3 = 1;
+            setSpinnersShown(true);
+        } else {
+            i3 = 1;
+            setSpinnersShown(z2);
+        }
+        this.mCurrentDate.setSafeTimeInMillis(System.currentTimeMillis(), this.mIsLunarMode);
+        init(this.mCurrentDate.get(i3), this.mCurrentDate.get(5), this.mCurrentDate.get(9), null);
+        this.mTempDate.setSafeTimeInMillis(0L, this.mIsLunarMode);
+        if (!TextUtils.isEmpty(string)) {
+            if (parseDate(string, this.mTempDate)) {
+                str = string2;
+            } else {
+                str = string2;
+                this.mTempDate.set(i4, 0, 1, 12, 0, 0, 0);
+            }
+        } else {
+            str = string2;
+            if (!parseDate("1/31/1900", this.mTempDate)) {
+                this.mTempDate.set(i4, 0, 1, 12, 0, 0, 0);
+            }
+        }
+        setMinDate(this.mTempDate.getTimeInMillis());
+        this.mTempDate.setSafeTimeInMillis(0L, this.mIsLunarMode);
+        if (TextUtils.isEmpty(str) || !parseDate(str, this.mTempDate)) {
+            this.mTempDate.set(i5, 11, 31, 12, 0, 0, 0);
+        }
+        setMaxDate(this.mTempDate.getTimeInMillis());
+        reorderSpinners();
+        if (getImportantForAccessibility() == 0) {
+            setImportantForAccessibility(1);
+        }
+    }
+}

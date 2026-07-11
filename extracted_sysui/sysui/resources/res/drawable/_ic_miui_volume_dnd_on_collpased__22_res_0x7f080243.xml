@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_dnd_on_collpased__23_res_0x7f080244"
+        android:duration="250"
+        android:startOffset="0"
+        android:valueFrom="0"
+        android:valueTo="0"
+        android:valueType="floatType"
+        android:propertyName="rotation"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_dnd_on_collpased__24_res_0x7f080245"
+        android:duration="350"
+        android:startOffset="250"
+        android:valueFrom="0"
+        android:valueTo="-40"
+        android:valueType="floatType"
+        android:propertyName="rotation"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_volume_dnd_on_collpased__25_res_0x7f080246"
+        android:duration="333"
+        android:startOffset="600"
+        android:valueFrom="-40"
+        android:valueTo="0"
+        android:valueType="floatType"
+        android:propertyName="rotation"/>
+</set>

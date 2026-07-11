@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:height="@dimen/flip_qs_group_title_boundary_height"
+        android:drawable="@color/flip_qs_background_dark"/>
+    <item
+        android:height="@dimen/flip_qs_card_corner"
+        android:drawable="@drawable/flip_qs_shape_bottom_corner_dark"/>
+    <item
+        android:height="@dimen/miuix_card_divider_height"
+        android:drawable="@color/transparent"
+        android:top="@dimen/flip_qs_card_corner"/>
+    <item
+        android:height="@dimen/flip_qs_card_corner"
+        android:drawable="@drawable/flip_qs_shape_top_corner_dark"
+        android:top="@dimen/flip_qs_group_title_boundary_top"/>
+</layer-list>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:id="@+id/divider_container"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/edit_mode_divider_expanded_height"
+    android:importantForAccessibility="no">
+    <View
+        android:layout_gravity="bottom"
+        android:id="@+id/divider"
+        android:background="@color/customize_divider_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_mode_divider_line_height"
+        android:layout_marginBottom="@dimen/edit_mode_divider_line_margin_bottom"
+        android:foregroundGravity="center"
+        android:layout_marginHorizontal="@dimen/edit_mode_divider_margin_horizontal"/>
+</miui.systemui.widget.FrameLayout>

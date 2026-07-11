@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center_horizontal"
+    android:paddingBottom="@dimen/qs_edit_wordless_mode_show_label_padding_bottom"
+    android:focusable="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/qs_wordless_mode_margin_bottom"
+    android:paddingHorizontal="@dimen/qs_edit_wordless_mode_padding_horizontal_international">
+    <miui.systemui.widget.FrameLayout
+        android:id="@+id/qs_wordless_mode"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/qs_wordless_mode_minHeight"
+        android:importantForAccessibility="yes"
+        android:paddingHorizontal="@dimen/qs_wordless_mode_padding_horizontal">
+        <include
+            android:id="@+id/qs_edit_wordless_mode"
+            layout="@layout/qs_edit_wordless_mode"/>
+    </miui.systemui.widget.FrameLayout>
+</miui.systemui.widget.FrameLayout>

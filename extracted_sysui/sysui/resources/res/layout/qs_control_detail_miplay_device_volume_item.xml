@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.systemui.MiPlayVolumeBar xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/device_volume_bar"
+    android:paddingBottom="@dimen/miplay_detail_item_volume_bar_padding_top_bottom"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/miplay_detail_item_volume_bar_height"
+    android:progressDrawable="@drawable/miplay_item_volume_bar_progress_light"
+    android:hapticFeedbackEnabled="false"
+    android:contentDescription="@string/miplay_accessibility_volume"
+    android:layoutDirection="ltr"
+    app:foregroundPrimaryColor="@color/miplay_volume_bar_primary_color"
+    app:foregroundPrimaryDisableColor="@color/miplay_volume_bar_primary_disable_color"
+    style="@style/Widget.SeekBar.Light"/>

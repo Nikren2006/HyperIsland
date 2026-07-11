@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:gravity="top"
+        android:height="26.18dp"
+        android:drawable="@drawable/miui_volume_timer_smooth_bg"
+        android:tileMode="disabled"/>
+    <item android:gravity="bottom">
+        <vector
+            android:height="32.73dp"
+            android:width="@dimen/miui_volume_timer_popup_text_width"
+            android:viewportWidth="127"
+            android:viewportHeight="92">
+            <path
+                android:fillColor="#00000000"
+                android:pathData="M24,72.281C10.746,72.281 0,61.536 0,48.281L0,24.281C0,11.026 10.746,0.281 24,0.281L103,0.281C116.255,0.281 127,11.026 127,24.281L127,48.281C127,61.536 116.255,72.281 103,72.281L73.046,72.281L63.5,72.281L53.955,72.281L24,72.281Z"/>
+            <path
+                android:fillColor="#2c2c2e"
+                android:pathData="M41,72.281L87.001,72.281C79.698,72.281 72.88,75.935 68.835,82.015L66.144,86.06C65.125,87.591 62.876,87.591 61.857,86.06L59.166,82.015C55.121,75.935 48.303,72.281 41,72.281Z"/>
+        </vector>
+    </item>
+</layer-list>

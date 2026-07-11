@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:height="64dp"
+    android:width="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <group
+        android:rotation="45"
+        android:translateX="27.3848"
+        android:translateY="-15.4437">
+        <path
+            android:fillColor="@color/controls_selection_selected_icon_color"
+            android:pathData="M39.3345238 38.3345238L39.3345238 7.33452378C39.3345238 6.22995428 40.2299543 5.33452378 41.3345238 5.33452378L43.3345238 5.33452378C44.4390933 5.33452378 45.3345238 6.22995428 45.3345238 7.33452378L45.3345238 44.3345238C45.3345238 44.8868085 44.8868085 45.3345238 44.3345238 45.3345238L21.3345238 45.3345238C20.2299543 45.3345238 19.3345238 44.4390933 19.3345238 43.3345238L19.3345238 41.3345238C19.3345238 40.2299543 20.2299543 39.3345238 21.3345238 39.3345238L38.3345238 39.3345238C38.8868085 39.3345238 39.3345238 38.8868085 39.3345238 38.3345238Z"/>
+    </group>
+</vector>

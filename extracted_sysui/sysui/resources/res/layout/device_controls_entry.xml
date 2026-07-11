@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/external_entry_background"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/control_center_universal_1_row_size"
+    android:layout_margin="@dimen/control_center_universal_margin">
+    <ImageView
+        android:id="@+id/entry_icon"
+        android:layout_width="@dimen/mi_home_entry_icon_width"
+        android:layout_height="@dimen/mi_home_entry_icon_height"
+        android:baselineAlignBottom="true"
+        android:importantForAccessibility="no"
+        android:layout_marginStart="@dimen/control_center_universal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/entry_title"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:textAppearance="@style/TextAppearance.ExternalEntry.Title"
+        android:ellipsize="end"
+        android:id="@+id/entry_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:importantForAccessibility="auto"
+        android:layout_marginStart="@dimen/control_center_device_controls_entry_title_margin_start"
+        android:layout_marginEnd="@dimen/control_center_universal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0"
+        app:layout_constraintStart_toEndOf="@+id/entry_icon"
+        app:layout_constraintTop_toTopOf="parent"/>
+</miui.systemui.widget.ConstraintLayout>

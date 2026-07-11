@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:ordering="together">
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_silent_mode_off_collpased__20_res_0x7f0801f1"
+        android:duration="100"
+        android:startOffset="0"
+        android:valueFrom="M24.66 51.89 C24.66,51.89 32.41,64.63 32.41,64.63 C32.41,64.63 55.41,37.13 55.41,37.13 C55.41,37.13 44.78,31.26 44.78,31.26 C44.78,31.26 24.66,51.89 24.66,51.89c "
+        android:valueTo="M-39.97 -12.75 C-39.97,-12.75 32.41,64.63 32.41,64.63 C32.41,64.63 67.66,22.63 67.66,22.63 C67.66,22.63 -19.85,-33.38 -19.85,-33.38 C-19.85,-33.38 -39.97,-12.75 -39.97,-12.75c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_silent_mode_off_collpased__21_res_0x7f0801f2"
+        android:duration="50"
+        android:startOffset="100"
+        android:valueFrom="M-39.97 -12.75 C-39.97,-12.75 32.41,64.63 32.41,64.63 C32.41,64.63 67.66,22.63 67.66,22.63 C67.66,22.63 -19.85,-33.38 -19.85,-33.38 C-19.85,-33.38 -39.97,-12.75 -39.97,-12.75c "
+        android:valueTo="M-46.92 -19.7 C-46.92,-19.7 32.41,64.63 32.41,64.63 C32.41,64.63 71.74,19.81 71.74,19.81 C71.74,19.81 -22.73,-44.26 -22.73,-44.26 C-22.73,-44.26 -46.92,-19.7 -46.92,-19.7c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_silent_mode_off_collpased__22_res_0x7f0801f3"
+        android:duration="67"
+        android:startOffset="150"
+        android:valueFrom="M-46.92 -19.7 C-46.92,-19.7 32.41,64.63 32.41,64.63 C32.41,64.63 71.74,19.81 71.74,19.81 C71.74,19.81 -22.73,-44.26 -22.73,-44.26 C-22.73,-44.26 -46.92,-19.7 -46.92,-19.7c "
+        android:valueTo="M-52.71 -25.49 C-52.71,-25.49 32.41,64.63 32.41,64.63 C32.41,64.63 55.41,37.13 55.41,37.13 C55.41,37.13 -32.59,-46.12 -32.59,-46.12 C-32.59,-46.12 -52.71,-25.49 -52.71,-25.49c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_silent_mode_off_collpased__23_res_0x7f0801f4"
+        android:duration="83"
+        android:startOffset="217"
+        android:valueFrom="M-52.71 -25.49 C-52.71,-25.49 32.41,64.63 32.41,64.63 C32.41,64.63 55.41,37.13 55.41,37.13 C55.41,37.13 -32.59,-46.12 -32.59,-46.12 C-32.59,-46.12 -52.71,-25.49 -52.71,-25.49c "
+        android:valueTo="M-52.71 -25.49 C-52.71,-25.49 10.41,80.13 10.41,80.13 C10.41,80.13 55.41,37.13 55.41,37.13 C55.41,37.13 -26.09,-51.37 -26.09,-51.37 C-26.09,-51.37 -52.71,-25.49 -52.71,-25.49c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+    <objectAnimator
+        android:interpolator="@drawable/_ic_miui_silent_mode_off_collpased__24_res_0x7f0801f5"
+        android:duration="150"
+        android:startOffset="300"
+        android:valueFrom="M-52.71 -25.49 C-52.71,-25.49 10.41,80.13 10.41,80.13 C10.41,80.13 55.41,37.13 55.41,37.13 C55.41,37.13 -26.09,-51.37 -26.09,-51.37 C-26.09,-51.37 -52.71,-25.49 -52.71,-25.49c "
+        android:valueTo="M-80.21 -16.74 C-80.21,-16.74 6.66,84.38 6.66,84.38 C6.66,84.38 73.31,19.28 73.31,19.28 C73.31,19.28 -23.59,-65.12 -23.59,-65.12 C-23.59,-65.12 -80.21,-16.74 -80.21,-16.74c "
+        android:valueType="pathType"
+        android:propertyName="pathData"/>
+</set>

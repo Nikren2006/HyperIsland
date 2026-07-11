@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:id="@+id/focus_container_module_multi_progress"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/focus_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <miuix.colorful.texteffect.TimerTextEffectView
+            android:id="@+id/focus_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxEms="12"
+            style="@style/FocusNotifySpecialStyleV2"/>
+        <ProgressBar
+            android:layout_gravity="bottom"
+            android:id="@+id/multi_progress"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/notify_module_progress_bar_height"
+            android:layout_marginTop="@dimen/focus_notify_module_margin_vertical"
+            android:layout_marginBottom="@dimen/focus_notify_module_margin_vertical"
+            style="?android:attr/progressBarStyleHorizontal"/>
+    </LinearLayout>
+</LinearLayout>

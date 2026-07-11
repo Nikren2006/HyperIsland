@@ -1,0 +1,1368 @@
+package androidx.collection;
+
+import java.util.NoSuchElementException;
+import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
+import kotlin.jvm.internal.DefaultConstructorMarker;
+import kotlin.jvm.internal.n;
+
+/* JADX INFO: loaded from: classes.dex */
+public abstract class LongLongMap {
+    public int _capacity;
+    public int _size;
+    public long[] keys;
+    public long[] metadata;
+    public long[] values;
+
+    public /* synthetic */ LongLongMap(DefaultConstructorMarker defaultConstructorMarker) {
+        this();
+    }
+
+    public static /* synthetic */ void getKeys$annotations() {
+    }
+
+    public static /* synthetic */ void getMetadata$annotations() {
+    }
+
+    public static /* synthetic */ void getValues$annotations() {
+    }
+
+    public static /* synthetic */ void get_capacity$collection$annotations() {
+    }
+
+    public static /* synthetic */ void get_size$collection$annotations() {
+    }
+
+    public static /* synthetic */ String joinToString$default(LongLongMap longLongMap, CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, int i2, CharSequence charSequence4, int i3, Object obj) {
+        if (obj != null) {
+            throw new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: joinToString");
+        }
+        if ((i3 & 1) != 0) {
+            charSequence = ", ";
+        }
+        CharSequence charSequence5 = (i3 & 2) != 0 ? "" : charSequence2;
+        CharSequence charSequence6 = (i3 & 4) == 0 ? charSequence3 : "";
+        if ((i3 & 8) != 0) {
+            i2 = -1;
+        }
+        int i4 = i2;
+        if ((i3 & 16) != 0) {
+            charSequence4 = "...";
+        }
+        return longLongMap.joinToString(charSequence, charSequence5, charSequence6, i4, charSequence4);
+    }
+
+    public final boolean all(Function2 predicate) {
+        n.g(predicate, "predicate");
+        long[] jArr = this.keys;
+        long[] jArr2 = this.values;
+        long[] jArr3 = this.metadata;
+        int length = jArr3.length - 2;
+        if (length < 0) {
+            return true;
+        }
+        int i2 = 0;
+        while (true) {
+            long j2 = jArr3[i2];
+            if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                int i3 = 8 - ((~(i2 - length)) >>> 31);
+                for (int i4 = 0; i4 < i3; i4++) {
+                    if ((255 & j2) < 128) {
+                        int i5 = (i2 << 3) + i4;
+                        if (!((Boolean) predicate.invoke(Long.valueOf(jArr[i5]), Long.valueOf(jArr2[i5]))).booleanValue()) {
+                            return false;
+                        }
+                    }
+                    j2 >>= 8;
+                }
+                if (i3 != 8) {
+                    return true;
+                }
+            }
+            if (i2 == length) {
+                return true;
+            }
+            i2++;
+        }
+    }
+
+    public final boolean any() {
+        return this._size != 0;
+    }
+
+    public final boolean contains(long j2) {
+        return findKeyIndex(j2) >= 0;
+    }
+
+    public final boolean containsKey(long j2) {
+        return findKeyIndex(j2) >= 0;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0041  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final boolean containsValue(long r14) {
+        /*
+            r13 = this;
+            long[] r0 = r13.values
+            long[] r13 = r13.metadata
+            int r1 = r13.length
+            int r1 = r1 + (-2)
+            r2 = 0
+            if (r1 < 0) goto L46
+            r3 = r2
+        Lb:
+            r4 = r13[r3]
+            long r6 = ~r4
+            r8 = 7
+            long r6 = r6 << r8
+            long r6 = r6 & r4
+            r8 = -9187201950435737472(0x8080808080808080, double:-2.937446524422997E-306)
+            long r6 = r6 & r8
+            int r6 = (r6 > r8 ? 1 : (r6 == r8 ? 0 : -1))
+            if (r6 == 0) goto L41
+            int r6 = r3 - r1
+            int r6 = ~r6
+            int r6 = r6 >>> 31
+            r7 = 8
+            int r6 = 8 - r6
+            r8 = r2
+        L25:
+            if (r8 >= r6) goto L3f
+            r9 = 255(0xff, double:1.26E-321)
+            long r9 = r9 & r4
+            r11 = 128(0x80, double:6.32E-322)
+            int r9 = (r9 > r11 ? 1 : (r9 == r11 ? 0 : -1))
+            if (r9 >= 0) goto L3b
+            int r9 = r3 << 3
+            int r9 = r9 + r8
+            r9 = r0[r9]
+            int r9 = (r14 > r9 ? 1 : (r14 == r9 ? 0 : -1))
+            if (r9 != 0) goto L3b
+            r13 = 1
+            return r13
+        L3b:
+            long r4 = r4 >> r7
+            int r8 = r8 + 1
+            goto L25
+        L3f:
+            if (r6 != r7) goto L46
+        L41:
+            if (r3 == r1) goto L46
+            int r3 = r3 + 1
+            goto Lb
+        L46:
+            return r2
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.collection.LongLongMap.containsValue(long):boolean");
+    }
+
+    public final int count() {
+        return getSize();
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0062  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public boolean equals(java.lang.Object r19) {
+        /*
+            r18 = this;
+            r0 = r18
+            r1 = r19
+            r2 = 1
+            if (r1 != r0) goto L8
+            return r2
+        L8:
+            boolean r3 = r1 instanceof androidx.collection.LongLongMap
+            r4 = 0
+            if (r3 != 0) goto Le
+            return r4
+        Le:
+            androidx.collection.LongLongMap r1 = (androidx.collection.LongLongMap) r1
+            int r3 = r1.getSize()
+            int r5 = r18.getSize()
+            if (r3 == r5) goto L1b
+            return r4
+        L1b:
+            long[] r3 = r0.keys
+            long[] r5 = r0.values
+            long[] r0 = r0.metadata
+            int r6 = r0.length
+            int r6 = r6 + (-2)
+            if (r6 < 0) goto L67
+            r7 = r4
+        L27:
+            r8 = r0[r7]
+            long r10 = ~r8
+            r12 = 7
+            long r10 = r10 << r12
+            long r10 = r10 & r8
+            r12 = -9187201950435737472(0x8080808080808080, double:-2.937446524422997E-306)
+            long r10 = r10 & r12
+            int r10 = (r10 > r12 ? 1 : (r10 == r12 ? 0 : -1))
+            if (r10 == 0) goto L62
+            int r10 = r7 - r6
+            int r10 = ~r10
+            int r10 = r10 >>> 31
+            r11 = 8
+            int r10 = 8 - r10
+            r12 = r4
+        L41:
+            if (r12 >= r10) goto L60
+            r13 = 255(0xff, double:1.26E-321)
+            long r13 = r13 & r8
+            r15 = 128(0x80, double:6.32E-322)
+            int r13 = (r13 > r15 ? 1 : (r13 == r15 ? 0 : -1))
+            if (r13 >= 0) goto L5c
+            int r13 = r7 << 3
+            int r13 = r13 + r12
+            r14 = r3[r13]
+            r16 = r5[r13]
+            long r13 = r1.get(r14)
+            int r13 = (r16 > r13 ? 1 : (r16 == r13 ? 0 : -1))
+            if (r13 == 0) goto L5c
+            return r4
+        L5c:
+            long r8 = r8 >> r11
+            int r12 = r12 + 1
+            goto L41
+        L60:
+            if (r10 != r11) goto L67
+        L62:
+            if (r7 == r6) goto L67
+            int r7 = r7 + 1
+            goto L27
+        L67:
+            return r2
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.collection.LongLongMap.equals(java.lang.Object):boolean");
+    }
+
+    public final int findKeyIndex(long j2) {
+        int iHashCode = Long.hashCode(j2) * ScatterMapKt.MurmurHashC1;
+        int i2 = iHashCode ^ (iHashCode << 16);
+        int i3 = i2 & 127;
+        int i4 = this._capacity;
+        int i5 = (i2 >>> 7) & i4;
+        int i6 = 0;
+        while (true) {
+            long[] jArr = this.metadata;
+            int i7 = i5 >> 3;
+            int i8 = (i5 & 7) << 3;
+            long j3 = ((jArr[i7 + 1] << (64 - i8)) & ((-i8) >> 63)) | (jArr[i7] >>> i8);
+            long j4 = (((long) i3) * ScatterMapKt.BitmaskLsb) ^ j3;
+            for (long j5 = (~j4) & (j4 - ScatterMapKt.BitmaskLsb) & (-9187201950435737472L); j5 != 0; j5 &= j5 - 1) {
+                int iNumberOfTrailingZeros = ((Long.numberOfTrailingZeros(j5) >> 3) + i5) & i4;
+                if (this.keys[iNumberOfTrailingZeros] == j2) {
+                    return iNumberOfTrailingZeros;
+                }
+            }
+            if ((j3 & ((~j3) << 6) & (-9187201950435737472L)) != 0) {
+                return -1;
+            }
+            i6 += 8;
+            i5 = (i5 + i6) & i4;
+        }
+    }
+
+    public final void forEach(Function2 block) {
+        n.g(block, "block");
+        long[] jArr = this.keys;
+        long[] jArr2 = this.values;
+        long[] jArr3 = this.metadata;
+        int length = jArr3.length - 2;
+        if (length < 0) {
+            return;
+        }
+        int i2 = 0;
+        while (true) {
+            long j2 = jArr3[i2];
+            if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                int i3 = 8 - ((~(i2 - length)) >>> 31);
+                for (int i4 = 0; i4 < i3; i4++) {
+                    if ((255 & j2) < 128) {
+                        int i5 = (i2 << 3) + i4;
+                        block.invoke(Long.valueOf(jArr[i5]), Long.valueOf(jArr2[i5]));
+                    }
+                    j2 >>= 8;
+                }
+                if (i3 != 8) {
+                    return;
+                }
+            }
+            if (i2 == length) {
+                return;
+            } else {
+                i2++;
+            }
+        }
+    }
+
+    public final void forEachIndexed(Function1 block) {
+        n.g(block, "block");
+        long[] jArr = this.metadata;
+        int length = jArr.length - 2;
+        if (length < 0) {
+            return;
+        }
+        int i2 = 0;
+        while (true) {
+            long j2 = jArr[i2];
+            if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                int i3 = 8 - ((~(i2 - length)) >>> 31);
+                for (int i4 = 0; i4 < i3; i4++) {
+                    if ((255 & j2) < 128) {
+                        block.invoke(Integer.valueOf((i2 << 3) + i4));
+                    }
+                    j2 >>= 8;
+                }
+                if (i3 != 8) {
+                    return;
+                }
+            }
+            if (i2 == length) {
+                return;
+            } else {
+                i2++;
+            }
+        }
+    }
+
+    public final void forEachKey(Function1 block) {
+        n.g(block, "block");
+        long[] jArr = this.keys;
+        long[] jArr2 = this.metadata;
+        int length = jArr2.length - 2;
+        if (length < 0) {
+            return;
+        }
+        int i2 = 0;
+        while (true) {
+            long j2 = jArr2[i2];
+            if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                int i3 = 8 - ((~(i2 - length)) >>> 31);
+                for (int i4 = 0; i4 < i3; i4++) {
+                    if ((255 & j2) < 128) {
+                        block.invoke(Long.valueOf(jArr[(i2 << 3) + i4]));
+                    }
+                    j2 >>= 8;
+                }
+                if (i3 != 8) {
+                    return;
+                }
+            }
+            if (i2 == length) {
+                return;
+            } else {
+                i2++;
+            }
+        }
+    }
+
+    public final void forEachValue(Function1 block) {
+        n.g(block, "block");
+        long[] jArr = this.values;
+        long[] jArr2 = this.metadata;
+        int length = jArr2.length - 2;
+        if (length < 0) {
+            return;
+        }
+        int i2 = 0;
+        while (true) {
+            long j2 = jArr2[i2];
+            if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                int i3 = 8 - ((~(i2 - length)) >>> 31);
+                for (int i4 = 0; i4 < i3; i4++) {
+                    if ((255 & j2) < 128) {
+                        block.invoke(Long.valueOf(jArr[(i2 << 3) + i4]));
+                    }
+                    j2 >>= 8;
+                }
+                if (i3 != 8) {
+                    return;
+                }
+            }
+            if (i2 == length) {
+                return;
+            } else {
+                i2++;
+            }
+        }
+    }
+
+    public final long get(long j2) {
+        int iFindKeyIndex = findKeyIndex(j2);
+        if (iFindKeyIndex >= 0) {
+            return this.values[iFindKeyIndex];
+        }
+        throw new NoSuchElementException("Cannot find value for key " + j2);
+    }
+
+    public final int getCapacity() {
+        return this._capacity;
+    }
+
+    public final long getOrDefault(long j2, long j3) {
+        int iFindKeyIndex = findKeyIndex(j2);
+        return iFindKeyIndex >= 0 ? this.values[iFindKeyIndex] : j3;
+    }
+
+    public final long getOrElse(long j2, Function0 defaultValue) {
+        n.g(defaultValue, "defaultValue");
+        int iFindKeyIndex = findKeyIndex(j2);
+        return iFindKeyIndex < 0 ? ((Number) defaultValue.invoke()).longValue() : this.values[iFindKeyIndex];
+    }
+
+    public final int getSize() {
+        return this._size;
+    }
+
+    public int hashCode() {
+        long[] jArr = this.keys;
+        long[] jArr2 = this.values;
+        long[] jArr3 = this.metadata;
+        int length = jArr3.length - 2;
+        int i2 = 0;
+        if (length >= 0) {
+            int i3 = 0;
+            int iHashCode = 0;
+            while (true) {
+                long j2 = jArr3[i3];
+                if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                    int i4 = 8 - ((~(i3 - length)) >>> 31);
+                    for (int i5 = 0; i5 < i4; i5++) {
+                        if ((255 & j2) < 128) {
+                            int i6 = (i3 << 3) + i5;
+                            iHashCode += Long.hashCode(jArr[i6]) ^ Long.hashCode(jArr2[i6]);
+                        }
+                        j2 >>= 8;
+                    }
+                    if (i4 != 8) {
+                        return iHashCode;
+                    }
+                }
+                if (i3 == length) {
+                    i2 = iHashCode;
+                    break;
+                }
+                i3++;
+            }
+        }
+        return i2;
+    }
+
+    public final boolean isEmpty() {
+        return this._size == 0;
+    }
+
+    public final boolean isNotEmpty() {
+        return this._size != 0;
+    }
+
+    public final String joinToString() {
+        return joinToString$default(this, null, null, null, 0, null, 31, null);
+    }
+
+    public final boolean none() {
+        return this._size == 0;
+    }
+
+    public String toString() {
+        int i2;
+        int i3;
+        int i4;
+        int i5;
+        if (isEmpty()) {
+            return "{}";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        long[] jArr = this.keys;
+        long[] jArr2 = this.values;
+        long[] jArr3 = this.metadata;
+        int length = jArr3.length - 2;
+        if (length >= 0) {
+            int i6 = 0;
+            int i7 = 0;
+            while (true) {
+                long j2 = jArr3[i6];
+                if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                    int i8 = 8;
+                    int i9 = 8 - ((~(i6 - length)) >>> 31);
+                    int i10 = 0;
+                    while (i10 < i9) {
+                        if ((255 & j2) < 128) {
+                            int i11 = (i6 << 3) + i10;
+                            i3 = i6;
+                            long j3 = jArr[i11];
+                            i4 = i10;
+                            long j4 = jArr2[i11];
+                            sb.append(j3);
+                            sb.append("=");
+                            sb.append(j4);
+                            i7++;
+                            if (i7 < this._size) {
+                                sb.append(',');
+                                sb.append(' ');
+                            }
+                            i5 = 8;
+                        } else {
+                            i3 = i6;
+                            i4 = i10;
+                            i5 = i8;
+                        }
+                        j2 >>= i5;
+                        i10 = i4 + 1;
+                        i8 = i5;
+                        i6 = i3;
+                    }
+                    int i12 = i6;
+                    if (i9 != i8) {
+                        break;
+                    }
+                    i2 = i12;
+                } else {
+                    i2 = i6;
+                }
+                if (i2 == length) {
+                    break;
+                }
+                i6 = i2 + 1;
+            }
+        }
+        sb.append('}');
+        String string = sb.toString();
+        n.f(string, "s.append('}').toString()");
+        return string;
+    }
+
+    private LongLongMap() {
+        this.metadata = ScatterMapKt.EmptyGroup;
+        this.keys = LongSetKt.getEmptyLongArray();
+        this.values = LongSetKt.getEmptyLongArray();
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:17:0x005e  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final boolean any(kotlin.jvm.functions.Function2 r18) {
+        /*
+            r17 = this;
+            r0 = r17
+            r1 = r18
+            java.lang.String r2 = "predicate"
+            kotlin.jvm.internal.n.g(r1, r2)
+            long[] r2 = r0.keys
+            long[] r3 = r0.values
+            long[] r0 = r0.metadata
+            int r4 = r0.length
+            int r4 = r4 + (-2)
+            r5 = 0
+            if (r4 < 0) goto L63
+            r6 = r5
+        L16:
+            r7 = r0[r6]
+            long r9 = ~r7
+            r11 = 7
+            long r9 = r9 << r11
+            long r9 = r9 & r7
+            r11 = -9187201950435737472(0x8080808080808080, double:-2.937446524422997E-306)
+            long r9 = r9 & r11
+            int r9 = (r9 > r11 ? 1 : (r9 == r11 ? 0 : -1))
+            if (r9 == 0) goto L5e
+            int r9 = r6 - r4
+            int r9 = ~r9
+            int r9 = r9 >>> 31
+            r10 = 8
+            int r9 = 8 - r9
+            r11 = r5
+        L30:
+            if (r11 >= r9) goto L5c
+            r12 = 255(0xff, double:1.26E-321)
+            long r12 = r12 & r7
+            r14 = 128(0x80, double:6.32E-322)
+            int r12 = (r12 > r14 ? 1 : (r12 == r14 ? 0 : -1))
+            if (r12 >= 0) goto L58
+            int r12 = r6 << 3
+            int r12 = r12 + r11
+            r13 = r2[r12]
+            r15 = r3[r12]
+            java.lang.Long r12 = java.lang.Long.valueOf(r13)
+            java.lang.Long r13 = java.lang.Long.valueOf(r15)
+            java.lang.Object r12 = r1.invoke(r12, r13)
+            java.lang.Boolean r12 = (java.lang.Boolean) r12
+            boolean r12 = r12.booleanValue()
+            if (r12 == 0) goto L58
+            r0 = 1
+            return r0
+        L58:
+            long r7 = r7 >> r10
+            int r11 = r11 + 1
+            goto L30
+        L5c:
+            if (r9 != r10) goto L63
+        L5e:
+            if (r6 == r4) goto L63
+            int r6 = r6 + 1
+            goto L16
+        L63:
+            return r5
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.collection.LongLongMap.any(kotlin.jvm.functions.Function2):boolean");
+    }
+
+    public final int count(Function2 predicate) {
+        n.g(predicate, "predicate");
+        long[] jArr = this.keys;
+        long[] jArr2 = this.values;
+        long[] jArr3 = this.metadata;
+        int length = jArr3.length - 2;
+        int i2 = 0;
+        if (length >= 0) {
+            int i3 = 0;
+            int i4 = 0;
+            while (true) {
+                long j2 = jArr3[i3];
+                if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                    int i5 = 8 - ((~(i3 - length)) >>> 31);
+                    for (int i6 = 0; i6 < i5; i6++) {
+                        if ((255 & j2) < 128) {
+                            int i7 = (i3 << 3) + i6;
+                            if (((Boolean) predicate.invoke(Long.valueOf(jArr[i7]), Long.valueOf(jArr2[i7]))).booleanValue()) {
+                                i4++;
+                            }
+                        }
+                        j2 >>= 8;
+                    }
+                    if (i5 != 8) {
+                        return i4;
+                    }
+                }
+                if (i3 == length) {
+                    i2 = i4;
+                    break;
+                }
+                i3++;
+            }
+        }
+        return i2;
+    }
+
+    public final String joinToString(CharSequence separator) {
+        n.g(separator, "separator");
+        return joinToString$default(this, separator, null, null, 0, null, 30, null);
+    }
+
+    public final String joinToString(CharSequence separator, CharSequence prefix) {
+        n.g(separator, "separator");
+        n.g(prefix, "prefix");
+        return joinToString$default(this, separator, prefix, null, 0, null, 28, null);
+    }
+
+    public final String joinToString(CharSequence separator, CharSequence prefix, CharSequence postfix) {
+        n.g(separator, "separator");
+        n.g(prefix, "prefix");
+        n.g(postfix, "postfix");
+        return joinToString$default(this, separator, prefix, postfix, 0, null, 24, null);
+    }
+
+    public static /* synthetic */ String joinToString$default(LongLongMap longLongMap, CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, int i2, CharSequence charSequence4, Function2 transform, int i3, Object obj) {
+        long[] jArr;
+        long[] jArr2;
+        int i4;
+        if (obj == null) {
+            CharSequence separator = (i3 & 1) != 0 ? ", " : charSequence;
+            CharSequence prefix = (i3 & 2) != 0 ? "" : charSequence2;
+            CharSequence postfix = (i3 & 4) == 0 ? charSequence3 : "";
+            int i5 = (i3 & 8) != 0 ? -1 : i2;
+            CharSequence truncated = (i3 & 16) != 0 ? "..." : charSequence4;
+            n.g(separator, "separator");
+            n.g(prefix, "prefix");
+            n.g(postfix, "postfix");
+            n.g(truncated, "truncated");
+            n.g(transform, "transform");
+            StringBuilder sb = new StringBuilder();
+            sb.append(prefix);
+            long[] jArr3 = longLongMap.keys;
+            long[] jArr4 = longLongMap.values;
+            long[] jArr5 = longLongMap.metadata;
+            int length = jArr5.length - 2;
+            if (length >= 0) {
+                int i6 = 0;
+                int i7 = 0;
+                loop0: while (true) {
+                    long j2 = jArr5[i6];
+                    int i8 = i6;
+                    if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                        int i9 = 8;
+                        int i10 = 8 - ((~(i8 - length)) >>> 31);
+                        int i11 = 0;
+                        while (i11 < i10) {
+                            if ((j2 & 255) < 128) {
+                                int i12 = (i8 << 3) + i11;
+                                long j3 = jArr3[i12];
+                                long j4 = jArr4[i12];
+                                if (i7 == i5) {
+                                    sb.append(truncated);
+                                    break loop0;
+                                }
+                                if (i7 != 0) {
+                                    sb.append(separator);
+                                }
+                                jArr2 = jArr5;
+                                sb.append((CharSequence) transform.invoke(Long.valueOf(j3), Long.valueOf(j4)));
+                                i7++;
+                                i4 = 8;
+                            } else {
+                                jArr2 = jArr5;
+                                i4 = i9;
+                            }
+                            j2 >>= i4;
+                            i11++;
+                            i9 = i4;
+                            jArr5 = jArr2;
+                        }
+                        jArr = jArr5;
+                        if (i10 != i9) {
+                            break;
+                        }
+                    } else {
+                        jArr = jArr5;
+                    }
+                    if (i8 == length) {
+                        break;
+                    }
+                    i6 = i8 + 1;
+                    jArr5 = jArr;
+                }
+                sb.append(postfix);
+            } else {
+                sb.append(postfix);
+            }
+            String string = sb.toString();
+            n.f(string, "StringBuilder().apply(builderAction).toString()");
+            return string;
+        }
+        throw new UnsupportedOperationException("Super calls with default arguments not supported in this target, function: joinToString");
+    }
+
+    public final String joinToString(CharSequence separator, CharSequence prefix, CharSequence postfix, int i2) {
+        n.g(separator, "separator");
+        n.g(prefix, "prefix");
+        n.g(postfix, "postfix");
+        return joinToString$default(this, separator, prefix, postfix, i2, null, 16, null);
+    }
+
+    public final String joinToString(CharSequence separator, CharSequence prefix, CharSequence postfix, int i2, CharSequence truncated) {
+        long[] jArr;
+        int i3;
+        long[] jArr2;
+        int i4;
+        int i5;
+        int i6;
+        n.g(separator, "separator");
+        n.g(prefix, "prefix");
+        n.g(postfix, "postfix");
+        n.g(truncated, "truncated");
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        long[] jArr3 = this.keys;
+        long[] jArr4 = this.values;
+        long[] jArr5 = this.metadata;
+        int length = jArr5.length - 2;
+        if (length >= 0) {
+            int i7 = 0;
+            int i8 = 0;
+            loop0: while (true) {
+                long j2 = jArr5[i7];
+                if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                    int i9 = 8;
+                    int i10 = 8 - ((~(i7 - length)) >>> 31);
+                    int i11 = 0;
+                    while (i11 < i10) {
+                        if ((j2 & 255) < 128) {
+                            int i12 = (i7 << 3) + i11;
+                            i4 = i7;
+                            long j3 = jArr3[i12];
+                            i5 = i11;
+                            long j4 = jArr4[i12];
+                            jArr2 = jArr5;
+                            if (i8 == i2) {
+                                sb.append(truncated);
+                                break loop0;
+                            }
+                            if (i8 != 0) {
+                                sb.append(separator);
+                            }
+                            sb.append(j3);
+                            sb.append('=');
+                            sb.append(j4);
+                            i8++;
+                            i6 = 8;
+                        } else {
+                            jArr2 = jArr5;
+                            i4 = i7;
+                            i5 = i11;
+                            i6 = i9;
+                        }
+                        j2 >>= i6;
+                        i11 = i5 + 1;
+                        i7 = i4;
+                        i9 = i6;
+                        jArr5 = jArr2;
+                    }
+                    jArr = jArr5;
+                    int i13 = i7;
+                    if (i10 != i9) {
+                        break;
+                    }
+                    i3 = i13;
+                } else {
+                    jArr = jArr5;
+                    i3 = i7;
+                }
+                if (i3 == length) {
+                    break;
+                }
+                i7 = i3 + 1;
+                jArr5 = jArr;
+            }
+            sb.append(postfix);
+        } else {
+            sb.append(postfix);
+        }
+        String string = sb.toString();
+        n.f(string, "StringBuilder().apply(builderAction).toString()");
+        return string;
+    }
+
+    public final String joinToString(CharSequence charSequence, CharSequence prefix, CharSequence postfix, int i2, CharSequence truncated, Function2 transform) {
+        long[] jArr;
+        long[] jArr2;
+        CharSequence separator = charSequence;
+        n.g(separator, "separator");
+        n.g(prefix, "prefix");
+        n.g(postfix, "postfix");
+        n.g(truncated, "truncated");
+        n.g(transform, "transform");
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        long[] jArr3 = this.keys;
+        long[] jArr4 = this.values;
+        long[] jArr5 = this.metadata;
+        int length = jArr5.length - 2;
+        if (length >= 0) {
+            int i3 = 0;
+            int i4 = 0;
+            loop0: while (true) {
+                long j2 = jArr5[i3];
+                if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                    int i5 = 8;
+                    int i6 = 8 - ((~(i3 - length)) >>> 31);
+                    int i7 = 0;
+                    while (i7 < i6) {
+                        if ((j2 & 255) < 128) {
+                            int i8 = (i3 << 3) + i7;
+                            long j3 = jArr3[i8];
+                            long j4 = jArr4[i8];
+                            if (i4 == i2) {
+                                sb.append(truncated);
+                                break loop0;
+                            }
+                            if (i4 != 0) {
+                                sb.append(separator);
+                            }
+                            jArr2 = jArr5;
+                            sb.append((CharSequence) transform.invoke(Long.valueOf(j3), Long.valueOf(j4)));
+                            i4++;
+                        } else {
+                            jArr2 = jArr5;
+                        }
+                        j2 >>= 8;
+                        i7++;
+                        separator = charSequence;
+                        i5 = 8;
+                        jArr5 = jArr2;
+                    }
+                    jArr = jArr5;
+                    if (i6 != i5) {
+                        break;
+                    }
+                } else {
+                    jArr = jArr5;
+                }
+                if (i3 == length) {
+                    break;
+                }
+                i3++;
+                separator = charSequence;
+                jArr5 = jArr;
+            }
+            sb.append(postfix);
+        } else {
+            sb.append(postfix);
+        }
+        String string = sb.toString();
+        n.f(string, "StringBuilder().apply(builderAction).toString()");
+        return string;
+    }
+
+    public final String joinToString(CharSequence separator, CharSequence prefix, CharSequence postfix, int i2, Function2 transform) {
+        long[] jArr;
+        long[] jArr2;
+        int i3;
+        n.g(separator, "separator");
+        n.g(prefix, "prefix");
+        n.g(postfix, "postfix");
+        n.g(transform, "transform");
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix);
+        long[] jArr3 = this.keys;
+        long[] jArr4 = this.values;
+        long[] jArr5 = this.metadata;
+        int length = jArr5.length - 2;
+        if (length >= 0) {
+            int i4 = 0;
+            int i5 = 0;
+            loop0: while (true) {
+                long j2 = jArr5[i4];
+                if ((((~j2) << 7) & j2 & (-9187201950435737472L)) != -9187201950435737472L) {
+                    int i6 = 8;
+                    int i7 = 8 - ((~(i4 - length)) >>> 31);
+                    int i8 = 0;
+                    while (i8 < i7) {
+                        if ((j2 & 255) < 128) {
+                            int i9 = (i4 << 3) + i8;
+                            long j3 = jArr3[i9];
+                            long j4 = jArr4[i9];
+                            if (i5 == i2) {
+                                sb.append((CharSequence) "...");
+                                break loop0;
+                            }
+                            if (i5 != 0) {
+                                sb.append(separator);
+                            }
+                            jArr2 = jArr5;
+                            sb.append((CharSequence) transform.invoke(Long.valueOf(j3), Long.valueOf(j4)));
+                            i5++;
+                            i3 = 8;
+                        } else {
+                            jArr2 = jArr5;
+                            i3 = i6;
+                        }
+                        j2 >>= i3;
+                        i8++;
+                        i6 = i3;
+                        jArr5 = jArr2;
+                    }
+                    jArr = jArr5;
+                    if (i7 != i6) {
+                        break;
+                    }
+                } else {
+                    jArr = jArr5;
+                }
+                if (i4 == length) {
+                    break;
+                }
+                i4++;
+                jArr5 = jArr;
+            }
+            sb.append(postfix);
+        } else {
+            sb.append(postfix);
+        }
+        String string = sb.toString();
+        n.f(string, "StringBuilder().apply(builderAction).toString()");
+        return string;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:21:0x008e A[PHI: r10
+      0x008e: PHI (r10v2 int) = (r10v1 int), (r10v3 int) binds: [B:6:0x0041, B:20:0x008c] A[DONT_GENERATE, DONT_INLINE]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final java.lang.String joinToString(java.lang.CharSequence r22, java.lang.CharSequence r23, java.lang.CharSequence r24, kotlin.jvm.functions.Function2 r25) {
+        /*
+            r21 = this;
+            r0 = r21
+            r1 = r22
+            r2 = r23
+            r3 = r24
+            r4 = r25
+            java.lang.String r5 = "separator"
+            kotlin.jvm.internal.n.g(r1, r5)
+            java.lang.String r5 = "prefix"
+            kotlin.jvm.internal.n.g(r2, r5)
+            java.lang.String r5 = "postfix"
+            kotlin.jvm.internal.n.g(r3, r5)
+            java.lang.String r5 = "transform"
+            kotlin.jvm.internal.n.g(r4, r5)
+            java.lang.StringBuilder r5 = new java.lang.StringBuilder
+            r5.<init>()
+            r5.append(r2)
+            long[] r2 = r0.keys
+            long[] r6 = r0.values
+            long[] r0 = r0.metadata
+            int r7 = r0.length
+            int r7 = r7 + (-2)
+            if (r7 < 0) goto L93
+            r9 = 0
+            r10 = 0
+        L33:
+            r11 = r0[r9]
+            long r13 = ~r11
+            r15 = 7
+            long r13 = r13 << r15
+            long r13 = r13 & r11
+            r15 = -9187201950435737472(0x8080808080808080, double:-2.937446524422997E-306)
+            long r13 = r13 & r15
+            int r13 = (r13 > r15 ? 1 : (r13 == r15 ? 0 : -1))
+            if (r13 == 0) goto L8e
+            int r13 = r9 - r7
+            int r13 = ~r13
+            int r13 = r13 >>> 31
+            r14 = 8
+            int r13 = 8 - r13
+            r15 = 0
+        L4d:
+            if (r15 >= r13) goto L8b
+            r16 = 255(0xff, double:1.26E-321)
+            long r16 = r11 & r16
+            r18 = 128(0x80, double:6.32E-322)
+            int r16 = (r16 > r18 ? 1 : (r16 == r18 ? 0 : -1))
+            if (r16 >= 0) goto L85
+            int r16 = r9 << 3
+            int r16 = r16 + r15
+            r17 = r2[r16]
+            r19 = r6[r16]
+            r8 = -1
+            if (r10 != r8) goto L6a
+            java.lang.String r0 = "..."
+            r5.append(r0)
+            goto L96
+        L6a:
+            if (r10 == 0) goto L6f
+            r5.append(r1)
+        L6f:
+            java.lang.Long r8 = java.lang.Long.valueOf(r17)
+            java.lang.Long r14 = java.lang.Long.valueOf(r19)
+            java.lang.Object r8 = r4.invoke(r8, r14)
+            java.lang.CharSequence r8 = (java.lang.CharSequence) r8
+            r5.append(r8)
+            int r10 = r10 + 1
+            r8 = 8
+            goto L86
+        L85:
+            r8 = r14
+        L86:
+            long r11 = r11 >> r8
+            int r15 = r15 + 1
+            r14 = r8
+            goto L4d
+        L8b:
+            r8 = r14
+            if (r13 != r8) goto L93
+        L8e:
+            if (r9 == r7) goto L93
+            int r9 = r9 + 1
+            goto L33
+        L93:
+            r5.append(r3)
+        L96:
+            java.lang.String r0 = r5.toString()
+            java.lang.String r1 = "StringBuilder().apply(builderAction).toString()"
+            kotlin.jvm.internal.n.f(r0, r1)
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.collection.LongLongMap.joinToString(java.lang.CharSequence, java.lang.CharSequence, java.lang.CharSequence, kotlin.jvm.functions.Function2):java.lang.String");
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:19:0x007f A[PHI: r9
+      0x007f: PHI (r9v2 int) = (r9v1 int), (r9v3 int) binds: [B:6:0x003a, B:18:0x007d] A[DONT_GENERATE, DONT_INLINE]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final java.lang.String joinToString(java.lang.CharSequence r21, java.lang.CharSequence r22, kotlin.jvm.functions.Function2 r23) {
+        /*
+            r20 = this;
+            r0 = r20
+            r1 = r21
+            r2 = r22
+            r3 = r23
+            java.lang.String r4 = "separator"
+            kotlin.jvm.internal.n.g(r1, r4)
+            java.lang.String r4 = "prefix"
+            kotlin.jvm.internal.n.g(r2, r4)
+            java.lang.String r4 = "transform"
+            kotlin.jvm.internal.n.g(r3, r4)
+            java.lang.StringBuilder r4 = new java.lang.StringBuilder
+            r4.<init>()
+            r4.append(r2)
+            long[] r2 = r0.keys
+            long[] r5 = r0.values
+            long[] r0 = r0.metadata
+            int r6 = r0.length
+            int r6 = r6 + (-2)
+            if (r6 < 0) goto L84
+            r8 = 0
+            r9 = 0
+        L2c:
+            r10 = r0[r8]
+            long r12 = ~r10
+            r14 = 7
+            long r12 = r12 << r14
+            long r12 = r12 & r10
+            r14 = -9187201950435737472(0x8080808080808080, double:-2.937446524422997E-306)
+            long r12 = r12 & r14
+            int r12 = (r12 > r14 ? 1 : (r12 == r14 ? 0 : -1))
+            if (r12 == 0) goto L7f
+            int r12 = r8 - r6
+            int r12 = ~r12
+            int r12 = r12 >>> 31
+            r13 = 8
+            int r12 = 8 - r12
+            r14 = 0
+        L46:
+            if (r14 >= r12) goto L7d
+            r15 = 255(0xff, double:1.26E-321)
+            long r15 = r15 & r10
+            r17 = 128(0x80, double:6.32E-322)
+            int r15 = (r15 > r17 ? 1 : (r15 == r17 ? 0 : -1))
+            if (r15 >= 0) goto L79
+            int r15 = r8 << 3
+            int r15 = r15 + r14
+            r16 = r2[r15]
+            r18 = r5[r15]
+            r15 = -1
+            if (r9 != r15) goto L61
+            java.lang.String r0 = "..."
+            r4.append(r0)
+            goto L89
+        L61:
+            if (r9 == 0) goto L66
+            r4.append(r1)
+        L66:
+            java.lang.Long r15 = java.lang.Long.valueOf(r16)
+            java.lang.Long r7 = java.lang.Long.valueOf(r18)
+            java.lang.Object r7 = r3.invoke(r15, r7)
+            java.lang.CharSequence r7 = (java.lang.CharSequence) r7
+            r4.append(r7)
+            int r9 = r9 + 1
+        L79:
+            long r10 = r10 >> r13
+            int r14 = r14 + 1
+            goto L46
+        L7d:
+            if (r12 != r13) goto L84
+        L7f:
+            if (r8 == r6) goto L84
+            int r8 = r8 + 1
+            goto L2c
+        L84:
+            java.lang.String r0 = ""
+            r4.append(r0)
+        L89:
+            java.lang.String r0 = r4.toString()
+            java.lang.String r1 = "StringBuilder().apply(builderAction).toString()"
+            kotlin.jvm.internal.n.f(r0, r1)
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.collection.LongLongMap.joinToString(java.lang.CharSequence, java.lang.CharSequence, kotlin.jvm.functions.Function2):java.lang.String");
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0082 A[PHI: r10
+      0x0082: PHI (r10v2 int) = (r10v1 int), (r10v3 int) binds: [B:6:0x0035, B:20:0x0080] A[DONT_GENERATE, DONT_INLINE]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final java.lang.String joinToString(java.lang.CharSequence r22, kotlin.jvm.functions.Function2 r23) {
+        /*
+            r21 = this;
+            r0 = r21
+            r1 = r22
+            r2 = r23
+            java.lang.String r3 = "separator"
+            kotlin.jvm.internal.n.g(r1, r3)
+            java.lang.String r3 = "transform"
+            kotlin.jvm.internal.n.g(r2, r3)
+            java.lang.StringBuilder r3 = new java.lang.StringBuilder
+            r3.<init>()
+            java.lang.String r4 = ""
+            r3.append(r4)
+            long[] r5 = r0.keys
+            long[] r6 = r0.values
+            long[] r0 = r0.metadata
+            int r7 = r0.length
+            int r7 = r7 + (-2)
+            if (r7 < 0) goto L87
+            r9 = 0
+            r10 = 0
+        L27:
+            r11 = r0[r9]
+            long r13 = ~r11
+            r15 = 7
+            long r13 = r13 << r15
+            long r13 = r13 & r11
+            r15 = -9187201950435737472(0x8080808080808080, double:-2.937446524422997E-306)
+            long r13 = r13 & r15
+            int r13 = (r13 > r15 ? 1 : (r13 == r15 ? 0 : -1))
+            if (r13 == 0) goto L82
+            int r13 = r9 - r7
+            int r13 = ~r13
+            int r13 = r13 >>> 31
+            r14 = 8
+            int r13 = 8 - r13
+            r15 = 0
+        L41:
+            if (r15 >= r13) goto L7f
+            r16 = 255(0xff, double:1.26E-321)
+            long r16 = r11 & r16
+            r18 = 128(0x80, double:6.32E-322)
+            int r16 = (r16 > r18 ? 1 : (r16 == r18 ? 0 : -1))
+            if (r16 >= 0) goto L79
+            int r16 = r9 << 3
+            int r16 = r16 + r15
+            r17 = r5[r16]
+            r19 = r6[r16]
+            r8 = -1
+            if (r10 != r8) goto L5e
+            java.lang.String r0 = "..."
+            r3.append(r0)
+            goto L8a
+        L5e:
+            if (r10 == 0) goto L63
+            r3.append(r1)
+        L63:
+            java.lang.Long r8 = java.lang.Long.valueOf(r17)
+            java.lang.Long r14 = java.lang.Long.valueOf(r19)
+            java.lang.Object r8 = r2.invoke(r8, r14)
+            java.lang.CharSequence r8 = (java.lang.CharSequence) r8
+            r3.append(r8)
+            int r10 = r10 + 1
+            r8 = 8
+            goto L7a
+        L79:
+            r8 = r14
+        L7a:
+            long r11 = r11 >> r8
+            int r15 = r15 + 1
+            r14 = r8
+            goto L41
+        L7f:
+            r8 = r14
+            if (r13 != r8) goto L87
+        L82:
+            if (r9 == r7) goto L87
+            int r9 = r9 + 1
+            goto L27
+        L87:
+            r3.append(r4)
+        L8a:
+            java.lang.String r0 = r3.toString()
+            java.lang.String r1 = "StringBuilder().apply(builderAction).toString()"
+            kotlin.jvm.internal.n.f(r0, r1)
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.collection.LongLongMap.joinToString(java.lang.CharSequence, kotlin.jvm.functions.Function2):java.lang.String");
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0075 A[PHI: r9
+      0x0075: PHI (r9v2 int) = (r9v1 int), (r9v3 int) binds: [B:6:0x002e, B:18:0x0073] A[DONT_GENERATE, DONT_INLINE]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public final java.lang.String joinToString(kotlin.jvm.functions.Function2 r21) {
+        /*
+            r20 = this;
+            r0 = r20
+            r1 = r21
+            java.lang.String r2 = "transform"
+            kotlin.jvm.internal.n.g(r1, r2)
+            java.lang.StringBuilder r2 = new java.lang.StringBuilder
+            r2.<init>()
+            java.lang.String r3 = ""
+            r2.append(r3)
+            long[] r4 = r0.keys
+            long[] r5 = r0.values
+            long[] r0 = r0.metadata
+            int r6 = r0.length
+            int r6 = r6 + (-2)
+            if (r6 < 0) goto L7a
+            r8 = 0
+            r9 = 0
+        L20:
+            r10 = r0[r8]
+            long r12 = ~r10
+            r14 = 7
+            long r12 = r12 << r14
+            long r12 = r12 & r10
+            r14 = -9187201950435737472(0x8080808080808080, double:-2.937446524422997E-306)
+            long r12 = r12 & r14
+            int r12 = (r12 > r14 ? 1 : (r12 == r14 ? 0 : -1))
+            if (r12 == 0) goto L75
+            int r12 = r8 - r6
+            int r12 = ~r12
+            int r12 = r12 >>> 31
+            r13 = 8
+            int r12 = 8 - r12
+            r14 = 0
+        L3a:
+            if (r14 >= r12) goto L73
+            r15 = 255(0xff, double:1.26E-321)
+            long r15 = r15 & r10
+            r17 = 128(0x80, double:6.32E-322)
+            int r15 = (r15 > r17 ? 1 : (r15 == r17 ? 0 : -1))
+            if (r15 >= 0) goto L6f
+            int r15 = r8 << 3
+            int r15 = r15 + r14
+            r16 = r4[r15]
+            r18 = r5[r15]
+            r15 = -1
+            if (r9 != r15) goto L55
+            java.lang.String r0 = "..."
+            r2.append(r0)
+            goto L7d
+        L55:
+            if (r9 == 0) goto L5c
+            java.lang.String r15 = ", "
+            r2.append(r15)
+        L5c:
+            java.lang.Long r15 = java.lang.Long.valueOf(r16)
+            java.lang.Long r7 = java.lang.Long.valueOf(r18)
+            java.lang.Object r7 = r1.invoke(r15, r7)
+            java.lang.CharSequence r7 = (java.lang.CharSequence) r7
+            r2.append(r7)
+            int r9 = r9 + 1
+        L6f:
+            long r10 = r10 >> r13
+            int r14 = r14 + 1
+            goto L3a
+        L73:
+            if (r12 != r13) goto L7a
+        L75:
+            if (r8 == r6) goto L7a
+            int r8 = r8 + 1
+            goto L20
+        L7a:
+            r2.append(r3)
+        L7d:
+            java.lang.String r0 = r2.toString()
+            java.lang.String r1 = "StringBuilder().apply(builderAction).toString()"
+            kotlin.jvm.internal.n.f(r0, r1)
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: androidx.collection.LongLongMap.joinToString(kotlin.jvm.functions.Function2):java.lang.String");
+    }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt" android:drawable="@drawable/_ic_device_blinds_off_anim__0_res_0x7f08002c">
+    <target
+        android:name="_R_G_L_2_C_0"
+        android:animation="@drawable/_ic_device_blinds_off_anim__1_res_0x7f08002d"/>
+    <target
+        android:name="_R_G_L_2_G_T_1"
+        android:animation="@drawable/_ic_device_blinds_off_anim__3_res_0x7f080035"/>
+    <target
+        android:name="_R_G_L_0_C_0"
+        android:animation="@drawable/_ic_device_blinds_off_anim__5_res_0x7f080037"/>
+    <target
+        android:name="_R_G_L_0_G_G_0_D_0_P_0"
+        android:animation="@drawable/_ic_device_blinds_off_anim__8_res_0x7f08003a"/>
+    <target
+        android:name="_R_G_L_0_G_T_1"
+        android:animation="@drawable/_ic_device_blinds_off_anim__11_res_0x7f08002f"/>
+    <target
+        android:name="_R_G_L_0_G_N_2_T_0"
+        android:animation="@drawable/_ic_device_blinds_off_anim__14_res_0x7f080032"/>
+    <target
+        android:name="time_group"
+        android:animation="@drawable/_ic_device_blinds_off_anim__15_res_0x7f080033"/>
+</animated-vector>

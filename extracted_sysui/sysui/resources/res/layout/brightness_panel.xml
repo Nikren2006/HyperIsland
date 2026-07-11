@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<miui.systemui.controlcenter.widget.BrightnessPanelRootView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/brightness_container"
+    android:visibility="gone"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToOutline="false">
+    <miui.systemui.widget.View
+        android:id="@+id/brightness_panel_bg"
+        android:background="@drawable/secondary_panel_background"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/brightness_setting_panel_title"
+        android:importantForAccessibility="auto"/>
+    <miui.systemui.widget.LinearLayout
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/tiles_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp">
+        <miui.systemui.widget.LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/tiles_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </miui.systemui.widget.LinearLayout>
+    <include
+        android:layout_gravity="top|center_horizontal"
+        android:id="@+id/toggle_slider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/toggle_slider_item_view"/>
+</miui.systemui.controlcenter.widget.BrightnessPanelRootView>

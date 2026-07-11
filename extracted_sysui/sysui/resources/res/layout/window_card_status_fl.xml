@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ml_status_fl"
+    android:background="@drawable/circulate_card_bg"
+    android:padding="@dimen/window_card_ml_status_fl_padding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/ml_device_icon"
+        android:layout_width="@dimen/window_card_ml_device_icon_width"
+        android:layout_height="@dimen/window_card_ml_device_icon_width"
+        android:layout_marginStart="@dimen/window_card_ml_device_icon_margin_start"/>
+    <TextView
+        android:textSize="@dimen/window_card_ml_device_name_text_size"
+        android:textColor="@color/circulate_device_name_text_color"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:id="@+id/ml_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/window_card_ml_title_height"
+        android:text="设备名称"
+        android:maxLines="1"
+        android:layout_marginStart="@dimen/window_card_ml_device_name_margin_left_right"/>
+    <TextView
+        android:textSize="@dimen/window_card_ml_find_null_text_size"
+        android:textColor="@color/circulate_find_null_text_color"
+        android:gravity="center"
+        android:id="@+id/ml_find_null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/window_card_ml_find_null_margin_top"
+        android:layout_marginBottom="@dimen/window_card_ml_find_null_margin_bottom"
+        android:text="设备可能不在附近。"
+        android:drawableTop="@drawable/ml_window_card_no_find_icon"/>
+</FrameLayout>

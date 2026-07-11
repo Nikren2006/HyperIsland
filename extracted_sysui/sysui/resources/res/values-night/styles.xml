@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AlertDialog.Theme.DayNight" parent="@style/AlertDialog.Theme.Dark">
+    </style>
+    <style name="AlertDialog.Theme.DayNight.Danger" parent="@style/AlertDialog.Theme.Dark.Danger">
+    </style>
+    <style name="Miuix.DropDownPopupList.DayNight" parent="@style/Miuix.DropDownPopupList.Dark">
+    </style>
+    <style name="Miuix.DropdownItem.DayNight" parent="@style/Miuix.DropdownItem.Dark">
+    </style>
+    <style name="Miuix.GuidePopupText.DayNight" parent="@style/Miuix.GuidePopupText.Dark">
+    </style>
+    <style name="Theme.AppCompat.DayNight" parent="@style/Theme.AppCompat">
+    </style>
+    <style name="Theme.AppCompat.DayNight.DarkActionBar" parent="@style/Theme.AppCompat">
+    </style>
+    <style name="Theme.AppCompat.DayNight.Dialog" parent="@style/Theme.AppCompat.Dialog">
+    </style>
+    <style name="Theme.AppCompat.DayNight.Dialog.Alert" parent="@style/Theme.AppCompat.Dialog.Alert">
+    </style>
+    <style name="Theme.AppCompat.DayNight.Dialog.MinWidth" parent="@style/Theme.AppCompat.Dialog.MinWidth">
+    </style>
+    <style name="Theme.AppCompat.DayNight.DialogWhenLarge" parent="@style/Theme.AppCompat.DialogWhenLarge">
+    </style>
+    <style name="Theme.AppCompat.DayNight.NoActionBar" parent="@style/Theme.AppCompat.NoActionBar">
+    </style>
+    <style name="Theme.DayNight" parent="@style/Theme.Dark">
+    </style>
+    <style name="Theme.DayNight.ActionBar.NoTitle" parent="@style/Theme.Dark.ActionBar.NoTitle">
+    </style>
+    <style name="Theme.DayNight.Dialog" parent="@style/Theme.Dark.Dialog">
+    </style>
+    <style name="Theme.DayNight.Dialog.Alert" parent="@style/Theme.Dark.Dialog.Alert">
+    </style>
+    <style name="Theme.DayNight.Dialog.Edit" parent="@style/Theme.Dark.Dialog.Edit">
+    </style>
+    <style name="Theme.DayNight.Dialog.Edit.Default" parent="@style/Theme.Dark.Dialog.Edit.Default">
+    </style>
+    <style name="Theme.DayNight.Dialog.FixedSize" parent="@style/Theme.Dark.Dialog.FixedSize">
+    </style>
+    <style name="Theme.DayNight.Dialog.FixedSize.Small" parent="@style/Theme.Dark.Dialog.FixedSize.Small">
+    </style>
+    <style name="Theme.DayNight.Dialog.NoTitle" parent="@style/Theme.Dark.Dialog.NoTitle">
+    </style>
+    <style name="Theme.DayNight.FloatingWindow" parent="@style/Theme.Dark.FloatingWindow">
+    </style>
+    <style name="Theme.DayNight.Navigation" parent="@style/Theme.Dark.Navigation">
+    </style>
+    <style name="Theme.DayNight.NoTitle" parent="@style/Theme.Dark.NoTitle">
+    </style>
+    <style name="Theme.DayNight.Settings" parent="@style/Theme.Dark.Settings">
+    </style>
+    <style name="Theme.DayNight.Settings.NoTitle" parent="@style/Theme.Dark.Settings.NoTitle">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight" parent="@style/Theme.MaterialComponents">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.BottomSheetDialog" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Bridge" parent="@style/Theme.MaterialComponents.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.DarkActionBar" parent="@style/Theme.MaterialComponents">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.DarkActionBar.Bridge" parent="@style/Theme.MaterialComponents.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog" parent="@style/Theme.MaterialComponents.Dialog">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.Alert" parent="@style/Theme.MaterialComponents.Dialog.Alert">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.Alert.Bridge" parent="@style/Theme.MaterialComponents.Dialog.Alert.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.Bridge" parent="@style/Theme.MaterialComponents.Dialog.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.FixedSize" parent="@style/Theme.MaterialComponents.Dialog.FixedSize">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.FixedSize.Bridge" parent="@style/Theme.MaterialComponents.Dialog.FixedSize.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.MinWidth" parent="@style/Theme.MaterialComponents.Dialog.MinWidth">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.Dialog.MinWidth.Bridge" parent="@style/Theme.MaterialComponents.Dialog.MinWidth.Bridge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.DialogWhenLarge" parent="@style/Theme.MaterialComponents.DialogWhenLarge">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.NoActionBar" parent="@style/Theme.MaterialComponents.NoActionBar">
+    </style>
+    <style name="Theme.MaterialComponents.DayNight.NoActionBar.Bridge" parent="@style/Theme.MaterialComponents.NoActionBar.Bridge">
+    </style>
+    <style name="Theme.QSFlipSettings" parent="@style/Theme.Dark">
+        <item name="android:windowBackground">@color/flip_qs_background_dark</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">1</item>
+        <item name="actionBarTitleEnableEllipsis">true</item>
+        <item name="flip_qs_app_setting_divider">@drawable/flip_qs_group_title_boundary_dark</item>
+        <item name="flip_qs_background">@color/flip_qs_background_dark</item>
+        <item name="flip_qs_card_bottom_corner">@drawable/flip_qs_card_bottom_coner_dark</item>
+        <item name="flip_qs_card_color">@color/flip_qs_card_dark</item>
+        <item name="flip_qs_card_drawable">@drawable/flip_qs_card_background_dark</item>
+        <item name="flip_qs_footer_divider">@drawable/flip_qs_shape_bottom_corner_dark</item>
+        <item name="windowExtraPaddingApplyToContentEnable">true</item>
+        <item name="windowExtraPaddingHorizontalEnable">true</item>
+    </style>
+    <style name="Widget.ActionBar.TabText.Secondary.DayNight" parent="@style/Widget.ActionBar.TabText.Secondary.Dark">
+    </style>
+    <style name="Widget.AlphabetIndexer.Starred.DayNight" parent="@style/Widget.AlphabetIndexer.Dark.Starred">
+    </style>
+    <style name="Widget.ArrowPopupView.DayNight" parent="@style/Widget.ArrowPopupView.Dark">
+    </style>
+    <style name="Widget.DateTimePicker.Big.DayNight" parent="@style/Widget.DateTimePicker.Big.Dark">
+    </style>
+    <style name="Widget.EditText.DayNight" parent="@style/Widget.EditText.Dark">
+    </style>
+    <style name="Widget.FilterSortTabView.DayNight" parent="@style/Widget.FilterSortTabView.Dark">
+    </style>
+    <style name="Widget.FilterSortTabView2.DayNight" parent="@style/Widget.FilterSortTabView2.Dark">
+    </style>
+    <style name="Widget.FilterSortView.DayNight" parent="@style/Widget.FilterSortView.Dark">
+    </style>
+    <style name="Widget.FilterSortView2.DayNight" parent="@style/Widget.FilterSortView2.Dark">
+    </style>
+    <style name="Widget.GuidePopupView.DayNight" parent="@style/Widget.GuidePopupView.Dark">
+    </style>
+    <style name="Widget.HyperProgressSeekBar.DayNight" parent="@style/Widget.HyperProgressSeekBar.Dark">
+    </style>
+    <style name="Widget.HyperProgressSeekBar.Normal.DayNight" parent="@style/Widget.HyperProgressSeekBar.Normal.Dark">
+    </style>
+    <style name="Widget.NumberPicker.DayNight" parent="@style/Widget.NumberPicker.Dark">
+    </style>
+    <style name="Widget.PageIndicator.DayNight" parent="@style/Widget.PageIndicator.Dark">
+    </style>
+    <style name="Widget.PopupWindow.DayNight" parent="@style/Widget.PopupWindow.Dark">
+    </style>
+    <style name="Widget.ProgressBar.Horizontal.DayNight" parent="@style/Widget.ProgressBar.Horizontal.Dark">
+    </style>
+    <style name="Widget.SlidingButton.DayNight" parent="@style/Widget.SlidingButton.Dark">
+    </style>
+    <style name="Widget.StateEditText.DayNight" parent="@style/Widget.StateEditText.Dark">
+    </style>
+    <style name="Widget.TextInputLayout.DayNight" parent="@style/Widget.TextInputLayout.Dark">
+    </style>
+    <style name="Widget.TextInputLayout.Error.DayNight" parent="@style/Widget.TextInputLayout.Error.Dark">
+    </style>
+</resources>

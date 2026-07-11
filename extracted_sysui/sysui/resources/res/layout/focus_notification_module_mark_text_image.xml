@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:id="@+id/focus_container_module_mark"
+    android:visibility="gone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <miuix.colorful.texteffect.HyperChronometer
+        android:id="@+id/focus_title"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/focus_notify_module_margin_horizontal_v2"
+        android:maxEms="12"
+        android:layout_marginStart="@dimen/focus_notify_module_margin_horizontal_v2"
+        style="@style/FocusNotifyTitleStyleMarkText"/>
+    <ImageView
+        android:layout_gravity="top"
+        android:id="@+id/focus_mark_small_icon"
+        android:visibility="gone"
+        android:layout_width="@dimen/focus_notify_mark1_icon_size"
+        android:layout_height="@dimen/focus_notify_mark1_icon_size"
+        android:layout_marginTop="@dimen/focus_notify_module_margin_horizontal_v2"
+        android:layout_marginStart="@dimen/focus_notify_module_margin_horizontal"
+        android:layout_marginEnd="@dimen/focus_notify_module_margin_horizontal_v2"/>
+</LinearLayout>

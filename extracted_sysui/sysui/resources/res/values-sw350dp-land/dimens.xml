@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="control_center_detail_max_height">324dp</dimen>
+    <dimen name="control_center_detail_max_height_align_end">500dp</dimen>
+    <dimen name="control_center_status_bar_padding_top">47.64dp</dimen>
+    <dimen name="expanded_notification_header_bottom">3dp</dimen>
+    <dimen name="header_qs_message_reference_height">32dp</dimen>
+    <dimen name="main_panel_header_height">34.91dp</dimen>
+    <dimen name="main_panel_header_top_padding">11.27dp</dimen>
+    <dimen name="new_header_bottom_padding">9dp</dimen>
+    <dimen name="new_header_height">43dp</dimen>
+</resources>
