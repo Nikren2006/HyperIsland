@@ -1046,7 +1046,7 @@ class _GlassPreviewBackdrop extends StatelessWidget {
         color: Colors.black,
         child: Stack(
           children: [
-            const Positioned.fill(child: CustomPaint(painter: _BackdropPatternPainter())),
+            Positioned.fill(child: CustomPaint(painter: _BackdropPatternPainter())),
             Center(child: child),
           ],
         ),
