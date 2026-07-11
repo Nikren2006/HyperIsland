@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
+const String _kLiquidGlassLog = 'LiquidGlass';
+
+void _log(String message) => dev.log(message, name: _kLiquidGlassLog);
 
 /// Tunable parameters for the liquid-glass effect (all sizes in logical dp).
 ///
@@ -103,8 +108,10 @@ class LiquidGlassShader {
       final program =
           await FragmentProgram.fromAsset('assets/shaders/liquid_glass.frag');
       _program = program;
+      _log('FragmentProgram loaded OK');
       _completer.complete(program);
-    } catch (e) {
+    } catch (e, st) {
+      _log('FragmentProgram FAILED to load: $e\n$st');
       _completer.complete(null);
     }
   }
@@ -151,9 +158,11 @@ class _LiquidGlassIslandState extends State<LiquidGlassIsland> {
   FragmentProgram? _program;
 
   @override
-  void initState() {
+  void     initState() {
     super.initState();
+    _log('initState: supported=${LiquidGlassShader.supported}');
     LiquidGlassShader.load().then((program) {
+      _log('shader loaded: ${program == null ? "NULL (fallback will be used)" : "OK"}');
       if (mounted) setState(() => _program = program);
     });
   }
@@ -166,10 +175,20 @@ class _LiquidGlassIslandState extends State<LiquidGlassIsland> {
     // Fallback: shader unsupported or not ready yet. Keep the surface
     // transparent so it never "stands out" like a black box.
     if (_program == null) {
+      _log('build: NO shader program -> using transparent fallback '
+          '(enabled=${config.enabled}, refractionAmount=${config.refractionAmount}, '
+          'refractionHeight=${config.refractionHeight}). '
+          'If you expected glass, the AGSL likely failed to compile/load.');
       return _fallback(radius);
     }
 
     final dpr = MediaQuery.of(context).devicePixelRatio;
+    _log('build: applying shader. enabled=${config.enabled} '
+        'refractionAmount=${config.refractionAmount} '
+        'refractionHeight=${config.refractionHeight} '
+        'cornerRadius=${config.cornerRadius} vibrancy=${config.vibrancy} '
+        'tintOpacity=${config.tintOpacity} dpr=${dpr.toStringAsFixed(2)}');
+
     final shader = _program!.fragmentShader();
     _applyUniforms(shader, config, dpr);
 
@@ -234,23 +253,29 @@ class _LiquidGlassIslandState extends State<LiquidGlassIsland> {
     //   u_tintOpacity         17
     final r = config.cornerRadius * dpr;
     final tint = Color(config.tintColor);
-    shader
-      ..setFloat(2, config.enabled ? 1.0 : 0.0)
-      ..setFloat(3, config.refractionHeight * dpr)
-      ..setFloat(4, config.refractionAmount * dpr)
-      ..setFloat(5, r)
-      ..setFloat(6, r)
-      ..setFloat(7, r)
-      ..setFloat(8, r)
-      ..setFloat(9, config.depthEffect)
-      ..setFloat(10, config.chromaticAberration)
-      ..setFloat(11, config.saturation)
-      ..setFloat(12, config.vibrancy)
-      ..setFloat(13, tint.r / 255)
-      ..setFloat(14, tint.g / 255)
-      ..setFloat(15, tint.b / 255)
-      ..setFloat(16, tint.a / 255)
-      ..setFloat(17, config.tintOpacity);
+    try {
+      shader
+        ..setFloat(2, config.enabled ? 1.0 : 0.0)
+        ..setFloat(3, config.refractionHeight * dpr)
+        ..setFloat(4, config.refractionAmount * dpr)
+        ..setFloat(5, r)
+        ..setFloat(6, r)
+        ..setFloat(7, r)
+        ..setFloat(8, r)
+        ..setFloat(9, config.depthEffect)
+        ..setFloat(10, config.chromaticAberration)
+        ..setFloat(11, config.saturation)
+        ..setFloat(12, config.vibrancy)
+        ..setFloat(13, tint.r / 255)
+        ..setFloat(14, tint.g / 255)
+        ..setFloat(15, tint.b / 255)
+        ..setFloat(16, tint.a / 255)
+        ..setFloat(17, config.tintOpacity);
+      _log('uniforms applied: r=$r tint=0x${config.tintColor.toRadixString(16)} '
+          'depthEffect=${config.depthEffect} aberration=${config.chromaticAberration}');
+    } catch (e, st) {
+      _log('setFloat FAILED (wrong uniform index/name?): $e\n$st');
+    }
   }
 
   Widget _fallback(Radius radius) {

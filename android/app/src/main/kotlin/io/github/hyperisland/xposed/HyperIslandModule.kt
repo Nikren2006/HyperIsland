@@ -10,6 +10,7 @@ import io.github.hyperisland.xposed.hook.DownloadHook
 import io.github.hyperisland.xposed.hook.FocusNotifStatusBarIconHook
 import io.github.hyperisland.xposed.hook.SystemUI.GenericProgressHook
 import io.github.hyperisland.xposed.hook.IslandBackgroundHook
+import io.github.hyperisland.xposed.hook.IslandLiquidGlassHook
 import io.github.hyperisland.xposed.hook.IslandDimenHook
 import io.github.hyperisland.xposed.hook.IslandDispatcherHook
 import io.github.hyperisland.xposed.hook.IslandOuterGlowHook
@@ -48,6 +49,7 @@ class HyperIslandModule : XposedModule() {
                 FocusNotifStatusBarIconHook.init(this, param)
                 IslandOuterGlowHook.init(this, param)
                 IslandBackgroundHook.init(this, param)
+                IslandLiquidGlassHook.init(this, param)
                 IslandTextColorHook.init(this, param)
                 TextShadeHook.init(this, param)
                 IslandDimenHook.init(this, param)
