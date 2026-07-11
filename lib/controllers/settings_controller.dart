@@ -244,7 +244,6 @@ class SettingsController extends ChangeNotifier {
   double islandTopOffset = 0;
   String islandTextColorMode = kIslandTextColorDefault;
   bool islandLiquidGlass = false;
-  int islandLiquidGlassBlur = 15;
   bool keepIsland = false;
   bool keepIslandAutoHide = true;
   bool keepIslandHideLandscape = false;
@@ -387,7 +386,6 @@ class SettingsController extends ChangeNotifier {
       prefs.getString(kPrefIslandTextColorMode),
     );
     islandLiquidGlass = prefs.getBool(kPrefIslandLiquidGlass) ?? false;
-    islandLiquidGlassBlur = prefs.getInt(kPrefIslandLiquidGlassBlur) ?? 15;
     keepIsland = prefs.getBool(kPrefKeepIsland) ?? false;
     keepIslandAutoHide = prefs.getBool(kPrefKeepIslandAutoHide) ?? true;
     keepIslandHideLandscape =
@@ -1147,15 +1145,6 @@ class SettingsController extends ChangeNotifier {
     final prefs = await _getPrefs();
     await prefs.setBool(kPrefIslandLiquidGlass, value);
     islandLiquidGlass = value;
-    notifyListeners();
-  }
-
-  Future<void> setIslandLiquidGlassBlur(int value) async {
-    final clamped = value.clamp(0, 50);
-    if (islandLiquidGlassBlur == clamped) return;
-    final prefs = await _getPrefs();
-    await prefs.setInt(kPrefIslandLiquidGlassBlur, clamped);
-    islandLiquidGlassBlur = clamped;
     notifyListeners();
   }
 

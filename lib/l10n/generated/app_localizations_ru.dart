@@ -2018,25 +2018,3 @@ class AppLocalizationsRu extends AppLocalizations {
       'Применить эффект матового стекла к фону и содержимому острова';
 
   @override
-  String get islandLiquidGlassBlurTitle => 'Интенсивность размытия';
-
-  @override
-  String blurDpLabel(int blur) {
-    return '$blur dp';
-  }
-
-  @override
-  String get tapToSelectImage => 'Нажмите, чтобы выбрать изображение или GIF';
-
-  @override
-  String get autoExpandNotification =>
-      'Автоматически разворачивать уведомление';
-
-  @override
-  String widthDpLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
-  String get alwaysOnIsland => '常驻岛';
-}

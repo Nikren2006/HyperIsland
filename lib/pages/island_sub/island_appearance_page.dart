@@ -36,7 +36,6 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
     _ctrl.islandBgExpandPath,
     _ctrl.islandTextColorMode,
     _ctrl.islandLiquidGlass,
-    _ctrl.islandLiquidGlassBlur,
   ]);
 
   @override
@@ -500,45 +499,6 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                     ),
                   ),
                 ),
-                if (_ctrl.islandLiquidGlass)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                l10n.islandLiquidGlassBlurTitle,
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(
-                                      color: cs.onSurfaceVariant,
-                                    ),
-                              ),
-                            ),
-                            Text(
-                              l10n.blurDpLabel(_ctrl.islandLiquidGlassBlur),
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: cs.onSurfaceVariant),
-                            ),
-                          ],
-                        ),
-                        SliderTheme(
-                          data: ModernSliderTheme.theme(context),
-                          child: Slider(
-                            value: _ctrl.islandLiquidGlassBlur.toDouble(),
-                            min: 0,
-                            max: 50,
-                            divisions: 50,
-                            onChanged: InteractionHaptics.interceptSlider(
-                              (v) => _ctrl.setIslandLiquidGlassBlur(v.round()),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 const SizedBox(height: 8),
                 // --- 图标圆角 ---
                 _SectionLabel(l10n.roundIconTitle),

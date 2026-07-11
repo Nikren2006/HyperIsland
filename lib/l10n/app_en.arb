@@ -748,16 +748,7 @@
   "islandTextColorInvertStatusBar": "Invert status bar",
   "islandTextColorDefault": "Default",
   "islandLiquidGlassTitle": "Island Liquid Glass",
-  "islandLiquidGlassSubtitle": "Apply frosted glass effect to the island background and content",
-  "islandLiquidGlassBlurTitle": "Blur Intensity",
-  "blurDpLabel": "{blur} dp",
-  "@blurDpLabel": {
-    "placeholders": {
-      "blur": {
-        "type": "int"
-      }
-    }
-  },
+  "islandLiquidGlassSubtitle": "Make island background transparent for a glass-like look",
   "tapToSelectImage": "Tap to select image or GIF",
   "autoExpandNotification": "Auto expand notification",
   "widthDpLabel": "{width} dp",

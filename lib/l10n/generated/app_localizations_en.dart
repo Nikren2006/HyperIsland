@@ -2003,24 +2003,3 @@ class AppLocalizationsEn extends AppLocalizations {
       'Apply frosted glass effect to the island background and content';
 
   @override
-  String get islandLiquidGlassBlurTitle => 'Blur Intensity';
-
-  @override
-  String blurDpLabel(int blur) {
-    return '$blur dp';
-  }
-
-  @override
-  String get tapToSelectImage => 'Tap to select image or GIF';
-
-  @override
-  String get autoExpandNotification => 'Auto expand notification';
-
-  @override
-  String widthDpLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
-  String get alwaysOnIsland => 'Always-on Island';
-}

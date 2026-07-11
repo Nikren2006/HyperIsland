@@ -901,15 +901,6 @@
   "islandTextColorDefault": "默认",
   "islandLiquidGlassTitle": "Island Liquid Glass",
   "islandLiquidGlassSubtitle": "Apply frosted glass effect to the island background and content",
-  "islandLiquidGlassBlurTitle": "Blur Intensity",
-  "blurDpLabel": "{blur} dp",
-  "@blurDpLabel": {
-    "placeholders": {
-      "blur": {
-        "type": "int"
-      }
-    }
-  },
   "tapToSelectImage": "点击选择图片或 GIF",
   "autoExpandNotification": "自动展开通知",
   "widthDpLabel": "{width} dp",

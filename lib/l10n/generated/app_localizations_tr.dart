@@ -1990,24 +1990,3 @@ class AppLocalizationsTr extends AppLocalizations {
   String get islandLiquidGlassSubtitle => 'Ada arka planı ve içeriğine buğulu cam efekti uygula';
 
   @override
-  String get islandLiquidGlassBlurTitle => 'Bulanıklık Yoğunluğu';
-
-  @override
-  String blurDpLabel(int blur) {
-    return '$blur dp';
-  }
-
-  @override
-  String get tapToSelectImage => 'Resim veya GIF seçmek için dokunun';
-
-  @override
-  String get autoExpandNotification => 'Bildirimi otomatik genişlet';
-
-  @override
-  String widthDpLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
-  String get alwaysOnIsland => '常驻岛';
-}

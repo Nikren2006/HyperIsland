@@ -374,7 +374,6 @@ object ConfigManager {
         "pref_temp_hide_notification_center",
         "pref_blur_bars",
         "pref_island_liquid_glass",
-        "pref_island_liquid_glass_blur",
         "pref_debug_log"
     )
 }

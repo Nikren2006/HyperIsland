@@ -81,52 +81,6 @@ object IslandBackgroundHook : BaseHook() {
     /** 已 Hook 的 ClassLoader 集合（用于去重） */
     private val hookedClassLoaders = ConcurrentHashMap.newKeySet<Int>()
 
-    /** 在 updateDarkLightMode → setDrawable 调用链中传递岛类型 */
-    private val islandTypeHolder = ThreadLocal<IslandType>()
-
-    /** 上一次确定的岛类型（在 islandTypeHolder 被清除后供其他 hook 使用） */
-    @Volatile
-    private var lastIslandType: IslandType? = null
-
-    /** 缓存的纯黑 Bitmap（512x512），供无自定义背景的岛类型使用 */
-    @Volatile
-    private var cachedBlackBitmap: Bitmap? = null
-
-    /** 缓存 anyCustomBgConfigured 结果，避免热路径每帧做 3 次 I/O */
-    @Volatile
-    private var cachedAnyCustomBg: Boolean? = null
-
-    /** 缓存圆角半径，运行时不会变 */
-    @Volatile
-    private var cachedCornerRadius: Float? = null
-
-    /** 缓存 MiBlurCompat 反射对象，避免每次调用 clearMaskForView 都做类加载+方法查找 */
-    @Volatile
-    private var miBlurCompatClass: Class<*>? = null
-    @Volatile
-    private var setBlurModeMethod: Method? = null
-    @Volatile
-    private var clearBlendMethod: Method? = null
-
-    /** 缓存 bgViewClass 的 Field/Method，避免热路径反复反射查找 */
-    private val stokeWidthFieldCache = ConcurrentHashMap<Class<*>, Field?>()
-    private val drawableFieldCache = ConcurrentHashMap<Class<*>, Field?>()
-    private val backgroundAlphaFieldCache = ConcurrentHashMap<Class<*>, Field?>()
-    private val scheduleUpdateMethodCache = ConcurrentHashMap<Class<*>, Method?>()
-
-    /** 延迟重试 Handler（用于 ConfigManager 时序问题的延迟重试） */
-    private val bgRetryHandler = Handler(Looper.getMainLooper())
-
-    /** 当前挂起的延迟重试 Runnable，避免堆积 */
-    @Volatile
-    private var pendingRetryRunnable: Runnable? = null
-
-    @Volatile
-    private var moduleRef: XposedModule? = null
-
-    @Volatile
-    private var currentContentView: View? = null
-
     override fun getTag() = TAG
 
     override fun onInit(module: XposedModule, param: PackageLoadedParam) {
@@ -160,7 +114,6 @@ object IslandBackgroundHook : BaseHook() {
 
             hookSetDrawable(module, bgViewClass)
             hookAlphaAnimation(module, bgViewClass)
-            hookContentViewLifecycle(module)
 
             try {
                 val contentViewClass = classLoader.loadClass(
@@ -339,7 +292,7 @@ object IslandBackgroundHook : BaseHook() {
     /**
      * Hook DynamicIslandBackgroundView.alphaAnimation(float)。
      *
-     * ★ 自定义背景时设 alpha=1.0，Liquid Glass 时设 alpha≈0.85，否则跟随系统。
+     * ★ 自定义背景时设 alpha=1.0，Liquid Glass 时让背景保持透明，否则跟随系统。
      */
     private fun hookAlphaAnimation(module: XposedModule, bgViewClass: Class<*>) {
         try {
@@ -362,16 +315,14 @@ object IslandBackgroundHook : BaseHook() {
                     return@intercept null
                 }
 
-                if (type != null && ConfigManager.getBoolean("pref_island_liquid_glass", false)) {
-                    try {
-                        val alphaField = getCachedField(backgroundAlphaFieldCache, bgViewClass, "backgroundAlpha")
-                        alphaField?.setFloat(bgView, 0.85f)
-                        val scheduleMethod = getCachedMethod(scheduleUpdateMethodCache, bgViewClass, "scheduleUpdate")
-                        scheduleMethod?.invoke(bgView)
-                    } catch (e: Exception) {
-                        logError(module, "liquid glass alpha set failed: ${e.message}, falling back")
-                        chain.proceed()
-                    }
+                chain.proceed()
+                null
+            }
+
+        } catch (e: Throwable) {
+            logError(module, "Failed to hook alphaAnimation: ${e.message}")
+        }
+    }
                     return@intercept null
                 }
 
@@ -384,15 +335,18 @@ object IslandBackgroundHook : BaseHook() {
         }
     }
 
+    /**
+     * Hook View.onAttachedToWindow / onDetachedFromWindow для DynamicIslandBaseContentView.
+     *
+     * ★ Liquid Glass: применяем RenderEffect.createBlurEffect() ко всему контенту острова.
+     */
     private fun hookContentViewLifecycle(module: XposedModule) {
         try {
             val attachedMethod = View::class.java.getDeclaredMethod("onAttachedToWindow")
             module.hook(attachedMethod).intercept { chain ->
                 val view = chain.thisObject as? View ?: return@intercept null
                 if (view.javaClass.name == "miui.systemui.dynamicisland.window.content.DynamicIslandBaseContentView") {
-                    if (ConfigManager.getBoolean("pref_island_liquid_glass", false)) {
-                        applyBlurToContentView(view, module)
-                    }
+                    applyBlurToContentView(view, module)
                 }
                 chain.proceed()
                 null
@@ -614,15 +568,13 @@ object IslandBackgroundHook : BaseHook() {
                 val view = chain.args[0] as? View
                 val viewType = if (view != null) getIslandTypeForView(view) else null
 
-                if (viewType != null && anyCustomBgConfigured()) {
-                    // ★ 该 View 所属的岛类型有自定义背景 → 跳过原方法，清除遮罩
+                if (viewType != null && (anyCustomBgConfigured() || ConfigManager.getBoolean("pref_island_liquid_glass", false))) {
                     if (view != null) {
                         clearMaskForView(view)
                     }
                     return@intercept null
                 }
 
-                // 无自定义背景 → 执行原方法
                 chain.proceed()
                 null
             }

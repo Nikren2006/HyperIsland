@@ -628,15 +628,6 @@
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
   "islandLiquidGlassTitle": "Island Liquid Glass",
   "islandLiquidGlassSubtitle": "Apply frosted glass effect to the island background and content",
-  "islandLiquidGlassBlurTitle": "Blur Intensity",
-  "blurDpLabel": "{blur} dp",
-  "@blurDpLabel": {
-    "placeholders": {
-      "blur": {
-        "type": "int"
-      }
-    }
-  },
   "tapToSelectImage": "タップして画像またはGIFを選択",
   "autoExpandNotification": "通知を自動展開",
   "off": "オフ",

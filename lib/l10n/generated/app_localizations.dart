@@ -3689,18 +3689,6 @@ abstract class AppLocalizations {
   /// **'Apply frosted glass effect to the island background and content'**
   String get islandLiquidGlassSubtitle;
 
-  /// No description provided for @islandLiquidGlassBlurTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Blur Intensity'**
-  String get islandLiquidGlassBlurTitle;
-
-  /// No description provided for @blurDpLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'{blur} dp'**
-  String blurDpLabel(int blur);
-
   /// No description provided for @tapToSelectImage.
   ///
   /// In zh, this message translates to:

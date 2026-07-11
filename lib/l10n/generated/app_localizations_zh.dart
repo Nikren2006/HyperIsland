@@ -1895,24 +1895,3 @@ class AppLocalizationsZh extends AppLocalizations {
   String get islandLiquidGlassSubtitle => '为岛屿背景和内容应用磨砂玻璃效果';
 
   @override
-  String get islandLiquidGlassBlurTitle => '模糊强度';
-
-  @override
-  String blurDpLabel(int blur) {
-    return '$blur dp';
-  }
-
-  @override
-  String get tapToSelectImage => '点击选择图片或 GIF';
-
-  @override
-  String get autoExpandNotification => '自动展开通知';
-
-  @override
-  String widthDpLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
-  String get alwaysOnIsland => '常驻岛';
-}

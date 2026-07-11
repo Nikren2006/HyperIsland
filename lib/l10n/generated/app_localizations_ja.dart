@@ -1927,24 +1927,3 @@ class AppLocalizationsJa extends AppLocalizations {
   String get islandLiquidGlassSubtitle => 'アイランドの背景とコンテンツにすりガラス効果を適用';
 
   @override
-  String get islandLiquidGlassBlurTitle => 'ぼかし強度';
-
-  @override
-  String blurDpLabel(int blur) {
-    return '$blur dp';
-  }
-
-  @override
-  String get tapToSelectImage => 'タップして画像またはGIFを選択';
-
-  @override
-  String get autoExpandNotification => '通知を自動展開';
-
-  @override
-  String widthDpLabel(int width) {
-    return '$width dp';
-  }
-
-  @override
-  String get alwaysOnIsland => '常驻岛';
-}
