@@ -85,7 +85,7 @@ void main() {
   float gradRadius = min(radius * 1.5, min(halfSize.x, halfSize.y));
   vec2 grad = normalize(
     gradSdRoundedRect(centeredCoord, halfSize, gradRadius) +
-        u_depthEffect * normalize(centeredCoord + kEps),
+        u_depthEffect * normalize(centeredCoord + kEps)
   );
   vec2 refractedCoord = coord + d * grad;
 
