@@ -129,7 +129,6 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-    final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     final bottomPad = _ctrl.blurBars ? 80.0 : 0.0;
 
@@ -159,7 +158,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         vertical: 4,
                       ),
                       secondary: const Icon(Icons.water_drop_rounded),
-                      title: Text(l10n.islandLiquidGlassTitle, style: titleStyle),
+                      title: Text(l10n.islandLiquidGlassTitle, style: Theme.of(context).textTheme.titleMedium),
                       subtitle: Text(l10n.islandLiquidGlassSubtitle),
                       value: _ctrl.islandLiquidGlass,
                       onChanged: InteractionHaptics.interceptToggle(
