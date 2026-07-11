@@ -213,25 +213,39 @@ class _LiquidGlassIslandState extends State<LiquidGlassIsland> {
     LiquidGlassConfig config,
     double dpr,
   ) {
+    // Flutter 3.44 uses positional uniform indices. Float indices are assigned
+    // in declaration order, ignoring samplers. `u_size` (vec2) occupies 0,1 and
+    // is set by the engine; `u_texture` is sampler 0 (set by the engine for
+    // BackdropFilter). So our float uniforms start at index 2.
+    //   u_enabled           2
+    //   u_refractionHeight  3
+    //   u_refractionAmount  4
+    //   u_cornerRadii (vec4) 5..8
+    //   u_depthEffect       9
+    //   u_chromaticAberration 10
+    //   u_saturation        11
+    //   u_vibrancy          12
+    //   u_tintColor (vec4)  13..16
+    //   u_tintOpacity       17
     final r = config.cornerRadius * dpr;
     final tint = Color(config.tintColor);
     shader
-      ..setFloatUniform('u_enabled', config.enabled ? 1.0 : 0.0)
-      ..setFloatUniform('u_refractionHeight', config.refractionHeight * dpr)
-      ..setFloatUniform('u_refractionAmount', config.refractionAmount * dpr)
-      ..setFloatUniform('u_cornerRadii', r, r, r, r)
-      ..setFloatUniform('u_depthEffect', config.depthEffect)
-      ..setFloatUniform('u_chromaticAberration', config.chromaticAberration)
-      ..setFloatUniform('u_saturation', config.saturation)
-      ..setFloatUniform('u_vibrancy', config.vibrancy)
-      ..setFloatUniform(
-        'u_tintColor',
-        tint.r / 255,
-        tint.g / 255,
-        tint.b / 255,
-        tint.a / 255,
-      )
-      ..setFloatUniform('u_tintOpacity', config.tintOpacity);
+      ..setFloat(2, config.enabled ? 1.0 : 0.0)
+      ..setFloat(3, config.refractionHeight * dpr)
+      ..setFloat(4, config.refractionAmount * dpr)
+      ..setFloat(5, r)
+      ..setFloat(6, r)
+      ..setFloat(7, r)
+      ..setFloat(8, r)
+      ..setFloat(9, config.depthEffect)
+      ..setFloat(10, config.chromaticAberration)
+      ..setFloat(11, config.saturation)
+      ..setFloat(12, config.vibrancy)
+      ..setFloat(13, tint.r / 255)
+      ..setFloat(14, tint.g / 255)
+      ..setFloat(15, tint.b / 255)
+      ..setFloat(16, tint.a / 255)
+      ..setFloat(17, config.tintOpacity);
   }
 
   Widget _fallback(Radius radius) {

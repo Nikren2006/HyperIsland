@@ -753,8 +753,8 @@ class _LiquidGlassSettingsState extends State<_LiquidGlassSettings> {
       title: AppLocalizations.of(context)!.lgTint,
     );
     if (color == null || !mounted) return;
-    setState(() => _draft = _draft.copyWith(tintColor: color.value));
-    await _ctrl.setLiquidGlassTintColor(color.value);
+    setState(() => _draft = _draft.copyWith(tintColor: color.toARGB32()));
+    await _ctrl.setLiquidGlassTintColor(color.toARGB32());
   }
 
   @override
