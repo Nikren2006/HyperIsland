@@ -933,21 +933,10 @@ object IslandBackgroundHook : BaseHook() {
             cachedBlackBitmap = null
         }
         cachedAnyCustomBg = null
-        cachedCornerRadius = null
         stokeWidthFieldCache.clear()
         drawableFieldCache.clear()
         backgroundAlphaFieldCache.clear()
         scheduleUpdateMethodCache.clear()
-
-        val module = moduleRef
-        val view = currentContentView
-        if (module != null && view != null) {
-            if (ConfigManager.getBoolean("pref_island_liquid_glass", false)) {
-                applyBlurToContentView(view, module)
-            } else {
-                removeBlurFromContentView(view, module)
-            }
-        }
     }
 
     /**
