@@ -1,0 +1,38 @@
+name: CI Build
+
+on:
+  push:
+    branches-ignore:
+      - 'l10n_*'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Java
+        uses: actions/setup-java@v4.3.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.18.0
+        with:
+          flutter-version: '3.44.3'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          pub-cache-key: 'flutter-pub-:os:-:channel:-:version:-:arch:-:hash:'
+
+      - name: Install dependencies
+        run: flutter pub get --offline || flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Build debug APK
+        run: flutter build apk --debug --target-platform android-arm64
