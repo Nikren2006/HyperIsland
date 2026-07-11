@@ -81,6 +81,46 @@ object IslandBackgroundHook : BaseHook() {
     /** 已 Hook 的 ClassLoader 集合（用于去重） */
     private val hookedClassLoaders = ConcurrentHashMap.newKeySet<Int>()
 
+    /** 在 updateDarkLightMode → setDrawable 调用链中传递岛类型 */
+    private val islandTypeHolder = ThreadLocal<IslandType>()
+
+    /** 上一次确定的岛类型（在 islandTypeHolder 被清除后供其他 hook 使用） */
+    @Volatile
+    private var lastIslandType: IslandType? = null
+
+    /** 缓存的纯黑 Bitmap（512x512），供无自定义背景的岛类型使用 */
+    @Volatile
+    private var cachedBlackBitmap: Bitmap? = null
+
+    /** 缓存 anyCustomBgConfigured 结果，避免热路径每帧做 3 次 I/O */
+    @Volatile
+    private var cachedAnyCustomBg: Boolean? = null
+
+    /** 缓存圆角半径，运行时不会变 */
+    @Volatile
+    private var cachedCornerRadius: Float? = null
+
+    /** 缓存 MiBlurCompat 反射对象，避免每次调用 clearMaskForView 都做类加载+方法查找 */
+    @Volatile
+    private var miBlurCompatClass: Class<*>? = null
+    @Volatile
+    private var setBlurModeMethod: Method? = null
+    @Volatile
+    private var clearBlendMethod: Method? = null
+
+    /** 缓存 bgViewClass 的 Field/Method，避免热路径反复反射查找 */
+    private val stokeWidthFieldCache = ConcurrentHashMap<Class<*>, Field?>()
+    private val drawableFieldCache = ConcurrentHashMap<Class<*>, Field?>()
+    private val backgroundAlphaFieldCache = ConcurrentHashMap<Class<*>, Field?>()
+    private val scheduleUpdateMethodCache = ConcurrentHashMap<Class<*>, Method?>()
+
+    /** 延迟重试 Handler（用于 ConfigManager 时序问题的延迟重试） */
+    private val bgRetryHandler = Handler(Looper.getMainLooper())
+
+    /** 当前挂起的延迟重试 Runnable，避免堆积 */
+    @Volatile
+    private var pendingRetryRunnable: Runnable? = null
+
     override fun getTag() = TAG
 
     override fun onInit(module: XposedModule, param: PackageLoadedParam) {
