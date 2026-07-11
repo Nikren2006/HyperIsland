@@ -129,6 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
+    final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     final bottomPad = _ctrl.blurBars ? 80.0 : 0.0;
 
