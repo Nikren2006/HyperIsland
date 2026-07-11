@@ -781,25 +781,27 @@ class _LiquidGlassSettingsState extends State<_LiquidGlassSettings> {
           // live preview over a colorful backdrop so refraction is visible
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFF7F00FF),
-                    Color(0xFFE100FF),
-                    Color(0xFF00C2FF),
-                  ],
+            child: RepaintBoundary(
+              child: Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFF7F00FF),
+                      Color(0xFFE100FF),
+                      Color(0xFF00C2FF),
+                    ],
+                  ),
                 ),
-              ),
-              child: Center(
-                child: LiquidGlassIsland(
-                  config: _draft,
-                  width: 300,
-                  height: 84,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const _MockMediaContent(),
+                child: Center(
+                  child: LiquidGlassIsland(
+                    config: _draft,
+                    width: 300,
+                    height: 84,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const _MockMediaContent(),
+                  ),
                 ),
               ),
             ),
