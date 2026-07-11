@@ -152,6 +152,25 @@ class _SettingsPageState extends State<SettingsPage> {
                   Card(
                     elevation: 0,
                     color: cs.surfaceContainerHighest,
+                    child: SwitchListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      secondary: const Icon(Icons.water_drop_rounded),
+                      title: Text(l10n.islandLiquidGlassTitle, style: titleStyle),
+                      subtitle: Text(l10n.islandLiquidGlassSubtitle),
+                      value: _ctrl.islandLiquidGlass,
+                      onChanged: InteractionHaptics.interceptToggle(
+                        (value) => _ctrl.setIslandLiquidGlass(value),
+                        force: true,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Card(
+                    elevation: 0,
+                    color: cs.surfaceContainerHighest,
                     child: Column(
                       children: [
                         _MenuTile(
