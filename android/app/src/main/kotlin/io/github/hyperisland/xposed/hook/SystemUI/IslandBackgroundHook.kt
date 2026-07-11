@@ -84,7 +84,6 @@ object IslandBackgroundHook : BaseHook() {
     override fun getTag() = TAG
 
     override fun onInit(module: XposedModule, param: PackageLoadedParam) {
-        moduleRef = module
         hookDynamicClassLoaders(module)
     }
 
@@ -321,76 +320,6 @@ object IslandBackgroundHook : BaseHook() {
 
         } catch (e: Throwable) {
             logError(module, "Failed to hook alphaAnimation: ${e.message}")
-        }
-    }
-                    return@intercept null
-                }
-
-                chain.proceed()
-                null
-            }
-
-        } catch (e: Throwable) {
-            logError(module, "Failed to hook alphaAnimation: ${e.message}")
-        }
-    }
-
-    /**
-     * Hook View.onAttachedToWindow / onDetachedFromWindow для DynamicIslandBaseContentView.
-     *
-     * ★ Liquid Glass: применяем RenderEffect.createBlurEffect() ко всему контенту острова.
-     */
-    private fun hookContentViewLifecycle(module: XposedModule) {
-        try {
-            val attachedMethod = View::class.java.getDeclaredMethod("onAttachedToWindow")
-            module.hook(attachedMethod).intercept { chain ->
-                val view = chain.thisObject as? View ?: return@intercept null
-                if (view.javaClass.name == "miui.systemui.dynamicisland.window.content.DynamicIslandBaseContentView") {
-                    applyBlurToContentView(view, module)
-                }
-                chain.proceed()
-                null
-            }
-        } catch (e: Throwable) {
-            logError(module, "Failed to hook contentView onAttachedToWindow: ${e.message}")
-        }
-
-        try {
-            val detachedMethod = View::class.java.getDeclaredMethod("onDetachedFromWindow")
-            module.hook(detachedMethod).intercept { chain ->
-                val view = chain.thisObject as? View ?: return@intercept null
-                if (view.javaClass.name == "miui.systemui.dynamicisland.window.content.DynamicIslandBaseContentView") {
-                    removeBlurFromContentView(view, module)
-                }
-                chain.proceed()
-                null
-            }
-        } catch (e: Throwable) {
-            logError(module, "Failed to hook contentView onDetachedFromWindow: ${e.message}")
-        }
-    }
-
-    private fun applyBlurToContentView(view: View, module: XposedModule) {
-        try {
-            currentContentView = view
-            val blurRadius = ConfigManager.getInt("pref_island_liquid_glass_blur", 15).coerceIn(0, 50).toFloat()
-            if (blurRadius > 0) {
-                val renderEffect = RenderEffect.createBlurEffect(blurRadius, blurRadius, Shader.TileMode.CLAMP)
-                view.setRenderEffect(renderEffect)
-            }
-        } catch (e: Exception) {
-            logError(module, "applyBlurToContentView failed: ${e.message}")
-        }
-    }
-
-    private fun removeBlurFromContentView(view: View, module: XposedModule) {
-        try {
-            if (currentContentView == view) {
-                currentContentView = null
-            }
-            view.setRenderEffect(null)
-        } catch (e: Exception) {
-            logError(module, "removeBlurFromContentView failed: ${e.message}")
         }
     }
 
