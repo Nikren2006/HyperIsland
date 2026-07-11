@@ -758,4 +758,17 @@
     }
   },
   "alwaysOnIsland": "Always-on Island"
+  "lgTitle": "Liquid Glass",
+  "lgEnable": "Enable liquid glass",
+  "lgPreview": "Preview",
+  "lgRefraction": "Refraction",
+  "lgThickness": "Edge thickness",
+  "lgVibrancy": "Vibrancy",
+  "lgAberration": "Chromatic aberration",
+  "lgTint": "Tint",
+  "lgTintStrength": "Tint strength",
+  "lgCornerRadius": "Corner radius",
+  "lgEdgeHighlight": "Edge highlight",
+  "lgHighlightSize": "Highlight size",
+  "lgReset": "Reset to defaults",
 }

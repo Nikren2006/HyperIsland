@@ -1932,5 +1932,44 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get alwaysOnIsland => '常驻岛';
+  String get alwaysOnIsland => '常驻岛';  @override
+  String get lgTitle => 'リキッドガラス';
+
+  @override
+  String get lgEnable => 'リキッドガラスを有効にする';
+
+  @override
+  String get lgPreview => 'プレビュー';
+
+  @override
+  String get lgRefraction => '屈折';
+
+  @override
+  String get lgThickness => 'エッジの厚み';
+
+  @override
+  String get lgVibrancy => '鮮やかさ';
+
+  @override
+  String get lgAberration => '色収差';
+
+  @override
+  String get lgTint => 'ティント';
+
+  @override
+  String get lgTintStrength => 'ティント強度';
+
+  @override
+  String get lgCornerRadius => '角の丸み';
+
+  @override
+  String get lgEdgeHighlight => 'エッジハイライト';
+
+  @override
+  String get lgHighlightSize => 'ハイライトサイズ';
+
+  @override
+  String get lgReset => 'デフォルトに戻す';
+
+
 }

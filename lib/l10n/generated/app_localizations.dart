@@ -3700,6 +3700,84 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'常驻岛'**
   String get alwaysOnIsland;
+
+  /// No description provided for @lgTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'液态玻璃'**
+  String get lgTitle;
+
+  /// No description provided for @lgEnable.
+  ///
+  /// In zh, this message translates to:
+  /// **'启用液态玻璃'**
+  String get lgEnable;
+
+  /// No description provided for @lgPreview.
+  ///
+  /// In zh, this message translates to:
+  /// **'预览'**
+  String get lgPreview;
+
+  /// No description provided for @lgRefraction.
+  ///
+  /// In zh, this message translates to:
+  /// **'折射'**
+  String get lgRefraction;
+
+  /// No description provided for @lgThickness.
+  ///
+  /// In zh, this message translates to:
+  /// **'边缘厚度'**
+  String get lgThickness;
+
+  /// No description provided for @lgVibrancy.
+  ///
+  /// In zh, this message translates to:
+  /// **'鲜亮度'**
+  String get lgVibrancy;
+
+  /// No description provided for @lgAberration.
+  ///
+  /// In zh, this message translates to:
+  /// **'色散'**
+  String get lgAberration;
+
+  /// No description provided for @lgTint.
+  ///
+  /// In zh, this message translates to:
+  /// **'色调'**
+  String get lgTint;
+
+  /// No description provided for @lgTintStrength.
+  ///
+  /// In zh, this message translates to:
+  /// **'色调强度'**
+  String get lgTintStrength;
+
+  /// No description provided for @lgCornerRadius.
+  ///
+  /// In zh, this message translates to:
+  /// **'圆角半径'**
+  String get lgCornerRadius;
+
+  /// No description provided for @lgEdgeHighlight.
+  ///
+  /// In zh, this message translates to:
+  /// **'边缘高光'**
+  String get lgEdgeHighlight;
+
+  /// No description provided for @lgHighlightSize.
+  ///
+  /// In zh, this message translates to:
+  /// **'高光大小'**
+  String get lgHighlightSize;
+
+  /// No description provided for @lgReset.
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复默认'**
+  String get lgReset;
 }
 
 class _AppLocalizationsDelegate

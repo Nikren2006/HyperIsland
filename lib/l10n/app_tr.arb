@@ -776,4 +776,17 @@
   "tapToSelectImage": "Resim veya GIF seçmek için dokunun",
   "autoExpandNotification": "Bildirimi otomatik genişlet",
   "off": "Kapalı"
+  "lgTitle": "Sıvı Cam",
+  "lgEnable": "Sıvı camı etkinleştir",
+  "lgPreview": "Önizleme",
+  "lgRefraction": "Kırılma",
+  "lgThickness": "Kenar kalınlığı",
+  "lgVibrancy": "Canlılık",
+  "lgAberration": "Kromatik sapma",
+  "lgTint": "Renk tonu",
+  "lgTintStrength": "Renk tonu yoğunluğu",
+  "lgCornerRadius": "Köşe yarıçapı",
+  "lgEdgeHighlight": "Kenar vurgusu",
+  "lgHighlightSize": "Vurgu boyutu",
+  "lgReset": "Varsayılana sıfırla",
 }

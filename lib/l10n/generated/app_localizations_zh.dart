@@ -1900,5 +1900,44 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get alwaysOnIsland => '常驻岛';
+  String get alwaysOnIsland => '常驻岛';  @override
+  String get lgTitle => '液态玻璃';
+
+  @override
+  String get lgEnable => '启用液态玻璃';
+
+  @override
+  String get lgPreview => '预览';
+
+  @override
+  String get lgRefraction => '折射';
+
+  @override
+  String get lgThickness => '边缘厚度';
+
+  @override
+  String get lgVibrancy => '鲜亮度';
+
+  @override
+  String get lgAberration => '色散';
+
+  @override
+  String get lgTint => '色调';
+
+  @override
+  String get lgTintStrength => '色调强度';
+
+  @override
+  String get lgCornerRadius => '圆角半径';
+
+  @override
+  String get lgEdgeHighlight => '边缘高光';
+
+  @override
+  String get lgHighlightSize => '高光大小';
+
+  @override
+  String get lgReset => '恢复默认';
+
+
 }

@@ -7,7 +7,9 @@ import '../../l10n/generated/app_localizations.dart';
 import '../../services/interaction_haptics.dart';
 import '../../services/island_background_service.dart';
 import '../../widgets/blur_app_bar.dart';
+import '../../widgets/color_picker_dialog.dart';
 import '../../widgets/island_bg_edit_dialog.dart';
+import '../../widgets/liquid_glass_island.dart';
 import '../../widgets/modern_slider.dart';
 
 class IslandAppearancePage extends StatefulWidget {
@@ -414,6 +416,11 @@ class _IslandAppearancePageState extends State<IslandAppearancePage> {
                   ),
                 ),
                 const SizedBox(height: 8),
+                // --- Liquid Glass ---
+                _SectionLabel(l10n.lgTitle),
+                const SizedBox(height: 8),
+                const _LiquidGlassSettings(),
+                const SizedBox(height: 8),
                 // --- 文字 ---
                 _SectionLabel(l10n.islandTextSection),
                 const SizedBox(height: 8),
@@ -706,6 +713,326 @@ class _IslandBgTile extends StatelessWidget {
         ],
       ),
       onTap: onTap,
+    );
+  }
+}
+
+class _LiquidGlassSettings extends StatefulWidget {
+  const _LiquidGlassSettings();
+
+  @override
+  State<_LiquidGlassSettings> createState() => _LiquidGlassSettingsState();
+}
+
+class _LiquidGlassSettingsState extends State<_LiquidGlassSettings> {
+  final _ctrl = SettingsController.instance;
+  late LiquidGlassConfig _draft;
+
+  @override
+  void initState() {
+    super.initState();
+    _draft = _ctrl.liquidGlassConfig;
+    _ctrl.addListener(_onCtrl);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.removeListener(_onCtrl);
+    super.dispose();
+  }
+
+  void _onCtrl() {
+    if (mounted) setState(() => _draft = _ctrl.liquidGlassConfig);
+  }
+
+  Future<void> _pickTint() async {
+    final hex = '#${_draft.tintColor.toRadixString(16).padLeft(8, '0').toUpperCase()}';
+    final color = await showColorPickerDialog(
+      context,
+      initialHex: hex,
+      title: AppLocalizations.of(context)!.lgTint,
+    );
+    if (color == null || !mounted) return;
+    setState(() => _draft = _draft.copyWith(tintColor: color.value));
+    await _ctrl.setLiquidGlassTintColor(color.value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+    final titleStyle = Theme.of(context).textTheme.titleMedium;
+
+    return Card(
+      elevation: 0,
+      color: cs.surfaceContainerHighest,
+      child: Column(
+        children: [
+          SwitchListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            title: Text(l10n.lgEnable, style: titleStyle),
+            value: _draft.enabled,
+            onChanged: (v) {
+              setState(() => _draft = _draft.copyWith(enabled: v));
+              _ctrl.setLiquidGlassEnabled(v);
+            },
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          // live preview over a colorful backdrop so refraction is visible
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF7F00FF),
+                    Color(0xFFE100FF),
+                    Color(0xFF00C2FF),
+                  ],
+                ),
+              ),
+              child: Center(
+                child: LiquidGlassIsland(
+                  config: _draft,
+                  width: 300,
+                  height: 84,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const _MockMediaContent(),
+                ),
+              ),
+            ),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _LgSlider(
+            label: l10n.lgRefraction,
+            value: _draft.refractionAmount,
+            min: 0,
+            max: 40,
+            display: _draft.refractionAmount.toStringAsFixed(0),
+            onChanged: (v) =>
+                setState(() => _draft = _draft.copyWith(refractionAmount: v)),
+            onChangedEnd: (v) => _ctrl.setLiquidGlassRefraction(v),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _LgSlider(
+            label: l10n.lgThickness,
+            value: _draft.refractionHeight,
+            min: 0,
+            max: 60,
+            display: _draft.refractionHeight.toStringAsFixed(0),
+            onChanged: (v) =>
+                setState(() => _draft = _draft.copyWith(refractionHeight: v)),
+            onChangedEnd: (v) => _ctrl.setLiquidGlassThickness(v),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _LgSlider(
+            label: l10n.lgVibrancy,
+            value: _draft.saturation,
+            min: 0,
+            max: 3,
+            display: _draft.saturation.toStringAsFixed(2),
+            onChanged: (v) =>
+                setState(() => _draft = _draft.copyWith(saturation: v)),
+            onChangedEnd: (v) => _ctrl.setLiquidGlassVibrancy(v),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _LgSlider(
+            label: l10n.lgAberration,
+            value: _draft.chromaticAberration,
+            min: 0,
+            max: 1,
+            display: _draft.chromaticAberration.toStringAsFixed(2),
+            onChanged: (v) => setState(
+              () => _draft = _draft.copyWith(chromaticAberration: v),
+            ),
+            onChangedEnd: (v) => _ctrl.setLiquidGlassAberration(v),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _LgSlider(
+            label: l10n.lgCornerRadius,
+            value: _draft.cornerRadius,
+            min: 4,
+            max: 60,
+            display: _draft.cornerRadius.toStringAsFixed(0),
+            onChanged: (v) =>
+                setState(() => _draft = _draft.copyWith(cornerRadius: v)),
+            onChangedEnd: (v) => _ctrl.setLiquidGlassCornerRadius(v),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+            title: Text(l10n.lgTint, style: titleStyle),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                    color: Color(_draft.tintColor),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: cs.outline),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Icon(Icons.chevron_right),
+              ],
+            ),
+            onTap: _pickTint,
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _LgSlider(
+            label: l10n.lgTintStrength,
+            value: _draft.tintOpacity,
+            min: 0,
+            max: 1,
+            display: '${(_draft.tintOpacity * 100).toStringAsFixed(0)}%',
+            onChanged: (v) =>
+                setState(() => _draft = _draft.copyWith(tintOpacity: v)),
+            onChangedEnd: (v) => _ctrl.setLiquidGlassTintOpacity(v),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          SwitchListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            title: Text(l10n.lgEdgeHighlight, style: titleStyle),
+            value: _draft.innerShadow,
+            onChanged: (v) {
+              setState(() => _draft = _draft.copyWith(innerShadow: v));
+              _ctrl.setLiquidGlassInnerShadow(v);
+            },
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _LgSlider(
+            label: l10n.lgHighlightSize,
+            value: _draft.innerShadowRadius,
+            min: 0,
+            max: 30,
+            display: _draft.innerShadowRadius.toStringAsFixed(0),
+            onChanged: (v) => setState(
+              () => _draft = _draft.copyWith(innerShadowRadius: v),
+            ),
+            onChangedEnd: (v) => _ctrl.setLiquidGlassInnerShadowRadius(v),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: () async {
+                  await _ctrl.resetLiquidGlass();
+                  if (mounted) setState(() => _draft = _ctrl.liquidGlassConfig);
+                },
+                icon: const Icon(Icons.restart_alt),
+                label: Text(l10n.lgReset),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LgSlider extends StatelessWidget {
+  const _LgSlider({
+    required this.label,
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.display,
+    required this.onChanged,
+    this.onChangedEnd,
+  });
+
+  final String label;
+  final double value;
+  final double min;
+  final double max;
+  final String display;
+  final ValueChanged<double> onChanged;
+  final ValueChanged<double>? onChangedEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 96,
+            child: Text(label, style: Theme.of(context).textTheme.bodySmall),
+          ),
+          Expanded(
+            child: SliderTheme(
+              data: ModernSliderTheme.theme(context),
+              child: Slider(
+                value: value.clamp(min, max),
+                min: min,
+                max: max,
+                onChanged: onChanged,
+                onChangeEnd: onChangedEnd,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 44,
+            child: Text(
+              display,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MockMediaContent extends StatelessWidget {
+  const _MockMediaContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white.withValues(alpha: 0.25),
+          ),
+          child: const Icon(Icons.music_note, color: Colors.white),
+        ),
+        const SizedBox(width: 12),
+        const Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Now Playing',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 2),
+              Text(
+                'Liquid Glass — Demo Track',
+                style: TextStyle(color: Colors.white70, fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+        Icon(Icons.play_arrow, color: Colors.white),
+      ],
     );
   }
 }

@@ -1995,5 +1995,44 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get alwaysOnIsland => '常驻岛';
+  String get alwaysOnIsland => '常驻岛';  @override
+  String get lgTitle => 'Sıvı Cam';
+
+  @override
+  String get lgEnable => 'Sıvı camı etkinleştir';
+
+  @override
+  String get lgPreview => 'Önizleme';
+
+  @override
+  String get lgRefraction => 'Kırılma';
+
+  @override
+  String get lgThickness => 'Kenar kalınlığı';
+
+  @override
+  String get lgVibrancy => 'Canlılık';
+
+  @override
+  String get lgAberration => 'Kromatik sapma';
+
+  @override
+  String get lgTint => 'Renk tonu';
+
+  @override
+  String get lgTintStrength => 'Renk tonu yoğunluğu';
+
+  @override
+  String get lgCornerRadius => 'Köşe yarıçapı';
+
+  @override
+  String get lgEdgeHighlight => 'Kenar vurgusu';
+
+  @override
+  String get lgHighlightSize => 'Vurgu boyutu';
+
+  @override
+  String get lgReset => 'Varsayılana sıfırla';
+
+
 }

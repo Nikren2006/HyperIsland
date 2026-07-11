@@ -910,4 +910,17 @@
     }
   },
   "alwaysOnIsland": "常驻岛"
+  "lgTitle": "液态玻璃",
+  "lgEnable": "启用液态玻璃",
+  "lgPreview": "预览",
+  "lgRefraction": "折射",
+  "lgThickness": "边缘厚度",
+  "lgVibrancy": "鲜亮度",
+  "lgAberration": "色散",
+  "lgTint": "色调",
+  "lgTintStrength": "色调强度",
+  "lgCornerRadius": "圆角半径",
+  "lgEdgeHighlight": "边缘高光",
+  "lgHighlightSize": "高光大小",
+  "lgReset": "恢复默认",
 }

@@ -629,4 +629,17 @@
   "tapToSelectImage": "タップして画像またはGIFを選択",
   "autoExpandNotification": "通知を自動展開",
   "off": "オフ"
+  "lgTitle": "リキッドガラス",
+  "lgEnable": "リキッドガラスを有効にする",
+  "lgPreview": "プレビュー",
+  "lgRefraction": "屈折",
+  "lgThickness": "エッジの厚み",
+  "lgVibrancy": "鮮やかさ",
+  "lgAberration": "色収差",
+  "lgTint": "ティント",
+  "lgTintStrength": "ティント強度",
+  "lgCornerRadius": "角の丸み",
+  "lgEdgeHighlight": "エッジハイライト",
+  "lgHighlightSize": "ハイライトサイズ",
+  "lgReset": "デフォルトに戻す",
 }

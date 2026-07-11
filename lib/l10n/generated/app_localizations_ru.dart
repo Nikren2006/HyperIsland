@@ -2023,5 +2023,44 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get alwaysOnIsland => '常驻岛';
+  String get alwaysOnIsland => '常驻岛';  @override
+  String get lgTitle => 'Жидкое стекло';
+
+  @override
+  String get lgEnable => 'Включить жидкое стекло';
+
+  @override
+  String get lgPreview => 'Предпросмотр';
+
+  @override
+  String get lgRefraction => 'Преломление';
+
+  @override
+  String get lgThickness => 'Толщина края';
+
+  @override
+  String get lgVibrancy => 'Вибрантность';
+
+  @override
+  String get lgAberration => 'Хроматическая аберрация';
+
+  @override
+  String get lgTint => 'Оттенок';
+
+  @override
+  String get lgTintStrength => 'Сила оттенка';
+
+  @override
+  String get lgCornerRadius => 'Радиус скругления';
+
+  @override
+  String get lgEdgeHighlight => 'Подсветка края';
+
+  @override
+  String get lgHighlightSize => 'Размер подсветки';
+
+  @override
+  String get lgReset => 'Сбросить';
+
+
 }
