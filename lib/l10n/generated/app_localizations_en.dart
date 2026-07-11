@@ -2008,4 +2008,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alwaysOnIsland => 'Always-on Island';
+
+  @override
+  String get lgTitle => 'Liquid Glass';
+
+  @override
+  String get lgEnable => 'Enable';
+
+  @override
+  String get lgRefraction => 'Refraction';
+
+  @override
+  String get lgThickness => 'Thickness';
+
+  @override
+  String get lgVibrancy => 'Vibrancy';
+
+  @override
+  String get lgAberration => 'Chromatic aberration';
+
+  @override
+  String get lgCornerRadius => 'Corner radius';
+
+  @override
+  String get lgTint => 'Tint';
+
+  @override
+  String get lgTintStrength => 'Tint strength';
+
+  @override
+  String get lgEdgeHighlight => 'Edge highlight';
+
+  @override
+  String get lgHighlightSize => 'Highlight size';
+
+  @override
+  String get lgReset => 'Reset';
 }

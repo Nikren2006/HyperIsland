@@ -695,5 +695,17 @@
       }
     }
   },
-  "off": "Выкл"
+  "off": "Выкл",
+  "lgTitle": "Жидкое стекло",
+  "lgEnable": "Включить",
+  "lgRefraction": "Преломление",
+  "lgThickness": "Толщина",
+  "lgVibrancy": "Яркость",
+  "lgAberration": "Хроматическая аберрация",
+  "lgCornerRadius": "Радиус скругления",
+  "lgTint": "Оттенок",
+  "lgTintStrength": "Интенсивность оттенка",
+  "lgEdgeHighlight": "Подсветка краёв",
+  "lgHighlightSize": "Размер подсветки",
+  "lgReset": "Сброс"
 }

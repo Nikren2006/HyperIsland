@@ -3700,6 +3700,42 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'常驻岛'**
   String get alwaysOnIsland;
+
+  /// No description provided for @lgTitle.
+  String get lgTitle;
+
+  /// No description provided for @lgEnable.
+  String get lgEnable;
+
+  /// No description provided for @lgRefraction.
+  String get lgRefraction;
+
+  /// No description provided for @lgThickness.
+  String get lgThickness;
+
+  /// No description provided for @lgVibrancy.
+  String get lgVibrancy;
+
+  /// No description provided for @lgAberration.
+  String get lgAberration;
+
+  /// No description provided for @lgCornerRadius.
+  String get lgCornerRadius;
+
+  /// No description provided for @lgTint.
+  String get lgTint;
+
+  /// No description provided for @lgTintStrength.
+  String get lgTintStrength;
+
+  /// No description provided for @lgEdgeHighlight.
+  String get lgEdgeHighlight;
+
+  /// No description provided for @lgHighlightSize.
+  String get lgHighlightSize;
+
+  /// No description provided for @lgReset.
+  String get lgReset;
 }
 
 class _AppLocalizationsDelegate

@@ -909,5 +909,17 @@
       }
     }
   },
-  "alwaysOnIsland": "常驻岛"
+  "alwaysOnIsland": "常驻岛",
+  "lgTitle": "Liquid Glass",
+  "lgEnable": "Enable",
+  "lgRefraction": "Refraction",
+  "lgThickness": "Thickness",
+  "lgVibrancy": "Vibrancy",
+  "lgAberration": "Chromatic aberration",
+  "lgCornerRadius": "Corner radius",
+  "lgTint": "Tint",
+  "lgTintStrength": "Tint strength",
+  "lgEdgeHighlight": "Edge highlight",
+  "lgHighlightSize": "Highlight size",
+  "lgReset": "Reset"
 }

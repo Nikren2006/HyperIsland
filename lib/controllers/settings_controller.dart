@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'whitelist_controller.dart';
+import '../widgets/liquid_glass_island.dart';
 
 const kPrefShowWelcome = 'pref_show_welcome';
 const kPrefResumeNotification = 'pref_resume_notification';
@@ -95,6 +96,19 @@ const kPrefThemeSeedColor = 'pref_theme_seed_color';
 const kPrefBlurBars = 'pref_blur_bars';
 const kPrefDebugLog = 'pref_debug_log';
 const kPrefOnboardingCompleted = 'pref_onboarding_completed';
+
+// --- Liquid glass (Dynamic Island) ---
+const kPrefLiquidGlassEnabled = 'pref_liquid_glass_enabled';
+const kPrefLiquidGlassRefraction = 'pref_liquid_glass_refraction';
+const kPrefLiquidGlassThickness = 'pref_liquid_glass_thickness';
+const kPrefLiquidGlassVibrancy = 'pref_liquid_glass_vibrancy';
+const kPrefLiquidGlassAberration = 'pref_liquid_glass_aberration';
+const kPrefLiquidGlassTintColor = 'pref_liquid_glass_tint_color';
+const kPrefLiquidGlassTintOpacity = 'pref_liquid_glass_tint_opacity';
+const kPrefLiquidGlassCornerRadius = 'pref_liquid_glass_corner_radius';
+const kPrefLiquidGlassInnerShadow = 'pref_liquid_glass_inner_shadow';
+const kPrefLiquidGlassInnerShadowRadius =
+    'pref_liquid_glass_inner_shadow_radius';
 
 const kIslandTextColorDefault = 'default';
 const kIslandTextColorBlack = 'black';
@@ -258,6 +272,18 @@ class SettingsController extends ChangeNotifier {
   Locale? locale;
   bool loading = true;
 
+  // --- Liquid glass (Dynamic Island) ---
+  bool liquidGlassEnabled = true;
+  double liquidGlassRefraction = 14.0;
+  double liquidGlassThickness = 24.0;
+  double liquidGlassVibrancy = 1.4;
+  double liquidGlassAberration = 0.0;
+  int liquidGlassTintColor = 0xFFFFFFFF;
+  double liquidGlassTintOpacity = 0.0;
+  double liquidGlassCornerRadius = 26.0;
+  bool liquidGlassInnerShadow = true;
+  double liquidGlassInnerShadowRadius = 10.0;
+
   Future<SharedPreferences> _getPrefs() async {
     final cached = _prefs;
     if (cached != null) return cached;
@@ -398,6 +424,23 @@ class SettingsController extends ChangeNotifier {
     blurBars = prefs.getBool(kPrefBlurBars) ?? true;
     debugLog = prefs.getBool(kPrefDebugLog) ?? false;
     onboardingCompleted = prefs.getBool(kPrefOnboardingCompleted) ?? false;
+    liquidGlassEnabled = prefs.getBool(kPrefLiquidGlassEnabled) ?? true;
+    liquidGlassRefraction =
+        prefs.getDouble(kPrefLiquidGlassRefraction) ?? 14.0;
+    liquidGlassThickness = prefs.getDouble(kPrefLiquidGlassThickness) ?? 24.0;
+    liquidGlassVibrancy = prefs.getDouble(kPrefLiquidGlassVibrancy) ?? 1.4;
+    liquidGlassAberration =
+        prefs.getDouble(kPrefLiquidGlassAberration) ?? 0.0;
+    liquidGlassTintColor =
+        prefs.getInt(kPrefLiquidGlassTintColor) ?? 0xFFFFFFFF;
+    liquidGlassTintOpacity =
+        prefs.getDouble(kPrefLiquidGlassTintOpacity) ?? 0.0;
+    liquidGlassCornerRadius =
+        prefs.getDouble(kPrefLiquidGlassCornerRadius) ?? 26.0;
+    liquidGlassInnerShadow =
+        prefs.getBool(kPrefLiquidGlassInnerShadow) ?? true;
+    liquidGlassInnerShadowRadius =
+        prefs.getDouble(kPrefLiquidGlassInnerShadowRadius) ?? 10.0;
     loading = false;
     notifyListeners();
   }
@@ -1322,5 +1365,119 @@ class SettingsController extends ChangeNotifier {
     } catch (_) {
       return null;
     }
+  }
+
+  // --- Liquid glass (Dynamic Island) ---
+
+  LiquidGlassConfig get liquidGlassConfig => LiquidGlassConfig(
+        enabled: liquidGlassEnabled,
+        refractionAmount: liquidGlassRefraction,
+        refractionHeight: liquidGlassThickness,
+        cornerRadius: liquidGlassCornerRadius,
+        saturation: liquidGlassVibrancy,
+        chromaticAberration: liquidGlassAberration,
+        tintColor: liquidGlassTintColor,
+        tintOpacity: liquidGlassTintOpacity,
+        innerShadow: liquidGlassInnerShadow,
+        innerShadowRadius: liquidGlassInnerShadowRadius,
+      );
+
+  Future<void> setLiquidGlassEnabled(bool value) => _setBoolPref(
+        kPrefLiquidGlassEnabled,
+        value,
+        (v) => liquidGlassEnabled = v,
+      );
+
+  Future<void> setLiquidGlassRefraction(double value) => _setDoublePref(
+        kPrefLiquidGlassRefraction,
+        value,
+        (v) => liquidGlassRefraction = v,
+      );
+
+  Future<void> setLiquidGlassThickness(double value) => _setDoublePref(
+        kPrefLiquidGlassThickness,
+        value,
+        (v) => liquidGlassThickness = v,
+      );
+
+  Future<void> setLiquidGlassVibrancy(double value) => _setDoublePref(
+        kPrefLiquidGlassVibrancy,
+        value,
+        (v) => liquidGlassVibrancy = v,
+      );
+
+  Future<void> setLiquidGlassAberration(double value) => _setDoublePref(
+        kPrefLiquidGlassAberration,
+        value,
+        (v) => liquidGlassAberration = v,
+      );
+
+  Future<void> setLiquidGlassTintColor(int value) => _setIntPref(
+        kPrefLiquidGlassTintColor,
+        value,
+        (v) => liquidGlassTintColor = v,
+      );
+
+  Future<void> setLiquidGlassTintOpacity(double value) => _setDoublePref(
+        kPrefLiquidGlassTintOpacity,
+        value,
+        (v) => liquidGlassTintOpacity = v,
+      );
+
+  Future<void> setLiquidGlassCornerRadius(double value) => _setDoublePref(
+        kPrefLiquidGlassCornerRadius,
+        value,
+        (v) => liquidGlassCornerRadius = v,
+      );
+
+  Future<void> setLiquidGlassInnerShadow(bool value) => _setBoolPref(
+        kPrefLiquidGlassInnerShadow,
+        value,
+        (v) => liquidGlassInnerShadow = v,
+      );
+
+  Future<void> setLiquidGlassInnerShadowRadius(double value) => _setDoublePref(
+        kPrefLiquidGlassInnerShadowRadius,
+        value,
+        (v) => liquidGlassInnerShadowRadius = v,
+      );
+
+  Future<void> resetLiquidGlass() async {
+    await setLiquidGlassEnabled(LiquidGlassConfig.defaults.enabled);
+    await setLiquidGlassRefraction(LiquidGlassConfig.defaults.refractionAmount);
+    await setLiquidGlassThickness(LiquidGlassConfig.defaults.refractionHeight);
+    await setLiquidGlassVibrancy(LiquidGlassConfig.defaults.saturation);
+    await setLiquidGlassAberration(
+      LiquidGlassConfig.defaults.chromaticAberration,
+    );
+    await setLiquidGlassTintColor(LiquidGlassConfig.defaults.tintColor);
+    await setLiquidGlassTintOpacity(LiquidGlassConfig.defaults.tintOpacity);
+    await setLiquidGlassCornerRadius(LiquidGlassConfig.defaults.cornerRadius);
+    await setLiquidGlassInnerShadow(LiquidGlassConfig.defaults.innerShadow);
+    await setLiquidGlassInnerShadowRadius(
+      LiquidGlassConfig.defaults.innerShadowRadius,
+    );
+  }
+
+  Future<void> _setDoublePref(
+    String key,
+    double value,
+    void Function(double value) update,
+  ) async {
+    final prefs = await _getPrefs();
+    await prefs.setDouble(key, value);
+    update(value);
+    notifyListeners();
+  }
+
+  Future<void> _setIntPref(
+    String key,
+    int value,
+    void Function(int value) update,
+  ) async {
+    final prefs = await _getPrefs();
+    await prefs.setInt(key, value);
+    update(value);
+    notifyListeners();
   }
 }

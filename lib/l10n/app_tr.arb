@@ -775,5 +775,17 @@
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
   "tapToSelectImage": "Resim veya GIF seçmek için dokunun",
   "autoExpandNotification": "Bildirimi otomatik genişlet",
-  "off": "Kapalı"
+  "off": "Kapalı",
+  "lgTitle": "Liquid Glass",
+  "lgEnable": "Enable",
+  "lgRefraction": "Refraction",
+  "lgThickness": "Thickness",
+  "lgVibrancy": "Vibrancy",
+  "lgAberration": "Chromatic aberration",
+  "lgCornerRadius": "Corner radius",
+  "lgTint": "Tint",
+  "lgTintStrength": "Tint strength",
+  "lgEdgeHighlight": "Edge highlight",
+  "lgHighlightSize": "Highlight size",
+  "lgReset": "Reset"
 }

@@ -628,5 +628,17 @@
   "hideBehaviorNotificationCenterSubtitle": "Hide the island while the notification shade expands or transitions",
   "tapToSelectImage": "タップして画像またはGIFを選択",
   "autoExpandNotification": "通知を自動展開",
-  "off": "オフ"
+  "off": "オフ",
+  "lgTitle": "Liquid Glass",
+  "lgEnable": "Enable",
+  "lgRefraction": "Refraction",
+  "lgThickness": "Thickness",
+  "lgVibrancy": "Vibrancy",
+  "lgAberration": "Chromatic aberration",
+  "lgCornerRadius": "Corner radius",
+  "lgTint": "Tint",
+  "lgTintStrength": "Tint strength",
+  "lgEdgeHighlight": "Edge highlight",
+  "lgHighlightSize": "Highlight size",
+  "lgReset": "Reset"
 }
