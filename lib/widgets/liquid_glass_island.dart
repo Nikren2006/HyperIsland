@@ -297,12 +297,31 @@ class _GlassEdgePainter extends CustomPainter {
       math.max(0, size.height - inset * 2),
     );
     final rrect = RRect.fromRectAndRadius(rect, Radius.circular(radius));
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0
-      ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurRadius);
-    canvas.drawRRect(rrect, paint);
+
+    // soft overall edge border / inner shadow
+    canvas.drawRRect(
+      rrect,
+      Paint()
+        ..color = color.withValues(alpha: 0.35)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurRadius),
+    );
+
+    // bright top specular highlight (the glass "блик")
+    canvas.save();
+    canvas.clipRect(
+      Rect.fromLTRB(rect.left, rect.top, rect.right, rect.center.dy),
+    );
+    canvas.drawRRect(
+      rrect,
+      Paint()
+        ..color = Colors.white.withValues(alpha: 0.9)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurRadius * 0.5),
+    );
+    canvas.restore();
   }
 
   @override

@@ -779,30 +779,18 @@ class _LiquidGlassSettingsState extends State<_LiquidGlassSettings> {
           ),
           const Divider(height: 1, indent: 16, endIndent: 16),
           // live preview over a colorful backdrop so refraction is visible
+          // live preview over a detailed, high-contrast backdrop so refraction
+          // and edge highlights are clearly visible (a smooth gradient hides
+          // the refraction because shifting the sample just yields nearby colors)
           Padding(
             padding: const EdgeInsets.all(16),
-            child: RepaintBoundary(
-              child: Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFF7F00FF),
-                      Color(0xFFE100FF),
-                      Color(0xFF00C2FF),
-                    ],
-                  ),
-                ),
-                child: Center(
-                  child: LiquidGlassIsland(
-                    config: _draft,
-                    width: 300,
-                    height: 84,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: const _MockMediaContent(),
-                  ),
-                ),
+            child: _GlassPreviewBackdrop(
+              child: LiquidGlassIsland(
+                config: _draft,
+                width: 300,
+                height: 84,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: const _MockMediaContent(),
               ),
             ),
           ),
@@ -1037,4 +1025,79 @@ class _MockMediaContent extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Detailed, high-contrast backdrop for the liquid-glass preview.
+///
+/// A smooth gradient hides refraction (shifting the sample just yields a nearby
+/// color), so the preview uses a busy pattern with hard edges — circles and
+/// stripes — that make the glass distortion and edge highlights obvious.
+class _GlassPreviewBackdrop extends StatelessWidget {
+  const _GlassPreviewBackdrop({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        height: 150,
+        color: Colors.black,
+        child: Stack(
+          children: [
+            const Positioned.fill(child: CustomPaint(painter: _BackdropPatternPainter())),
+            Center(child: child),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BackdropPatternPainter extends CustomPainter {
+  static const List<Color> _dotColors = [
+    Colors.yellow,
+    Colors.pink,
+    Colors.greenAccent,
+    Colors.orange,
+    Colors.white,
+    Colors.cyanAccent,
+    Colors.redAccent,
+    Colors.lightBlueAccent,
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC), Color(0xFF00C2FF)],
+        ).createShader(Rect.fromLTWH(0, 0, size.width, size.height)),
+    );
+
+    final step = size.width / 8;
+    var ci = 0;
+    for (var y = step * 0.5; y < size.height; y += step) {
+      for (var x = step * 0.5; x < size.width; x += step) {
+        final color = _dotColors[ci % _dotColors.length];
+        final r = (ci % 3 == 0) ? step * 0.34 : step * 0.18;
+        canvas.drawCircle(Offset(x, y), r, Paint()..color = color);
+        ci++;
+      }
+    }
+
+    final stripe = Paint()
+      ..color = Colors.white.withValues(alpha: 0.16)
+      ..strokeWidth = 6;
+    for (var x = -size.height; x < size.width; x += 30) {
+      canvas.drawLine(Offset(x, 0), Offset(x + size.height, size.height), stripe);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _BackdropPatternPainter old) => false;
 }
